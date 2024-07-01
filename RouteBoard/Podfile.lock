@@ -1,16 +1,16 @@
 PODS:
-  - OpenCV (4.3.0)
+  - OpenCV (4.10.0)
 
 DEPENDENCIES:
-  - OpenCV
+  - OpenCV (from `../opencv-local.podspec.json`)
 
-SPEC REPOS:
-  trunk:
-    - OpenCV
+EXTERNAL SOURCES:
+  OpenCV:
+    :podspec: "../opencv-local.podspec.json"
 
 SPEC CHECKSUMS:
-  OpenCV: 681e0451c1e54c5930a8922277f817ed5d5ab459
+  OpenCV: 22d2ac910a526f545e871b1cfdbcf14f425372a5
 
-PODFILE CHECKSUM: 3efc9a0036e2578e1ee1818a89db9bd7edda72ab
+PODFILE CHECKSUM: a544826f02424086db60af93dc44cd614899593f
 
 COCOAPODS: 1.12.1

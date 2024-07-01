@@ -8,11 +8,26 @@
 import AVFoundation
 import SwiftUI
 
+
 final class RouteImageModel: ObservableObject {
     let camera = Camera()
     @Published var viewfinderImage: Image?
     
+    private var processedSamples: ProcessedSamplesSwift? = nil;
+    
+    
     init() {
+        let samplesToProcess = ImportSamplesSwift(samples: [
+            Sample(route: UIImage.init(named: "TestingSamples/r1")!, path: UIImage.init(named: "TestingSamples/r1_path")!, routeId: 1),
+            Sample(route: UIImage.init(named: "TestingSamples/r2")!, path: UIImage.init(named: "TestingSamples/r2_path")!, routeId: 2),
+            Sample(route: UIImage.init(named: "TestingSamples/r3")!, path: UIImage.init(named: "TestingSamples/r3_path")!, routeId: 3),
+            Sample(route: UIImage.init(named: "TestingSamples/r4")!, path: UIImage.init(named: "TestingSamples/r4_path")!, routeId: 4),
+            Sample(route: UIImage.init(named: "TestingSamples/r5")!, path: UIImage.init(named: "TestingSamples/r5_path")!, routeId: 5)
+        ])
+    
+        
+        processedSamples = OpenCVWrapper.processInputSamples(samplesToProcess)
+        
         Task {
             await handleCameraPreviews()
         }
@@ -20,11 +35,18 @@ final class RouteImageModel: ObservableObject {
     
     func handleCameraPreviews() async {
         let imageStream = camera.previewStream
-            .map { $0.image }
+            .map { $0 }
+        
+        let context = CIContext();
 
         for await image in imageStream {
             Task { @MainActor in
-                viewfinderImage = image
+                let cgImage = context.createCGImage(image, from: image.extent)!;
+                let uiImage = UIImage.init(cgImage: cgImage);
+                // let grayImage = OpenCVWrapper.grayscaleImg(UIImage.init(cgImage: cgImage));
+                // let analyzedImage = OpenCVWrapper.detectRoutesAndAddOverlay(processedSamples!, inputFrame: uiImage);
+                let image = Image(uiImage: OpenCVWrapper.detectRoutesAndAddOverlay(processedSamples!, inputFrame: uiImage))
+                viewfinderImage = image;
             }
         }
     }

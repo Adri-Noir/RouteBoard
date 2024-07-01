@@ -20,6 +20,8 @@
 		AF869CD22C307D870092E371 /* RouteImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF869CD12C307D870092E371 /* RouteImageModel.swift */; };
 		AF869CD52C30B2E10092E371 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF869CD42C30B29C0092E371 /* Camera.swift */; };
 		AFD3916F2C30B977008CF2A7 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = AFD3916E2C30B977008CF2A7 /* OpenCVWrapper.mm */; };
+		AFD3918F2C3191A8008CF2A7 /* ImportSamplesSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD3918E2C3191A8008CF2A7 /* ImportSamplesSwift.swift */; };
+		AFD391912C319B82008CF2A7 /* ProcessedSamplesSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD391902C319B82008CF2A7 /* ProcessedSamplesSwift.swift */; };
 		D82B3CDC3B5AFD1CEA062063 /* Pods_RouteBoard_RouteBoardUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0873878112B03EB2390F10F3 /* Pods_RouteBoard_RouteBoardUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +67,9 @@
 		AFD3916D2C30B976008CF2A7 /* RouteBoard-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RouteBoard-Bridging-Header.h"; sourceTree = "<group>"; };
 		AFD3916E2C30B977008CF2A7 /* OpenCVWrapper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
 		AFD391702C30BA94008CF2A7 /* OpenCVWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
+		AFD391712C30C11B008CF2A7 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		AFD3918E2C3191A8008CF2A7 /* ImportSamplesSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportSamplesSwift.swift; sourceTree = "<group>"; };
+		AFD391902C319B82008CF2A7 /* ProcessedSamplesSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedSamplesSwift.swift; sourceTree = "<group>"; };
 		FEB597834523DE58EF396342 /* Pods-RouteBoardTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RouteBoardTests.debug.xcconfig"; path = "Target Support Files/Pods-RouteBoardTests/Pods-RouteBoardTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -128,6 +133,7 @@
 				AFD3916E2C30B977008CF2A7 /* OpenCVWrapper.mm */,
 				AFD3916D2C30B976008CF2A7 /* RouteBoard-Bridging-Header.h */,
 				AFD391702C30BA94008CF2A7 /* OpenCVWrapper.h */,
+				AFD391712C30C11B008CF2A7 /* PrefixHeader.pch */,
 			);
 			path = RouteBoard;
 			sourceTree = "<group>";
@@ -160,12 +166,22 @@
 		AF869CC62C3065B20092E371 /* RouteFinder */ = {
 			isa = PBXGroup;
 			children = (
+				AFD3918D2C319189008CF2A7 /* types */,
 				AF869CD42C30B29C0092E371 /* Camera.swift */,
 				AF869CCD2C307CC50092E371 /* RouteFinderView.swift */,
 				AF869CCF2C307CFA0092E371 /* ViewFinderView.swift */,
 				AF869CD12C307D870092E371 /* RouteImageModel.swift */,
 			);
 			path = RouteFinder;
+			sourceTree = "<group>";
+		};
+		AFD3918D2C319189008CF2A7 /* types */ = {
+			isa = PBXGroup;
+			children = (
+				AFD3918E2C3191A8008CF2A7 /* ImportSamplesSwift.swift */,
+				AFD391902C319B82008CF2A7 /* ProcessedSamplesSwift.swift */,
+			);
+			path = types;
 			sourceTree = "<group>";
 		};
 		F3D5A001267A39D837F0A898 /* Frameworks */ = {
@@ -394,11 +410,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFD391912C319B82008CF2A7 /* ProcessedSamplesSwift.swift in Sources */,
 				AF869CD22C307D870092E371 /* RouteImageModel.swift in Sources */,
 				AF869CD52C30B2E10092E371 /* Camera.swift in Sources */,
 				AFD3916F2C30B977008CF2A7 /* OpenCVWrapper.mm in Sources */,
 				AF869CD02C307CFA0092E371 /* ViewFinderView.swift in Sources */,
 				AF869CCE2C307CC50092E371 /* RouteFinderView.swift in Sources */,
+				AFD3918F2C3191A8008CF2A7 /* ImportSamplesSwift.swift in Sources */,
 				AF869C9D2C3064AA0092E371 /* RouteBoardApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -495,6 +513,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -551,6 +570,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -579,10 +599,12 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c";
 				PRODUCT_BUNDLE_IDENTIFIER = acvijanovic.RouteBoard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "RouteBoard/RouteBoard-Bridging-Header.h";
+				SWIFT_OBJC_INTEROP_MODE = objc;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -613,10 +635,12 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c";
 				PRODUCT_BUNDLE_IDENTIFIER = acvijanovic.RouteBoard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "RouteBoard/RouteBoard-Bridging-Header.h";
+				SWIFT_OBJC_INTEROP_MODE = objc;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

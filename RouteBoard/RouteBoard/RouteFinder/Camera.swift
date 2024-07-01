@@ -129,7 +129,7 @@ class Camera: NSObject {
         
         let photoOutput = AVCapturePhotoOutput()
                         
-        captureSession.sessionPreset = AVCaptureSession.Preset.photo
+        captureSession.sessionPreset = AVCaptureSession.Preset.high;
 
         let videoOutput = AVCaptureVideoDataOutput()
         videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "VideoDataOutputQueue"))
@@ -155,7 +155,7 @@ class Camera: NSObject {
         self.photoOutput = photoOutput
         self.videoOutput = videoOutput
         
-        photoOutput.isHighResolutionCaptureEnabled = true
+        photoOutput.isHighResolutionCaptureEnabled = false
         // photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 720, height: 1280)
         photoOutput.maxPhotoQualityPrioritization = .speed
         
@@ -170,6 +170,7 @@ class Camera: NSObject {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
             logger.debug("Camera access authorized.")
+            print("\(OpenCVWrapper.getOpenCVVersion())")
             return true
         case .notDetermined:
             logger.debug("Camera access not determined.")

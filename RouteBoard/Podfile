@@ -6,7 +6,7 @@ target 'RouteBoard' do
   use_frameworks!
 
   # Pods for RouteBoard
-  pod 'OpenCV'
+  pod 'OpenCV', :podspec => '../opencv-local.podspec.json'
 
   target 'RouteBoardTests' do
     inherit! :search_paths
