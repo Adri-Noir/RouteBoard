@@ -20,7 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OpenCVWrapper : NSObject
 + (NSString *)getOpenCVVersion;
-+ (UIImage *)grayscaleImg:(UIImage *)image;
 + (ProcessedSamplesSwift*)processInputSamples:(ImportSamplesSwift*)samples;
 + (UIImage *)detectRoutesAndAddOverlay:(ProcessedSamplesSwift*)processedSamples inputFrame:(UIImage *) inputFrame;
 @end

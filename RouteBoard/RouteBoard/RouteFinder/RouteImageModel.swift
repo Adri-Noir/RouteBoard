@@ -18,14 +18,12 @@ final class RouteImageModel: ObservableObject {
     
     init() {
         let samplesToProcess = ImportSamplesSwift(samples: [
-            Sample(route: UIImage.init(named: "TestingSamples/r1")!, path: UIImage.init(named: "TestingSamples/r1_path")!, routeId: 1),
-            Sample(route: UIImage.init(named: "TestingSamples/r2")!, path: UIImage.init(named: "TestingSamples/r2_path")!, routeId: 2),
-            Sample(route: UIImage.init(named: "TestingSamples/r3")!, path: UIImage.init(named: "TestingSamples/r3_path")!, routeId: 3),
-            Sample(route: UIImage.init(named: "TestingSamples/r4")!, path: UIImage.init(named: "TestingSamples/r4_path")!, routeId: 4),
-            Sample(route: UIImage.init(named: "TestingSamples/r5")!, path: UIImage.init(named: "TestingSamples/r5_path")!, routeId: 5)
+            Sample(route: UIImage.init(named: "TestingSamples/apaches")!, path: UIImage.init(named: "TestingSamples/apaches_path")!, routeId: 1),
+            Sample(route: UIImage.init(named: "TestingSamples/flik")!, path: UIImage.init(named: "TestingSamples/flik_path")!, routeId: 2),
+            Sample(route: UIImage.init(named: "TestingSamples/flok")!, path: UIImage.init(named: "TestingSamples/flok_path")!, routeId: 3),
+            Sample(route: UIImage.init(named: "TestingSamples/frenky")!, path: UIImage.init(named: "TestingSamples/frenky_path")!, routeId: 4),
         ])
-    
-        
+
         processedSamples = OpenCVWrapper.processInputSamples(samplesToProcess)
         
         Task {
@@ -40,13 +38,15 @@ final class RouteImageModel: ObservableObject {
         let context = CIContext();
 
         for await image in imageStream {
-            Task { @MainActor in
-                let cgImage = context.createCGImage(image, from: image.extent)!;
-                let uiImage = UIImage.init(cgImage: cgImage);
-                // let grayImage = OpenCVWrapper.grayscaleImg(UIImage.init(cgImage: cgImage));
-                // let analyzedImage = OpenCVWrapper.detectRoutesAndAddOverlay(processedSamples!, inputFrame: uiImage);
-                let image = Image(uiImage: OpenCVWrapper.detectRoutesAndAddOverlay(processedSamples!, inputFrame: uiImage))
-                viewfinderImage = image;
+            DispatchQueue.global(qos: .userInitiated).async {
+                if let cgImage = context.createCGImage(image, from: image.extent) {
+                    let uiImage = UIImage(cgImage: cgImage)
+                    let processedImage = OpenCVWrapper.detectRoutesAndAddOverlay(self.processedSamples!, inputFrame: uiImage)
+
+                    DispatchQueue.main.async {
+                        self.viewfinderImage = Image(uiImage: processedImage);
+                    }
+                }
             }
         }
     }
