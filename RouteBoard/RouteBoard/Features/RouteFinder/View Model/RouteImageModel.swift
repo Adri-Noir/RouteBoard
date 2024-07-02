@@ -12,6 +12,8 @@ import SwiftUI
 final class RouteImageModel: ObservableObject {
     let camera = Camera()
     @Published var viewfinderImage: Image?
+    private var savedOverlay: CVMap?
+    private var frameCounter: Int = 0;
     
     private var processedSamples: ProcessedSamplesSwift? = nil;
     
@@ -31,7 +33,7 @@ final class RouteImageModel: ObservableObject {
         }
     }
     
-    func handleCameraPreviews() async {
+    func handleCameraPreviewsProcessEveryFrame() async {
         let imageStream = camera.previewStream
             .map { $0 }
         
@@ -39,13 +41,49 @@ final class RouteImageModel: ObservableObject {
 
         for await image in imageStream {
             DispatchQueue.global(qos: .userInitiated).async {
+                
                 if let cgImage = context.createCGImage(image, from: image.extent) {
                     let uiImage = UIImage(cgImage: cgImage)
-                    let processedImage = OpenCVWrapper.detectRoutesAndAddOverlay(self.processedSamples!, inputFrame: uiImage)
 
+                    let overlay = OpenCVWrapper.detectRoutesAndAddOverlay(self.processedSamples!, inputFrame: uiImage)
+                    
+                    let processedImage = OpenCVWrapper.addOverlay(toFrame: uiImage, overlay: overlay)
                     DispatchQueue.main.async {
                         self.viewfinderImage = Image(uiImage: processedImage);
                     }
+                }
+                
+            }
+        }
+    }
+    
+    func handleCameraPreviews() async {
+        let imageStream = camera.previewStream
+            .map { $0 }
+        
+        let context = CIContext();
+        let skipFrameAnalysis = 3;
+
+        for await image in imageStream {
+            DispatchQueue.global(qos: .userInitiated).async {
+                if let cgImage = context.createCGImage(image, from: image.extent) {
+                    let uiImage = UIImage(cgImage: cgImage)
+
+                    let overlay = self.savedOverlay ?? OpenCVWrapper.detectRoutesAndAddOverlay(self.processedSamples!, inputFrame: uiImage)
+                    self.savedOverlay = overlay
+
+                    
+                    let processedImage = OpenCVWrapper.addOverlay(toFrame: uiImage, overlay: overlay)
+                    DispatchQueue.main.async {
+                        self.viewfinderImage = Image(uiImage: processedImage);
+                    }
+                    
+
+                    if self.frameCounter % skipFrameAnalysis == 0 {
+                        self.savedOverlay = nil
+                    }
+
+                    self.frameCounter = (self.frameCounter + 1) % skipFrameAnalysis;
                 }
             }
         }

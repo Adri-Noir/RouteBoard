@@ -16,10 +16,11 @@
 #import "RouteBoard-Swift.h"
 
 
-const float DROP_INPUTFRAME_FACTOR = 0.1f;
-const float MAX_RESOLUTION_PX = 400.0f;
+const float DROP_INPUTFRAME_FACTOR = 0.3f;
+const float MAX_RESOLUTION_PX = 500.0f;
 const float LOWES_RATIO_LAW = 0.7f;
 const unsigned long MIN_MATCH_COUNT = 10;
+const int AREA_OF_INTEREST_AROUND_LINE = 75;
 
 std::vector<cv::Vec4i> detectLines(cv::Mat image) {
     cv::Mat gray;
@@ -46,7 +47,7 @@ cv::Mat createMaskFromLines(std::vector<cv::Vec4i> lines, cv::Size imageSize) {
 
     for (size_t i = 0; i < lines.size(); i++) {
         cv::Vec4i l = lines[i];
-        cv::line(mask, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), cv::Scalar(255), 100);
+        cv::line(mask, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), cv::Scalar(255), AREA_OF_INTEREST_AROUND_LINE);
     }
 
     return mask;
@@ -114,15 +115,16 @@ cv::Mat createMaskFromLines(std::vector<cv::Vec4i> lines, cv::Size imageSize) {
     return [[ProcessedSamplesSwift alloc] initWithProcessedSamples:array];
 }
 
-+ (UIImage *) detectRoutesAndAddOverlay:(ProcessedSamplesSwift*)processedSamples inputFrame:(UIImage *) inputFrame {
++ (CVMap *) detectRoutesAndAddOverlay:(ProcessedSamplesSwift*)processedSamples inputFrame:(UIImage *) inputFrame {
     cv::Ptr<cv::SIFT> siftPtr = cv::SIFT::create();
     
     cv::Mat frameMatrix;
     UIImageToMat(inputFrame, frameMatrix);
-    cv::Mat frameOutput = frameMatrix;
     
     cv::Mat resizedframeMatrix;
     cv::resize(frameMatrix, resizedframeMatrix, cv::Size(), DROP_INPUTFRAME_FACTOR, DROP_INPUTFRAME_FACTOR);
+    
+    cv::Mat frameOutput = cv::Mat::zeros(frameMatrix.rows, frameMatrix.cols, frameMatrix.type());
     
     std::vector<cv::KeyPoint> frameKeypoints;
     cv::Mat frameDescriptors;
@@ -135,7 +137,11 @@ cv::Mat createMaskFromLines(std::vector<cv::Vec4i> lines, cv::Size imageSize) {
     
     resizedframeMatrix.release();
     
-    if (frameKeypoints.size() < 3 || frameDescriptors.empty()) return inputFrame;
+    if (frameKeypoints.size() < 3 || frameDescriptors.empty()) {
+        NSData *data = [[NSData alloc] initWithBytes:frameOutput.data length:frameOutput.u->size];
+        CVMap *cv_map = [[CVMap alloc] initWithRows:frameOutput.rows cols:frameOutput.cols type:frameOutput.type() data:data step:frameOutput.step];
+        return cv_map;
+    }
     
     // would potentially be usefull to use flann based explicitly
     cv::Ptr<cv::FlannBasedMatcher> matcher = cv::FlannBasedMatcher::create();
@@ -187,17 +193,32 @@ cv::Mat createMaskFromLines(std::vector<cv::Vec4i> lines, cv::Size imageSize) {
             routeMatrix.release();
             H.release();
 
-            cv::Mat tmpFrameOutput;
-            cv::addWeighted(frameOutput, 1, overlay, 1, 0, tmpFrameOutput);
-            tmpFrameOutput.copyTo(frameOutput);
-            
-            tmpFrameOutput.release();
+            frameOutput += overlay;
+            // cv::addWeighted(frameOutput, 1, overlay, 1, 0, frameOutput);
             overlay.release();
         }
     }
     
     frameMatrix.release();
-    return MatToUIImage(frameOutput);
+    NSData *data = [[NSData alloc] initWithBytes:frameOutput.data length:frameOutput.u->size];
+    CVMap *cv_map = [[CVMap alloc] initWithRows:frameOutput.rows cols:frameOutput.cols type:frameOutput.type() data:data step:frameOutput.step];
+    frameOutput.release();
+    return cv_map;
+}
+
++ (UIImage *) addOverlayToFrame:(UIImage *)inputFrame overlay:(CVMap *) overlay {
+    unsigned char *bytes = (unsigned char *) overlay.data.bytes;
+    cv::Mat *overlayMatrix = new cv::Mat(overlay.rows, overlay.cols, overlay.type, bytes);
+    
+    cv::Mat frameMatrix;
+    UIImageToMat(inputFrame, frameMatrix);
+    
+    cv::resize(*overlayMatrix, *overlayMatrix, cv::Size(frameMatrix.cols, frameMatrix.rows), 0, 0, cv::INTER_CUBIC);
+    cv::addWeighted(frameMatrix, 1, *overlayMatrix, 1, 0, frameMatrix);
+    
+    overlayMatrix->release();
+    
+    return MatToUIImage(frameMatrix);
 }
 
 @end

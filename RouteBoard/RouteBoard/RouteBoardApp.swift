@@ -16,7 +16,7 @@ struct RouteBoardApp: App {
     
     var body: some Scene {
         WindowGroup {
-            RouteFinderView()
+            SectorView()
         }
     }
 }

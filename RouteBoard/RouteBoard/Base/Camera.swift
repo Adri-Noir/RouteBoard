@@ -129,7 +129,7 @@ class Camera: NSObject {
         
         let photoOutput = AVCapturePhotoOutput()
                         
-        captureSession.sessionPreset = AVCaptureSession.Preset.high;
+        captureSession.sessionPreset = AVCaptureSession.Preset.medium;
 
         let videoOutput = AVCaptureVideoDataOutput()
         videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "VideoDataOutputQueue"))
