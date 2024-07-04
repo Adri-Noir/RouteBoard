@@ -10,6 +10,7 @@
 		5877DF0C97F6EC6BE7093384 /* Pods_RouteBoardTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58E28E10B457886DD714A1EF /* Pods_RouteBoardTests.framework */; };
 		AAE417458608D5C255F2CAB6 /* Pods_RouteBoard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581BEAF5AA3A1400BF6474A4 /* Pods_RouteBoard.framework */; };
 		AF191C6E2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF191C6D2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift */; };
+		AF191C702C34D953000EBB61 /* InformationRectanglesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF191C6F2C34D953000EBB61 /* InformationRectanglesView.swift */; };
 		AF869C9D2C3064AA0092E371 /* RouteBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF869C9C2C3064AA0092E371 /* RouteBoardApp.swift */; };
 		AF869CA12C3064AB0092E371 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF869CA02C3064AB0092E371 /* Assets.xcassets */; };
 		AF869CA42C3064AB0092E371 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF869CA32C3064AB0092E371 /* Preview Assets.xcassets */; };
@@ -23,6 +24,10 @@
 		AF9B624E2C348E4B003762B0 /* SectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B624D2C348E4B003762B0 /* SectorView.swift */; };
 		AF9B62512C349484003762B0 /* ImageCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B62502C349484003762B0 /* ImageCarouselView.swift */; };
 		AF9B62542C34A271003762B0 /* ExtendedDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B62532C34A271003762B0 /* ExtendedDivider.swift */; };
+		AF9E0C632C3741A900984C58 /* GradesGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9E0C622C3741A900984C58 /* GradesGraphView.swift */; };
+		AF9E0C652C37421900984C58 /* GradesGraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9E0C642C37421900984C58 /* GradesGraphModel.swift */; };
+		AF9E0C6C2C3747C500984C58 /* ClimbingGrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9E0C6B2C3747C500984C58 /* ClimbingGrades.swift */; };
+		AF9E0C6F2C3747FD00984C58 /* FrenchClimbingGrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9E0C6E2C3747FD00984C58 /* FrenchClimbingGrades.swift */; };
 		AFD3916F2C30B977008CF2A7 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = AFD3916E2C30B977008CF2A7 /* OpenCVWrapper.mm */; };
 		AFD3918F2C3191A8008CF2A7 /* ImportSamplesSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD3918E2C3191A8008CF2A7 /* ImportSamplesSwift.swift */; };
 		AFD391912C319B82008CF2A7 /* ProcessedSamplesSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD391902C319B82008CF2A7 /* ProcessedSamplesSwift.swift */; };
@@ -56,6 +61,7 @@
 		9985AD715A892F4707551BEE /* Pods-RouteBoard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RouteBoard.release.xcconfig"; path = "Target Support Files/Pods-RouteBoard/Pods-RouteBoard.release.xcconfig"; sourceTree = "<group>"; };
 		A117A1C788E41228F3CF85DD /* Pods-RouteBoard-RouteBoardUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RouteBoard-RouteBoardUITests.debug.xcconfig"; path = "Target Support Files/Pods-RouteBoard-RouteBoardUITests/Pods-RouteBoard-RouteBoardUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		AF191C6D2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteFinderBottomInfoView.swift; sourceTree = "<group>"; };
+		AF191C6F2C34D953000EBB61 /* InformationRectanglesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationRectanglesView.swift; sourceTree = "<group>"; };
 		AF869C992C3064AA0092E371 /* RouteBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RouteBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF869C9C2C3064AA0092E371 /* RouteBoardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteBoardApp.swift; sourceTree = "<group>"; };
 		AF869CA02C3064AB0092E371 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -72,6 +78,10 @@
 		AF9B624D2C348E4B003762B0 /* SectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorView.swift; sourceTree = "<group>"; };
 		AF9B62502C349484003762B0 /* ImageCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarouselView.swift; sourceTree = "<group>"; };
 		AF9B62532C34A271003762B0 /* ExtendedDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedDivider.swift; sourceTree = "<group>"; };
+		AF9E0C622C3741A900984C58 /* GradesGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradesGraphView.swift; sourceTree = "<group>"; };
+		AF9E0C642C37421900984C58 /* GradesGraphModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradesGraphModel.swift; sourceTree = "<group>"; };
+		AF9E0C6B2C3747C500984C58 /* ClimbingGrades.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbingGrades.swift; sourceTree = "<group>"; };
+		AF9E0C6E2C3747FD00984C58 /* FrenchClimbingGrades.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrenchClimbingGrades.swift; sourceTree = "<group>"; };
 		AFD3916D2C30B976008CF2A7 /* RouteBoard-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RouteBoard-Bridging-Header.h"; sourceTree = "<group>"; };
 		AFD3916E2C30B977008CF2A7 /* OpenCVWrapper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
 		AFD391702C30BA94008CF2A7 /* OpenCVWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
@@ -109,6 +119,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AF191C712C35EB92000EBB61 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
 		AF869C902C3064AA0092E371 = {
 			isa = PBXGroup;
 			children = (
@@ -186,6 +203,8 @@
 		AF9B62462C346D47003762B0 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				AF9E0C6A2C37476B00984C58 /* ClimbingGrades */,
+				AF191C712C35EB92000EBB61 /* Theme */,
 				AF9B62522C34A261003762B0 /* ExtendedDivider */,
 				AF9B624F2C349472003762B0 /* ImageCarousel */,
 				AF869CD42C30B29C0092E371 /* Camera.swift */,
@@ -231,6 +250,7 @@
 		AF9B624B2C348D0F003762B0 /* Sector */ = {
 			isa = PBXGroup;
 			children = (
+				AF9E0C662C37422100984C58 /* View Model */,
 				AF9B624C2C348D30003762B0 /* Views */,
 				AF9B624D2C348E4B003762B0 /* SectorView.swift */,
 			);
@@ -240,6 +260,8 @@
 		AF9B624C2C348D30003762B0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AF191C6F2C34D953000EBB61 /* InformationRectanglesView.swift */,
+				AF9E0C622C3741A900984C58 /* GradesGraphView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -258,6 +280,31 @@
 				AF9B62532C34A271003762B0 /* ExtendedDivider.swift */,
 			);
 			path = ExtendedDivider;
+			sourceTree = "<group>";
+		};
+		AF9E0C662C37422100984C58 /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				AF9E0C642C37421900984C58 /* GradesGraphModel.swift */,
+			);
+			path = "View Model";
+			sourceTree = "<group>";
+		};
+		AF9E0C6A2C37476B00984C58 /* ClimbingGrades */ = {
+			isa = PBXGroup;
+			children = (
+				AF9E0C6D2C3747F200984C58 /* impls */,
+				AF9E0C6B2C3747C500984C58 /* ClimbingGrades.swift */,
+			);
+			path = ClimbingGrades;
+			sourceTree = "<group>";
+		};
+		AF9E0C6D2C3747F200984C58 /* impls */ = {
+			isa = PBXGroup;
+			children = (
+				AF9E0C6E2C3747FD00984C58 /* FrenchClimbingGrades.swift */,
+			);
+			path = impls;
 			sourceTree = "<group>";
 		};
 		F3D5A001267A39D837F0A898 /* Frameworks */ = {
@@ -487,12 +534,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				AFD391912C319B82008CF2A7 /* ProcessedSamplesSwift.swift in Sources */,
+				AF191C702C34D953000EBB61 /* InformationRectanglesView.swift in Sources */,
+				AF9E0C632C3741A900984C58 /* GradesGraphView.swift in Sources */,
 				AF869CD22C307D870092E371 /* RouteImageModel.swift in Sources */,
 				AF869CD52C30B2E10092E371 /* Camera.swift in Sources */,
 				AFD3916F2C30B977008CF2A7 /* OpenCVWrapper.mm in Sources */,
 				AF9B62542C34A271003762B0 /* ExtendedDivider.swift in Sources */,
+				AF9E0C652C37421900984C58 /* GradesGraphModel.swift in Sources */,
 				AF191C6E2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift in Sources */,
 				AF869CD02C307CFA0092E371 /* ViewFinderView.swift in Sources */,
+				AF9E0C6C2C3747C500984C58 /* ClimbingGrades.swift in Sources */,
+				AF9E0C6F2C3747FD00984C58 /* FrenchClimbingGrades.swift in Sources */,
 				AF869CCE2C307CC50092E371 /* RouteFinderView.swift in Sources */,
 				AF9B624E2C348E4B003762B0 /* SectorView.swift in Sources */,
 				AFD3918F2C3191A8008CF2A7 /* ImportSamplesSwift.swift in Sources */,

@@ -16,7 +16,7 @@
 #import "RouteBoard-Swift.h"
 
 
-const float DROP_INPUTFRAME_FACTOR = 0.3f;
+const float DROP_INPUTFRAME_FACTOR = 0.5f;
 const float MAX_RESOLUTION_PX = 500.0f;
 const float LOWES_RATIO_LAW = 0.7f;
 const unsigned long MIN_MATCH_COUNT = 10;
