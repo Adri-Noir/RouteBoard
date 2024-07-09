@@ -3,7 +3,14 @@ import CoreImage
 import UIKit
 import os.log
 
+enum CameraSettings {
+    case photoTaking
+    case videoTaking
+}
+
 class Camera: NSObject {
+    let cameraSetting: CameraSettings
+    
     private let captureSession = AVCaptureSession()
     private var isCaptureSessionConfigured = false
     private var deviceInput: AVCaptureDeviceInput?
@@ -94,7 +101,8 @@ class Camera: NSObject {
         }
     }()
         
-    override init() {
+    init(cameraSetting: CameraSettings) {
+        self.cameraSetting = cameraSetting
         super.init()
         initialize()
     }
@@ -128,8 +136,14 @@ class Camera: NSObject {
         }
         
         let photoOutput = AVCapturePhotoOutput()
-                        
-        captureSession.sessionPreset = AVCaptureSession.Preset.medium;
+        
+        switch(cameraSetting) {
+        case .photoTaking:
+            captureSession.sessionPreset = AVCaptureSession.Preset.high;
+        case .videoTaking:
+            captureSession.sessionPreset = AVCaptureSession.Preset.medium;
+        }
+        
 
         let videoOutput = AVCaptureVideoDataOutput()
         videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "VideoDataOutputQueue"))
@@ -155,9 +169,14 @@ class Camera: NSObject {
         self.photoOutput = photoOutput
         self.videoOutput = videoOutput
         
-        photoOutput.isHighResolutionCaptureEnabled = false
-        // photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 720, height: 1280)
-        photoOutput.maxPhotoQualityPrioritization = .speed
+        switch(cameraSetting) {
+        case .photoTaking:
+            photoOutput.isHighResolutionCaptureEnabled = true
+            photoOutput.maxPhotoQualityPrioritization = .quality
+        case .videoTaking:
+            photoOutput.isHighResolutionCaptureEnabled = false;
+            photoOutput.maxPhotoQualityPrioritization = .speed;
+        }
         
         updateVideoOutputConnection()
         
@@ -272,11 +291,12 @@ class Camera: NSObject {
     }
 
     private var deviceOrientation: UIDeviceOrientation {
-        var orientation = UIDevice.current.orientation
-        if orientation == UIDeviceOrientation.unknown {
-            orientation = UIScreen.main.orientation
-        }
-        return orientation
+        // var orientation = UIDevice.current.orientation
+        // if orientation == UIDeviceOrientation.unknown {
+            // orientation = UIScreen.main.orientation
+        // }
+        // return orientation
+        return .portrait
     }
     
     @objc
@@ -287,10 +307,10 @@ class Camera: NSObject {
     private func videoOrientationFor(_ deviceOrientation: UIDeviceOrientation) -> AVCaptureVideoOrientation? {
         switch deviceOrientation {
         case .portrait: return AVCaptureVideoOrientation.portrait
-        case .portraitUpsideDown: return AVCaptureVideoOrientation.portraitUpsideDown
-        case .landscapeLeft: return AVCaptureVideoOrientation.landscapeRight
-        case .landscapeRight: return AVCaptureVideoOrientation.landscapeLeft
-        default: return nil
+        case .portraitUpsideDown: return AVCaptureVideoOrientation.portrait
+        case .landscapeLeft: return AVCaptureVideoOrientation.portrait
+        case .landscapeRight: return AVCaptureVideoOrientation.portrait
+        default: return .portrait
         }
     }
     
@@ -311,13 +331,10 @@ class Camera: NSObject {
             if let previewPhotoPixelFormatType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
                 photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewPhotoPixelFormatType]
             }
-            photoSettings.photoQualityPrioritization = .balanced
+            photoSettings.photoQualityPrioritization = .quality
             
             if let photoOutputVideoConnection = photoOutput.connection(with: .video) {
-                if photoOutputVideoConnection.isVideoOrientationSupported,
-                    let videoOrientation = self.videoOrientationFor(self.deviceOrientation) {
-                    photoOutputVideoConnection.videoOrientation = videoOrientation
-                }
+                photoOutputVideoConnection.videoOrientation = .portrait
             }
             
             photoOutput.capturePhoto(with: photoSettings, delegate: self)
@@ -355,18 +372,7 @@ extension Camera: AVCaptureVideoDataOutputSampleBufferDelegate {
 fileprivate extension UIScreen {
 
     var orientation: UIDeviceOrientation {
-        let point = coordinateSpace.convert(CGPoint.zero, to: fixedCoordinateSpace)
-        if point == CGPoint.zero {
-            return .portrait
-        } else if point.x != 0 && point.y != 0 {
-            return .portraitUpsideDown
-        } else if point.x == 0 && point.y != 0 {
-            return .landscapeRight //.landscapeLeft
-        } else if point.x != 0 && point.y == 0 {
-            return .landscapeLeft //.landscapeRight
-        } else {
-            return .unknown
-        }
+        return .portrait
     }
 }
 

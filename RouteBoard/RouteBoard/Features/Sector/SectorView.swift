@@ -10,12 +10,8 @@ import SwiftUI
 struct SectorView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var show = false
-    @State private var searchTerm = ""
-    private let cats = ["Persian", "Tabby", "Ragdoll", "Sphynx", "Maine Coon"]
+    @State private var showRoutes = false
     
-    var results: [String] {
-        searchTerm.isEmpty ? cats : cats.filter { $0.contains(searchTerm) }
-    }
     
     @ViewBuilder
     var body: some View {
@@ -43,7 +39,7 @@ struct SectorView: View {
                                 .padding(EdgeInsets(top: 0, leading: 15, bottom: 20, trailing: 10))
                             
                             InformationRectanglesView(handleOpenRoutesView: {
-                                print("open routes")
+                                showRoutes = true
                             }, handleLike: {
                                 print("liked sector")
                             }, ascentsGraph: {
@@ -91,6 +87,9 @@ struct SectorView: View {
                 }
                 .navigationBarTitleDisplayMode(.large)
                 .navigationBarHidden(true)
+                .popover(isPresented: $showRoutes) {
+                    RoutesListView(routes: [SimpleRoute(id: "1", name: "Apaches", grade: "6b", numberOfAscents: 1)])
+                }
             }
             
         }

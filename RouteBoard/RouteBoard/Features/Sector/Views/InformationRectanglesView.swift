@@ -24,7 +24,6 @@ struct InformationRectangle<Content: View>: View {
                 VStack(alignment: .leading, spacing: 10) {
                     content
                         .foregroundStyle(shouldDisappear ? .white : .black)
-                        // .opacity(shouldDisappear ? 0 : 1)
                         .animation(.spring, value: isExpanded)
                 }
                 .padding()
@@ -114,6 +113,9 @@ struct InformationRectanglesView<AscentsContent: View>: View {
                 .onTapGesture {
                     handleToggleSelectedBox(box: 3)
                 }
+                .onTapBackground(enabled: selectedBox == 3) {
+                    handleToggleSelectedBox(box: 3)
+                }
                 
                 InformationRectangle(isExpanded: selectedBox == 4, shouldDisappear: selectedBox != 4 && selectedBox != nil, expandedSize: 400) {
                     if selectedBox == 4 && showDelayedView {
@@ -131,7 +133,28 @@ struct InformationRectanglesView<AscentsContent: View>: View {
                 .onTapGesture {
                     handleToggleSelectedBox(box: 4)
                 }
+                .onTapBackground(enabled: selectedBox == 4) {
+                    handleToggleSelectedBox(box: 4)
+                }
             }
         }
+    }
+}
+
+extension View {
+    @ViewBuilder
+    private func onTapBackgroundContent(enabled: Bool, _ action: @escaping () -> Void) -> some View {
+        if enabled {
+            Color.clear
+                .frame(width: UIScreen.main.bounds.width * 2, height: UIScreen.main.bounds.height * 2)
+                .contentShape(Rectangle())
+                .onTapGesture(perform: action)
+        }
+    }
+
+    func onTapBackground(enabled: Bool, _ action: @escaping () -> Void) -> some View {
+        background(
+            onTapBackgroundContent(enabled: enabled, action)
+        )
     }
 }

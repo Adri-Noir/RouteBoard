@@ -28,7 +28,6 @@ struct RouteFinderView: View {
                 
                 RouteFinderBottomInfoView(routeImageModel: routeImageModel)
             }
-            
         }
     }
 }

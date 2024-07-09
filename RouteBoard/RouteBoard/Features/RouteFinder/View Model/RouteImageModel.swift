@@ -10,7 +10,7 @@ import SwiftUI
 
 
 final class RouteImageModel: ObservableObject {
-    let camera = Camera()
+    let camera = Camera(cameraSetting: .videoTaking)
     @Published var viewfinderImage: Image?
     private var savedOverlay: CVMap?
     private var frameCounter: Int = 0;
@@ -29,7 +29,7 @@ final class RouteImageModel: ObservableObject {
         processedSamples = OpenCVWrapper.processInputSamples(samplesToProcess)
         
         Task {
-            await handleCameraPreviews()
+            await handleCameraPreviewsProcessEveryFrame()
         }
     }
     
