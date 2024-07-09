@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RouteFinderBottomInfoView: View {
-    var routeImageModel: RouteImageModel;
+    @ObservedObject var routeImageModel: RouteImageModel;
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -21,7 +21,7 @@ struct RouteFinderBottomInfoView: View {
                     Text("Close")
                 }
                 Spacer()
-                Text("Looking at route: ")
+                Text("Looking at route: \(routeImageModel.closestRouteId ?? -1)")
             }
             .padding()
             

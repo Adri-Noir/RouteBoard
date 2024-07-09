@@ -10,8 +10,11 @@ import SwiftUI
 
 
 final class RouteImageModel: ObservableObject {
-    let camera = Camera(cameraSetting: .videoTaking)
     @Published var viewfinderImage: Image?
+    @Published var closestRouteId: Int? = nil;
+    
+    let camera = Camera(cameraSetting: .videoTaking)
+    
     private var savedOverlay: CVMap?
     private var frameCounter: Int = 0;
     
@@ -45,11 +48,12 @@ final class RouteImageModel: ObservableObject {
                 if let cgImage = context.createCGImage(image, from: image.extent) {
                     let uiImage = UIImage(cgImage: cgImage)
 
-                    let overlay = OpenCVWrapper.detectRoutesAndAddOverlay(self.processedSamples!, inputFrame: uiImage)
+                    let overlayAndRouteId = OpenCVWrapper.detectRoutesAndAddOverlay(self.processedSamples!, inputFrame: uiImage)
                     
-                    let processedImage = OpenCVWrapper.addOverlay(toFrame: uiImage, overlay: overlay)
+                    let processedImage = OpenCVWrapper.addOverlay(toFrame: uiImage, overlay: overlayAndRouteId.overlay)
                     DispatchQueue.main.async {
-                        self.viewfinderImage = Image(uiImage: processedImage);
+                        self.viewfinderImage = Image(uiImage: processedImage)
+                        self.closestRouteId = overlayAndRouteId.routeId == -1 ? nil : Int(overlayAndRouteId.routeId)
                     }
                 }
                 
@@ -69,7 +73,7 @@ final class RouteImageModel: ObservableObject {
                 if let cgImage = context.createCGImage(image, from: image.extent) {
                     let uiImage = UIImage(cgImage: cgImage)
 
-                    let overlay = self.savedOverlay ?? OpenCVWrapper.detectRoutesAndAddOverlay(self.processedSamples!, inputFrame: uiImage)
+                    let overlay = self.savedOverlay ?? OpenCVWrapper.detectRoutesAndAddOverlay(self.processedSamples!, inputFrame: uiImage).overlay
                     self.savedOverlay = overlay
 
                     

@@ -16,8 +16,8 @@
 #import "RouteBoard-Swift.h"
 
 
-const float DROP_INPUTFRAME_FACTOR = 0.5f;
-const float MAX_RESOLUTION_PX = 480.0f;
+const float DROP_INPUTFRAME_FACTOR = 0.6f;
+const float MAX_RESOLUTION_PX = 500.0f;
 const float LOWES_RATIO_LAW = 0.7f;
 const unsigned long MIN_MATCH_COUNT = 10;
 const int AREA_OF_INTEREST_AROUND_LINE = 75;
@@ -51,6 +51,25 @@ cv::Mat createMaskFromLines(std::vector<cv::Vec4i> lines, cv::Size imageSize) {
     }
     
     return mask;
+}
+
+void maximizeHueSaturationEfficient(cv::Mat& image) {
+    // TODO: this is wrong
+    if (image.empty()) {
+        std::cout << "Image is empty." << std::endl;
+        return;
+    }
+    
+    cv::Mat hsvImage;
+    cv::cvtColor(image , hsvImage, cv::COLOR_RGB2HSV);
+
+    cv::Mat mask;  // red is on the left side of the [0..180] hue range
+    cv::inRange(hsvImage, cv::Scalar(0,50,50), cv::Scalar(30,255,255), mask);
+
+    cv::Mat maskRgb; // make a 3channel mask
+    cv::cvtColor(mask, maskRgb, cv::COLOR_GRAY2RGB);
+    
+    bitwise_and(image, maskRgb, image);
 }
 
 
@@ -94,8 +113,6 @@ cv::Ptr<cv::FlannBasedMatcher> matcher = cv::FlannBasedMatcher::create();
         // Potentially would be usefully to mask only around the line
         siftPtr->detectAndCompute(resizedRouteImageMatrix, cv::noArray(), routeKeypoints, routeDescriptors);
         
-        matcher->add(routeDescriptors);
-        
         unsigned long keypointsCount = routeKeypoints.size();
         NSMutableArray *keypointsArray = [NSMutableArray arrayWithCapacity:keypointsCount];
         for (int j = 0; j < keypointsCount; ++j) {
@@ -119,7 +136,7 @@ cv::Ptr<cv::FlannBasedMatcher> matcher = cv::FlannBasedMatcher::create();
     return [[ProcessedSamplesSwift alloc] initWithProcessedSamples:array];
 }
 
-+ (CVMap *) detectRoutesAndAddOverlay:(ProcessedSamplesSwift*)processedSamples inputFrame:(UIImage *) inputFrame {
++ (OverlayAndRouteId *) detectRoutesAndAddOverlay:(ProcessedSamplesSwift*)processedSamples inputFrame:(UIImage *) inputFrame {
     cv::Ptr<cv::SIFT> siftPtr = cv::SIFT::create();
     
     cv::Mat frameMatrix;
@@ -143,46 +160,78 @@ cv::Ptr<cv::FlannBasedMatcher> matcher = cv::FlannBasedMatcher::create();
     if (frameKeypoints.size() < 3 || frameDescriptors.empty()) {
         NSData *data = [[NSData alloc] initWithBytes:frameOutput.data length:frameOutput.u->size];
         CVMap *cv_map = [[CVMap alloc] initWithRows:frameOutput.rows cols:frameOutput.cols type:frameOutput.type() data:data step:frameOutput.step];
-        return cv_map;
+        return [[OverlayAndRouteId alloc] initWithOverlay:cv_map routeId:-1];
     }
     
+    double minDistance = std::numeric_limits<double>::max();
+    int closestRouteId = -1;
+    cv::Mat closestOverlay;
+    
+    int centerX = frameCols / 2;
+    int centerY = frameRows / 2;
+    cv::Point2f frameCenter(centerX, centerY);
     
     std::vector< std::vector<cv::DMatch> > knn_matches;
     
-    matcher->knnMatch(frameDescriptors, knn_matches, 2);
-    
-    std::map<int, std::vector<std::pair<cv::Point2f, cv::Point2f>>> matchesMap;
-    std::vector<cv::Point2f> srcPts, dstPts;
-    for (size_t j = 0; j < knn_matches.size(); j++) {
-        if (knn_matches[j][0].distance < LOWES_RATIO_LAW * knn_matches[j][1].distance) {
-            cv::Point2f *bestPoint = new cv::Point2f(processedSamples.processedSamples[knn_matches[j][0].imgIdx].referenceKP[knn_matches[j][0].trainIdx].pt.x, processedSamples.processedSamples[knn_matches[j][0].imgIdx].referenceKP[knn_matches[j][0].trainIdx].pt.y);
-            matchesMap[knn_matches[j][0].imgIdx].push_back(std::make_pair(*bestPoint, frameKeypoints[knn_matches[j][0].queryIdx].pt));
-        }
-    }
-    
-    knn_matches.clear();
-    
-    for (auto& match : matchesMap) {
-        if (match.second.size() >= MIN_MATCH_COUNT) {
-            std::vector<cv::Point2f> srcPts;
-            std::vector<cv::Point2f> dstPts;
-            
-            for (auto& p : match.second) {
-                srcPts.push_back(p.first);
-                dstPts.push_back(p.second);
+    for (int i = 0; i<processedSamples.processedSamples.count; i++) {
+        unsigned char *bytes = (unsigned char *) processedSamples.processedSamples[i].referenceDES.data.bytes;
+        
+        cv::Mat *descriptor = new cv::Mat(processedSamples.processedSamples[i].referenceDES.rows, processedSamples.processedSamples[i].referenceDES.cols, processedSamples.processedSamples[i].referenceDES.type, bytes);
+        std::vector< std::vector<cv::DMatch> > knn_matches;
+        
+        matcher->knnMatch(*descriptor, frameDescriptors, knn_matches, 2);
+        
+        descriptor->release();
+        
+        int numberOfGoodPoints = 0;
+        std::vector<cv::Point2f> srcPts, dstPts;
+        for (size_t j = 0; j < knn_matches.size(); j++) {
+            if (knn_matches[j][0].distance < LOWES_RATIO_LAW * knn_matches[j][1].distance) {
+                numberOfGoodPoints++;
+                cv::Point2f *bestPoint = new cv::Point2f(processedSamples.processedSamples[i].referenceKP[knn_matches[j][0].queryIdx].pt.x, processedSamples.processedSamples[i].referenceKP[knn_matches[j][0].queryIdx].pt.y);
+                srcPts.push_back(*bestPoint);
+                dstPts.push_back(frameKeypoints[knn_matches[j][0].trainIdx].pt);
             }
+        }
+        
+        knn_matches.clear();
+        
+        if (numberOfGoodPoints > MIN_MATCH_COUNT) {
+            cv::Mat srcMat = cv::Mat(srcPts);
+            cv::Mat dstMat = cv::Mat(dstPts);
+            cv::Mat H = cv::findHomography(srcMat, dstMat, cv::RANSAC, 5.0);
             
-            cv::Mat H = cv::findHomography(srcPts, dstPts, cv::RANSAC, 5.0);
+            srcMat.release();
+            dstMat.release();
+            srcPts.clear();
+            dstPts.clear();
             
             if (!H.empty() && H.rows == 3 && H.cols == 3) {
+                
+                std::vector<cv::Point2f> transformedCenter(1);
+                cv::perspectiveTransform(std::vector<cv::Point2f>{frameCenter}, transformedCenter, H.inv());
+                
                 cv::Mat routeMatrix;
-                UIImageToMat(processedSamples.processedSamples[match.first].routeReference, routeMatrix);
+                UIImageToMat(processedSamples.processedSamples[i].routeReference, routeMatrix);
+                
+                cv::Point2f routeReferencePoint(routeMatrix.cols / 2.0f, routeMatrix.rows / 2.0f);
+                double distance = cv::norm(transformedCenter[0] - routeReferencePoint);
                 
                 cv::Mat overlay;
                 cv::warpPerspective(routeMatrix, overlay, H, cv::Size(frameCols, frameRows));
                 
-                frameOutput += overlay;
-                overlay.release();
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    if (!closestOverlay.empty()) {
+                        frameOutput += closestOverlay;
+                    }
+                    closestOverlay = overlay;
+                    closestRouteId = processedSamples.processedSamples[i].routeId;
+                } else {
+                    frameOutput += overlay;
+                    overlay.release();
+                }
+                
                 routeMatrix.release();
             }
             
@@ -193,11 +242,17 @@ cv::Ptr<cv::FlannBasedMatcher> matcher = cv::FlannBasedMatcher::create();
     }
     
     
+    if (!closestOverlay.empty()) {
+        // maximizeHueSaturationEfficient(closestOverlay);
+        frameOutput += closestOverlay;
+    }
+    
+    
     frameMatrix.release();
     NSData *data = [[NSData alloc] initWithBytes:frameOutput.data length:frameOutput.u->size];
     CVMap *cv_map = [[CVMap alloc] initWithRows:frameOutput.rows cols:frameOutput.cols type:frameOutput.type() data:data step:frameOutput.step];
     frameOutput.release();
-    return cv_map;
+    return [[OverlayAndRouteId alloc] initWithOverlay:cv_map routeId:closestRouteId];
 }
 
 + (UIImage *) addOverlayToFrame:(UIImage *)inputFrame overlay:(CVMap *) overlay {

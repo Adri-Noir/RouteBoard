@@ -19,11 +19,12 @@ NS_ASSUME_NONNULL_BEGIN
 @class ProcessedSamplesSwift;
 @class CVMap;
 @class RoutePoints;
+@class OverlayAndRouteId;
 
 @interface OpenCVWrapper : NSObject
 + (NSString *)getOpenCVVersion;
 + (ProcessedSamplesSwift*)processInputSamples:(ImportSamplesSwift*)samples;
-+ (CVMap *)detectRoutesAndAddOverlay:(ProcessedSamplesSwift*)processedSamples inputFrame:(UIImage *) inputFrame;
++ (OverlayAndRouteId *)detectRoutesAndAddOverlay:(ProcessedSamplesSwift*)processedSamples inputFrame:(UIImage *) inputFrame;
 + (UIImage *)addOverlayToFrame:(UIImage *)inputFrame overlay:(CVMap *) overlay;
 + (UIImage *)createRouteLineImage:(RoutePoints *)points picture:(CVMap *) picture;
 + (CVMap *)convertImageToMat:(UIImage *)image;

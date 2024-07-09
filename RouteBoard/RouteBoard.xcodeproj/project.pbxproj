@@ -13,6 +13,7 @@
 		AF0A110F2C3C8EEB00BFAEAC /* SimpleRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0A110E2C3C8EEB00BFAEAC /* SimpleRoute.swift */; };
 		AF191C6E2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF191C6D2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift */; };
 		AF191C702C34D953000EBB61 /* InformationRectanglesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF191C6F2C34D953000EBB61 /* InformationRectanglesView.swift */; };
+		AF773D6C2C3DFBED00886C00 /* OverlayAndRouteId.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF773D6B2C3DFBED00886C00 /* OverlayAndRouteId.swift */; };
 		AF869C9D2C3064AA0092E371 /* RouteBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF869C9C2C3064AA0092E371 /* RouteBoardApp.swift */; };
 		AF869CA12C3064AB0092E371 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF869CA02C3064AB0092E371 /* Assets.xcassets */; };
 		AF869CA42C3064AB0092E371 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF869CA32C3064AB0092E371 /* Preview Assets.xcassets */; };
@@ -70,6 +71,7 @@
 		AF0A110E2C3C8EEB00BFAEAC /* SimpleRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleRoute.swift; sourceTree = "<group>"; };
 		AF191C6D2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteFinderBottomInfoView.swift; sourceTree = "<group>"; };
 		AF191C6F2C34D953000EBB61 /* InformationRectanglesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationRectanglesView.swift; sourceTree = "<group>"; };
+		AF773D6B2C3DFBED00886C00 /* OverlayAndRouteId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayAndRouteId.swift; sourceTree = "<group>"; };
 		AF869C992C3064AA0092E371 /* RouteBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RouteBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF869C9C2C3064AA0092E371 /* RouteBoardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteBoardApp.swift; sourceTree = "<group>"; };
 		AF869CA02C3064AB0092E371 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 			children = (
 				AFD3918E2C3191A8008CF2A7 /* ImportSamplesSwift.swift */,
 				AFD391902C319B82008CF2A7 /* ProcessedSamplesSwift.swift */,
+				AF773D6B2C3DFBED00886C00 /* OverlayAndRouteId.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -610,6 +613,7 @@
 				AF9E0C7B2C39887F00984C58 /* RoutePoints.swift in Sources */,
 				AF869CCE2C307CC50092E371 /* RouteFinderView.swift in Sources */,
 				AF9B624E2C348E4B003762B0 /* SectorView.swift in Sources */,
+				AF773D6C2C3DFBED00886C00 /* OverlayAndRouteId.swift in Sources */,
 				AFD3918F2C3191A8008CF2A7 /* ImportSamplesSwift.swift in Sources */,
 				AF9B62512C349484003762B0 /* ImageCarouselView.swift in Sources */,
 				AF0A110F2C3C8EEB00BFAEAC /* SimpleRoute.swift in Sources */,
