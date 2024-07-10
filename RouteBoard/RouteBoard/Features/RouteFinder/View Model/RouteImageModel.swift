@@ -43,7 +43,7 @@ final class RouteImageModel: ObservableObject {
         let context = CIContext();
 
         for await image in imageStream {
-            DispatchQueue.global(qos: .userInitiated).async {
+            DispatchQueue.global(qos: .userInteractive).async {
                 
                 if let cgImage = context.createCGImage(image, from: image.extent) {
                     let uiImage = UIImage(cgImage: cgImage)
@@ -73,21 +73,12 @@ final class RouteImageModel: ObservableObject {
                 if let cgImage = context.createCGImage(image, from: image.extent) {
                     let uiImage = UIImage(cgImage: cgImage)
 
-                    let overlay = self.savedOverlay ?? OpenCVWrapper.detectRoutesAndAddOverlay(self.processedSamples!, inputFrame: uiImage).overlay
-                    self.savedOverlay = overlay
-
-                    
-                    let processedImage = OpenCVWrapper.addOverlay(toFrame: uiImage, overlay: overlay)
                     DispatchQueue.main.async {
-                        self.viewfinderImage = Image(uiImage: processedImage);
+                        let overlayAndRouteId = OpenCVWrapper.detectRoutesAndAddOverlay(self.processedSamples!, inputFrame: uiImage)
+                        let processedImage = OpenCVWrapper.addOverlay(toFrame: uiImage, overlay: overlayAndRouteId.overlay)
+                        self.viewfinderImage = Image(uiImage: processedImage)
+                        self.closestRouteId = overlayAndRouteId.routeId == -1 ? nil : Int(overlayAndRouteId.routeId)
                     }
-                    
-
-                    if self.frameCounter % skipFrameAnalysis == 0 {
-                        self.savedOverlay = nil
-                    }
-
-                    self.frameCounter = (self.frameCounter + 1) % skipFrameAnalysis;
                 }
             }
         }

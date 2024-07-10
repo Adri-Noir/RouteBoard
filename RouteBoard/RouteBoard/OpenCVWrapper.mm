@@ -16,11 +16,15 @@
 #import "RouteBoard-Swift.h"
 
 
-const float DROP_INPUTFRAME_FACTOR = 0.6f;
-const float MAX_RESOLUTION_PX = 500.0f;
+const float DROP_INPUTFRAME_FACTOR = 0.75f;
+const float MAX_RESOLUTION_PX = 600.0f;
 const float LOWES_RATIO_LAW = 0.7f;
 const unsigned long MIN_MATCH_COUNT = 10;
 const int AREA_OF_INTEREST_AROUND_LINE = 75;
+const bool REUSE_OLD_OVERLAY = true;
+const int SKIP_FRAMES = 3;
+int frame_counter = 0;
+OverlayAndRouteId *old_overlay;
 
 std::vector<cv::Vec4i> detectLines(cv::Mat image) {
     cv::Mat gray;
@@ -72,6 +76,8 @@ void maximizeHueSaturationEfficient(cv::Mat& image) {
     bitwise_and(image, maskRgb, image);
 }
 
+
+std::mutex mtx;
 
 @implementation OpenCVWrapper
 
@@ -137,6 +143,18 @@ cv::Ptr<cv::FlannBasedMatcher> matcher = cv::FlannBasedMatcher::create();
 }
 
 + (OverlayAndRouteId *) detectRoutesAndAddOverlay:(ProcessedSamplesSwift*)processedSamples inputFrame:(UIImage *) inputFrame {
+    if (REUSE_OLD_OVERLAY) {
+        mtx.lock();
+        if (frame_counter % SKIP_FRAMES != 0 && old_overlay) {
+            frame_counter = (frame_counter + 1) % SKIP_FRAMES;
+            mtx.unlock();
+            return old_overlay;
+        }
+        
+        frame_counter = (frame_counter + 1) % SKIP_FRAMES;
+        mtx.unlock();
+    }
+    
     cv::Ptr<cv::SIFT> siftPtr = cv::SIFT::create();
     
     cv::Mat frameMatrix;
@@ -252,7 +270,8 @@ cv::Ptr<cv::FlannBasedMatcher> matcher = cv::FlannBasedMatcher::create();
     NSData *data = [[NSData alloc] initWithBytes:frameOutput.data length:frameOutput.u->size];
     CVMap *cv_map = [[CVMap alloc] initWithRows:frameOutput.rows cols:frameOutput.cols type:frameOutput.type() data:data step:frameOutput.step];
     frameOutput.release();
-    return [[OverlayAndRouteId alloc] initWithOverlay:cv_map routeId:closestRouteId];
+    old_overlay = [[OverlayAndRouteId alloc] initWithOverlay:cv_map routeId:closestRouteId];
+    return old_overlay;
 }
 
 + (UIImage *) addOverlayToFrame:(UIImage *)inputFrame overlay:(CVMap *) overlay {
