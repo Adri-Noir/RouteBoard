@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alpinity.Api", "Alpinity.Api\Alpinity.Api.csproj", "{63CA60B5-ABC0-44C3-9783-93F88AFDE4B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alpinity.Application", "Alpinity.Application\Alpinity.Application.csproj", "{37CC3F1A-4961-4D1E-9A32-570DF7B69D8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alpinity.Infrastructure", "Alpinity.Infrastructure\Alpinity.Infrastructure.csproj", "{E72E57F7-57C4-4587-A393-DBDE49235C27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alpinity.Domain", "Alpinity.Domain\Alpinity.Domain.csproj", "{C1128D2F-D329-41BF-9633-8BCD41C50353}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{D2C17782-0EAB-4A0C-967A-153AD7308226}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		.dockerignore = .dockerignore
+		docker-compose.yaml = docker-compose.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{E323FF1E-205A-442D-8413-E4D313F370B4}"
+	ProjectSection(SolutionItems) = preProject
+		.config\dotnet-tools.json = .config\dotnet-tools.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{63CA60B5-ABC0-44C3-9783-93F88AFDE4B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63CA60B5-ABC0-44C3-9783-93F88AFDE4B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63CA60B5-ABC0-44C3-9783-93F88AFDE4B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63CA60B5-ABC0-44C3-9783-93F88AFDE4B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37CC3F1A-4961-4D1E-9A32-570DF7B69D8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37CC3F1A-4961-4D1E-9A32-570DF7B69D8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37CC3F1A-4961-4D1E-9A32-570DF7B69D8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37CC3F1A-4961-4D1E-9A32-570DF7B69D8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E72E57F7-57C4-4587-A393-DBDE49235C27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E72E57F7-57C4-4587-A393-DBDE49235C27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E72E57F7-57C4-4587-A393-DBDE49235C27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E72E57F7-57C4-4587-A393-DBDE49235C27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1128D2F-D329-41BF-9633-8BCD41C50353}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1128D2F-D329-41BF-9633-8BCD41C50353}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1128D2F-D329-41BF-9633-8BCD41C50353}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1128D2F-D329-41BF-9633-8BCD41C50353}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E323FF1E-205A-442D-8413-E4D313F370B4} = {D2C17782-0EAB-4A0C-967A-153AD7308226}
+	EndGlobalSection
+EndGlobal
