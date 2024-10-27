@@ -8,11 +8,11 @@
 import Foundation
 
 @objc class OverlayAndRouteId: NSObject {
-    @objc var overlay: CVMap;
+    @objc var overlayedImage: UIImage;
     @objc var routeId: CInt;
     
-    @objc init(overlay: CVMap, routeId: CInt) {
-        self.overlay = overlay
+    @objc init(overlayedImage: UIImage, routeId: CInt) {
+        self.overlayedImage = overlayedImage
         self.routeId = routeId
     }
 }

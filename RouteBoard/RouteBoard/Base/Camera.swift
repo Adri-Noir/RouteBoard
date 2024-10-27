@@ -82,12 +82,18 @@ class Camera: NSObject {
     private var addToPreviewStream: ((CIImage) -> Void)?
     
     var isPreviewPaused = false
+    var frameCounter = 0;
+    let YIELD_EVERY_N_FRAME = 4;
     
     lazy var previewStream: AsyncStream<CIImage> = {
         AsyncStream { continuation in
             addToPreviewStream = { ciImage in
                 if !self.isPreviewPaused {
-                    continuation.yield(ciImage)
+                    self.frameCounter += 1
+                    if self.frameCounter % self.YIELD_EVERY_N_FRAME == 0 {
+                        continuation.yield(ciImage)
+                        self.frameCounter = 0;
+                    }
                 }
             }
         }
@@ -141,7 +147,7 @@ class Camera: NSObject {
         case .photoTaking:
             captureSession.sessionPreset = AVCaptureSession.Preset.high;
         case .videoTaking:
-            captureSession.sessionPreset = AVCaptureSession.Preset.medium;
+            captureSession.sessionPreset = AVCaptureSession.Preset.hd1280x720;
         }
         
 
@@ -171,10 +177,8 @@ class Camera: NSObject {
         
         switch(cameraSetting) {
         case .photoTaking:
-            photoOutput.isHighResolutionCaptureEnabled = true
             photoOutput.maxPhotoQualityPrioritization = .quality
         case .videoTaking:
-            photoOutput.isHighResolutionCaptureEnabled = false;
             photoOutput.maxPhotoQualityPrioritization = .speed;
         }
         
@@ -291,11 +295,6 @@ class Camera: NSObject {
     }
 
     private var deviceOrientation: UIDeviceOrientation {
-        // var orientation = UIDevice.current.orientation
-        // if orientation == UIDeviceOrientation.unknown {
-            // orientation = UIScreen.main.orientation
-        // }
-        // return orientation
         return .portrait
     }
     
@@ -304,15 +303,6 @@ class Camera: NSObject {
         //TODO: Figure out if we need this for anything.
     }
     
-    private func videoOrientationFor(_ deviceOrientation: UIDeviceOrientation) -> AVCaptureVideoOrientation? {
-        switch deviceOrientation {
-        case .portrait: return AVCaptureVideoOrientation.portrait
-        case .portraitUpsideDown: return AVCaptureVideoOrientation.portrait
-        case .landscapeLeft: return AVCaptureVideoOrientation.portrait
-        case .landscapeRight: return AVCaptureVideoOrientation.portrait
-        default: return .portrait
-        }
-    }
     
     func takePhoto() {
         guard let photoOutput = self.photoOutput else { return }
@@ -327,14 +317,14 @@ class Camera: NSObject {
             
             let isFlashAvailable = self.deviceInput?.device.isFlashAvailable ?? false
             photoSettings.flashMode = isFlashAvailable ? .auto : .off
-            photoSettings.isHighResolutionPhotoEnabled = true
+            photoSettings.maxPhotoDimensions = .init(width: 1080, height: 1920)
             if let previewPhotoPixelFormatType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
                 photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewPhotoPixelFormatType]
             }
             photoSettings.photoQualityPrioritization = .quality
             
             if let photoOutputVideoConnection = photoOutput.connection(with: .video) {
-                photoOutputVideoConnection.videoOrientation = .portrait
+                photoOutputVideoConnection.videoRotationAngle = 90;
             }
             
             photoOutput.capturePhoto(with: photoSettings, delegate: self)
@@ -360,10 +350,7 @@ extension Camera: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard let pixelBuffer = sampleBuffer.imageBuffer else { return }
         
-        if connection.isVideoOrientationSupported,
-           let videoOrientation = videoOrientationFor(deviceOrientation) {
-            connection.videoOrientation = videoOrientation
-        }
+        connection.videoRotationAngle = 90;
 
         addToPreviewStream?(CIImage(cvPixelBuffer: pixelBuffer))
     }
