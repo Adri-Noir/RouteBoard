@@ -19,6 +19,8 @@ public static class ServiceExtensions
         );
         
         services.AddTransient<ICragRepository, CragRepository>();
+        services.AddTransient<ISectorRepository, SectorRepository>();
+        services.AddTransient<IRouteRepository, RouteRepository>();
 
         return services;
     }

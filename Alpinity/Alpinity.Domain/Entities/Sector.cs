@@ -11,7 +11,4 @@ public class Sector
     
     public ICollection<Route>? Routes { get; set; }
     public ICollection<Photo>? Photos { get; set; }
-    
-    
-    // Blob storage for images
 }

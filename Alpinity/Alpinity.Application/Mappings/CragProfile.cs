@@ -8,6 +8,7 @@ public class CragProfile: Profile
 {
     public CragProfile()
     {
-        CreateMap<Crag, CragDetailedDto>();
+        CreateMap<Crag, CragDetailedDto>()
+            .ForMember(t => t.Photos, opt => opt.MapFrom(s => s.Photos.Select(p => p.Url)));
     }
 }

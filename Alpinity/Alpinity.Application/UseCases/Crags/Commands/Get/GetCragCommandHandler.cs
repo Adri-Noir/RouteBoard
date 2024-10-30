@@ -11,7 +11,7 @@ public class GetCragCommandHandler(ICragRepository cragRepository, IMapper mappe
 
     public async Task<CragDetailedDto> Handle(GetCragCommand request, CancellationToken cancellationToken)
     {
-        var crag = await cragRepository.GetCragById(request.Id);
+        var crag = await cragRepository.GetCragById(request.CragId);
 
         if (crag == null)
         {

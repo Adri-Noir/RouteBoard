@@ -14,7 +14,7 @@ public class CragController(IMediator mediator) : ControllerBase
      [HttpGet("{id:guid}")]
      public async Task<ActionResult<CragDetailedDto>> GetCrag(Guid id, CancellationToken cancellationToken)
      {
-          var result = await mediator.Send(new GetCragCommand { Id = id}, cancellationToken);
+          var result = await mediator.Send(new GetCragCommand { CragId = id}, cancellationToken);
           
           return Ok(result);
      }

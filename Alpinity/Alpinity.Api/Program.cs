@@ -6,7 +6,10 @@ using Alpinity.Api.Services;
 using Alpinity.Application;
 using Alpinity.Application.Interfaces;
 using Alpinity.Infrastructure;
+using Alpinity.Infrastructure.Persistence;
+using Alpinity.Infrastructure.Persistence.Seed;
 using Hellang.Middleware.ProblemDetails;
+using Microsoft.EntityFrameworkCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +18,8 @@ var services = builder.Services;
 ConfigureServices(services, builder.Configuration, builder.Environment);
 
 var app = builder.Build();
+
+await FillDatabase(app.Services, builder.Configuration);
 
 if (app.Environment.IsDevelopment())
 {
@@ -64,5 +69,23 @@ public partial class Program
         services.AddCustomProblemDetailsResponses(environment);
 
         services.AddScoped<IAuthenticationContext, AuthenticationContext>();
+    }
+    
+    public static async Task FillDatabase(IServiceProvider serviceProvider, IConfiguration configuration)
+    {
+        using var scope = serviceProvider.CreateScope();
+        var services = scope.ServiceProvider;
+
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        if (configuration.GetConnectionString("DefaultConnection") == "TestConnectionString")
+        {
+            await context.Database.EnsureCreatedAsync();
+        }
+        else
+        {
+            await context.Database.MigrateAsync();
+        }
+
+        await CragSectorRouteSeed.Seed(context);
     }
 }

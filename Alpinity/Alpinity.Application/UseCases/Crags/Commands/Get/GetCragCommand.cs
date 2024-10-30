@@ -6,5 +6,5 @@ namespace Alpinity.Application.UseCases.Crags.Commands.Get;
 
 public record GetCragCommand: IRequest<CragDetailedDto>
 {
-    [JsonIgnore] public Guid Id { get; set; }
+    [JsonIgnore] public Guid CragId { get; set; }
 }
