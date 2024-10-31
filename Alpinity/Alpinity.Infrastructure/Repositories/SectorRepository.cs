@@ -1,6 +1,5 @@
 using Alpinity.Application.Dtos;
 using Alpinity.Application.Interfaces.Repositories;
-using Alpinity.Domain.Constants.Search;
 using Alpinity.Domain.Entities;
 using Alpinity.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;

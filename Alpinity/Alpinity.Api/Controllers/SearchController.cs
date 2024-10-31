@@ -1,5 +1,5 @@
 using Alpinity.Application.UseCases.Search.Dtos;
-using Alpinity.Application.UseCases.Search.Get;
+using Alpinity.Application.UseCases.Search.Commands.Query;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +10,9 @@ namespace Alpinity.Api.Controllers;
 public class SearchController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
-    public async Task<ActionResult<SearchResultDto>> Search(GetSearchCommand searchCommand, CancellationToken cancellationToken)
+    public async Task<ActionResult<SearchResultDto>> Search(SearchQueryCommand command, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(searchCommand, cancellationToken);
+        var result = await mediator.Send(command, cancellationToken);
         
         return Ok(result);
     }

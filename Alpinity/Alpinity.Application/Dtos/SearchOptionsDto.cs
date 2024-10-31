@@ -1,4 +1,4 @@
-using Alpinity.Domain.Constants.Search;
+using Alpinity.Application.Constants.Search;
 
 namespace Alpinity.Application.Dtos;
 

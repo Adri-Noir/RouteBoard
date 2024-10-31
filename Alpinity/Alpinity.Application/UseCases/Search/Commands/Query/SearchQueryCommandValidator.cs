@@ -1,12 +1,11 @@
-using Alpinity.Application.UseCases.Sectors.Create;
-using Alpinity.Domain.Constants.Search;
+using Alpinity.Application.Constants.Search;
 using FluentValidation;
 
-namespace Alpinity.Application.UseCases.Search.Get;
+namespace Alpinity.Application.UseCases.Search.Commands.Query;
 
-public class GetSearchCommandValidator : AbstractValidator<GetSearchCommand>
+public class SearchQueryCommandValidator : AbstractValidator<SearchQueryCommand>
 {
-    public GetSearchCommandValidator()
+    public SearchQueryCommandValidator()
     {
         RuleFor(x => x.query)
             .NotEmpty()

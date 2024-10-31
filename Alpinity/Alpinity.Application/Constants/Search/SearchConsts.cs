@@ -1,4 +1,4 @@
-namespace Alpinity.Domain.Constants.Search;
+namespace Alpinity.Application.Constants.Search;
 
 public class SearchConsts
 {

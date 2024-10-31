@@ -1,10 +1,10 @@
 using Alpinity.Application.UseCases.Search.Dtos;
-using Alpinity.Domain.Constants.Search;
+using Alpinity.Application.Constants.Search;
 using MediatR;
 
-namespace Alpinity.Application.UseCases.Search.Get;
+namespace Alpinity.Application.UseCases.Search.Commands.Query;
 
-public class GetSearchCommand : IRequest<SearchResultDto>
+public class SearchQueryCommand : IRequest<SearchResultDto>
 {
     // TODO: implement location based on user's location
     public required string query { get; set; }

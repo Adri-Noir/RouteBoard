@@ -1,5 +1,4 @@
 using Alpinity.Application.Dtos;
-using Alpinity.Domain.Constants.Search;
 using Alpinity.Domain.Entities;
 
 namespace Alpinity.Application.Interfaces.Repositories;

@@ -4,11 +4,11 @@ using Alpinity.Application.UseCases.Search.Dtos;
 using AutoMapper;
 using MediatR;
 
-namespace Alpinity.Application.UseCases.Search.Get;
+namespace Alpinity.Application.UseCases.Search.Commands.Query;
 
-public class GetSearchCommandHandler(ICragRepository cragRepository, ISectorRepository sectorRepository, IRouteRepository routeRepository, IMapper mapper) : IRequestHandler<GetSearchCommand, SearchResultDto>
+public class SearchQueryCommandHandler(ICragRepository cragRepository, ISectorRepository sectorRepository, IRouteRepository routeRepository, IMapper mapper) : IRequestHandler<SearchQueryCommand, SearchResultDto>
 {
-    public async Task<SearchResultDto> Handle(GetSearchCommand request, CancellationToken cancellationToken)
+    public async Task<SearchResultDto> Handle(SearchQueryCommand request, CancellationToken cancellationToken)
     {
         var searchOptions = new SearchOptionsDto
         {
