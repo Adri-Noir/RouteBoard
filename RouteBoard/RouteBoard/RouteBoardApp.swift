@@ -20,7 +20,7 @@ struct RouteBoardApp: App {
             ZStack {
                 // Color(red: 0.94, green: 0.93, blue: 0.93)
                 
-                SectorView()
+                IndexView()
             }
         }
     }

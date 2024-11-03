@@ -24,6 +24,15 @@
 		AF869CD02C307CFA0092E371 /* ViewFinderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF869CCF2C307CFA0092E371 /* ViewFinderView.swift */; };
 		AF869CD22C307D870092E371 /* RouteImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF869CD12C307D870092E371 /* RouteImageModel.swift */; };
 		AF869CD52C30B2E10092E371 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF869CD42C30B29C0092E371 /* Camera.swift */; };
+		AF8DA6372CD4465500751865 /* IndexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA6362CD4465200751865 /* IndexView.swift */; };
+		AF8DA63A2CD44C7E00751865 /* WelcomeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA6392CD44C7B00751865 /* WelcomeTextView.swift */; };
+		AF8DA63C2CD450CC00751865 /* RecentAscentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA63B2CD450C400751865 /* RecentAscentsView.swift */; };
+		AF8DA6402CD45DD400751865 /* RouteAscentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA63F2CD45DD000751865 /* RouteAscentView.swift */; };
+		AF8DA6442CD54A4E00751865 /* MainNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA6432CD54A4B00751865 /* MainNavigationView.swift */; };
+		AF8DA6462CD563DC00751865 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA6452CD563D400751865 /* ColorTheme.swift */; };
+		AF8DA6482CD5671E00751865 /* ApplyBackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA6472CD5671A00751865 /* ApplyBackgroundColor.swift */; };
+		AF8DA64B2CD56C1300751865 /* GeneralSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA64A2CD56C0F00751865 /* GeneralSearchView.swift */; };
+		AF8DA64E2CD56D8000751865 /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA64D2CD56D7C00751865 /* SearchResultView.swift */; };
 		AF9B624E2C348E4B003762B0 /* SectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B624D2C348E4B003762B0 /* SectorView.swift */; };
 		AF9B62512C349484003762B0 /* ImageCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B62502C349484003762B0 /* ImageCarouselView.swift */; };
 		AF9B62542C34A271003762B0 /* ExtendedDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B62532C34A271003762B0 /* ExtendedDivider.swift */; };
@@ -85,6 +94,15 @@
 		AF869CCF2C307CFA0092E371 /* ViewFinderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFinderView.swift; sourceTree = "<group>"; };
 		AF869CD12C307D870092E371 /* RouteImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteImageModel.swift; sourceTree = "<group>"; };
 		AF869CD42C30B29C0092E371 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		AF8DA6362CD4465200751865 /* IndexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexView.swift; sourceTree = "<group>"; };
+		AF8DA6392CD44C7B00751865 /* WelcomeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeTextView.swift; sourceTree = "<group>"; };
+		AF8DA63B2CD450C400751865 /* RecentAscentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentAscentsView.swift; sourceTree = "<group>"; };
+		AF8DA63F2CD45DD000751865 /* RouteAscentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteAscentView.swift; sourceTree = "<group>"; };
+		AF8DA6432CD54A4B00751865 /* MainNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationView.swift; sourceTree = "<group>"; };
+		AF8DA6452CD563D400751865 /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
+		AF8DA6472CD5671A00751865 /* ApplyBackgroundColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyBackgroundColor.swift; sourceTree = "<group>"; };
+		AF8DA64A2CD56C0F00751865 /* GeneralSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSearchView.swift; sourceTree = "<group>"; };
+		AF8DA64D2CD56D7C00751865 /* SearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
 		AF9B624D2C348E4B003762B0 /* SectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorView.swift; sourceTree = "<group>"; };
 		AF9B62502C349484003762B0 /* ImageCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarouselView.swift; sourceTree = "<group>"; };
 		AF9B62532C34A271003762B0 /* ExtendedDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedDivider.swift; sourceTree = "<group>"; };
@@ -144,6 +162,8 @@
 		AF191C712C35EB92000EBB61 /* Theme */ = {
 			isa = PBXGroup;
 			children = (
+				AF8DA6472CD5671A00751865 /* ApplyBackgroundColor.swift */,
+				AF8DA6452CD563D400751865 /* ColorTheme.swift */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
@@ -222,9 +242,54 @@
 			path = RouteFinder;
 			sourceTree = "<group>";
 		};
+		AF8DA6352CD4461800751865 /* MainPage */ = {
+			isa = PBXGroup;
+			children = (
+				AF8DA6382CD44C7100751865 /* Views */,
+				AF8DA6362CD4465200751865 /* IndexView.swift */,
+			);
+			path = MainPage;
+			sourceTree = "<group>";
+		};
+		AF8DA6382CD44C7100751865 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AF8DA63F2CD45DD000751865 /* RouteAscentView.swift */,
+				AF8DA63B2CD450C400751865 /* RecentAscentsView.swift */,
+				AF8DA6392CD44C7B00751865 /* WelcomeTextView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		AF8DA6422CD547B800751865 /* MainNavigation */ = {
+			isa = PBXGroup;
+			children = (
+				AF8DA6432CD54A4B00751865 /* MainNavigationView.swift */,
+			);
+			path = MainNavigation;
+			sourceTree = "<group>";
+		};
+		AF8DA6492CD56B9D00751865 /* GeneralSearch */ = {
+			isa = PBXGroup;
+			children = (
+				AF8DA64C2CD56D7300751865 /* Views */,
+				AF8DA64A2CD56C0F00751865 /* GeneralSearchView.swift */,
+			);
+			path = GeneralSearch;
+			sourceTree = "<group>";
+		};
+		AF8DA64C2CD56D7300751865 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AF8DA64D2CD56D7C00751865 /* SearchResultView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		AF9B62462C346D47003762B0 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				AF8DA6422CD547B800751865 /* MainNavigation */,
 				AF9E0C6A2C37476B00984C58 /* ClimbingGrades */,
 				AF191C712C35EB92000EBB61 /* Theme */,
 				AF9B62522C34A261003762B0 /* ExtendedDivider */,
@@ -237,6 +302,8 @@
 		AF9B62472C346D52003762B0 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				AF8DA6492CD56B9D00751865 /* GeneralSearch */,
+				AF8DA6352CD4461800751865 /* MainPage */,
 				AF9E0C702C38ABEB00984C58 /* CreateRouteImage */,
 				AF9B624B2C348D0F003762B0 /* Sector */,
 				AF869CC62C3065B20092E371 /* RouteFinder */,
@@ -595,7 +662,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				AFD391912C319B82008CF2A7 /* ProcessedSamplesSwift.swift in Sources */,
+				AF8DA64B2CD56C1300751865 /* GeneralSearchView.swift in Sources */,
+				AF8DA6442CD54A4E00751865 /* MainNavigationView.swift in Sources */,
 				AF191C702C34D953000EBB61 /* InformationRectanglesView.swift in Sources */,
+				AF8DA6482CD5671E00751865 /* ApplyBackgroundColor.swift in Sources */,
 				AF9E0C632C3741A900984C58 /* GradesGraphView.swift in Sources */,
 				AF869CD22C307D870092E371 /* RouteImageModel.swift in Sources */,
 				AF0A110B2C3C86D000BFAEAC /* RoutesListView.swift in Sources */,
@@ -603,17 +673,23 @@
 				AF869CD52C30B2E10092E371 /* Camera.swift in Sources */,
 				AFD3916F2C30B977008CF2A7 /* OpenCVWrapper.mm in Sources */,
 				AF9B62542C34A271003762B0 /* ExtendedDivider.swift in Sources */,
+				AF8DA63A2CD44C7E00751865 /* WelcomeTextView.swift in Sources */,
 				AF9E0C652C37421900984C58 /* GradesGraphModel.swift in Sources */,
 				AF191C6E2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift in Sources */,
 				AF869CD02C307CFA0092E371 /* ViewFinderView.swift in Sources */,
 				AF9E0C782C38BE1800984C58 /* CreateRouteOverlayView.swift in Sources */,
 				AF9E0C752C38ACC400984C58 /* CreateRouteImageModel.swift in Sources */,
 				AF9E0C6C2C3747C500984C58 /* ClimbingGrades.swift in Sources */,
+				AF8DA6402CD45DD400751865 /* RouteAscentView.swift in Sources */,
+				AF8DA63C2CD450CC00751865 /* RecentAscentsView.swift in Sources */,
 				AF9E0C6F2C3747FD00984C58 /* FrenchClimbingGrades.swift in Sources */,
 				AF9E0C7B2C39887F00984C58 /* RoutePoints.swift in Sources */,
+				AF8DA6462CD563DC00751865 /* ColorTheme.swift in Sources */,
 				AF869CCE2C307CC50092E371 /* RouteFinderView.swift in Sources */,
+				AF8DA6372CD4465500751865 /* IndexView.swift in Sources */,
 				AF9B624E2C348E4B003762B0 /* SectorView.swift in Sources */,
 				AF773D6C2C3DFBED00886C00 /* OverlayAndRouteId.swift in Sources */,
+				AF8DA64E2CD56D8000751865 /* SearchResultView.swift in Sources */,
 				AFD3918F2C3191A8008CF2A7 /* ImportSamplesSwift.swift in Sources */,
 				AF9B62512C349484003762B0 /* ImageCarouselView.swift in Sources */,
 				AF0A110F2C3C8EEB00BFAEAC /* SimpleRoute.swift in Sources */,
