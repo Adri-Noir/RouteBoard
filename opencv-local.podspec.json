@@ -15,7 +15,8 @@
     "sha256": "cbd21c62a4cfdd4cfe7e69c8601d23976e2d2bd05a912d0759debb3052c257db"
   },
   "platforms": {
-    "ios": "9.0"
+    "ios": "18.2",
+    "ios-simulator": "18.2"
   },
   "preserve_paths": "opencv2.framework",
   "source_files": "opencv2.framework/Versions/A/Headers/**/*{.h,.hpp}",
@@ -36,11 +37,5 @@
     "QuartzCore",
     "UIKit"
   ],
-  "requires_arc": false,
-  "pod_target_xcconfig": {
-    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
-  },
-  "user_target_xcconfig": {
-    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
-  }
+  "requires_arc": false
 }

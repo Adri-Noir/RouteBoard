@@ -13,10 +13,8 @@ struct RouteBoardApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ZStack {
-                // Color(red: 0.94, green: 0.93, blue: 0.93)
-                
-                CreateRouteImageView()
+            ZStack {                
+                IndexView()
             }
         }
     }
