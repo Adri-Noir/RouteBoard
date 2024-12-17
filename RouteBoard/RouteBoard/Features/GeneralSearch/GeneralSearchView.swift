@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import Combine
 
 public struct GeneralSearchView: View {
     @State private var searchText: String = ""
+    @State private var debouncedSearchText: String = ""
     
     public var body: some View {
         ApplyBackgroundColor {
@@ -28,9 +30,14 @@ public struct GeneralSearchView: View {
                         .background(Color.backgroundGray)
                         .foregroundStyle(.black)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .onChange(of: searchText) { value in
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                debouncedSearchText = value
+                            }
+                        }
                         
                     
-                    SearchResultView(searchText: $searchText)
+                    SearchResultView(searchText: $debouncedSearchText)
                     
                     Spacer()
                 }

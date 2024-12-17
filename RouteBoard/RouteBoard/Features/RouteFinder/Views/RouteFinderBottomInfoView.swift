@@ -15,7 +15,9 @@ struct RouteFinderBottomInfoView: View {
         VStack {
             HStack {
                 Button() {
-                    routeImageModel.camera.stop()
+                    Task {
+                        await routeImageModel.stopCamera()
+                    }
                     dismiss()
                 } label: {
                     Text("Close")

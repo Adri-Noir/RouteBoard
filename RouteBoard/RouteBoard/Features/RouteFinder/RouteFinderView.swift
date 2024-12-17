@@ -19,7 +19,7 @@ struct RouteFinderView: View {
                         .background(.black)
                 }
                 .task {
-                    await routeImageModel.camera.start()
+                    await routeImageModel.startCamera()
                 }
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarHidden(true)

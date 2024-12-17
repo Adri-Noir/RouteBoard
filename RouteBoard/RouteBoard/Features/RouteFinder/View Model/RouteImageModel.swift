@@ -8,12 +8,12 @@
 import AVFoundation
 import SwiftUI
 
-
+@MainActor
 final class RouteImageModel: ObservableObject {
     @Published var viewfinderImage: Image?
     @Published var closestRouteId: Int? = nil;
     
-    let camera = Camera(cameraSetting: .videoTaking)
+    let camera = CameraModel(cameraSetting: .videoTaking)
     
     private var savedOverlay: CVMap?
     private var frameCounter: Int = 0;
@@ -42,7 +42,7 @@ final class RouteImageModel: ObservableObject {
         let context = CIContext();
 
         for await image in imageStream {
-            DispatchQueue.global(qos: .userInitiated).async {
+            Task {
                 if let cgImage = context.createCGImage(image, from: image.extent) {
                     let uiImage = UIImage(cgImage: cgImage)
                     let processedImage = OpenCVWrapper.detectRoutesAndAddOverlay(self.processedSamples!, inputFrame: uiImage)
@@ -52,6 +52,18 @@ final class RouteImageModel: ObservableObject {
                     }
                 }
             }
+        }
+    }
+    
+    func startCamera () async {
+        Task {
+            await camera.start();
+        }
+    }
+    
+    func stopCamera () async {
+        Task {
+            camera.stop();
         }
     }
 

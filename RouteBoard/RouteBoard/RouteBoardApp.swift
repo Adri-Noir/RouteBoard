@@ -5,22 +5,18 @@
 //  Created by Adrian Cvijanovic on 29.06.2024..
 //
 
+import os
 import SwiftUI
 
 @main
 struct RouteBoardApp: App {
-    
-    init() {
-        // UINavigationBar.applyCustomAppearance()
-        
-    }
     
     var body: some Scene {
         WindowGroup {
             ZStack {
                 // Color(red: 0.94, green: 0.93, blue: 0.93)
                 
-                IndexView()
+                CreateRouteImageView()
             }
         }
     }
@@ -38,3 +34,5 @@ fileprivate extension UINavigationBar {
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
 }
+
+let logger = Logger()

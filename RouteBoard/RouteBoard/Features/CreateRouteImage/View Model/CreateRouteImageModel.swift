@@ -8,21 +8,30 @@
 import AVFoundation
 import SwiftUI
 
-
+@MainActor
 final class CreateRouteImageModel: ObservableObject {
-    let camera = Camera(cameraSetting: .photoTaking)
+    @State private var camera = CameraModel(cameraSetting: .photoTaking)
     @Published var viewfinderImage: Image?
     @Published var photoImage: Image?
     @Published var isShowingPhoto: Bool = false
     
     init() {
         Task {
-            await runPhotoStream()
+            await camera.start()
         }
         
         Task {
-            await runViewfinder()
+            await self.runViewfinder()
         }
+    }
+    
+    func getPreviewSource() -> PreviewSource {
+        return camera.previewSource
+    }
+    
+    func takePhoto() async {
+        self.photoImage = await camera.takePhoto()
+        pauseViewFinder()
     }
     
     func pauseViewFinder() {
@@ -35,22 +44,6 @@ final class CreateRouteImageModel: ObservableObject {
         isShowingPhoto = false
     }
     
-    func runPhotoStream() async {
-        let imageStream = camera.photoStream
-            .map { $0 }
-        
-        for await image in imageStream {
-            let cgImage = image.cgImageRepresentation()!
-            let uiImage = UIImage(cgImage: cgImage)
-            
-            DispatchQueue.main.async {
-                self.pauseViewFinder()
-                self.photoImage = Image(uiImage: uiImage);
-            }
-            
-        }
-    }
-    
     func runViewfinder() async {
         let imageStream = camera.previewStream
             .map { $0 }
@@ -58,16 +51,12 @@ final class CreateRouteImageModel: ObservableObject {
         let context = CIContext();
 
         for await image in imageStream {
-            DispatchQueue.global(qos: .userInitiated).async {
-                
+            Task {
                 if let cgImage = context.createCGImage(image, from: image.extent) {
                     let uiImage = UIImage(cgImage: cgImage)
 
-                    DispatchQueue.main.async {
-                        self.viewfinderImage = Image(uiImage: uiImage);
-                    }
+                    self.viewfinderImage = Image(uiImage: uiImage)
                 }
-                
             }
         }
     }

@@ -15,7 +15,7 @@ struct CreateRouteOverlayView<Content: View>: View {
     @State private var isCurrentlyDrawing = false
     
     var createRouteImageModel: CreateRouteImageModel
-    var content: Content
+    @ViewBuilder var content: Content
     
     var confirmRoute: some View {
         ZStack(alignment: .bottom) {
@@ -173,7 +173,9 @@ struct CreateRouteOverlayView<Content: View>: View {
         VStack {
             HStack {
                 Button() {
-                    createRouteImageModel.camera.takePhoto()
+                    Task {
+                        await createRouteImageModel.takePhoto()
+                    }
                 } label: {
                     Image(systemName: "photo.fill.on.rectangle.fill")
                         .resizable()
@@ -186,13 +188,10 @@ struct CreateRouteOverlayView<Content: View>: View {
                 
                 Spacer()
                 
-                Button() {
-                    createRouteImageModel.camera.takePhoto()
-                } label: {
-                    Image(systemName: "camera.circle.fill")
-                        .resizable()
-                        .scaledToFill()
-                        
+                PhotoCaptureButton {
+                    Task {
+                        await createRouteImageModel.takePhoto()
+                    }
                 }
                 .frame(width: 50, height: 50)
                 .foregroundStyle(.white)
@@ -209,8 +208,14 @@ struct CreateRouteOverlayView<Content: View>: View {
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            content
-                .opacity(createRouteImageModel.isShowingPhoto ? 0.5 : 1)
+            if createRouteImageModel.isShowingPhoto {
+                createRouteImageModel.photoImage?
+                    .resizable()
+                    .opacity(0.5)
+            } else {
+                content
+            }
+            
             
             if createRouteImageModel.isShowingPhoto {
                 if confirmOrAddNewRoute {
