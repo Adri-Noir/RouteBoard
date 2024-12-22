@@ -20,16 +20,14 @@ final class RouteImageModel: ObservableObject {
     
     private var processedSamples: ProcessedSamplesSwift? = nil;
     
+    private var processInputSamples: ProcessInputSamples = ProcessInputSamples(samples: DetectInputSamples(samples: [
+        DetectSample(route: UIImage.init(named: "TestingSamples/limski/pikachu")!, path: UIImage.init(named: "TestingSamples/limski/pikachu_path")!, routeId: 1),
+        DetectSample(route: UIImage.init(named: "TestingSamples/limski/hobotnica")!, path: UIImage.init(named: "TestingSamples/limski/hobotnica_path")!, routeId: 2),
+        DetectSample(route: UIImage.init(named: "TestingSamples/limski/list")!, path: UIImage.init(named: "TestingSamples/limski/list_path")!, routeId: 3),
+    ]))
+    
     
     init() {
-        let samplesToProcess = ImportSamplesSwift(samples: [
-            Sample(route: UIImage.init(named: "TestingSamples/limski/pikachu")!, path: UIImage.init(named: "TestingSamples/limski/pikachu_path")!, routeId: 1),
-            Sample(route: UIImage.init(named: "TestingSamples/limski/hobotnica")!, path: UIImage.init(named: "TestingSamples/limski/hobotnica_path")!, routeId: 2),
-            Sample(route: UIImage.init(named: "TestingSamples/limski/list")!, path: UIImage.init(named: "TestingSamples/limski/list_path")!, routeId: 3),
-        ])
-
-        processedSamples = OpenCVWrapper.processInputSamples(samplesToProcess)
-        
         Task {
             await handleCameraPreviewsProcessEveryFrame()
         }
@@ -45,9 +43,9 @@ final class RouteImageModel: ObservableObject {
             Task {
                 if let cgImage = context.createCGImage(image, from: image.extent) {
                     let uiImage = UIImage(cgImage: cgImage)
-                    let processedImage = OpenCVWrapper.detectRoutesAndAddOverlay(self.processedSamples!, inputFrame: uiImage)
+                    let processedImage = processInputSamples.detectRoutesAndAddOverlay(inputFrame: uiImage)
                     DispatchQueue.main.async {
-                        self.viewfinderImage = Image(uiImage: processedImage.overlayedImage);
+                        self.viewfinderImage = Image(uiImage: processedImage.frame);
                         self.closestRouteId = Int(processedImage.routeId)
                     }
                 }

@@ -6,33 +6,24 @@
 //
 
 import Foundation
+import opencv2
 
-@objc class Point2d: NSObject {
-    @objc var x: CInt;
-    @objc var y: CInt;
+class RoutePoints: NSObject {
+    var points: [Point2d];
     
-    @objc init(x: CInt, y: CInt) {
-        self.x = x
-        self.y = y
-    }
-}
-
-@objc class RoutePoints: NSObject {
-    @objc var points: [Point2d];
-    
-    @objc override init() {
+    override init() {
         self.points = Array()
     }
     
-    @objc init(points: [Point2d]) {
+    init(points: [Point2d]) {
         self.points = points
     }
     
-    @objc func addPoint(point: Point2d) {
+    func addPoint(point: Point2d) {
         points.append(point)
     }
     
-    @objc func clearList() {
+    func clearList() {
         points.removeAll()
     }
 }

@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1AE35FE06A587869C02A696B /* libPods-RouteBoard-RouteBoardUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5931347E43635D0A499EC10F /* libPods-RouteBoard-RouteBoardUITests.a */; };
-		6D47F2FEE71D8813E26974F8 /* libPods-RouteBoardTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E20C987413C4351F398CFF29 /* libPods-RouteBoardTests.a */; };
-		87FF3D5EFA06ADAA2AD9FD41 /* libPods-RouteBoard.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC95BE0B4002F1C7E05E739C /* libPods-RouteBoard.a */; };
+		AF0243342D163FC70007748D /* ConfirmPhotoOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0243332D163FB70007748D /* ConfirmPhotoOverlayView.swift */; };
+		AF0243382D1640250007748D /* PhotoDrawingCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0243372D16401E0007748D /* PhotoDrawingCanvas.swift */; };
 		AF0A110B2C3C86D000BFAEAC /* RoutesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0A110A2C3C86D000BFAEAC /* RoutesListView.swift */; };
 		AF0A110F2C3C8EEB00BFAEAC /* SimpleRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0A110E2C3C8EEB00BFAEAC /* SimpleRoute.swift */; };
 		AF191C6E2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF191C6D2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift */; };
@@ -54,6 +53,12 @@
 		AF9E0C782C38BE1800984C58 /* CreateRouteOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9E0C772C38BE1800984C58 /* CreateRouteOverlayView.swift */; };
 		AF9E0C7B2C39887F00984C58 /* RoutePoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9E0C7A2C39887F00984C58 /* RoutePoints.swift */; };
 		AFBE85902D1229F70029217C /* PhotoCaptureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBE858F2D1229F20029217C /* PhotoCaptureButton.swift */; };
+		AFBED2872D123FA0002CA393 /* OpenCV in Frameworks */ = {isa = PBXBuildFile; productRef = AFBED2862D123FA0002CA393 /* OpenCV */; };
+		AFBED28A2D124079002CA393 /* ProcessInputSamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBED2892D12406F002CA393 /* ProcessInputSamples.swift */; };
+		AFBED2902D136D5B002CA393 /* CreateRouteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBED28F2D136D4F002CA393 /* CreateRouteImage.swift */; };
+		AFBED2922D1370DC002CA393 /* ImageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBED2912D1370BD002CA393 /* ImageUtils.swift */; };
+		AFBED2942D162231002CA393 /* PhotoTakingOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBED2932D16221D002CA393 /* PhotoTakingOverlayView.swift */; };
+		AFBED2962D16239B002CA393 /* PhotoEditingOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBED2952D16237C002CA393 /* PhotoEditingOverlayView.swift */; };
 		AFD3916F2C30B977008CF2A7 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = AFD3916E2C30B977008CF2A7 /* OpenCVWrapper.mm */; };
 		AFD3918F2C3191A8008CF2A7 /* ImportSamplesSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD3918E2C3191A8008CF2A7 /* ImportSamplesSwift.swift */; };
 		AFD391912C319B82008CF2A7 /* ProcessedSamplesSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD391902C319B82008CF2A7 /* ProcessedSamplesSwift.swift */; };
@@ -77,13 +82,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1E3D4C341E8B7A2E3E324F7A /* Pods-RouteBoardTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RouteBoardTests.debug.xcconfig"; path = "Target Support Files/Pods-RouteBoardTests/Pods-RouteBoardTests.debug.xcconfig"; sourceTree = "<group>"; };
-		2AF62DA92E0E6F1817F39E83 /* Pods-RouteBoardTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RouteBoardTests.release.xcconfig"; path = "Target Support Files/Pods-RouteBoardTests/Pods-RouteBoardTests.release.xcconfig"; sourceTree = "<group>"; };
-		2C43E89F48BAC62183C3F53F /* Pods-RouteBoard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RouteBoard.release.xcconfig"; path = "Target Support Files/Pods-RouteBoard/Pods-RouteBoard.release.xcconfig"; sourceTree = "<group>"; };
-		4513DA55500B789A4D2B7EAF /* Pods-RouteBoard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RouteBoard.debug.xcconfig"; path = "Target Support Files/Pods-RouteBoard/Pods-RouteBoard.debug.xcconfig"; sourceTree = "<group>"; };
-		5931347E43635D0A499EC10F /* libPods-RouteBoard-RouteBoardUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RouteBoard-RouteBoardUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6C68CD13205336BD5085127C /* Pods-RouteBoard-RouteBoardUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RouteBoard-RouteBoardUITests.debug.xcconfig"; path = "Target Support Files/Pods-RouteBoard-RouteBoardUITests/Pods-RouteBoard-RouteBoardUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		AC95BE0B4002F1C7E05E739C /* libPods-RouteBoard.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RouteBoard.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF0243332D163FB70007748D /* ConfirmPhotoOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPhotoOverlayView.swift; sourceTree = "<group>"; };
+		AF0243372D16401E0007748D /* PhotoDrawingCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDrawingCanvas.swift; sourceTree = "<group>"; };
 		AF0A110A2C3C86D000BFAEAC /* RoutesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesListView.swift; sourceTree = "<group>"; };
 		AF0A110E2C3C8EEB00BFAEAC /* SimpleRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleRoute.swift; sourceTree = "<group>"; };
 		AF191C6D2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteFinderBottomInfoView.swift; sourceTree = "<group>"; };
@@ -130,14 +130,17 @@
 		AF9E0C772C38BE1800984C58 /* CreateRouteOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRouteOverlayView.swift; sourceTree = "<group>"; };
 		AF9E0C7A2C39887F00984C58 /* RoutePoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePoints.swift; sourceTree = "<group>"; };
 		AFBE858F2D1229F20029217C /* PhotoCaptureButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCaptureButton.swift; sourceTree = "<group>"; };
+		AFBED2892D12406F002CA393 /* ProcessInputSamples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessInputSamples.swift; sourceTree = "<group>"; };
+		AFBED28F2D136D4F002CA393 /* CreateRouteImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRouteImage.swift; sourceTree = "<group>"; };
+		AFBED2912D1370BD002CA393 /* ImageUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUtils.swift; sourceTree = "<group>"; };
+		AFBED2932D16221D002CA393 /* PhotoTakingOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoTakingOverlayView.swift; sourceTree = "<group>"; };
+		AFBED2952D16237C002CA393 /* PhotoEditingOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditingOverlayView.swift; sourceTree = "<group>"; };
 		AFD3916D2C30B976008CF2A7 /* RouteBoard-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RouteBoard-Bridging-Header.h"; sourceTree = "<group>"; };
 		AFD3916E2C30B977008CF2A7 /* OpenCVWrapper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
 		AFD391702C30BA94008CF2A7 /* OpenCVWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
 		AFD391712C30C11B008CF2A7 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		AFD3918E2C3191A8008CF2A7 /* ImportSamplesSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportSamplesSwift.swift; sourceTree = "<group>"; };
 		AFD391902C319B82008CF2A7 /* ProcessedSamplesSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedSamplesSwift.swift; sourceTree = "<group>"; };
-		E20C987413C4351F398CFF29 /* libPods-RouteBoardTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RouteBoardTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F8B4F9E61E8E92A73C5E8A4A /* Pods-RouteBoard-RouteBoardUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RouteBoard-RouteBoardUITests.release.xcconfig"; path = "Target Support Files/Pods-RouteBoard-RouteBoardUITests/Pods-RouteBoard-RouteBoardUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,7 +150,7 @@
 			files = (
 				AF35C65C2CD7E2A400FEBC40 /* OpenAPIRuntime in Frameworks */,
 				AF35C65E2CD7E2A700FEBC40 /* OpenAPIURLSession in Frameworks */,
-				87FF3D5EFA06ADAA2AD9FD41 /* libPods-RouteBoard.a in Frameworks */,
+				AFBED2872D123FA0002CA393 /* OpenCV in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,7 +158,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D47F2FEE71D8813E26974F8 /* libPods-RouteBoardTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,23 +165,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1AE35FE06A587869C02A696B /* libPods-RouteBoard-RouteBoardUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		169C77B0FF99C2C63FB3BBFC /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				AC95BE0B4002F1C7E05E739C /* libPods-RouteBoard.a */,
-				5931347E43635D0A499EC10F /* libPods-RouteBoard-RouteBoardUITests.a */,
-				E20C987413C4351F398CFF29 /* libPods-RouteBoardTests.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		AF0A110D2C3C8EC500BFAEAC /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -241,7 +232,6 @@
 				AF869CB62C3064AB0092E371 /* RouteBoardUITests */,
 				AF869C9A2C3064AA0092E371 /* Products */,
 				FEBC264089E2C785C11FAB6F /* Pods */,
-				169C77B0FF99C2C63FB3BBFC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -357,6 +347,7 @@
 		AF9B62462C346D47003762B0 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				AFBED2882D12405C002CA393 /* OpenCVAlgorithms */,
 				AF2991C12D078A7300BB7907 /* Camera */,
 				AF8DA6422CD547B800751865 /* MainNavigation */,
 				AF9E0C6A2C37476B00984C58 /* ClimbingGrades */,
@@ -490,6 +481,10 @@
 		AF9E0C762C38BDE800984C58 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				AF0243372D16401E0007748D /* PhotoDrawingCanvas.swift */,
+				AF0243332D163FB70007748D /* ConfirmPhotoOverlayView.swift */,
+				AFBED2952D16237C002CA393 /* PhotoEditingOverlayView.swift */,
+				AFBED2932D16221D002CA393 /* PhotoTakingOverlayView.swift */,
 				AFBE858F2D1229F20029217C /* PhotoCaptureButton.swift */,
 				AF9E0C772C38BE1800984C58 /* CreateRouteOverlayView.swift */,
 			);
@@ -504,15 +499,19 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		AFBED2882D12405C002CA393 /* OpenCVAlgorithms */ = {
+			isa = PBXGroup;
+			children = (
+				AFBED2912D1370BD002CA393 /* ImageUtils.swift */,
+				AFBED28F2D136D4F002CA393 /* CreateRouteImage.swift */,
+				AFBED2892D12406F002CA393 /* ProcessInputSamples.swift */,
+			);
+			path = OpenCVAlgorithms;
+			sourceTree = "<group>";
+		};
 		FEBC264089E2C785C11FAB6F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				4513DA55500B789A4D2B7EAF /* Pods-RouteBoard.debug.xcconfig */,
-				2C43E89F48BAC62183C3F53F /* Pods-RouteBoard.release.xcconfig */,
-				6C68CD13205336BD5085127C /* Pods-RouteBoard-RouteBoardUITests.debug.xcconfig */,
-				F8B4F9E61E8E92A73C5E8A4A /* Pods-RouteBoard-RouteBoardUITests.release.xcconfig */,
-				1E3D4C341E8B7A2E3E324F7A /* Pods-RouteBoardTests.debug.xcconfig */,
-				2AF62DA92E0E6F1817F39E83 /* Pods-RouteBoardTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -524,7 +523,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AF869CBD2C3064AB0092E371 /* Build configuration list for PBXNativeTarget "RouteBoard" */;
 			buildPhases = (
-				115FA794822AF9687A773F4F /* [CP] Check Pods Manifest.lock */,
 				AF869C952C3064AA0092E371 /* Sources */,
 				AF869C962C3064AA0092E371 /* Frameworks */,
 				AF869C972C3064AA0092E371 /* Resources */,
@@ -543,7 +541,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AF869CC02C3064AB0092E371 /* Build configuration list for PBXNativeTarget "RouteBoardTests" */;
 			buildPhases = (
-				94C80F8FD534725E4CFFEB35 /* [CP] Check Pods Manifest.lock */,
 				AF869CA52C3064AB0092E371 /* Sources */,
 				AF869CA62C3064AB0092E371 /* Frameworks */,
 				AF869CA72C3064AB0092E371 /* Resources */,
@@ -562,7 +559,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AF869CC32C3064AB0092E371 /* Build configuration list for PBXNativeTarget "RouteBoardUITests" */;
 			buildPhases = (
-				B6A244147FBE985D32491A0D /* [CP] Check Pods Manifest.lock */,
 				AF869CAF2C3064AB0092E371 /* Sources */,
 				AF869CB02C3064AB0092E371 /* Frameworks */,
 				AF869CB12C3064AB0092E371 /* Resources */,
@@ -614,6 +610,7 @@
 				AF8DA64F2CD7D10B00751865 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */,
 				AF8DA6502CD7D14E00751865 /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */,
 				AF8DA6512CD7D16900751865 /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */,
+				AFBED2852D123FA0002CA393 /* XCRemoteSwiftPackageReference "opencv-spm" */,
 			);
 			productRefGroup = AF869C9A2C3064AA0092E371 /* Products */;
 			projectDirPath = "";
@@ -654,75 +651,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		115FA794822AF9687A773F4F /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RouteBoard-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		94C80F8FD534725E4CFFEB35 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RouteBoardTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B6A244147FBE985D32491A0D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RouteBoard-RouteBoardUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		AF869C952C3064AA0092E371 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -735,6 +663,8 @@
 				AF8DA6482CD5671E00751865 /* ApplyBackgroundColor.swift in Sources */,
 				AF9E0C632C3741A900984C58 /* GradesGraphView.swift in Sources */,
 				AF869CD22C307D870092E371 /* RouteImageModel.swift in Sources */,
+				AFBED2962D16239B002CA393 /* PhotoEditingOverlayView.swift in Sources */,
+				AFBED2902D136D5B002CA393 /* CreateRouteImage.swift in Sources */,
 				AF0A110B2C3C86D000BFAEAC /* RoutesListView.swift in Sources */,
 				AF29920B2D07BEB300BB7907 /* CameraPreview.swift in Sources */,
 				AF9E0C722C38AC0B00984C58 /* CreateRouteImageView.swift in Sources */,
@@ -755,8 +685,13 @@
 				AF2991F62D078D3400BB7907 /* CameraModel.swift in Sources */,
 				AF9E0C7B2C39887F00984C58 /* RoutePoints.swift in Sources */,
 				AF8DA6462CD563DC00751865 /* ColorTheme.swift in Sources */,
+				AFBED2922D1370DC002CA393 /* ImageUtils.swift in Sources */,
 				AF869CCE2C307CC50092E371 /* RouteFinderView.swift in Sources */,
+				AFBED28A2D124079002CA393 /* ProcessInputSamples.swift in Sources */,
+				AFBED2942D162231002CA393 /* PhotoTakingOverlayView.swift in Sources */,
+				AF0243342D163FC70007748D /* ConfirmPhotoOverlayView.swift in Sources */,
 				AF8DA6372CD4465500751865 /* IndexView.swift in Sources */,
+				AF0243382D1640250007748D /* PhotoDrawingCanvas.swift in Sources */,
 				AF9B624E2C348E4B003762B0 /* SectorView.swift in Sources */,
 				AF773D6C2C3DFBED00886C00 /* OverlayAndRouteId.swift in Sources */,
 				AF8DA64E2CD56D8000751865 /* SearchResultView.swift in Sources */,
@@ -801,7 +736,7 @@
 		};
 		AF8DA6532CD7DF3600751865 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = AF8DA6522CD7DF3600751865 /* plugin:OpenAPIGenerator */;
+			productRef = AF8DA6522CD7DF3600751865 /* OpenAPIGenerator */;
 		};
 /* End PBXTargetDependency section */
 
@@ -929,7 +864,6 @@
 		};
 		AF869CBE2C3064AB0092E371 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4513DA55500B789A4D2B7EAF /* Pods-RouteBoard.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -967,7 +901,6 @@
 		};
 		AF869CBF2C3064AB0092E371 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2C43E89F48BAC62183C3F53F /* Pods-RouteBoard.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1004,7 +937,6 @@
 		};
 		AF869CC12C3064AB0092E371 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1E3D4C341E8B7A2E3E324F7A /* Pods-RouteBoardTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -1024,7 +956,6 @@
 		};
 		AF869CC22C3064AB0092E371 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2AF62DA92E0E6F1817F39E83 /* Pods-RouteBoardTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -1044,7 +975,6 @@
 		};
 		AF869CC42C3064AB0092E371 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6C68CD13205336BD5085127C /* Pods-RouteBoard-RouteBoardUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1062,7 +992,6 @@
 		};
 		AF869CC52C3064AB0092E371 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8B4F9E61E8E92A73C5E8A4A /* Pods-RouteBoard-RouteBoardUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1144,6 +1073,14 @@
 				version = 1.0.2;
 			};
 		};
+		AFBED2852D123FA0002CA393 /* XCRemoteSwiftPackageReference "opencv-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/yeatse/opencv-spm.git";
+			requirement = {
+				kind = exactVersion;
+				version = 4.10.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1157,10 +1094,15 @@
 			package = AF8DA6512CD7D16900751865 /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */;
 			productName = OpenAPIURLSession;
 		};
-		AF8DA6522CD7DF3600751865 /* plugin:OpenAPIGenerator */ = {
+		AF8DA6522CD7DF3600751865 /* OpenAPIGenerator */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AF8DA64F2CD7D10B00751865 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */;
 			productName = "plugin:OpenAPIGenerator";
+		};
+		AFBED2862D123FA0002CA393 /* OpenCV */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AFBED2852D123FA0002CA393 /* XCRemoteSwiftPackageReference "opencv-spm" */;
+			productName = OpenCV;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -7,21 +7,29 @@
 
 import AVFoundation
 import SwiftUI
+import opencv2
+
+enum PhotoCreatingState {
+    case isShowingPreview
+    case isShowingEditing
+    case isCurrentlyDrawing
+    case isShowingPhoto
+}
 
 @MainActor
 final class CreateRouteImageModel: ObservableObject {
     @State private var camera = CameraModel(cameraSetting: .photoTaking)
     @Published var viewfinderImage: Image?
     @Published var photoImage: Image?
-    @Published var isShowingPhoto: Bool = false
+    @Published var photoMatrix: Mat?
+    @Published var imageCreatingState: PhotoCreatingState = .isShowingPreview
+    @Published var canvasPoints: [CGPoint] = []
+    @Published var pointsOnImage: [CGPoint] = []
+    @Published var routeImage: Image?
     
     init() {
         Task {
             await camera.start()
-        }
-        
-        Task {
-            await self.runViewfinder()
         }
     }
     
@@ -31,33 +39,50 @@ final class CreateRouteImageModel: ObservableObject {
     
     func takePhoto() async {
         self.photoImage = await camera.takePhoto()
-        pauseViewFinder()
-    }
-    
-    func pauseViewFinder() {
-        camera.isPreviewPaused = true
-        isShowingPhoto = true
-    }
-    
-    func resumeViewFinder() {
-        camera.isPreviewPaused = false
-        isShowingPhoto = false
-    }
-    
-    func runViewfinder() async {
-        let imageStream = camera.previewStream
-            .map { $0 }
-        
-        let context = CIContext();
-
-        for await image in imageStream {
-            Task {
-                if let cgImage = context.createCGImage(image, from: image.extent) {
-                    let uiImage = UIImage(cgImage: cgImage)
-
-                    self.viewfinderImage = Image(uiImage: uiImage)
-                }
-            }
+        let uiImage = ImageRenderer(content: self.photoImage).uiImage
+        guard uiImage != nil else {
+            return
         }
+        self.photoMatrix = Mat(uiImage: uiImage!)
+        imageCreatingState = .isShowingEditing
+    }
+    
+    func isShowingTakenPhoto() -> Bool {
+        return imageCreatingState == .isShowingPhoto || imageCreatingState == .isShowingEditing || imageCreatingState == .isCurrentlyDrawing
+    }
+
+    func isEditingPhoto() -> Bool {
+        return imageCreatingState == .isShowingEditing || imageCreatingState == .isCurrentlyDrawing
+    }
+    
+    func resetToPreview() {
+        imageCreatingState = .isShowingPreview
+        photoImage = nil
+        photoMatrix = nil
+        canvasPoints.removeAll()
+        pointsOnImage.removeAll()
+    }
+    
+    func resetToEditing() {
+        imageCreatingState = .isShowingEditing
+        canvasPoints.removeAll()
+        pointsOnImage.removeAll()
+    }
+    
+    func addPointToCanvas(_ point: CGPoint) {
+        canvasPoints.append(point)
+    }
+    
+    func addPointToImage(_ point: CGPoint) {
+        pointsOnImage.append(point)
+    }
+    
+    func createRouteImage() {
+        let uiImage = ImageRenderer(content: self.photoImage).uiImage
+        guard uiImage != nil else {
+            return
+        }
+        let routeUIImage = CreateRouteImage.createRouteLineImage(points: pointsOnImage, picture: uiImage!)
+        routeImage = Image(uiImage: routeUIImage)
     }
 }
