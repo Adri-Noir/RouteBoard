@@ -1,27 +1,20 @@
-//
-//  MainNavigationView.swift
-//  RouteBoard
-//
-//  Created by Adrian Cvijanovic on 01.11.2024..
-//
-
-
+import Foundation
 import SwiftUI
 
-struct MainNavigation<Content: View> : View {
+struct MainNavigationWithFloatingSearch<Content: View>: View {
     @ViewBuilder var content: Content
-    
+
     @State var showSearchView: Bool = false
-    
+
     var body: some View {
         NavigationView {
             ZStack(alignment: .bottom) {
                 content
-                
+
                 HStack {
                     Spacer()
                         .frame(width: 30)
-                    
+
                     Button(action: {
                         print("Button tapped")
                     }) {
@@ -32,11 +25,11 @@ struct MainNavigation<Content: View> : View {
                             .font(.title2)
                     }
                     .padding(.vertical, 5)
-                    
+
                     Spacer()
-                    
+
                     Spacer()
-                    
+
                     Button(action: {
                         print("Button tapped")
                     }) {
@@ -47,7 +40,7 @@ struct MainNavigation<Content: View> : View {
                             .font(.title2)
                     }
                     .padding(.vertical, 5)
-                    
+
                     Spacer()
                         .frame(width: 30)
                 }

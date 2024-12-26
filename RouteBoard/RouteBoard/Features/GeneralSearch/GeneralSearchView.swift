@@ -15,38 +15,28 @@ public struct GeneralSearchView: View {
 
     public var body: some View {
         ApplyBackgroundColor {
-            VStack(spacing: 20) {
-                HStack {
-                    Spacer()
-                    Capsule()
-                        .fill(Color.backgroundGray)
-                        .frame(width: 40, height: 10)
-                    Spacer()
+            VStack(alignment: .leading, spacing: 10) {
+                TextField("", text: $searchText, prompt: Text("Search for a route").foregroundColor(.gray))
+                .autocorrectionDisabled()
+                .autocapitalization(.none)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 15)
+                .background(Color.backgroundGray)
+                .foregroundStyle(.black)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .onChange(of: searchText, initial: false) {
+                    searchTextPublisher.send(searchText)
+                }
+                .onReceive(
+                    searchTextPublisher
+                        .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
+                ) { debouncedSearchText in
+                    self.debouncedSearchText = debouncedSearchText
                 }
 
-                VStack(alignment: .leading, spacing: 10) {
-                    TextField("", text: $searchText, prompt: Text("Search for a route").foregroundColor(.gray))
-                    .autocorrectionDisabled()
-                    .autocapitalization(.none)
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 15)
-                    .background(Color.backgroundGray)
-                    .foregroundStyle(.black)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .onChange(of: searchText, initial: false) {
-                        searchTextPublisher.send(searchText)
-                    }
-                    .onReceive(
-                        searchTextPublisher
-                            .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
-                    ) { debouncedSearchText in
-                        self.debouncedSearchText = debouncedSearchText
-                    }
+                SearchResultView(searchText: $debouncedSearchText)
 
-                    SearchResultView(searchText: $debouncedSearchText)
-
-                    Spacer()
-                }
+                Spacer()
             }
             .padding(10)
         }
