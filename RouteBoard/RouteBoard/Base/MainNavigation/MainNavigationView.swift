@@ -8,15 +8,13 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct MainNavigation<Content: View> : View {
     @ViewBuilder var content: Content
     
     @State var showSearchView: Bool = false
     
     var body: some View {
-        NavigationStack {
+        NavigationView {
             ZStack(alignment: .bottom) {
                 content
                 
@@ -36,8 +34,6 @@ struct MainNavigation<Content: View> : View {
                     .padding(.vertical, 5)
                     
                     Spacer()
-                    
-                    // Space for the middle button
                     
                     Spacer()
                     

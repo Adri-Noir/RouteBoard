@@ -4,6 +4,12 @@
     "title": "Alpinity.Api",
     "version": "1.0"
   },
+  "servers": [
+      {
+          "url": "https://localhost:7244",
+          "description": "Dev server"
+      }
+  ],
   "paths": {
     "/api/Crag/{id}": {
       "get": {

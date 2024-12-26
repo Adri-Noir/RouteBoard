@@ -11,7 +11,7 @@ import SwiftUI
 struct WelcomeTextView : View {
     var body: some View {
         HStack(alignment: .center) {
-            Text("Welcome User!")
+            Text("Welcome Test!")
                 .font(.title)
                 .foregroundStyle(.black)
             Spacer()
