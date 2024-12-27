@@ -20,7 +20,7 @@ struct RecentAscentsView: View {
             ScrollView(.horizontal) {
                 LazyHGrid(rows: [GridItem(.fixed(250))], spacing: 10) {
                     ForEach(0..<10) { index in
-                        NavigationLink(destination: SectorView()) {
+                        NavigationLink(destination: SectorView(sectorId: "d9872fa7-8859-410e-9199-08dcf8780f2f")) {
                             RouteAscentView()
                         }
                     }

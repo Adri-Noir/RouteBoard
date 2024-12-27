@@ -16,7 +16,6 @@ public struct GetSearchResultsClient {
     }
 
     public func search(value: String) async -> [GetSearchResults] {
-
         do {
             let result = try await client.post_sol_api_sol_Search(Operations.post_sol_api_sol_Search.Input(body: .json(Components.Schemas.SearchQueryCommand(query: value))))
             switch result {

@@ -38,7 +38,7 @@ struct SearchResultView: View {
                     NoSearchResultsView()
                 } else {
                     List($results, id: \.self.id) { result in
-                        NavigationLink(destination: SectorView()) {
+                        NavigationLink(destination: SectorView(sectorId: "d9872fa7-8859-410e-9199-08dcf8780f2f")) {
                             SingleResultView(result: result)
                         }
                     }
