@@ -9,6 +9,10 @@ public class RouteProfile: Profile
     public RouteProfile()
     {
         CreateMap<Route, RouteSimpleDto>()
-            .ForMember(t => t.Photo, opt => opt.MapFrom(s => s.RoutePhotos.FirstOrDefault().Image.Url));
+            .ForMember(t => t.PhotoUrl, opt => opt.MapFrom(s => s.RoutePhotos.FirstOrDefault().Image.Url));
+        
+        CreateMap<Route, RouteDetailedDto>()
+            .ForMember(t => t.SectorName, opt => opt.MapFrom(s => s.Sector.Name))
+            .ForMember(t => t.CragName, opt => opt.MapFrom(s => s.Sector.Crag.Name));
     }
 }

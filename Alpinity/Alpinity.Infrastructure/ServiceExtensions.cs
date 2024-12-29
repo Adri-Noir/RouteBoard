@@ -18,9 +18,14 @@ public static class ServiceExtensions
                 sqlOption.UseNetTopologySuite())
         );
         
+        
+        services.AddTransient<IFileRepository>(_ =>
+            new AzureFileRepository(configuration.GetConnectionString("BlobConnection")!)
+        );
         services.AddTransient<ICragRepository, CragRepository>();
         services.AddTransient<ISectorRepository, SectorRepository>();
         services.AddTransient<IRouteRepository, RouteRepository>();
+        services.AddTransient<IPhotoRepository, PhotoRepository>();
 
         return services;
     }

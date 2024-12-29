@@ -15,7 +15,14 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
 
     public async Task<Route?> GetRouteById(Guid routeId)
     {
-        return await dbContext.Routes.FindAsync(routeId);
+        return await dbContext.Routes
+            .Include(route => route.Sector)
+            .ThenInclude(sector => sector.Crag)
+            .Include(route => route.RoutePhotos)
+            .ThenInclude(routePhoto => routePhoto.Image)
+            .Include(route => route.RoutePhotos)
+            .ThenInclude(routePhoto => routePhoto.PathLine)
+            .FirstOrDefaultAsync(route => route.Id == routeId);
     }
 
     public async Task<IEnumerable<Route>> GetRoutesByName(string query, SearchOptionsDto searchOptions)
@@ -27,5 +34,15 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
             .Skip(searchOptions.Page * searchOptions.PageSize)
             .Take(searchOptions.PageSize)
             .ToListAsync();
+    }
+
+    public async Task AddPhoto(Guid routeId, RoutePhoto routePhoto)
+    {
+        var route = await dbContext.Routes
+            .Include(route => route.RoutePhotos)
+            .FirstOrDefaultAsync(route => route.Id == routeId);
+
+        route.RoutePhotos.Add(routePhoto);
+        await dbContext.SaveChangesAsync();
     }
 }

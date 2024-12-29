@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using Alpinity.Application.UseCases.Search.Dtos;
 using Alpinity.Application.UseCases.Search.Commands.Query;
 using MediatR;
@@ -10,6 +11,7 @@ namespace Alpinity.Api.Controllers;
 public class SearchController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
+    [Produces(MediaTypeNames.Application.Json)]
     public async Task<ActionResult<SearchResultDto>> Search(SearchQueryCommand command, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(command, cancellationToken);

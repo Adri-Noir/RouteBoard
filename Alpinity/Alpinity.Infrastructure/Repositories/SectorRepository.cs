@@ -16,7 +16,9 @@ public class SectorRepository(ApplicationDbContext dbContext) : ISectorRepositor
     
     public async Task<Sector?> GetSectorById(Guid sectorId)
     {
-        return await dbContext.Sectors.FindAsync(sectorId);
+        return await dbContext.Sectors
+            .Include(sector => sector.Crag)
+            .FirstOrDefaultAsync(sector => sector.Id == sectorId);
     }
 
     public async Task<IEnumerable<Sector>> GetSectorsByName(string query, SearchOptionsDto searchOptions)

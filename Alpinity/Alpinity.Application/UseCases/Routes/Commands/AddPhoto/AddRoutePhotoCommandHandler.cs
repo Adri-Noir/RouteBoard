@@ -1,0 +1,46 @@
+using Alpinity.Application.Interfaces.Repositories;
+using Alpinity.Application.Request;
+using Alpinity.Domain.Entities;
+using ApiExceptions.Exceptions;
+using AutoMapper;
+using MediatR;
+
+namespace Alpinity.Application.UseCases.Routes.Commands.AddPhoto;
+
+public class AddRoutePhotoCommandHandler(
+    IRouteRepository routeRepository,
+    IFileRepository fileRepository,
+    IPhotoRepository photoRepository,
+    IMapper mapper) : IRequestHandler<AddRoutePhotoCommand>
+{
+    public async Task Handle(AddRoutePhotoCommand request, CancellationToken cancellationToken)
+    {
+        var route = await routeRepository.GetRouteById(request.RouteId);
+        if (route == null) throw new EntityNotFoundException("Route not found.");
+
+        var photoFile = mapper.Map<FileRequest>(request.Photo);
+        var linePhotoFile = mapper.Map<FileRequest>(request.LinePhoto);
+
+        var photoUrl = await fileRepository.UploadPublicFileAsync(photoFile, cancellationToken);
+        var linePhotoUrl = await fileRepository.UploadPublicFileAsync(linePhotoFile, cancellationToken);
+
+        var photo = await photoRepository.AddImage(new Photo
+        {
+            Url = photoUrl
+        });
+
+        var linePhoto = await photoRepository.AddImage(new Photo
+        {
+            Url = linePhotoUrl
+        });
+
+        var routePhoto = new RoutePhoto
+        {
+            RouteId = route.Id,
+            ImageId = photo.Id,
+            PathLineId = linePhoto.Id
+        };
+
+        await routeRepository.AddPhoto(route.Id, routePhoto);
+    }
+}

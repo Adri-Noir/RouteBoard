@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Alpinity.Application.UseCases.Sectors.Create;
+namespace Alpinity.Application.UseCases.Sectors.Commands.Create;
 
 public class CreateSectorCommandValidator: AbstractValidator<CreateSectorCommand>
 {
