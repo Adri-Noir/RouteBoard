@@ -8,9 +8,10 @@ namespace Alpinity.Infrastructure.Repositories;
 
 public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
 {
-    public Task CreateRoute(Route route)
+    public async Task CreateRoute(Route route)
     {
-        throw new NotImplementedException();
+        await dbContext.Routes.AddAsync(route);
+        await dbContext.SaveChangesAsync();
     }
 
     public async Task<Route?> GetRouteById(Guid routeId)

@@ -1,5 +1,6 @@
 using System.Net.Mime;
 using Alpinity.Application.UseCases.Routes.Commands.AddPhoto;
+using Alpinity.Application.UseCases.Routes.Commands.Create;
 using Alpinity.Application.UseCases.Routes.Commands.Get;
 using Alpinity.Application.UseCases.Routes.Dtos;
 using MediatR;
@@ -19,6 +20,17 @@ public class RouteController(IMediator mediator) : ControllerBase
         var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }
+
+    [HttpPost]
+    [Produces(MediaTypeNames.Application.Json)]
+    // create a new route
+    public async Task<ActionResult<RouteDetailedDto>> CreateRoute(CreateRouteCommand command,
+        CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
+
 
     [HttpPost("/addPhoto")]
     [Produces(MediaTypeNames.Application.Json)]
