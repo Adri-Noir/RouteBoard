@@ -10,7 +10,7 @@ using Alpinity.Infrastructure.Persistence;
 using Alpinity.Infrastructure.Persistence.Seed;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +23,20 @@ await FillDatabase(app.Services, builder.Configuration);
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
+    app.UseSwagger(options =>
+    {
+        options.PreSerializeFilters.Add((swagger, httpReq) =>
+        {
+            swagger.Servers = new List<OpenApiServer>
+            {
+                new()
+                {
+                    Url = "https://localhost:7244",
+                    Description = "Dev server"
+                }
+            };
+        });
+    });
     app.UseSwaggerUI();
 }
 
@@ -70,7 +83,7 @@ public partial class Program
 
         services.AddScoped<IAuthenticationContext, AuthenticationContext>();
     }
-    
+
     public static async Task FillDatabase(IServiceProvider serviceProvider, IConfiguration configuration)
     {
         using var scope = serviceProvider.CreateScope();
@@ -78,13 +91,9 @@ public partial class Program
 
         var context = services.GetRequiredService<ApplicationDbContext>();
         if (configuration.GetConnectionString("DefaultConnection") == "TestConnectionString")
-        {
             await context.Database.EnsureCreatedAsync();
-        }
         else
-        {
             await context.Database.MigrateAsync();
-        }
 
         await CragSectorRouteSeed.Seed(context);
     }

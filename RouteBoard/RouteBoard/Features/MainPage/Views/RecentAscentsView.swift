@@ -9,6 +9,8 @@ import SwiftUI
 
 
 struct RecentAscentsView: View {
+    @State var testSectorId: String? = "d9872fa7-8859-410e-9199-08dcf8780f2f"
+
     var body: some View {
         VStack(alignment: .leading) {
             Text("Recent ascents")
@@ -20,7 +22,7 @@ struct RecentAscentsView: View {
             ScrollView(.horizontal) {
                 LazyHGrid(rows: [GridItem(.fixed(250))], spacing: 10) {
                     ForEach(0..<10) { index in
-                        NavigationLink(destination: SectorView(sectorId: "d9872fa7-8859-410e-9199-08dcf8780f2f")) {
+                        SectorLink(sectorId: $testSectorId) {
                             RouteAscentView()
                         }
                     }

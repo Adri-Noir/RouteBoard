@@ -27,9 +27,12 @@ struct ImageCarouselView: View {
 
             TabView(selection: $currentIndex) {
                 ForEach(0..<imagesNames.count, id: \.self) { index in
-                    Image("\(imagesNames[index])")
-                        .resizable()
+                    AsyncImage(url: URL(string: imagesNames[index]))
                         .scaledToFill()
+
+                    // Image("\(imagesNames[index])")
+                    // .resizable()
+                    // .scaledToFill()
                 }
             }
             .tabViewStyle(.page)

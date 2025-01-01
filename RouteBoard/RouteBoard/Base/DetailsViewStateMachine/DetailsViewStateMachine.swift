@@ -1,9 +1,8 @@
 import Foundation
 import SwiftUI
-import GeneratedClient
 
-struct SectorViewState<Content: View>: View {
-    @Binding var sectorDetails: SectorDetails?
+struct DetailsViewStateMachine<DetailType, Content: View>: View {
+    @Binding var details: DetailType?
     @Binding var isLoading: Bool
     @ViewBuilder var content: Content
 
@@ -12,7 +11,7 @@ struct SectorViewState<Content: View>: View {
             VStack {
                 ProgressView().tint(.black)
             }
-        } else if sectorDetails == nil {
+        } else if details == nil {
             VStack {
                 Text("Not Found")
                     .foregroundColor(.black)

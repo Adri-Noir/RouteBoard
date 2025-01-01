@@ -10,12 +10,12 @@ import OpenAPIURLSession
 public typealias SectorDetails = Components.Schemas.SectorDetailedDto;
 
 public struct GetSectorDetailsClient {
-    let client = ClientPicker.getClient()
+    private let client = ClientPicker.getClient()
 
     public init() {
     }
 
-    public func getSectorDetails(sectorId: String) async -> Components.Schemas.SectorDetailedDto? {
+    public func getSectorDetails(sectorId: String) async -> SectorDetails? {
         do {
             let result = try await client.get_sol_api_sol_Sector_sol__lcub_id_rcub_(Operations.get_sol_api_sol_Sector_sol__lcub_id_rcub_.Input(path: Operations.get_sol_api_sol_Sector_sol__lcub_id_rcub_.Input.Path(id: sectorId)))
 
@@ -24,10 +24,6 @@ public struct GetSectorDetailsClient {
                 switch okResponse.body {
                 case .json(let value):
                     return value
-                case .plainText(_):
-                    return nil
-                case .text_json(_):
-                    return nil
                 }
 
             case .undocumented(statusCode: _, _):

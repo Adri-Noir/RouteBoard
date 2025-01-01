@@ -5,7 +5,7 @@ public class Photo
     public Guid Id { get; set; }
     public string? Description { get; set; }
     public required string Url { get; set; }
-    public DateTime TakenAt { get; set; } = DateTime.Now;
+    public DateTime TakenAt { get; set; } = DateTime.UtcNow;
 
     public Guid? TakenByUserId { get; set; }
     public User? TakenByUser { get; set; }

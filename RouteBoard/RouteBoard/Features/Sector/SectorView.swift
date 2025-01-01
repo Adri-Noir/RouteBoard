@@ -24,9 +24,8 @@ struct SectorView: View {
     func getSector(value: String) async {
         isLoading = true
         try? await Task.sleep(nanoseconds: 1_000_000_000)
-        // TODO: Implement better error handling for sector details
+
         guard let sectorDetails = await client.getSectorDetails(sectorId: value) else {
-            print("no sector found for \(value)")
             isLoading = false
             return;
         }
@@ -39,11 +38,11 @@ struct SectorView: View {
     var body: some View {
         NavigationStack {
             ApplyBackgroundColor {
-                SectorViewState(sectorDetails: $sector, isLoading: $isLoading) {
+                DetailsViewStateMachine(details: $sector, isLoading: $isLoading) {
                     DetectRoutesWrapper {
                         ScrollView {
                             VStack(alignment: .leading, spacing: 0) {
-                                ImageCarouselView(imagesNames: ["TestingSamples/r3", "TestingSamples/flok"], height: 500)
+                                ImageCarouselView(imagesNames: sector?.photos ?? [], height: 500)
                                     .cornerRadius(20)
 
                                 Text(sector?.name ?? "Sector")
@@ -107,5 +106,5 @@ struct SectorView: View {
 
 
 #Preview {
-    SectorView(sectorId: "d9872fa7-8859-410e-9199-08dcf8780f2f")
+    SectorView(sectorId: "4260561a-0967-40fd-fb7b-08dd29344a74")
 }

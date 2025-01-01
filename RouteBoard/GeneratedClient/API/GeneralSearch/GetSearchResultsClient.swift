@@ -10,7 +10,7 @@ import OpenAPIURLSession
 public typealias GetSearchResults = Components.Schemas.SearchResultItemDto;
 
 public struct GetSearchResultsClient {
-    let client = ClientPicker.getClient()
+    private let client = ClientPicker.getClient()
 
     public init() {
     }
@@ -24,10 +24,6 @@ public struct GetSearchResultsClient {
                 switch okResponse.body {
                 case .json(let value):
                     return value.items ?? [];
-                case .plainText(_):
-                    return []
-                case .text_json(_):
-                    return []
                 }
 
             case .undocumented(statusCode: _, _):

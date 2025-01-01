@@ -12,7 +12,7 @@ class SimpleRoute: Identifiable {
     var name: String
     var grade: String
     var numberOfAscents: Int
-    
+
     init(id: String, name: String, grade: String, numberOfAscents: Int) {
         self.id = id
         self.name = name

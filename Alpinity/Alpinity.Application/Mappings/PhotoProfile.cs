@@ -12,7 +12,10 @@ public class PhotoProfile : Profile
         CreateMap<RoutePhoto, RoutePhotoDto>()
             .ForMember(t => t.Image, opt => opt.MapFrom(s => s.Image))
             .ForMember(t => t.PathLine, opt => opt.MapFrom(s => s.PathLine));
-        
-        CreateMap<Photo, PhotoDto>();
+
+        CreateMap<Photo, PhotoDto>()
+            .ForMember(t => t.TakenAt,
+                opt => opt.MapFrom(s =>
+                    s.TakenAt.ToString("s")));
     }
 }

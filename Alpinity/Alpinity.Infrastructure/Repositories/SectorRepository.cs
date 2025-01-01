@@ -13,15 +13,17 @@ public class SectorRepository(ApplicationDbContext dbContext) : ISectorRepositor
         await dbContext.Sectors.AddAsync(sector);
         await dbContext.SaveChangesAsync();
     }
-    
+
     public async Task<Sector?> GetSectorById(Guid sectorId)
     {
         return await dbContext.Sectors
             .Include(sector => sector.Crag)
+            .Include(sector => sector.Photos)
+            .Include(sector => sector.Routes)
             .FirstOrDefaultAsync(sector => sector.Id == sectorId);
     }
 
-    public async Task<IEnumerable<Sector>> GetSectorsByName(string query, SearchOptionsDto searchOptions)
+    public async Task<ICollection<Sector>> GetSectorsByName(string query, SearchOptionsDto searchOptions)
     {
         return await dbContext.Sectors
             .Where(sector => sector.Name.Contains(query))
@@ -30,5 +32,26 @@ public class SectorRepository(ApplicationDbContext dbContext) : ISectorRepositor
             .Skip(searchOptions.Page * searchOptions.PageSize)
             .Take(searchOptions.PageSize)
             .ToListAsync();
+    }
+
+    public async Task AddPhoto(Guid sectorId, Photo sectorPhoto)
+    {
+        var sector = await dbContext.Sectors
+            .Include(sector => sector.Photos)
+            .FirstOrDefaultAsync(sector => sector.Id == sectorId);
+
+        sector.Photos.Add(sectorPhoto);
+        await dbContext.SaveChangesAsync();
+    }
+
+    public async Task AddPhotos(Guid sectorId, ICollection<Photo> sectorPhotos)
+    {
+        var sector = await dbContext.Sectors
+            .Include(sector => sector.Photos)
+            .FirstOrDefaultAsync(sector => sector.Id == sectorId);
+
+        sectorPhotos.ToList().ForEach(sectorPhoto => sector.Photos.Add(sectorPhoto));
+
+        await dbContext.SaveChangesAsync();
     }
 }

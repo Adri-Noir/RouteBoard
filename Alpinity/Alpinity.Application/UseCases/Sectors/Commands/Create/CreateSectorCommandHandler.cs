@@ -9,48 +9,45 @@ using MediatR;
 namespace Alpinity.Application.UseCases.Sectors.Commands.Create;
 
 public class CreateSectorCommandHandler(
-    ISectorRepository repository, 
-    ICragRepository cragRepository, 
+    ISectorRepository sectorRepository,
+    ICragRepository cragRepository,
     IMapper mapper,
-    IFileRepository fileRepository, 
+    IFileRepository fileRepository,
     IPhotoRepository photoRepository) : IRequestHandler<CreateSectorCommand, SectorDetailedDto>
 {
     public async Task<SectorDetailedDto> Handle(CreateSectorCommand request, CancellationToken cancellationToken)
     {
         var crag = await cragRepository.GetCragById(request.CragId);
-        if (crag == null)
-        {
-            throw new EntityNotFoundException("Crag not found.");
-        }
-        
+        if (crag == null) throw new EntityNotFoundException("Crag not found.");
+
         var sector = new Sector
         {
             Name = request.Name,
             Description = request.Description,
             CragId = request.CragId
         };
-        
+
+        await sectorRepository.CreateSector(sector);
+
         var photos = new List<Photo>();
-        
+
         foreach (var photo in request.Photos)
         {
             var file = mapper.Map<FileRequest>(photo);
             var url = await fileRepository.UploadPublicFileAsync(file, cancellationToken);
-            // TODO: check if this is correct - will sector.Id be available here?
+
             var photoEntity = new Photo
             {
                 Url = url,
-                SectorId = sector.Id,
+                SectorId = sector.Id
             };
-            
+
             photos.Add(photoEntity);
             await photoRepository.AddImage(photoEntity);
         }
-        
-        sector.Photos = photos;
-        
-        await repository.CreateSector(sector);
-        
+
+        await sectorRepository.AddPhotos(sector.Id, photos);
+
         return mapper.Map<SectorDetailedDto>(sector);
     }
 }
