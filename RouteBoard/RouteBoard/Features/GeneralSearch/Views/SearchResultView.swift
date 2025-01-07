@@ -5,52 +5,56 @@
 //  Created by Adrian Cvijanovic on 01.11.2024..
 //
 
-import SwiftUI
 import Combine
+import GeneratedClient
 import OpenAPIRuntime
 import OpenAPIURLSession
-import GeneratedClient
-
+import SwiftUI
 
 struct SearchResultView: View {
-    @Binding var searchText: String
-    @State var results: [GetSearchResults] = []
-    @State var isLoading: Bool = false
-    private var client = GetSearchResultsClient()
+  @Binding public var searchText: String
 
-    init(searchText: Binding<String>) {
-        _searchText = searchText
-    }
+  @State private var results: [GetSearchResults] = []
+  @State private var isLoading: Bool = false
 
-    func search(value: String) async {
-        isLoading = true
-        // try? await Task.sleep(nanoseconds: 1_000_000_000)
-        results = await client.search(value: value)
-        isLoading = false
-    }
+  @EnvironmentObject private var authViewModel: AuthViewModel
 
-    var body: some View {
-        VStack(alignment: .leading) {
-            if isLoading {
-                LoadingSearchResultsView()
-            } else {
-                if results.isEmpty {
-                    NoSearchResultsView()
-                } else {
-                    List($results, id: \.self.id) { result in
-                        ResultTypeLinkPicker(result: result) {
-                            SingleResultView(result: result)
-                        }
-                    }
-                    .listStyle(.plain)
+  private var client = GetSearchResultsClient()
 
-                }
+  init(searchText: Binding<String>) {
+    _searchText = searchText
+  }
+
+  func search(value: String) async {
+    isLoading = true
+    // try? await Task.sleep(nanoseconds: 1_000_000_000)
+    results = await client.call(
+      GetSearchResultsInput(query: value), authViewModel.getAuthData())
+    isLoading = false
+  }
+
+  var body: some View {
+    VStack(alignment: .leading) {
+      if isLoading {
+        LoadingSearchResultsView()
+      } else {
+        if results.isEmpty {
+          NoSearchResultsView()
+        } else {
+          List($results, id: \.self.id) { result in
+            ResultTypeLinkPicker(result: result) {
+              SingleResultView(result: result)
             }
+          }
+          .listStyle(.plain)
+
         }
-        .onChange(of: searchText) {
-            Task {
-                await search(value: searchText)
-            }
-        }
+      }
     }
+    .onChange(of: searchText) {
+      Task(priority: .userInitiated) {
+        await search(value: searchText)
+      }
+    }
+  }
 }

@@ -1,0 +1,63 @@
+using Alpinity.Application.Interfaces.Repositories;
+using Alpinity.Application.Request;
+using Alpinity.Application.Services;
+using Alpinity.Application.UseCases.Users.Dtos;
+using Alpinity.Domain.Entities;
+using ApiExceptions.Exceptions;
+using AutoMapper;
+using MediatR;
+
+namespace Alpinity.Application.UseCases.Users.Commands.Register;
+
+public class RegisterCommandHandler(
+    IUserRepository userRepository,
+    ISignInService signInService,
+    IFileRepository fileRepository,
+    IPhotoRepository photoRepository,
+    IMapper mapper) : IRequestHandler<RegisterCommand, LoggedInUserDto>
+{
+    public async Task<LoggedInUserDto> Handle(RegisterCommand request, CancellationToken cancellationToken)
+    {
+        if (await userRepository.GetByEmailAsync(request.NormalizedEmail) != null)
+            throw new EntityAlreadyExistsException("User with this email already exists");
+
+        if (await userRepository.GetByUsernameAsync(request.Username) != null)
+            throw new EntityAlreadyExistsException("User with this username already exists");
+
+        if (!signInService.PasswordIsStrong(request.Password))
+            throw new BadRequestException("Password is not strong enough");
+
+        var passwordHash = signInService.HashPassword(request.Password);
+
+        var photo = null as Photo;
+        if (request.ProfilePhoto != null)
+        {
+            var photoFile = mapper.Map<FileRequest>(request.ProfilePhoto);
+            var photoUrl = await fileRepository.UploadPublicFileAsync(photoFile, cancellationToken);
+            photo = await photoRepository.AddImage(new Photo
+            {
+                Url = photoUrl
+            });
+        }
+
+        var user = new User
+        {
+            Email = request.NormalizedEmail,
+            Username = request.Username,
+            PasswordHash = passwordHash,
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            DateOfBirth = request.DateOfBirth
+        };
+
+        if (photo != null)
+            user.ProfilePhoto = photo;
+
+        await userRepository.CreateAsync(user);
+
+        var result = mapper.Map<LoggedInUserDto>(user);
+        result.Token = signInService.GenerateJwToken(user);
+
+        return result;
+    }
+}

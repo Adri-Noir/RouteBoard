@@ -6,12 +6,13 @@
 //
 
 let IS_DEVELOPMENT = true
+let devClient = DevClient()
 
 struct ClientPicker {
-    static func getClient() -> Client {
-        if (IS_DEVELOPMENT) {
-            return DevClient.getClient()
-        }
-        return DevClient.getClient()
+  func getClient(token: String?) -> Client {
+    if IS_DEVELOPMENT {
+      return devClient.getClient(token)
     }
+    return devClient.getClient(token)
+  }
 }

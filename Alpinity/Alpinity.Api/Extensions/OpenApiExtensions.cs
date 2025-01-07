@@ -12,6 +12,12 @@ public static class OpenApiExtensions
         {
             setup.EnableAnnotations();
 
+            setup.AddServer(new OpenApiServer
+            {
+                Url = "https://localhost:7244",
+                Description = "Dev server"
+            });
+
             setup.AddSecurityDefinition(
                 "Bearer",
                 new OpenApiSecurityScheme
@@ -25,7 +31,7 @@ public static class OpenApiExtensions
                     Scheme = "Bearer"
                 });
 
-            setup.AddSecurityRequirement(new OpenApiSecurityRequirement()
+            setup.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
                 {
                     new OpenApiSecurityScheme
@@ -37,19 +43,19 @@ public static class OpenApiExtensions
                         },
                         Scheme = "oauth2",
                         Name = "Authorization",
-                        In = ParameterLocation.Header,
+                        In = ParameterLocation.Header
                     },
                     new List<string>()
                 }
             });
-            
+
             var currentAssembly = Assembly.GetExecutingAssembly();
             var xmlDocs = currentAssembly.GetReferencedAssemblies()
                 .Union(new[] { currentAssembly.GetName() })
                 .Select(a => Path.Combine(Path.GetDirectoryName(currentAssembly.Location)!, $"{a.Name}.xml"))
                 .Where(File.Exists)
                 .ToArray();
-            Array.ForEach(xmlDocs, (d) => setup.IncludeXmlComments(d));
+            Array.ForEach(xmlDocs, d => setup.IncludeXmlComments(d));
         });
 
         return services;

@@ -5,32 +5,37 @@
 //  Created by Adrian Cvijanovic on 01.01.2025..
 //
 
+public typealias CragDetailsInput = Operations.get_sol_api_sol_Crag_sol__lcub_id_rcub_.Input.Path
 public typealias CragDetails = Components.Schemas.CragDetailedDto
 
-public struct GetCragDetailsClient {
-    private let client = ClientPicker.getClient()
+public class GetCragDetailsClient: AuthenticatedClientProvider {
+  public typealias T = CragDetailsInput
+  public typealias R = CragDetails?
 
-    public init() {
-    }
+  public func call(_ data: CragDetailsInput, _ authData: AuthData) async -> CragDetails? {
+    do {
+      let result = try await self.getClient(authData).get_sol_api_sol_Crag_sol__lcub_id_rcub_(
+        Operations.get_sol_api_sol_Crag_sol__lcub_id_rcub_.Input(
+          path: data))
 
-    public func getCragDetails(cragId: String) async -> CragDetails? {
-        do {
-            let result = try await client.get_sol_api_sol_Crag_sol__lcub_id_rcub_(Operations.get_sol_api_sol_Crag_sol__lcub_id_rcub_.Input(path: Operations.get_sol_api_sol_Crag_sol__lcub_id_rcub_.Input.Path(id: cragId)))
-
-            switch result {
-            case let .ok(okResponse):
-                switch okResponse.body {
-                case .json(let value):
-                    return value
-                }
-
-            case .undocumented(statusCode: _, _):
-                return nil
-            }
-        } catch {
-            print(error)
+      switch result {
+      case let .ok(okResponse):
+        switch okResponse.body {
+        case .json(let value):
+          return value
         }
 
+      case .unauthorized:
+        await authData.unauthorizedHandler?()
         return nil
+
+      case .undocumented(statusCode: _, _):
+        return nil
+      }
+    } catch {
+      print(error)
     }
+
+    return nil
+  }
 }

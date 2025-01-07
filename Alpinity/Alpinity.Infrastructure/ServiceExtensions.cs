@@ -1,9 +1,11 @@
 using Alpinity.Application.Interfaces.Repositories;
+using Alpinity.Application.Services;
+using Alpinity.Infrastructure.Identity;
 using Alpinity.Infrastructure.Persistence;
 using Alpinity.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Alpinity.Infrastructure;
 
@@ -17,8 +19,9 @@ public static class ServiceExtensions
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), sqlOption =>
                 sqlOption.UseNetTopologySuite())
         );
-        
-        
+
+        services.AddTransient<ISignInService, SignInService>();
+
         services.AddTransient<IFileRepository>(_ =>
             new AzureFileRepository(configuration.GetConnectionString("BlobConnection")!)
         );
@@ -26,6 +29,7 @@ public static class ServiceExtensions
         services.AddTransient<ISectorRepository, SectorRepository>();
         services.AddTransient<IRouteRepository, RouteRepository>();
         services.AddTransient<IPhotoRepository, PhotoRepository>();
+        services.AddTransient<IUserRepository, UserRepository>();
 
         return services;
     }

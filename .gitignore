@@ -317,4 +317,6 @@ Temporary Items
 .history
 .ionide
 
+buildServer.json
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,jetbrains,visualstudiocode

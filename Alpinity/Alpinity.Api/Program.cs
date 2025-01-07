@@ -10,7 +10,6 @@ using Alpinity.Infrastructure.Persistence;
 using Alpinity.Infrastructure.Persistence.Seed;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,20 +22,7 @@ await FillDatabase(app.Services, builder.Configuration);
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger(options =>
-    {
-        options.PreSerializeFilters.Add((swagger, httpReq) =>
-        {
-            swagger.Servers = new List<OpenApiServer>
-            {
-                new()
-                {
-                    Url = "https://localhost:7244",
-                    Description = "Dev server"
-                }
-            };
-        });
-    });
+    app.UseSwagger();
     app.UseSwaggerUI();
 }
 
@@ -95,6 +81,7 @@ public partial class Program
         else
             await context.Database.MigrateAsync();
 
+        await UserSeed.Seed(context);
         await CragSectorRouteSeed.Seed(context);
     }
 }

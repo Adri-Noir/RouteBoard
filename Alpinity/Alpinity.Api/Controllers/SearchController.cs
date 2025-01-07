@@ -1,7 +1,8 @@
 using System.Net.Mime;
-using Alpinity.Application.UseCases.Search.Dtos;
 using Alpinity.Application.UseCases.Search.Commands.Query;
+using Alpinity.Application.UseCases.Search.Dtos;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Alpinity.Api.Controllers;
@@ -11,11 +12,16 @@ namespace Alpinity.Api.Controllers;
 public class SearchController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    public async Task<ActionResult<SearchResultDto>> Search(SearchQueryCommand command, CancellationToken cancellationToken)
+    public async Task<ActionResult<SearchResultDto>> Search(SearchQueryCommand command,
+        CancellationToken cancellationToken)
     {
         var result = await mediator.Send(command, cancellationToken);
-        
+
         return Ok(result);
     }
 }

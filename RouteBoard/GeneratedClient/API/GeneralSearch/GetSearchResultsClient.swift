@@ -7,32 +7,39 @@
 
 import OpenAPIURLSession
 
-public typealias GetSearchResults = Components.Schemas.SearchResultItemDto;
+public typealias GetSearchResultsInput = Components.Schemas.SearchQueryCommand
+public typealias GetSearchResults = Components.Schemas.SearchResultItemDto
 
-public struct GetSearchResultsClient {
-    private let client = ClientPicker.getClient()
+public class GetSearchResultsClient: AuthenticatedClientProvider {
+  public typealias T = GetSearchResultsInput
+  public typealias R = [GetSearchResults]
 
-    public init() {
-    }
+  public func call(_ data: GetSearchResultsInput, _ authData: AuthData) async -> [GetSearchResults]
+  {
+    do {
+      let result = try await self.getClient(authData).post_sol_api_sol_Search(
+        Operations.post_sol_api_sol_Search.Input(
+          body: .json(data)))
 
-    public func search(value: String) async -> [GetSearchResults] {
-        do {
-            let result = try await client.post_sol_api_sol_Search(Operations.post_sol_api_sol_Search.Input(body: .json(Components.Schemas.SearchQueryCommand(query: value))))
-            switch result {
+      switch result {
 
-            case let .ok(okResponse):
-                switch okResponse.body {
-                case .json(let value):
-                    return value.items ?? [];
-                }
-
-            case .undocumented(statusCode: _, _):
-                return []
-            }
-        } catch {
-            print(error)
+      case let .ok(okResponse):
+        switch okResponse.body {
+        case .json(let value):
+          return value.items ?? []
         }
 
+      case .unauthorized:
+        await authData.unauthorizedHandler?()
         return []
+
+      case .undocumented(statusCode: _, _):
+        return []
+      }
+    } catch {
+      print(error)
     }
+
+    return []
+  }
 }

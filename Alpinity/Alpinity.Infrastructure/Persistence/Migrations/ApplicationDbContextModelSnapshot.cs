@@ -76,6 +76,9 @@ namespace Alpinity.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("UserPhotoId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CragId");
@@ -83,6 +86,10 @@ namespace Alpinity.Infrastructure.Persistence.Migrations
                     b.HasIndex("SectorId");
 
                     b.HasIndex("TakenByUserId");
+
+                    b.HasIndex("UserPhotoId")
+                        .IsUnique()
+                        .HasFilter("[UserPhotoId] IS NOT NULL");
 
                     b.ToTable("Photos");
                 });
@@ -178,7 +185,7 @@ namespace Alpinity.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
@@ -190,7 +197,17 @@ namespace Alpinity.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -207,13 +224,21 @@ namespace Alpinity.Infrastructure.Persistence.Migrations
 
                     b.HasOne("Alpinity.Domain.Entities.User", "TakenByUser")
                         .WithMany("TakenPhotos")
-                        .HasForeignKey("TakenByUserId");
+                        .HasForeignKey("TakenByUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Alpinity.Domain.Entities.User", "UserPhoto")
+                        .WithOne("ProfilePhoto")
+                        .HasForeignKey("Alpinity.Domain.Entities.Photo", "UserPhotoId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Crag");
 
                     b.Navigation("Sector");
 
                     b.Navigation("TakenByUser");
+
+                    b.Navigation("UserPhoto");
                 });
 
             modelBuilder.Entity("Alpinity.Domain.Entities.Route", b =>
@@ -293,6 +318,8 @@ namespace Alpinity.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Alpinity.Domain.Entities.User", b =>
                 {
+                    b.Navigation("ProfilePhoto");
+
                     b.Navigation("TakenPhotos");
                 });
 #pragma warning restore 612, 618

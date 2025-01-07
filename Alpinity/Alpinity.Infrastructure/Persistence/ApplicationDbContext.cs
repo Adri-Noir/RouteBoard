@@ -23,7 +23,7 @@ public class ApplicationDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        
+
         modelBuilder.Entity<RoutePhoto>()
             .HasOne(rp => rp.Image)
             .WithOne(p => p.RouteImage)
@@ -35,5 +35,25 @@ public class ApplicationDbContext : DbContext
             .WithOne(p => p.RoutePathLine)
             .HasForeignKey<RoutePhoto>(rp => rp.PathLineId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<User>()
+            .HasMany(u => u.TakenPhotos)
+            .WithOne(p => p.TakenByUser)
+            .HasForeignKey(p => p.TakenByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<User>()
+            .HasOne(u => u.ProfilePhoto)
+            .WithOne(p => p.UserPhoto)
+            .HasForeignKey<Photo>(u => u.UserPhotoId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.Username)
+            .IsUnique();
+
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
     }
 }
