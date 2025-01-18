@@ -269,19 +269,12 @@
         ],
         "parameters": [
           {
-            "name": "routeId",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
             "name": "id",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -971,7 +964,7 @@
           "routes": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/RouteSimpleDto"
+              "$ref": "#/components/schemas/RouteDetailedDto"
             },
             "nullable": true
           },

@@ -12,6 +12,10 @@ struct AuthInjection<Content: View>: View {
   @StateObject var authViewModel = AuthViewModel()
   @State var showLoading = true
 
+  init(@ViewBuilder content: @escaping () -> Content) {
+    self.content = content()
+  }
+
   var body: some View {
     ZStack {
       if showLoading {
@@ -26,7 +30,7 @@ struct AuthInjection<Content: View>: View {
         }
         .transition(.opacity)
         .onAppear {
-          Task(priority: .userInitiated) {
+          Task {
             await authViewModel.loadUserModel()
             withAnimation {
               showLoading = false
@@ -44,7 +48,7 @@ struct AuthInjection<Content: View>: View {
         .transition(.opacity)
         .environmentObject(authViewModel)
         .onAppear {
-          Task(priority: .userInitiated) {
+          Task {
             await authViewModel.loadUserModel()
             showLoading = false
           }

@@ -10,85 +10,63 @@ import SwiftUI
 
 @MainActor
 final class RouteImageModel: ObservableObject {
-    @Published var viewfinderImage: Image?
-    @Published var closestRouteId: Int? = nil;
-    
-    let camera = CameraModel(cameraSetting: .videoTaking)
-    
-    private var savedOverlay: CVMap?
-    private var frameCounter: Int = 0;
-    
-    private var processedSamples: ProcessedSamplesSwift? = nil;
-    
-    private var processInputSamples: ProcessInputSamples = ProcessInputSamples(samples: DetectInputSamples(samples: [
-        DetectSample(route: UIImage.init(named: "TestingSamples/limski/pikachu")!, path: UIImage.init(named: "TestingSamples/limski/pikachu_path")!, routeId: 1),
-        DetectSample(route: UIImage.init(named: "TestingSamples/limski/hobotnica")!, path: UIImage.init(named: "TestingSamples/limski/hobotnica_path")!, routeId: 2),
-        DetectSample(route: UIImage.init(named: "TestingSamples/limski/list")!, path: UIImage.init(named: "TestingSamples/limski/list_path")!, routeId: 3),
-    ]))
-    
-    
-    init() {
-        Task {
-            await handleCameraPreviewsProcessEveryFrame()
-        }
-    }
-    
-    func handleCameraPreviewsProcessEveryFrame() async {
-        let imageStream = camera.previewStream
-            .map { $0 }
-        
-        let context = CIContext();
+  @Published var viewfinderImage: Image?
+  @Published var closestRouteId: Int? = nil
 
-        for await image in imageStream {
-            Task {
-                if let cgImage = context.createCGImage(image, from: image.extent) {
-                    let uiImage = UIImage(cgImage: cgImage)
-                    let processedImage = processInputSamples.detectRoutesAndAddOverlay(inputFrame: uiImage)
-                    DispatchQueue.main.async {
-                        self.viewfinderImage = Image(uiImage: processedImage.frame);
-                        self.closestRouteId = Int(processedImage.routeId)
-                    }
-                }
-            }
-        }
-    }
-    
-    func startCamera () async {
-        Task {
-            await camera.start();
-        }
-    }
-    
-    func stopCamera () async {
-        Task {
-            camera.stop();
-        }
-    }
+  private var processInputSamples = ProcessInputSamples(samples: DetectInputSamples(samples: []))
+  let camera = CameraModel(cameraSetting: .videoTaking)
 
+  init() {
+    Task {
+      await handleCameraPreviewsProcessEveryFrame()
+    }
+  }
+
+  init(routeSamples: [DetectSample]) {
+    processInputSamples = ProcessInputSamples(samples: DetectInputSamples(samples: routeSamples))
+    Task {
+      await handleCameraPreviewsProcessEveryFrame()
+    }
+  }
+
+  func handleCameraPreviewsProcessEveryFrame() async {
+    let imageStream = camera.previewStream
+      .map { $0 }
+
+    for await image in imageStream {
+      Task {
+        let processedImage = processInputSamples.detectRoutesAndAddOverlay(inputFrame: image)
+        self.viewfinderImage = Image(uiImage: processedImage.frame)
+        self.closestRouteId = Int(processedImage.routeId)
+      }
+    }
+  }
+
+  func startCamera() async {
+    await camera.start()
+  }
+
+  func stopCamera() async {
+    camera.stop()
+  }
+
+  func processSamples(samples: [DetectSample]) {
+    processInputSamples = ProcessInputSamples(samples: DetectInputSamples(samples: samples))
+  }
 }
 
+extension Image.Orientation {
 
-fileprivate extension CIImage {
-    var image: Image? {
-        let ciContext = CIContext()
-        guard let cgImage = ciContext.createCGImage(self, from: self.extent) else { return nil }
-        return Image(decorative: cgImage, scale: 1, orientation: .up)
+  fileprivate init(_ cgImageOrientation: CGImagePropertyOrientation) {
+    switch cgImageOrientation {
+    case .up: self = .up
+    case .upMirrored: self = .upMirrored
+    case .down: self = .down
+    case .downMirrored: self = .downMirrored
+    case .left: self = .left
+    case .leftMirrored: self = .leftMirrored
+    case .right: self = .right
+    case .rightMirrored: self = .rightMirrored
     }
-}
-
-
-fileprivate extension Image.Orientation {
-
-    init(_ cgImageOrientation: CGImagePropertyOrientation) {
-        switch cgImageOrientation {
-        case .up: self = .up
-        case .upMirrored: self = .upMirrored
-        case .down: self = .down
-        case .downMirrored: self = .downMirrored
-        case .left: self = .left
-        case .leftMirrored: self = .leftMirrored
-        case .right: self = .right
-        case .rightMirrored: self = .rightMirrored
-        }
-    }
+  }
 }

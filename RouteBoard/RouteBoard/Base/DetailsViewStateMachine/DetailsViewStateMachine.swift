@@ -6,6 +6,7 @@ struct DetailsViewStateMachine<DetailType, Content: View>: View {
     @Binding var isLoading: Bool
     @ViewBuilder var content: Content
 
+    
     var body: some View {
         if isLoading {
             VStack {

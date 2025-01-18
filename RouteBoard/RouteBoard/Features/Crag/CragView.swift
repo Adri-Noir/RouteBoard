@@ -59,9 +59,10 @@ struct CragView: View {
           }
           .padding()
         }
+        .navigationBarTitleDisplayMode(.inline)
       }
     }
-    .task(priority: .userInitiated) {
+    .task {
       await getCrag(value: cragId)
     }
 

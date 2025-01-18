@@ -29,6 +29,15 @@ public class AuthViewModel: ObservableObject {
 
   public init() {}
 
+  public func loginWithSeededUser() async {
+    do {
+      try await login(emailOrUsername: "seededUser", password: "testpassword")
+      print("Successfully logged in with seeded user")
+    } catch {
+      print("Failed to login with seeded user")
+    }
+  }
+
   private func saveUser(_ loggedInUser: LoggedInUser) async throws {
     guard let token = loggedInUser.token else {
       throw AuthError.loginFailed

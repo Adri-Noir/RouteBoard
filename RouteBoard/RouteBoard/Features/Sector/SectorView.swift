@@ -19,6 +19,10 @@ struct SectorView: View {
 
   private let client = GetSectorDetailsClient()
 
+  private var sectorRoutes: [RouteDetails] {
+    sector?.routes ?? []
+  }
+
   init(sectorId: String) {
     self.sectorId = sectorId
   }
@@ -42,7 +46,7 @@ struct SectorView: View {
   var body: some View {
     ApplyBackgroundColor {
       DetailsViewStateMachine(details: $sector, isLoading: $isLoading) {
-        DetectRoutesWrapper {
+        DetectRoutesWrapper(routes: sectorRoutes) {
           ScrollView {
             VStack(alignment: .leading, spacing: 0) {
               ImageCarouselView(imagesNames: sector?.photos ?? [], height: 500)
@@ -59,6 +63,10 @@ struct SectorView: View {
                 .frame(maxWidth: .infinity, alignment: .center)
                 .foregroundStyle(.black)
                 .padding(EdgeInsets(top: 0, leading: 15, bottom: 20, trailing: 10))
+
+              // make hstack which will contain two boxes, one with ascents and another with number of likes
+              // make a button which will open a popover with routes
+              // make a button which will like the sector
 
               InformationRectanglesView(
                 handleOpenRoutesView: {
@@ -99,8 +107,8 @@ struct SectorView: View {
             .padding()
           }
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarHidden(true)
+        .navigationBarTitleDisplayMode(.large)
+        .navigationTitle(sector?.name ?? "Sector")
         .popover(isPresented: $showRoutes) {
           RoutesListView(routes: [
             SimpleRoute(id: "1", name: "Apaches", grade: "6b", numberOfAscents: 1)
@@ -108,12 +116,14 @@ struct SectorView: View {
         }
       }
     }
-    .task(priority: .userInitiated) {
+    .task {
       await getSector(value: sectorId)
     }
   }
 }
 
 #Preview {
-  SectorView(sectorId: "4260561a-0967-40fd-fb7b-08dd29344a74")
+  AuthInjectionMock {
+    SectorView(sectorId: "4260561a-0967-40fd-fb7b-08dd29344a74")
+  }
 }

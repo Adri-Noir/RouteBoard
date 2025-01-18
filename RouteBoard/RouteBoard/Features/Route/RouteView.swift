@@ -46,10 +46,17 @@ struct RouteView: View {
     } ?? []
   }
 
+  var routeList: [RouteDetails] {
+    guard let route = route else {
+      return []
+    }
+    return [route]
+  }
+
   var body: some View {
     ApplyBackgroundColor {
       DetailsViewStateMachine(details: $route, isLoading: $isLoading) {
-        DetectRoutesWrapper {
+        DetectRoutesWrapper(routes: routeList) {
           ScrollView {
             VStack(alignment: .leading, spacing: 0) {
               ImageCarouselView(imagesNames: routePhotos, height: 500)
@@ -71,15 +78,17 @@ struct RouteView: View {
           }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarHidden(true)
+        .navigationTitle(route?.name ?? "Route")
       }
     }
-    .task(priority: .userInitiated) {
+    .task {
       await getRoute(value: routeId)
     }
   }
 }
 
 #Preview {
-  RouteView(routeId: "081f3e29-7072-43a0-5f4d-08dd292795a1")
+  AuthInjectionMock {
+    RouteView(routeId: "081f3e29-7072-43a0-5f4d-08dd292795a1")
+  }
 }
