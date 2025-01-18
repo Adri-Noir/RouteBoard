@@ -7,19 +7,16 @@
 
 import SwiftUI
 
-
 struct CreateRouteImageView: View {
-    @StateObject private var createRouteImageModel = CreateRouteImageModel()
-    
-    var body: some View {
-        NavigationStack {
-            CreateRouteOverlayView(createRouteImageModel: createRouteImageModel) {
-                CameraPreview(source: createRouteImageModel.getPreviewSource())
-            }
-        }
+  @StateObject private var createRouteImageModel = CreateRouteImageModel()
+
+  var body: some View {
+    CreateRouteOverlayView(createRouteImageModel: createRouteImageModel) {
+      CameraPreview(source: createRouteImageModel.getPreviewSource())
     }
+  }
 }
 
 #Preview {
-    CreateRouteImageView()
+  CreateRouteImageView()
 }

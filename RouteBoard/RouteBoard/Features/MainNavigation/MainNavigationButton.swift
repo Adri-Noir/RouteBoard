@@ -23,7 +23,7 @@ struct MainNavigationButton: View {
                     .foregroundColor(isSelected ? .buttonPrimary : .white)
                     .font(.footnote)
             }
-            .padding(25)
+            .padding(20)
         }
     }
 }

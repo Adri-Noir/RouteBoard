@@ -8,27 +8,25 @@
 import SwiftUI
 
 struct RoutesListView: View {
-    @State private var searchQuery: String = ""
-    
-    var routes: [SimpleRoute]
-    
-    
-    var body: some View {
-        NavigationStack {
-            Text("Routes for sector")
-            List(routes) { route in
-                HStack {
-                    Text(route.name)
-                    Text(route.grade)
-                    Text(String(route.numberOfAscents))
-                }
-            }
-            .searchable(text: $searchQuery, placement: .sidebar)
-        }
-        
+  @State private var searchQuery: String = ""
+
+  var routes: [SimpleRoute]
+
+  var body: some View {
+
+    Text("Routes for sector")
+    List(routes) { route in
+      HStack {
+        Text(route.name)
+        Text(route.grade)
+        Text(String(route.numberOfAscents))
+      }
     }
+    .searchable(text: $searchQuery, placement: .sidebar)
+
+  }
 }
 
 #Preview {
-    RoutesListView(routes: [SimpleRoute(id: "1", name: "Apaches", grade: "6b", numberOfAscents: 1)])
+  RoutesListView(routes: [SimpleRoute(id: "1", name: "Apaches", grade: "6b", numberOfAscents: 1)])
 }

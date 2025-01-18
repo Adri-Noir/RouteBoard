@@ -41,27 +41,21 @@ struct LoginView: View {
             .foregroundStyle(.black)
             .padding()
 
-          if authViewModel.user != nil {
-            Text(authViewModel.user?.username ?? "")
-              .font(.title2)
-              .fontWeight(.semibold)
-              .foregroundStyle(.black)
-              .padding()
-          }
-
-          TextField("Username or email", text: $email)
+          TextField("", text: $email, prompt: Text("Username or email").foregroundStyle(.gray))
             .autocapitalization(.none)
             .disableAutocorrection(true)
             .padding()
             .background(Color.backgroundGray)
+            .foregroundColor(.black)
             .cornerRadius(10)
             .padding()
 
-          SecureField("Password", text: $password)
+          SecureField("Password", text: $password, prompt: Text("Password").foregroundStyle(.gray))
             .autocapitalization(.none)
             .disableAutocorrection(true)
             .padding()
             .background(Color.backgroundGray)
+            .foregroundColor(.black)
             .cornerRadius(10)
             .padding()
 
@@ -88,8 +82,8 @@ struct LoginView: View {
           }
 
           if isLoginFailed {
-            Text("Login failed")
-              .font(.title2)
+            Text("Incorrect username or password")
+              .font(.title3)
               .fontWeight(.semibold)
               .foregroundStyle(.red)
               .padding()
