@@ -8,43 +8,40 @@
 import SwiftUI
 
 struct ImageCarouselView: View {
-    var imagesNames: [String]
-    var height: CGFloat = 300;
-    @State private var currentIndex = 0
+  var imagesNames: [String]
+  var height: CGFloat = 300
+  @State private var currentIndex = 0
 
-    init(imagesNames: [String], height: CGFloat) {
-        self.imagesNames = imagesNames;
-        self.height = height;
-    }
+  init(imagesNames: [String], height: CGFloat) {
+    self.imagesNames = imagesNames
+    self.height = height
+  }
 
-    init(imagesNames: [String]) {
-        self.imagesNames = imagesNames;
-    }
+  init(imagesNames: [String]) {
+    self.imagesNames = imagesNames
+  }
 
-    var body: some View {
-        ZStack {
-            Color.backgroundGray
+  var body: some View {
+    ZStack {
+      Color.backgroundGray
 
-            TabView(selection: $currentIndex) {
-                ForEach(0..<imagesNames.count, id: \.self) { index in
-                    AsyncImage(url: URL(string: imagesNames[index]))
-                        .scaledToFill()
-
-                    // Image("\(imagesNames[index])")
-                    // .resizable()
-                    // .scaledToFill()
-                }
-            }
-            .tabViewStyle(.page)
-            .indexViewStyle(
-                .page(backgroundDisplayMode: .always)
-            )
+      TabView(selection: $currentIndex) {
+        ForEach(0..<imagesNames.count, id: \.self) { index in
+          AsyncImage(url: URL(string: imagesNames[index]))
+            .scaledToFill()
         }
-        .frame(height: height)
+      }
+      .tabViewStyle(.page)
+      .indexViewStyle(
+        .page(backgroundDisplayMode: .always)
+      )
+      .padding()
     }
+    .frame(height: height)
+  }
 
 }
 
 #Preview {
-    ImageCarouselView(imagesNames: ["TestingSamples/r3", "TestingSamples/r2"])
+  ImageCarouselView(imagesNames: ["TestingSamples/r3", "TestingSamples/r2"])
 }

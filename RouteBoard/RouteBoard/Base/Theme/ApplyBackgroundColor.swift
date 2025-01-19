@@ -10,8 +10,6 @@ import SwiftUI
 struct ApplyBackgroundColor<Content: View>: View {
   @ViewBuilder var content: Content
 
-  @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
   var body: some View {
     ZStack {
       Color.backgroundPrimary.ignoresSafeArea()

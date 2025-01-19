@@ -5,6 +5,7 @@
 //  Created by Adrian Cvijanovic on 03.07.2024..
 //
 
+import GeneratedClient
 import SwiftUI
 
 struct InformationRectangle<Content: View>: View {
@@ -14,9 +15,9 @@ struct InformationRectangle<Content: View>: View {
     ZStack(alignment: .bottomLeading) {
       RoundedRectangle(cornerRadius: 20, style: .circular)
         .fill(Color.backgroundGray)
-        .frame(height: 100)
+        .frame(height: 90)
 
-      VStack(alignment: .leading, spacing: 10) {
+      VStack(alignment: .leading, spacing: 7) {
         content
       }
       .padding()
@@ -24,21 +25,33 @@ struct InformationRectangle<Content: View>: View {
   }
 }
 
-struct InformationRectanglesView<AscentsContent: View>: View {
-  @State private var selectedBox: Int? = nil
-  @State private var showDelayedView: Bool = false
+struct InformationRectanglesView: View {
+  let sectorDetails: SectorDetails?
+  private var gradesGraphModel: GradesGraphModel {
+    GradesGraphModel(grades: [
+      GradeCount(grade: "5c", count: 1), GradeCount(grade: "6c", count: 3),
+      GradeCount(grade: "6a", count: 1),
+    ])
+  }
 
-  let handleOpenRoutesView: () -> Void
-  let handleLike: () -> Void
-  @ViewBuilder let ascentsGraph: AscentsContent
-  let gradesGraphModel: GradesGraphModel
+  init(sectorDetails: SectorDetails?) {
+    self.sectorDetails = sectorDetails
+  }
+
+  private func handleLike() {
+    print("Like")
+  }
+
+  private func handleOpenRoutesView() {
+    print("Open routes")
+  }
 
   var body: some View {
     VStack(spacing: 15) {
       HStack(alignment: .center, spacing: 15) {
 
         InformationRectangle {
-          Text("15")
+          Text(String(sectorDetails?.routes?.count ?? 0))
             .bold()
             .font(.title2)
           HStack {
@@ -67,9 +80,6 @@ struct InformationRectanglesView<AscentsContent: View>: View {
 
       HStack(alignment: .center, spacing: 15) {
         InformationRectangle {
-          if selectedBox == 3 && showDelayedView {
-            ascentsGraph
-          }
           Text("20")
             .bold()
             .font(.title2)
@@ -80,9 +90,6 @@ struct InformationRectanglesView<AscentsContent: View>: View {
         }
 
         InformationRectangle {
-          if selectedBox == 4 && showDelayedView {
-            GradesGraphView(gradesModel: gradesGraphModel)
-          }
           Text(gradesGraphModel.minGrade + " - " + gradesGraphModel.maxGrade)
             .bold()
             .font(.title2)
@@ -94,6 +101,7 @@ struct InformationRectanglesView<AscentsContent: View>: View {
         }
       }
     }
+    .padding(.horizontal)
   }
 }
 

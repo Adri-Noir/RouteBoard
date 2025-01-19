@@ -29,7 +29,6 @@ struct SectorView: View {
 
   func getSector(value: String) async {
     isLoading = true
-    try? await Task.sleep(nanoseconds: 1_000_000_000)
 
     guard
       let sectorDetails = await client.call(
@@ -48,40 +47,28 @@ struct SectorView: View {
       DetailsViewStateMachine(details: $sector, isLoading: $isLoading) {
         DetectRoutesWrapper(routes: sectorRoutes) {
           ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
-              ImageCarouselView(imagesNames: sector?.photos ?? [], height: 500)
-                .cornerRadius(20)
+            VStack(alignment: .leading, spacing: 25) {
+              DetailsTopView(pictures: sector?.photos ?? [])
 
-              Text(sector?.name ?? "Sector")
-                .frame(maxWidth: .infinity, alignment: .center)
-                .font(.largeTitle)
-                .fontWeight(.semibold)
-                .foregroundStyle(.black)
-                .padding()
+              VStack(alignment: .leading, spacing: 0) {
+                Text(sector?.name ?? "Sector")
+                  .font(.largeTitle)
+                  .fontWeight(.semibold)
+                  .foregroundStyle(.black)
+                  .padding(0)
+
+                Text(sector?.cragName ?? "")
+                  .font(.title2)
+                  .foregroundStyle(.gray)
+                  .padding(0)
+              }
+              .padding(.horizontal)
 
               Text(sector?.description ?? "")
-                .frame(maxWidth: .infinity, alignment: .center)
                 .foregroundStyle(.black)
-                .padding(EdgeInsets(top: 0, leading: 15, bottom: 20, trailing: 10))
+                .padding(.horizontal)
 
-              // make hstack which will contain two boxes, one with ascents and another with number of likes
-              // make a button which will open a popover with routes
-              // make a button which will like the sector
-
-              InformationRectanglesView(
-                handleOpenRoutesView: {
-                  showRoutes = true
-                },
-                handleLike: {
-                  print("liked sector")
-                },
-                ascentsGraph: {
-                  Text("Ascents")
-                },
-                gradesGraphModel: GradesGraphModel(grades: [
-                  GradeCount(grade: "5c", count: 1), GradeCount(grade: "6c", count: 3),
-                  GradeCount(grade: "6a", count: 1),
-                ]))
+              InformationRectanglesView(sectorDetails: sector)
 
               Text("Current weather")
                 .padding(.vertical)
@@ -104,11 +91,8 @@ struct SectorView: View {
                 .font(.title)
                 .foregroundStyle(.black)
             }
-            .padding()
           }
         }
-        .navigationBarTitleDisplayMode(.large)
-        .navigationTitle(sector?.name ?? "Sector")
         .popover(isPresented: $showRoutes) {
           RoutesListView(routes: [
             SimpleRoute(id: "1", name: "Apaches", grade: "6b", numberOfAscents: 1)
@@ -116,6 +100,8 @@ struct SectorView: View {
         }
       }
     }
+    .ignoresSafeArea(edges: .top)
+    .navigationBarHidden(true)
     .task {
       await getSector(value: sectorId)
     }
@@ -124,6 +110,6 @@ struct SectorView: View {
 
 #Preview {
   AuthInjectionMock {
-    SectorView(sectorId: "4260561a-0967-40fd-fb7b-08dd29344a74")
+    SectorView(sectorId: "d9872fa7-8859-410e-9199-08dcf8780f2f")
   }
 }
