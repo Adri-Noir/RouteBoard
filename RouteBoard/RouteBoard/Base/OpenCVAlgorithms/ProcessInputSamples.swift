@@ -120,9 +120,11 @@ class ProcessInputSamples {
         continue
       }
 
+      let pathImage = resizedPathImageMatrix.toUIImage()
+
       processedSamples.addSample(
         sample: DetectProcessedSample(
-          referenceKP: routeKeypoints, referenceDES: routeDescriptors, routeReference: sample.path,
+          referenceKP: routeKeypoints, referenceDES: routeDescriptors, routeReference: pathImage,
           routeId: sample.routeId))
     }
   }
@@ -131,6 +133,11 @@ class ProcessInputSamples {
     sift.clear()
 
     let frameMatrix = Mat(uiImage: inputFrame)
+
+    if frameMatrix.empty() {
+      return DetectProcessedFrame(frame: inputFrame, routeId: "-1")
+    }
+
     let resizedFrameMatrix = Mat()
     Imgproc.resize(
       src: frameMatrix, dst: resizedFrameMatrix, dsize: Size(), fx: DROP_INPUTFRAME_FACTOR,
@@ -192,7 +199,7 @@ class ProcessInputSamples {
         let dstMat = MatOfPoint2f(array: dstPts)
 
         let homography = Calib3d.findHomography(
-          srcPoints: srcMat, dstPoints: dstMat, method: Calib3d.RANSAC, ransacReprojThreshold: 5.0)
+          srcPoints: srcMat, dstPoints: dstMat, method: Calib3d.RANSAC, ransacReprojThreshold: 3.0)
 
         if !homography.empty(), homography.rows() == 3, homography.cols() == 3 {
           let transformedCenter = MatOfPoint2f(array: [frameCenter])
@@ -236,6 +243,6 @@ class ProcessInputSamples {
     Core.addWeighted(
       src1: frameMatrix, alpha: 1.0, src2: frameOutput, beta: 1.0, gamma: 0.0, dst: frameOutput)
 
-    return DetectProcessedFrame(frame: frameMatrix.toUIImage(), routeId: closestRouteId)
+    return DetectProcessedFrame(frame: frameOutput.toUIImage(), routeId: closestRouteId)
   }
 }

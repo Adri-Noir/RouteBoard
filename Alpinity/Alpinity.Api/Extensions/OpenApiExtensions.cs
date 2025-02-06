@@ -18,6 +18,12 @@ public static class OpenApiExtensions
                 Description = "Dev server"
             });
 
+            setup.AddServer(new OpenApiServer
+            {
+                Url = "https://192.168.1.186:7244",
+                Description = "Local Dev server"
+            });
+
             setup.AddSecurityDefinition(
                 "Bearer",
                 new OpenApiSecurityScheme

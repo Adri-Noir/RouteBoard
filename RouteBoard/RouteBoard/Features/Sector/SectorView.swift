@@ -8,16 +8,72 @@
 import GeneratedClient
 import SwiftUI
 
+struct WeatherInfoView: View {
+  var body: some View {
+    HStack {
+      VStack {
+        Image(systemName: "cloud.bolt.rain.fill")
+          .font(.title)
+          .foregroundColor(.white)
+          .frame(height: 30)
+
+        Text("12 °C")
+          .font(.title2)
+          .fontWeight(.semibold)
+          .foregroundColor(.white)
+      }
+
+      Spacer()
+
+      VStack {
+        Image(systemName: "wind")
+          .font(.title)
+          .foregroundColor(.white)
+          .frame(height: 30)
+
+        Text("18 km/h")
+          .font(.title2)
+          .fontWeight(.semibold)
+          .foregroundColor(.white)
+      }
+
+      Spacer()
+
+      VStack {
+        Image(systemName: "drop")
+          .font(.title)
+          .foregroundColor(.white)
+          .frame(height: 30)
+
+        Text("12%")
+          .font(.title2)
+          .fontWeight(.semibold)
+          .foregroundColor(.white)
+      }
+    }
+    .padding(.horizontal, 40)
+  }
+}
+
 struct SectorView: View {
   let sectorId: String
 
   @State private var isLoading: Bool = false
   @State private var showRoutes = false
+  @State private var show = true
   @State private var sector: SectorDetails?
 
   @EnvironmentObject private var authViewModel: AuthViewModel
+  @Environment(\.dismiss) private var dismiss
 
   private let client = GetSectorDetailsClient()
+
+  private var safeAreaInsets: UIEdgeInsets {
+    guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+      let window = windowScene.windows.first
+    else { return .zero }
+    return window.safeAreaInsets
+  }
 
   private var sectorRoutes: [RouteDetails] {
     sector?.routes ?? []
@@ -43,65 +99,57 @@ struct SectorView: View {
   }
 
   var body: some View {
-    ApplyBackgroundColor {
+    ApplyBackgroundColor(backgroundColors: [.newPrimaryColor, .newBackgroundGray]) {
       DetailsViewStateMachine(details: $sector, isLoading: $isLoading) {
-        DetectRoutesWrapper(routes: sectorRoutes) {
-          ScrollView {
-            VStack(alignment: .leading, spacing: 25) {
-              DetailsTopView(pictures: sector?.photos ?? [])
-
-              VStack(alignment: .leading, spacing: 0) {
-                Text(sector?.name ?? "Sector")
-                  .font(.largeTitle)
-                  .fontWeight(.semibold)
-                  .foregroundStyle(.black)
-                  .padding(0)
-
-                Text(sector?.cragName ?? "")
-                  .font(.title2)
-                  .foregroundStyle(.gray)
-                  .padding(0)
-              }
-              .padding(.horizontal)
-
-              Text(sector?.description ?? "")
-                .foregroundStyle(.black)
-                .padding(.horizontal)
-
-              InformationRectanglesView(sectorDetails: sector)
-
-              Text("Current weather")
-                .padding(.vertical)
-                .font(.title)
-                .foregroundStyle(.black)
-
-              Button {
-
-              } label: {
-                Text("bla bla")
-                  .padding()
-                  .foregroundStyle(.white)
+        SectorTopContainerView(sector: sector) {
+          DetectRoutesWrapper(routes: sectorRoutes) {
+            ScrollView {
+              VStack(spacing: 30) {
+                SectorTopGradesSummaryContainer(sector: sector)
                 Spacer()
               }
-              .background(Color(red: 0.78, green: 0.62, blue: 0.52))
-              .padding(.vertical)
-              .cornerRadius(20)
+              .padding(.horizontal, 20)
+              .padding(.top, 20)
+              .background(Color.newPrimaryColor)
 
-              Text("Recent ascents")
-                .font(.title)
-                .foregroundStyle(.black)
+              ApplyBackgroundColor(backgroundColor: Color.newPrimaryColor) {
+                VStack(spacing: 20) {
+                  Spacer()
+
+                  SectorLocationInfoView(sector: sector)
+
+                  VStack(spacing: 30) {
+                    SectorClimbTypeView()
+                    SectorRoutesList(sector: sector)
+                    SectorGradesView(sector: sector)
+
+                    Spacer()
+                  }
+                  .padding(.top, 20)
+                  .background(Color.newBackgroundGray)
+                  .clipShape(
+                    .rect(
+                      topLeadingRadius: 40, bottomLeadingRadius: 0, bottomTrailingRadius: 0,
+                      topTrailingRadius: 40)
+                  )
+                }
+                .background(.white)
+                .clipShape(
+                  .rect(
+                    topLeadingRadius: 40, bottomLeadingRadius: 0, bottomTrailingRadius: 0,
+                    topTrailingRadius: 40)
+                )
+                .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: -5)
+                .mask(
+                  Rectangle().padding(.top, -40)
+                )
+              }
             }
           }
         }
-        .popover(isPresented: $showRoutes) {
-          RoutesListView(routes: [
-            SimpleRoute(id: "1", name: "Apaches", grade: "6b", numberOfAscents: 1)
-          ])
-        }
       }
     }
-    .ignoresSafeArea(edges: .top)
-    .navigationBarHidden(true)
+    .detailsNavigationBar()
     .task {
       await getSector(value: sectorId)
     }

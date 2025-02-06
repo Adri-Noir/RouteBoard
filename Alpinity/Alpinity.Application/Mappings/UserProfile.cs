@@ -9,8 +9,7 @@ public class UserProfile : Profile
     public UserProfile()
     {
         CreateMap<User, UserDto>()
-            .ForMember(t => t.ProfilePhotoUrl, opt => opt.MapFrom(s => s.ProfilePhoto.Url))
-            .ForMember(t => t.CreatedAt, opt => opt.MapFrom(s => s.CreatedAt.ToString("s")));
+            .ForMember(t => t.ProfilePhotoUrl, opt => opt.MapFrom(s => s.ProfilePhoto.Url));
         CreateMap<User, LoggedInUserDto>()
             .ForMember(t => t.ProfilePhotoUrl, opt => opt.MapFrom(s => s.ProfilePhoto.Url));
     }

@@ -13,6 +13,17 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
+
 var services = builder.Services;
 ConfigureServices(services, builder.Configuration, builder.Environment);
 
@@ -32,12 +43,15 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-app.UseCors(corsBuilder => corsBuilder
-    .WithOrigins(
-        "http://localhost:3000")
-    .AllowAnyHeader()
-    .AllowAnyMethod()
-    .AllowCredentials());
+
+// app.UseCors(corsBuilder => corsBuilder
+// .WithOrigins("http://192.168.1.186:7244")
+// .AllowAnyHeader()
+// .AllowAnyMethod()
+// .AllowCredentials());
+
+app.UseCors("AllowAll");
+
 
 app.Run();
 

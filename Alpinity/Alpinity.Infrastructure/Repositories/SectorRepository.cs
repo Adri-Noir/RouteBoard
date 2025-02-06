@@ -20,6 +20,11 @@ public class SectorRepository(ApplicationDbContext dbContext) : ISectorRepositor
             .Include(sector => sector.Crag)
             .Include(sector => sector.Photos)
             .Include(sector => sector.Routes)
+            .ThenInclude(route => route.RoutePhotos)
+            .ThenInclude(routePhoto => routePhoto.Image)
+            .Include(sector => sector.Routes)
+            .ThenInclude(route => route.RoutePhotos)
+            .ThenInclude(routePhoto => routePhoto.PathLine)
             .FirstOrDefaultAsync(sector => sector.Id == sectorId);
     }
 

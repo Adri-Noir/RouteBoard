@@ -15,6 +15,7 @@ struct RouteView: View {
   @State private var route: RouteDetails?
 
   @EnvironmentObject private var authViewModel: AuthViewModel
+  @Environment(\.dismiss) var dismiss
 
   private let getRouteDetailsClient = GetRouteDetailsClient()
 
@@ -54,33 +55,60 @@ struct RouteView: View {
   }
 
   var body: some View {
-    ApplyBackgroundColor {
+    ApplyBackgroundColor(backgroundColors: [.newPrimaryColor, .newBackgroundGray]) {
       DetailsViewStateMachine(details: $route, isLoading: $isLoading) {
-        DetectRoutesWrapper(routes: routeList) {
-          ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
-              ImageCarouselView(imagesNames: routePhotos, height: 500)
-                .cornerRadius(20)
+        RouteTopContainerView(route: route) {
+          DetectRoutesWrapper(routes: routeList) {
+            ScrollView {
+              VStack(spacing: 30) {
+                RouteTopInfoContainerView(route: route)
+                Spacer()
+              }
+              .padding(.horizontal, 20)
+              .padding(.top, 20)
+              .background(Color.newPrimaryColor)
 
-              Text(route?.name ?? "Route")
-                .frame(maxWidth: .infinity, alignment: .center)
-                .font(.largeTitle)
-                .fontWeight(.semibold)
-                .foregroundStyle(.black)
-                .padding()
+              ApplyBackgroundColor(backgroundColor: Color.newPrimaryColor) {
+                VStack(spacing: 20) {
+                  Spacer()
 
-              Text(route?.description ?? "")
-                .frame(maxWidth: .infinity, alignment: .center)
-                .foregroundStyle(.black)
-                .padding(EdgeInsets(top: 0, leading: 15, bottom: 20, trailing: 10))
+                  RouteLocationInfoView(route: route)
+
+                  VStack(spacing: 30) {
+                    ImageCarouselView(imagesNames: routePhotos, height: 400)
+                      .cornerRadius(20)
+                      .padding(.horizontal, 20)
+                    SectorClimbTypeView()
+
+                    RouteAscentsView(route: route)
+
+                    Spacer()
+                  }
+                  .padding(.top, 20)
+                  .background(Color.newBackgroundGray)
+                  .clipShape(
+                    .rect(
+                      topLeadingRadius: 40, bottomLeadingRadius: 0, bottomTrailingRadius: 0,
+                      topTrailingRadius: 40)
+                  )
+                }
+                .background(.white)
+                .clipShape(
+                  .rect(
+                    topLeadingRadius: 40, bottomLeadingRadius: 0, bottomTrailingRadius: 0,
+                    topTrailingRadius: 40)
+                )
+                .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: -5)
+                .mask(
+                  Rectangle().padding(.top, -40)
+                )
+              }
             }
-            .padding()
           }
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle(route?.name ?? "Route")
       }
     }
+    .detailsNavigationBar()
     .task {
       await getRoute(value: routeId)
     }
@@ -89,6 +117,6 @@ struct RouteView: View {
 
 #Preview {
   AuthInjectionMock {
-    RouteView(routeId: "081f3e29-7072-43a0-5f4d-08dd292795a1")
+    RouteView(routeId: "ebdabd5e-3a1e-4fa5-f931-08dd3b395c5b")
   }
 }

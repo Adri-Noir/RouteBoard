@@ -20,6 +20,7 @@ class CameraModel: NSObject {
 
   private let captureSession = AVCaptureSession()
   private let photoCapture = PhotoCapture()
+  private let ciContext = CIContext()
   private var isCaptureSessionConfigured = false
   private var deviceInput: AVCaptureDeviceInput?
   private var videoOutput: AVCaptureVideoDataOutput?
@@ -294,7 +295,11 @@ extension CameraModel: AVCaptureVideoDataOutputSampleBufferDelegate {
     guard let imageBuffer = sampleBuffer.imageBuffer else { return }
     connection.videoRotationAngle = 90
 
-    let uiImage = UIImage(ciImage: CIImage(cvImageBuffer: imageBuffer))
+    let ciImage = CIImage(cvImageBuffer: imageBuffer)
+
+    guard let cgImage = ciContext.createCGImage(ciImage, from: ciImage.extent) else { return }
+
+    let uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
 
     addToPreviewStream?(uiImage)
   }

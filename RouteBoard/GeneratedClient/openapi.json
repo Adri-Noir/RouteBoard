@@ -8,6 +8,10 @@
     {
       "url": "https://localhost:7244",
       "description": "Dev server"
+    },
+    {
+      "url": "https://192.168.1.186:7244",
+      "description": "Local Dev server"
     }
   ],
   "paths": {
@@ -558,6 +562,46 @@
   },
   "components": {
     "schemas": {
+      "ClimbingGrade": {
+        "enum": [
+          "F_1",
+          "F_2",
+          "F_3",
+          "F_4a",
+          "F_4b",
+          "F_4c",
+          "F_5a",
+          "F_5b",
+          "F_5c",
+          "F_6a",
+          "F_6a_plus",
+          "F_6b",
+          "F_6b_plus",
+          "F_6c",
+          "F_6c_plus",
+          "F_7a",
+          "F_7a_plus",
+          "F_7b",
+          "F_7b_plus",
+          "F_7c",
+          "F_7c_plus",
+          "F_8a",
+          "F_8a_plus",
+          "F_8b",
+          "F_8b_plus",
+          "F_8c",
+          "F_8c_plus",
+          "F_9a",
+          "F_9a_plus",
+          "F_9b",
+          "F_9b_plus",
+          "F_9c",
+          "F_9c_plus",
+          "F_10a",
+          "PROJECT"
+        ],
+        "type": "string"
+      },
       "CragDetailedDto": {
         "required": [
           "location",
@@ -583,7 +627,7 @@
           "sectors": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/SectorSimpleDto"
+              "$ref": "#/components/schemas/SectorDetailedDto"
             },
             "nullable": true
           },
@@ -633,7 +677,18 @@
             "nullable": true
           },
           "grade": {
-            "type": "string",
+            "$ref": "#/components/schemas/ClimbingGrade"
+          },
+          "routeType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RouteType"
+            },
+            "nullable": true
+          },
+          "length": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
           "sectorId": {
@@ -794,7 +849,22 @@
             "nullable": true
           },
           "grade": {
+            "$ref": "#/components/schemas/ClimbingGrade"
+          },
+          "createdAt": {
             "type": "string",
+            "nullable": true
+          },
+          "routeType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RouteType"
+            },
+            "nullable": true
+          },
+          "length": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
           "sectorId": {
@@ -842,35 +912,19 @@
         },
         "additionalProperties": false
       },
-      "RouteSimpleDto": {
-        "required": [
-          "id",
-          "name"
+      "RouteType": {
+        "enum": [
+          "Boulder",
+          "Sport",
+          "Trad",
+          "MultiPitch",
+          "Ice",
+          "BigWall",
+          "Mixed",
+          "Aid",
+          "ViaFerrata"
         ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "photoUrl": {
-            "type": "string",
-            "nullable": true
-          },
-          "grade": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
+        "type": "string"
       },
       "SearchQueryCommand": {
         "required": [
@@ -974,39 +1028,6 @@
           },
           "cragName": {
             "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "SectorSimpleDto": {
-        "required": [
-          "id",
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "photo": {
-            "type": "string",
-            "nullable": true
-          },
-          "routes": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RouteSimpleDto"
-            },
             "nullable": true
           }
         },

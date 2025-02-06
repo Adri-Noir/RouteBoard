@@ -22,7 +22,9 @@ public class CreateRouteCommandHandler(
             Name = request.Name,
             Description = request.Description,
             Grade = request.Grade,
-            SectorId = request.SectorId
+            SectorId = request.SectorId,
+            RouteType = request.RouteType.Aggregate((a, b) => a | b),
+            Length = request.Length
         };
 
         await routeRepository.CreateRoute(route);

@@ -9,6 +9,6 @@ public class CragDetailedDto
     public required string Name { get; set; }
     public string Description { get; set; } = null!;
     public required PointDto Location { get; set; }
-    public ICollection<SectorSimpleDto> Sectors { get; set; } = null!;
+    public ICollection<SectorDetailedDto> Sectors { get; set; } = null!;
     public ICollection<string> Photos { get; set; } = null!;
 }

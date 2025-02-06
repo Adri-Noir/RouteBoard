@@ -119,4 +119,9 @@ public class AuthViewModel: ObservableObject {
   func getAuthData() -> AuthData {
     return AuthData(token: user?.token, unauthorizedHandler: self.logout)
   }
+
+  func getGradeSystem() -> ClimbingGrades {
+    // TODO: Implement user's grade system
+    return FrenchClimbingGrades()
+  }
 }

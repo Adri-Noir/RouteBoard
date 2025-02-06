@@ -6,7 +6,10 @@
 //
 
 import Foundation
+import GeneratedClient
 
 protocol ClimbingGrades {
-    var climbingGrades: [String] { get }
+  var climbingGrades: [String] { get }
+
+  func convertGradeToString(_ grade: Components.Schemas.ClimbingGrade?) -> String
 }

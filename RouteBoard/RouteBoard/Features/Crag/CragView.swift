@@ -38,30 +38,43 @@ struct CragView: View {
   }
 
   var body: some View {
-    ApplyBackgroundColor {
+    ApplyBackgroundColor(backgroundColors: [.newPrimaryColor, .newBackgroundGray]) {
       DetailsViewStateMachine(details: $crag, isLoading: $isLoading) {
-        ScrollView {
-          VStack(alignment: .leading, spacing: 0) {
-            ImageCarouselView(imagesNames: crag?.photos ?? [], height: 500)
-              .cornerRadius(20)
+        CragTopContainerView(crag: crag) {
+          ScrollView {
+            VStack(spacing: 30) {
+              CragTopInfoContainerView(crag: crag)
+              Spacer()
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 20)
+            .background(Color.newPrimaryColor)
 
-            Text(crag?.name ?? "Crag")
-              .frame(maxWidth: .infinity, alignment: .center)
-              .font(.largeTitle)
-              .fontWeight(.semibold)
-              .foregroundStyle(.black)
-              .padding()
-
-            Text(crag?.description ?? "")
-              .frame(maxWidth: .infinity, alignment: .center)
-              .foregroundStyle(.black)
-              .padding(EdgeInsets(top: 0, leading: 15, bottom: 20, trailing: 10))
+            ApplyBackgroundColor(backgroundColor: Color.newPrimaryColor) {
+              VStack(spacing: 20) {
+                CragGalleryView(crag: crag)
+                  .padding(.horizontal, 20)
+                CragMapView(crag: crag)
+                  .padding(.horizontal, 20)
+                Spacer()
+              }
+              .padding(.top, 20)
+              .background(Color.newBackgroundGray)
+              .clipShape(
+                .rect(
+                  topLeadingRadius: 40, bottomLeadingRadius: 0, bottomTrailingRadius: 0,
+                  topTrailingRadius: 40)
+              )
+              .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: -5)
+              .mask(
+                Rectangle().padding(.top, -40)
+              )
+            }
           }
-          .padding()
         }
-        .navigationBarTitleDisplayMode(.inline)
       }
     }
+    .detailsNavigationBar()
     .task {
       await getCrag(value: cragId)
     }
@@ -70,5 +83,7 @@ struct CragView: View {
 }
 
 #Preview {
-  CragView(cragId: "db203ffb-0c58-4a4c-541b-08dcf8780e0a")
+  AuthInjectionMock {
+    CragView(cragId: "db203ffb-0c58-4a4c-541b-08dcf8780e0a")
+  }
 }

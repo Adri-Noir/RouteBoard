@@ -32,7 +32,6 @@ struct LoginView: View {
   }
 
   var body: some View {
-    NavigationStack {
       ApplyBackgroundColor {
         VStack {
           Text("Welcome to Alpinity")
@@ -91,7 +90,6 @@ struct LoginView: View {
         }
         .padding()
       }
-    }
   }
 }
 

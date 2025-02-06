@@ -7,7 +7,11 @@ struct DetectRoutesWrapper<Content: View>: View {
   @ViewBuilder var content: Content
 
   @State private var show: Bool = false
-  @State private var routeSamples: [DetectSample] = []
+  @State private var routeSamples: [DetectSample] = [
+    DetectSample(
+      route: UIImage.init(named: "TestingSamples/homewall_image")!,
+      path: UIImage.init(named: "TestingSamples/homewall_image_route")!, routeId: "1")
+  ]
 
   private func downloadPhotos() async {
     var samples: [DetectSample] = []
@@ -41,14 +45,14 @@ struct DetectRoutesWrapper<Content: View>: View {
     ZStack(alignment: .bottomTrailing) {
       content
 
-      if !routes.isEmpty {
+      if !routeSamples.isEmpty {
         Button {
           show.toggle()
         } label: {
           Image(systemName: "eye")
             .font(.title.weight(.semibold))
             .padding()
-            .background(Color.primaryColor)
+            .background(Color.newPrimaryColor)
             .foregroundColor(.white)
             .clipShape(Circle())
         }
@@ -57,9 +61,10 @@ struct DetectRoutesWrapper<Content: View>: View {
           RouteFinderView(routeSamples: routeSamples)
         }
       }
+
     }
     .task(priority: .background) {
-      await downloadPhotos()
+      // await downloadPhotos()
     }
   }
 }

@@ -10,9 +10,12 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
 {
     public async Task<Crag?> GetCragById(Guid cragId)
     {
-        return await dbContext.Crags.Include(crag => crag.Sectors).FirstOrDefaultAsync(crag => crag.Id == cragId);
+        return await dbContext.Crags
+            .Include(crag => crag.Sectors)
+            .ThenInclude(sector => sector.Routes)
+            .FirstOrDefaultAsync(crag => crag.Id == cragId);
     }
-    
+
     public async Task CreateCrag(Crag crag)
     {
         await dbContext.Crags.AddAsync(crag);

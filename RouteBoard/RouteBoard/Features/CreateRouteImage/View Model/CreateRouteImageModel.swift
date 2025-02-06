@@ -26,6 +26,9 @@ final class CreateRouteImageModel: ObservableObject {
     @Published var canvasPoints: [CGPoint] = []
     @Published var pointsOnImage: [CGPoint] = []
     @Published var routeImage: Image?
+
+    @Published var photoUIImage: UIImage?
+    @Published var routeUIImage: UIImage?
     
     init() {
         Task {
@@ -84,5 +87,7 @@ final class CreateRouteImageModel: ObservableObject {
         }
         let routeUIImage = CreateRouteImage.createRouteLineImage(points: pointsOnImage, picture: uiImage!)
         routeImage = Image(uiImage: routeUIImage)
+        
+        self.routeUIImage = routeUIImage
     }
 }

@@ -1,0 +1,41 @@
+namespace Alpinity.Domain.Enums;
+
+public enum ClimbingGrade
+{
+    F_1 = 0,
+    F_2 = 1,
+    F_3 = 2,
+    F_4a = 3,
+    F_4b = 4,
+    F_4c = 5,
+    F_5a = 6,
+    F_5b = 7,
+    F_5c = 8,
+    F_6a = 9,
+    F_6a_plus = 10,
+    F_6b = 11,
+    F_6b_plus = 12,
+    F_6c = 13,
+    F_6c_plus = 14,
+    F_7a = 15,
+    F_7a_plus = 16,
+    F_7b = 17,
+    F_7b_plus = 18,
+    F_7c = 19,
+    F_7c_plus = 20,
+    F_8a = 21,
+    F_8a_plus = 22,
+    F_8b = 23,
+    F_8b_plus = 24,
+    F_8c = 25,
+    F_8c_plus = 26,
+    F_9a = 27,
+    F_9a_plus = 28,
+    F_9b = 29,
+    F_9b_plus = 30,
+    F_9c = 31,
+    F_9c_plus = 32,
+    F_10a = 33,
+
+    PROJECT = 34
+}

@@ -100,15 +100,24 @@ namespace Alpinity.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Grade")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Grade")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Length")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RouteType")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("SectorId")
                         .HasColumnType("uniqueidentifier");

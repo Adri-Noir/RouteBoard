@@ -23,19 +23,19 @@ struct ImageCarouselView: View {
 
   var body: some View {
     ZStack {
-      Color.backgroundGray
+      Color.newBackgroundGray
 
       TabView(selection: $currentIndex) {
         ForEach(0..<imagesNames.count, id: \.self) { index in
-          AsyncImage(url: URL(string: imagesNames[index]))
-            .scaledToFill()
+          AsyncImageWithFallback(imageUrl: imagesNames[index])
+            .tag(index)
         }
       }
       .tabViewStyle(.page)
       .indexViewStyle(
         .page(backgroundDisplayMode: .always)
       )
-      .padding()
+      // .padding()
     }
     .frame(height: height)
   }
