@@ -2,7 +2,7 @@
 //  CragLink.swift
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 01.01.2025..
+//  Created with <3 on 01.01.2025..
 //
 
 import SwiftUI

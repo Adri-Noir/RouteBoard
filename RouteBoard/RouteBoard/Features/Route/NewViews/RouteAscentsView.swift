@@ -2,7 +2,7 @@
 //  RouteAscentsView.swift
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 26.01.2025..
+//  Created with <3 on 26.01.2025..
 //
 
 import GeneratedClient
@@ -18,7 +18,7 @@ private struct RouteAscentRowView: View {
         .foregroundColor(Color.newTextColor)
 
       VStack(alignment: .leading, spacing: 5) {
-        Text("Adrian Cvijanovic")
+        Text("Adri")
           .font(.title3)
           .fontWeight(.semibold)
           .foregroundColor(Color.newTextColor)

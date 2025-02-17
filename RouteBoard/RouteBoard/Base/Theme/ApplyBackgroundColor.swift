@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ApplyBackgroundColor<Content: View>: View {
-    var backgroundColor: [Color] = [Color.newBackgroundGray]
+  var backgroundColor: [Color] = [Color.newBackgroundGray]
   @ViewBuilder var content: Content
 
   init(@ViewBuilder content: @escaping () -> Content) {

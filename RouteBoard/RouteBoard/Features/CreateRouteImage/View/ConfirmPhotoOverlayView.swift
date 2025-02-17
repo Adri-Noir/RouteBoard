@@ -2,7 +2,7 @@
 //  ConfirmPhotoOverlayView.swift
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 21.12.2024..
+//  Created with <3 on 21.12.2024..
 //
 
 import SwiftUI

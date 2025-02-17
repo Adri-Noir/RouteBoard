@@ -2,7 +2,7 @@
 //  SearchResultView.swift
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 01.11.2024..
+//  Created with <3 on 01.11.2024..
 //
 
 import Combine

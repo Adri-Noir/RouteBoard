@@ -2,7 +2,7 @@
 //  OpenCVWrapper.hpp
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 29.06.2024..
+//  Created with <3 on 29.06.2024..
 //
 
 #ifndef OpenCVWrapper_hpp

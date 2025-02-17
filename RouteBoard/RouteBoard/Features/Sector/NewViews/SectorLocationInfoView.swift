@@ -2,11 +2,11 @@
 //  SectorLocationInfoView.swift
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 24.01.2025..
+//  Created with <3 on 24.01.2025..
 //
 
-import SwiftUI
 import GeneratedClient
+import SwiftUI
 
 struct SectorLocationInfoView: View {
   var sector: SectorDetails?

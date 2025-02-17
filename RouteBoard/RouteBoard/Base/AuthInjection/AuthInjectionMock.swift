@@ -2,7 +2,7 @@
 //  AuthInjectionMock.swift
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 16.01.2025..
+//  Created with <3 on 16.01.2025..
 //
 
 import SwiftUI

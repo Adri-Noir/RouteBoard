@@ -2,7 +2,7 @@
 //  LoginView.swift
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 02.01.2025..
+//  Created with <3 on 02.01.2025..
 //
 
 import GeneratedClient
@@ -32,64 +32,64 @@ struct LoginView: View {
   }
 
   var body: some View {
-      ApplyBackgroundColor {
-        VStack {
-          Text("Welcome to Alpinity")
-            .font(.largeTitle)
-            .fontWeight(.semibold)
-            .foregroundStyle(.black)
-            .padding()
-
-          TextField("", text: $email, prompt: Text("Username or email").foregroundStyle(.gray))
-            .autocapitalization(.none)
-            .disableAutocorrection(true)
-            .padding()
-            .background(Color.backgroundGray)
-            .foregroundColor(.black)
-            .cornerRadius(10)
-            .padding()
-
-          SecureField("Password", text: $password, prompt: Text("Password").foregroundStyle(.gray))
-            .autocapitalization(.none)
-            .disableAutocorrection(true)
-            .padding()
-            .background(Color.backgroundGray)
-            .foregroundColor(.black)
-            .cornerRadius(10)
-            .padding()
-
-          Button {
-            Task(priority: .userInitiated) {
-              await login()
-            }
-          } label: {
-            Text("Login")
-              .font(.title3)
-              .fontWeight(.semibold)
-              .foregroundStyle(.white)
-              .padding()
-              .frame(maxWidth: .infinity)
-              .background(Color.primaryColor)
-              .cornerRadius(10)
-          }
+    ApplyBackgroundColor {
+      VStack {
+        Text("Welcome to Alpinity")
+          .font(.largeTitle)
+          .fontWeight(.semibold)
+          .foregroundStyle(.black)
           .padding()
 
-          if isLoading {
-            ProgressView()
-              .progressViewStyle(CircularProgressViewStyle())
-              .padding()
-          }
+        TextField("", text: $email, prompt: Text("Username or email").foregroundStyle(.gray))
+          .autocapitalization(.none)
+          .disableAutocorrection(true)
+          .padding()
+          .background(Color.backgroundGray)
+          .foregroundColor(.black)
+          .cornerRadius(10)
+          .padding()
 
-          if isLoginFailed {
-            Text("Incorrect username or password")
-              .font(.title3)
-              .fontWeight(.semibold)
-              .foregroundStyle(.red)
-              .padding()
+        SecureField("Password", text: $password, prompt: Text("Password").foregroundStyle(.gray))
+          .autocapitalization(.none)
+          .disableAutocorrection(true)
+          .padding()
+          .background(Color.backgroundGray)
+          .foregroundColor(.black)
+          .cornerRadius(10)
+          .padding()
+
+        Button {
+          Task(priority: .userInitiated) {
+            await login()
           }
+        } label: {
+          Text("Login")
+            .font(.title3)
+            .fontWeight(.semibold)
+            .foregroundStyle(.white)
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(Color.primaryColor)
+            .cornerRadius(10)
         }
         .padding()
+
+        if isLoading {
+          ProgressView()
+            .progressViewStyle(CircularProgressViewStyle())
+            .padding()
+        }
+
+        if isLoginFailed {
+          Text("Incorrect username or password")
+            .font(.title3)
+            .fontWeight(.semibold)
+            .foregroundStyle(.red)
+            .padding()
+        }
       }
+      .padding()
+    }
   }
 }
 

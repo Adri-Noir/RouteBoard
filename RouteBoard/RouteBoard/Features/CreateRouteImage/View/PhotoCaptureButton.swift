@@ -2,7 +2,7 @@
 //  PhotoCaptureButton.swift
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 17.12.2024..
+//  Created with <3 on 17.12.2024..
 //
 
 import SwiftUI

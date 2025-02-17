@@ -2,7 +2,7 @@
 //  GradesGraphView.swift
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 04.07.2024..
+//  Created with <3 on 04.07.2024..
 //
 
 import SwiftUI

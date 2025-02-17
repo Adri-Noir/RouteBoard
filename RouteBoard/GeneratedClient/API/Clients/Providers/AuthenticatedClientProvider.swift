@@ -2,7 +2,7 @@
 //  AuthenticatedClientProvider.swift
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 05.01.2025..
+//  Created with <3 on 05.01.2025..
 //
 
 public enum AuthClientProviderError: Error {

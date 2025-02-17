@@ -2,7 +2,7 @@
 //  ClientPicker.swift
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 25.12.2024..
+//  Created with <3 on 25.12.2024..
 //
 
 let IS_DEVELOPMENT = true

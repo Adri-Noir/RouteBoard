@@ -2,7 +2,7 @@
 //  MarqueeText.swift
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 22.01.2025..
+//  Created with <3 on 22.01.2025..
 //
 
 // TODO: Check every once in a while if https://github.com/joekndy/MarqueeText is fixed

@@ -2,7 +2,7 @@
 //  GetCragDetailsClient.swift
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 01.01.2025..
+//  Created with <3 on 01.01.2025..
 //
 
 public typealias CragDetailsInput = Operations.get_sol_api_sol_Crag_sol__lcub_id_rcub_.Input.Path

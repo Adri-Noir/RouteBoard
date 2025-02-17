@@ -2,7 +2,7 @@
 //  AuthInjection.swift
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 04.01.2025..
+//  Created with <3 on 04.01.2025..
 //
 
 import SwiftUI

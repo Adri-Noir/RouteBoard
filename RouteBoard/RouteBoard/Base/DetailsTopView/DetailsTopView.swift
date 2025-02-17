@@ -2,7 +2,7 @@
 //  DetailsTopView.swift
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 19.01.2025..
+//  Created with <3 on 19.01.2025..
 //
 
 import SwiftUI

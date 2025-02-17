@@ -2,7 +2,7 @@
 //  MeClient.swift
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 06.01.2025..
+//  Created with <3 on 06.01.2025..
 //
 
 public class MeClient: AuthenticatedClientProvider {

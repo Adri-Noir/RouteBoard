@@ -2,7 +2,7 @@
 //  CragTopInfoContainerView.swift
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 26.01.2025..
+//  Created with <3 on 26.01.2025..
 //
 
 import GeneratedClient

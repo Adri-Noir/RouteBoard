@@ -2,7 +2,7 @@
 //  RouteLink.swift
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 31.12.2024..
+//  Created with <3 on 31.12.2024..
 //
 
 import SwiftUI

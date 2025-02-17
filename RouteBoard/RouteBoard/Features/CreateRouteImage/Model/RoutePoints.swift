@@ -2,7 +2,7 @@
 //  RoutePoints.swift
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 06.07.2024..
+//  Created with <3 on 06.07.2024..
 //
 
 import Foundation
