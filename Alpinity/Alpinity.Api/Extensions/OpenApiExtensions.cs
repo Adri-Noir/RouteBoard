@@ -20,7 +20,7 @@ public static class OpenApiExtensions
 
             setup.AddServer(new OpenApiServer
             {
-                Url = "https://192.168.1.186:7244",
+                Url = "https://192.168.50.238:7244",
                 Description = "Local Dev server"
             });
 

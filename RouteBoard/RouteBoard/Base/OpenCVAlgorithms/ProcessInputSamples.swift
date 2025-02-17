@@ -69,8 +69,8 @@ class DetectProcessedFrame {
 }
 
 class ProcessInputSamples {
-  let DROP_INPUTFRAME_FACTOR: Double = 0.5
-  let MAX_RESOLUTION_PX: Double = 800.0
+  let DROP_INPUTFRAME_FACTOR: Double = 0.9
+  let MAX_RESOLUTION_PX: Double = 1200.0
   let LOWES_RATIO_LAW: Float = 0.7
   let MIN_MATCH_COUNT: Int = 10
   let SHOULD_SHOW_THE_FIRST_VALID: Bool = true
@@ -133,18 +133,21 @@ class ProcessInputSamples {
     sift.clear()
 
     let frameMatrix = Mat(uiImage: inputFrame)
+    let frameRows = frameMatrix.rows()
+    let frameCols = frameMatrix.cols()
 
     if frameMatrix.empty() {
       return DetectProcessedFrame(frame: inputFrame, routeId: "-1")
     }
 
-    let resizedFrameMatrix = Mat()
-    Imgproc.resize(
-      src: frameMatrix, dst: resizedFrameMatrix, dsize: Size(), fx: DROP_INPUTFRAME_FACTOR,
-      fy: DROP_INPUTFRAME_FACTOR)
+    let resizedFrameMatrix = Mat(
+      uiImage: inputFrame.scaleImage(
+        toSize: CGSize(
+          width: Double(frameMatrix.cols()) * DROP_INPUTFRAME_FACTOR,
+          height: Double(frameMatrix.rows()) * DROP_INPUTFRAME_FACTOR))!)
 
-    let frameOutput = Mat.zeros(
-      resizedFrameMatrix.rows(), cols: resizedFrameMatrix.cols(), type: resizedFrameMatrix.type())
+    var frameOutput = Mat.zeros(
+      frameRows, cols: frameCols, type: frameMatrix.type())
 
     var frameKeypoints: [opencv2.KeyPoint] = []
     let frameDescriptors = Mat()
@@ -153,20 +156,11 @@ class ProcessInputSamples {
       image: resizedFrameMatrix, mask: Mat(), keypoints: &frameKeypoints,
       descriptors: frameDescriptors)
 
-    let frameRows = resizedFrameMatrix.rows()
-    let frameCols = resizedFrameMatrix.cols()
-
     if frameKeypoints.count < 3 || frameDescriptors.empty() {
       return DetectProcessedFrame(frame: frameOutput.toUIImage(), routeId: "")
     }
 
-    var minDistance = Double.greatestFiniteMagnitude
     var closestRouteId = ""
-    var closestOverlay = Mat()
-
-    let centerX = frameCols / 2
-    let centerY = frameRows / 2
-    let frameCenter = opencv2.Point2f(x: Float(centerX), y: Float(centerY))
 
     for sample in processedSamples.samples {
       var knnMatches: [[DMatch]] = []
@@ -202,47 +196,82 @@ class ProcessInputSamples {
           srcPoints: srcMat, dstPoints: dstMat, method: Calib3d.RANSAC, ransacReprojThreshold: 3.0)
 
         if !homography.empty(), homography.rows() == 3, homography.cols() == 3 {
-          let transformedCenter = MatOfPoint2f(array: [frameCenter])
-          let transformedResult = MatOfPoint2f()
+          // let routeMatrix = Mat(uiImage: sample.routeReference)
+          continue
 
-          Core.perspectiveTransform(
-            src: transformedCenter, dst: transformedResult, m: homography.inv())
-
-          let routeMatrix = Mat(uiImage: sample.routeReference)
-          let routeReferencePoint = opencv2.Point2f(
-            x: Float(routeMatrix.cols()) / 2.0, y: Float(routeMatrix.rows()) / 2.0)
-          let distance = Core.norm(
-            src1: transformedResult, src2: MatOfPoint2f(array: [routeReferencePoint]))
-
-          let overlay = Mat()
-          Imgproc.warpPerspective(
-            src: routeMatrix, dst: overlay, M: homography,
-            dsize: Size(width: frameCols, height: frameRows))
-
-          if distance < minDistance {
-            minDistance = distance
-            if !closestOverlay.empty() {
-              Core.add(src1: frameOutput, src2: closestOverlay, dst: frameOutput)
-            }
-            closestOverlay = overlay
-            closestRouteId = sample.routeId
-          } else {
-            Core.add(src1: frameOutput, src2: overlay, dst: frameOutput)
+          guard let metalHomography = ImageTransformations.convertOpenCVMatToFloat3x3(homography)
+          else {
+            continue
           }
+
+          guard
+            let warppedImage = ImageTransformations.warpImage(
+              image: sample.routeReference,
+              homography: metalHomography,
+              outputSize: CGSize(width: Int(frameCols), height: Int(frameRows))
+            )
+          else {
+            continue
+          }
+
+          frameOutput = Mat(uiImage: warppedImage)
+          Core.addWeighted(
+            src1: frameMatrix, alpha: 1.0, src2: frameOutput, beta: 1.0, gamma: 0.0,
+            dst: frameOutput)
+          return DetectProcessedFrame(frame: frameOutput.toUIImage(), routeId: closestRouteId)
         }
       }
     }
 
-    if !closestOverlay.empty() {
-      Core.add(src1: frameOutput, src2: closestOverlay, dst: frameOutput)
-    }
+    // Imgproc.resize(
+    //   src: frameOutput, dst: frameOutput,
+    //   dsize: Size(width: frameMatrix.cols(), height: frameMatrix.rows()))
 
-    Imgproc.resize(
-      src: frameOutput, dst: frameOutput,
-      dsize: Size(width: frameMatrix.cols(), height: frameMatrix.rows()))
-    Core.addWeighted(
-      src1: frameMatrix, alpha: 1.0, src2: frameOutput, beta: 1.0, gamma: 0.0, dst: frameOutput)
+    // Core.addWeighted(
+    //   src1: frameMatrix, alpha: 1.0, src2: frameOutput, beta: 1.0, gamma: 0.0, dst: frameOutput)
 
-    return DetectProcessedFrame(frame: frameOutput.toUIImage(), routeId: closestRouteId)
+    return DetectProcessedFrame(frame: inputFrame, routeId: "-1")
+  }
+}
+
+extension UIImage {
+  func scaleImage(toSize newSize: CGSize) -> UIImage? {
+    // Ensure the new size has valid dimensions
+    guard newSize.width > 0, newSize.height > 0 else { return nil }
+
+    // Create a bitmap context with the exact new size
+    let colorSpace = CGColorSpaceCreateDeviceRGB()
+    let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
+
+    guard
+      let context = CGContext(
+        data: nil,
+        width: Int(newSize.width),
+        height: Int(newSize.height),
+        bitsPerComponent: 8,
+        bytesPerRow: Int(newSize.width) * 4,
+        space: colorSpace,
+        bitmapInfo: bitmapInfo.rawValue
+      )
+    else { return nil }
+
+    // Set the interpolation quality to high
+    context.interpolationQuality = .high
+
+    // Flip the context to match UIKit's coordinate system
+    context.translateBy(x: 0, y: newSize.height)
+    context.scaleBy(x: 1, y: -1)
+
+    // Draw the original image into the context, scaling it to the new size
+    guard let cgImage = self.cgImage else { return nil }
+    context.draw(cgImage, in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+
+    // Create a new CGImage from the context
+    guard let scaledCGImage = context.makeImage() else { return nil }
+
+    // Convert the CGImage back to UIImage
+    let scaledUIImage = UIImage(cgImage: scaledCGImage)
+
+    return scaledUIImage
   }
 }

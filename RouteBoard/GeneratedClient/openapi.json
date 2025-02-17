@@ -10,7 +10,7 @@
       "description": "Dev server"
     },
     {
-      "url": "https://192.168.1.186:7244",
+      "url": "https://192.168.50.238:7244",
       "description": "Local Dev server"
     }
   ],
