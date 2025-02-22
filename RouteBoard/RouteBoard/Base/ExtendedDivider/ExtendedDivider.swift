@@ -2,7 +2,7 @@
 //  ExtendedDivider.swift
 //  RouteBoard
 //
-//  Created by Adrian Cvijanovic on 02.07.2024..
+//  Created with <3 on 02.07.2024..
 //
 
 import SwiftUI

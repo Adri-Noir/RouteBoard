@@ -51,7 +51,9 @@ public class AuthViewModel: ObservableObject {
 
     keychainService.saveJWTToken(token: token)
     await MainActor.run {
-      user = UserModel(id: loggedInUser.id, email: email, username: username, token: token)
+      withAnimation {
+        user = UserModel(id: loggedInUser.id, email: email, username: username, token: token)
+      }
     }
   }
 
@@ -63,7 +65,10 @@ public class AuthViewModel: ObservableObject {
       throw AuthError.loginFailed
     }
 
-    try await saveUser(loggedInUser)
+    Task { @MainActor in
+      try? await Task.sleep(nanoseconds: 400_000_000)
+      try? await self.saveUser(loggedInUser)
+    }
   }
 
   func logout() async {

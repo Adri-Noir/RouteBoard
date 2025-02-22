@@ -16,43 +16,57 @@ struct AuthInjection<Content: View>: View {
     self.content = content()
   }
 
-  var body: some View {
-    ZStack {
-      if showLoading {
-        VStack(alignment: .center) {
-          VStack {
-            Text("Alpinity")
-              .font(.largeTitle)
-              .fontWeight(.semibold)
-              .foregroundStyle(.black)
-              .padding()
-          }
-        }
-        .transition(.opacity)
-        .onAppear {
-          Task {
-            await authViewModel.loadUserModel()
-            withAnimation {
-              showLoading = false
-            }
-          }
-        }
-      } else {
-        Group {
-          if authViewModel.user != nil {
-            content
-          } else {
-            LoginView()
-          }
-        }
-        .transition(.opacity)
-        .environmentObject(authViewModel)
-        .onAppear {
-          Task {
-            await authViewModel.loadUserModel()
+  var loadingView: some View {
+    LoadingView()
+      .transition(.opacity)
+      .onAppear {
+        Task {
+          await authViewModel.loadUserModel()
+          withAnimation {
             showLoading = false
           }
         }
+      }
+  }
+
+  var contentOrLoginView: some View {
+    Group {
+      if authViewModel.user != nil {
+        content
+          .transition(.move(edge: .trailing))
+      } else {
+        LoginView()
+          .transition(.move(edge: .leading))
+      }
+    }
+    .environmentObject(authViewModel)
+    .onAppear {
+      Task {
+        await authViewModel.loadUserModel()
+      }
+    }
+  }
+
+  var body: some View {
+    ZStack {
+      if showLoading {
+        loadingView
+      } else {
+        contentOrLoginView
+      }
+    }
+  }
+}
+
+private struct LoadingView: View {
+  var body: some View {
+    VStack(alignment: .center) {
+      VStack {
+        Text("Alpinity")
+          .font(.largeTitle)
+          .fontWeight(.semibold)
+          .foregroundStyle(.black)
+          .padding()
       }
     }
   }

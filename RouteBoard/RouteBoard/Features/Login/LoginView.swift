@@ -12,83 +12,68 @@ struct LoginView: View {
   @State private var email: String = ""
   @State private var password: String = ""
   @State private var isLoading: Bool = false
-  @State private var isLoginFailed: Bool = false
-  @State private var isLoginSuccess: Bool = false
-  @EnvironmentObject var authViewModel: AuthViewModel
-
-  func login() async {
-    isLoading = true
-
-    do {
-      try await authViewModel.login(emailOrUsername: email, password: password)
-    } catch {
-      isLoginFailed = true
-      isLoading = false
-      return
-    }
-
-    isLoading = false
-    isLoginSuccess = true
-  }
-
+  @State private var loginIsOpen: Bool = false
   var body: some View {
-    ApplyBackgroundColor {
-      VStack {
-        Text("Welcome to Alpinity")
-          .font(.largeTitle)
-          .fontWeight(.semibold)
-          .foregroundStyle(.black)
-          .padding()
+    NavigationStack {
+      ApplyBackgroundColor(backgroundColor: Color.black) {
+        ZStack(alignment: .bottom) {
+          Image("TestingSamples/limski/pikachu")
+            .resizable()
+            .scaledToFill()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .opacity(0.3)
+            .ignoresSafeArea()
 
-        TextField("", text: $email, prompt: Text("Username or email").foregroundStyle(.gray))
-          .autocapitalization(.none)
-          .disableAutocorrection(true)
-          .padding()
-          .background(Color.backgroundGray)
-          .foregroundColor(.black)
-          .cornerRadius(10)
-          .padding()
+          VStack(alignment: .center) {
+            Text("Hello there 👋")
+              .font(.title)
+              .foregroundColor(.white)
+              .padding(.bottom, 30)
 
-        SecureField("Password", text: $password, prompt: Text("Password").foregroundStyle(.gray))
-          .autocapitalization(.none)
-          .disableAutocorrection(true)
-          .padding()
-          .background(Color.backgroundGray)
-          .foregroundColor(.black)
-          .cornerRadius(10)
-          .padding()
+            NavigationLink(destination: UserLoginView(loginIsOpen: $loginIsOpen)) {
+              if loginIsOpen {
+                ProgressView()
+                  .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                  .frame(width: UIScreen.main.bounds.width - 80, height: 30)
+                  .foregroundColor(.white)
+                  .padding()
+                  .background(Color.newPrimaryColor)
+                  .cornerRadius(10)
+              } else {
+                Text("Login")
+                  .frame(width: UIScreen.main.bounds.width - 80, height: 30)
+                  .foregroundColor(.white)
+                  .padding()
+                  .background(Color.newPrimaryColor)
+                  .cornerRadius(10)
+                  .fontWeight(.bold)
+                  .font(.title3)
+              }
+            }
+            .disabled(loginIsOpen)
+            .padding(.bottom, 10)
 
-        Button {
-          Task(priority: .userInitiated) {
-            await login()
+            Button(action: {
+              loginIsOpen = true
+            }) {
+              Text("Register")
+                .frame(width: UIScreen.main.bounds.width - 80, height: 30)
+                .foregroundColor(Color.newPrimaryColor)
+                .padding()
+                .background(Color.newBackgroundGray)
+                .cornerRadius(10)
+                .fontWeight(.bold)
+                .font(.title3)
+            }
+            .disabled(loginIsOpen)
+            .padding(.bottom)
+
+            Spacer()
+              .frame(height: 150)
           }
-        } label: {
-          Text("Login")
-            .font(.title3)
-            .fontWeight(.semibold)
-            .foregroundStyle(.white)
-            .padding()
-            .frame(maxWidth: .infinity)
-            .background(Color.primaryColor)
-            .cornerRadius(10)
-        }
-        .padding()
-
-        if isLoading {
-          ProgressView()
-            .progressViewStyle(CircularProgressViewStyle())
-            .padding()
-        }
-
-        if isLoginFailed {
-          Text("Incorrect username or password")
-            .font(.title3)
-            .fontWeight(.semibold)
-            .foregroundStyle(.red)
-            .padding()
+          .padding(.horizontal)
         }
       }
-      .padding()
     }
   }
 }

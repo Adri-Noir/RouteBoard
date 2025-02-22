@@ -32,6 +32,8 @@
 		AF2991EA2D078CF200BB7907 /* PhotoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2991E32D078CF200BB7907 /* PhotoCapture.swift */; };
 		AF2991F62D078D3400BB7907 /* CameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2991F32D078D3400BB7907 /* CameraModel.swift */; };
 		AF29920B2D07BEB300BB7907 /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF29920A2D07BEB300BB7907 /* CameraPreview.swift */; };
+		AF3D932E2D67D633003FAF90 /* NewMainNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D932C2D67D62F003FAF90 /* NewMainNavigationView.swift */; };
+		AF3D934E2D680137003FAF90 /* UserLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D934C2D680122003FAF90 /* UserLoginView.swift */; };
 		AF773D6C2C3DFBED00886C00 /* OverlayAndRouteId.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF773D6B2C3DFBED00886C00 /* OverlayAndRouteId.swift */; };
 		AF78ECAA2D1C8019009F3B79 /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = AF78ECA92D1C8019009F3B79 /* OpenAPIRuntime */; };
 		AF869C9D2C3064AA0092E371 /* RouteBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF869C9C2C3064AA0092E371 /* RouteBoardApp.swift */; };
@@ -167,6 +169,8 @@
 		AF2991F32D078D3400BB7907 /* CameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModel.swift; sourceTree = "<group>"; };
 		AF29920A2D07BEB300BB7907 /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
 		AF35C6AD2CD80B5000FEBC40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		AF3D932C2D67D62F003FAF90 /* NewMainNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMainNavigationView.swift; sourceTree = "<group>"; };
+		AF3D934C2D680122003FAF90 /* UserLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLoginView.swift; sourceTree = "<group>"; };
 		AF773D6B2C3DFBED00886C00 /* OverlayAndRouteId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayAndRouteId.swift; sourceTree = "<group>"; };
 		AF869C992C3064AA0092E371 /* RouteBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RouteBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF869C9C2C3064AA0092E371 /* RouteBoardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteBoardApp.swift; sourceTree = "<group>"; };
@@ -314,6 +318,7 @@
 		6911F630FE1F11765DC93701 /* MainNavigation */ = {
 			isa = PBXGroup;
 			children = (
+				AF3D932C2D67D62F003FAF90 /* NewMainNavigationView.swift */,
 				6911FE807174DDA6C9286DF9 /* MainNavigationButton.swift */,
 				6911FF1EF059EB029243BF8B /* MainNavigationWithFloatingSearch.swift */,
 				6911F9D42AC10DD011DEF193 /* MainNavigationView.swift */,
@@ -398,6 +403,14 @@
 				AF29920A2D07BEB300BB7907 /* CameraPreview.swift */,
 			);
 			path = Support;
+			sourceTree = "<group>";
+		};
+		AF3D93492D680118003FAF90 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AF3D934C2D680122003FAF90 /* UserLoginView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		AF869C902C3064AA0092E371 = {
@@ -783,6 +796,7 @@
 		AFD931452D26080A00B68D92 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				AF3D93492D680118003FAF90 /* Views */,
 				AFD931482D26081900B68D92 /* LoginView.swift */,
 			);
 			path = Login;
@@ -1046,6 +1060,7 @@
 				AF8DA63C2CD450CC00751865 /* RecentAscentsView.swift in Sources */,
 				AFBE85902D1229F70029217C /* PhotoCaptureButton.swift in Sources */,
 				AF9E0C6F2C3747FD00984C58 /* FrenchClimbingGrades.swift in Sources */,
+				AF3D934E2D680137003FAF90 /* UserLoginView.swift in Sources */,
 				AF8A77442D46D8180029BE40 /* CragMapView.swift in Sources */,
 				AF2991EA2D078CF200BB7907 /* PhotoCapture.swift in Sources */,
 				AF2991F62D078D3400BB7907 /* CameraModel.swift in Sources */,
@@ -1075,6 +1090,7 @@
 				AFD931292D2387E500B68D92 /* ResultTypeLinkPicker.swift in Sources */,
 				AF8A76652D446C640029BE40 /* RouteLocationInfoView.swift in Sources */,
 				AFC7D1D32D387DE30034DC05 /* AuthInjectionMock.swift in Sources */,
+				AF3D932E2D67D633003FAF90 /* NewMainNavigationView.swift in Sources */,
 				AF8A75B02D4312390029BE40 /* AsyncImageWithFallback.swift in Sources */,
 				AF0A110F2C3C8EEB00BFAEAC /* SimpleRoute.swift in Sources */,
 				AF869C9D2C3064AA0092E371 /* RouteBoardApp.swift in Sources */,

@@ -20,3 +20,9 @@ struct RouteBoardApp: App {
 }
 
 let logger = Logger()
+
+#Preview {
+  AuthInjection {
+    MainNavigation()
+  }
+}

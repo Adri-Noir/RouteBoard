@@ -18,7 +18,11 @@ public class KeychainService {
 
   public func saveJWTToken(token: String) {
     do {
-      try keychain.set(token, key: JWTTokenKey)
+      #if targetEnvironment(simulator)
+        print("Running in simulator - not saving token")
+      #else
+        try keychain.set(token, key: JWTTokenKey)
+      #endif
     } catch {
       print(error)
     }
