@@ -66,7 +66,7 @@ public class AuthViewModel: ObservableObject {
     }
 
     Task { @MainActor in
-      try? await Task.sleep(nanoseconds: 400_000_000)
+      try? await Task.sleep(nanoseconds: 500_000_000)
       try? await self.saveUser(loggedInUser)
     }
   }

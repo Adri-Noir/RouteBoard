@@ -34,6 +34,13 @@
 		AF29920B2D07BEB300BB7907 /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF29920A2D07BEB300BB7907 /* CameraPreview.swift */; };
 		AF3D932E2D67D633003FAF90 /* NewMainNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D932C2D67D62F003FAF90 /* NewMainNavigationView.swift */; };
 		AF3D934E2D680137003FAF90 /* UserLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D934C2D680122003FAF90 /* UserLoginView.swift */; };
+		AF3D94452D6A97A7003FAF90 /* UserRecentAscentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D94442D6A97A2003FAF90 /* UserRecentAscentsView.swift */; };
+		AF3D94492D6A9833003FAF90 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D94472D6A982F003FAF90 /* SearchBar.swift */; };
+		AF3D944D2D6A98AC003FAF90 /* UserHelloView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D944B2D6A98A8003FAF90 /* UserHelloView.swift */; };
+		AF3D945A2D6A9BA4003FAF90 /* RecentlyViewedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D94582D6A9B9A003FAF90 /* RecentlyViewedView.swift */; };
+		AF3D951F2D6B962A003FAF90 /* ExploreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D951E2D6B9628003FAF90 /* ExploreView.swift */; };
+		AF3D95222D6B96E2003FAF90 /* NavigationSearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D95212D6B96DC003FAF90 /* NavigationSearchResultsView.swift */; };
+		AF3D95D02D6BE0D9003FAF90 /* WavingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D95CE2D6BE0D7003FAF90 /* WavingText.swift */; };
 		AF773D6C2C3DFBED00886C00 /* OverlayAndRouteId.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF773D6B2C3DFBED00886C00 /* OverlayAndRouteId.swift */; };
 		AF78ECAA2D1C8019009F3B79 /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = AF78ECA92D1C8019009F3B79 /* OpenAPIRuntime */; };
 		AF869C9D2C3064AA0092E371 /* RouteBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF869C9C2C3064AA0092E371 /* RouteBoardApp.swift */; };
@@ -171,6 +178,13 @@
 		AF35C6AD2CD80B5000FEBC40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		AF3D932C2D67D62F003FAF90 /* NewMainNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMainNavigationView.swift; sourceTree = "<group>"; };
 		AF3D934C2D680122003FAF90 /* UserLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLoginView.swift; sourceTree = "<group>"; };
+		AF3D94442D6A97A2003FAF90 /* UserRecentAscentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRecentAscentsView.swift; sourceTree = "<group>"; };
+		AF3D94472D6A982F003FAF90 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		AF3D944B2D6A98A8003FAF90 /* UserHelloView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHelloView.swift; sourceTree = "<group>"; };
+		AF3D94582D6A9B9A003FAF90 /* RecentlyViewedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentlyViewedView.swift; sourceTree = "<group>"; };
+		AF3D951E2D6B9628003FAF90 /* ExploreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreView.swift; sourceTree = "<group>"; };
+		AF3D95212D6B96DC003FAF90 /* NavigationSearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSearchResultsView.swift; sourceTree = "<group>"; };
+		AF3D95CE2D6BE0D7003FAF90 /* WavingText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WavingText.swift; sourceTree = "<group>"; };
 		AF773D6B2C3DFBED00886C00 /* OverlayAndRouteId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayAndRouteId.swift; sourceTree = "<group>"; };
 		AF869C992C3064AA0092E371 /* RouteBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RouteBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF869C9C2C3064AA0092E371 /* RouteBoardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteBoardApp.swift; sourceTree = "<group>"; };
@@ -318,6 +332,7 @@
 		6911F630FE1F11765DC93701 /* MainNavigation */ = {
 			isa = PBXGroup;
 			children = (
+				AF3D94412D6A979C003FAF90 /* Views */,
 				AF3D932C2D67D62F003FAF90 /* NewMainNavigationView.swift */,
 				6911FE807174DDA6C9286DF9 /* MainNavigationButton.swift */,
 				6911FF1EF059EB029243BF8B /* MainNavigationWithFloatingSearch.swift */,
@@ -411,6 +426,27 @@
 				AF3D934C2D680122003FAF90 /* UserLoginView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		AF3D94412D6A979C003FAF90 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AF3D95212D6B96DC003FAF90 /* NavigationSearchResultsView.swift */,
+				AF3D951E2D6B9628003FAF90 /* ExploreView.swift */,
+				AF3D94582D6A9B9A003FAF90 /* RecentlyViewedView.swift */,
+				AF3D944B2D6A98A8003FAF90 /* UserHelloView.swift */,
+				AF3D94472D6A982F003FAF90 /* SearchBar.swift */,
+				AF3D94442D6A97A2003FAF90 /* UserRecentAscentsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		AF3D95CB2D6BE0C7003FAF90 /* WavingText */ = {
+			isa = PBXGroup;
+			children = (
+				AF3D95CE2D6BE0D7003FAF90 /* WavingText.swift */,
+			);
+			path = WavingText;
 			sourceTree = "<group>";
 		};
 		AF869C902C3064AA0092E371 = {
@@ -573,6 +609,7 @@
 		AF9B62462C346D47003762B0 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				AF3D95CB2D6BE0C7003FAF90 /* WavingText */,
 				AF8A75AC2D4312280029BE40 /* AsyncImageWithFallback */,
 				AF8A74E42D407E380029BE40 /* MarqueeText */,
 				AFC7D28D2D3C755B0034DC05 /* DetailsTopView */,
@@ -1027,6 +1064,7 @@
 			files = (
 				AFD391912C319B82008CF2A7 /* ProcessedSamplesSwift.swift in Sources */,
 				AFC7D2B62D3C82700034DC05 /* UINavigationGestureOverwrite.swift in Sources */,
+				AF3D945A2D6A9BA4003FAF90 /* RecentlyViewedView.swift in Sources */,
 				AF8A76492D4468E30029BE40 /* RouteTopContainerView.swift in Sources */,
 				AFD931362D25DBA200B68D92 /* CragView.swift in Sources */,
 				AF8DA64B2CD56C1300751865 /* GeneralSearchView.swift in Sources */,
@@ -1043,6 +1081,7 @@
 				AF9E0C722C38AC0B00984C58 /* CreateRouteImageView.swift in Sources */,
 				AF8A771A2D46CDAE0029BE40 /* CragGalleryView.swift in Sources */,
 				AFD3916F2C30B977008CF2A7 /* OpenCVWrapper.mm in Sources */,
+				AF3D944D2D6A98AC003FAF90 /* UserHelloView.swift in Sources */,
 				AF9B62542C34A271003762B0 /* ExtendedDivider.swift in Sources */,
 				AF8A75E12D43243A0029BE40 /* SectorClimbTypeView.swift in Sources */,
 				AF8A75EB2D43246D0029BE40 /* SectorRoutesListView.swift in Sources */,
@@ -1055,6 +1094,7 @@
 				AFD9316D2D29EF6B00B68D92 /* AuthViewModel.swift in Sources */,
 				AFD931312D238C2100B68D92 /* RouteLink.swift in Sources */,
 				AF9E0C752C38ACC400984C58 /* CreateRouteImageModel.swift in Sources */,
+				AF3D94452D6A97A7003FAF90 /* UserRecentAscentsView.swift in Sources */,
 				AF9E0C6C2C3747C500984C58 /* ClimbingGrades.swift in Sources */,
 				AF8DA6402CD45DD400751865 /* RouteAscentView.swift in Sources */,
 				AF8DA63C2CD450CC00751865 /* RecentAscentsView.swift in Sources */,
@@ -1086,6 +1126,8 @@
 				AF2991E12D078CEE00BB7907 /* DataTypes.swift in Sources */,
 				AFD931392D25DC1900B68D92 /* CragLink.swift in Sources */,
 				AF8A760A2D4457710029BE40 /* UINavigationBarExtension.swift in Sources */,
+				AF3D95D02D6BE0D9003FAF90 /* WavingText.swift in Sources */,
+				AF3D951F2D6B962A003FAF90 /* ExploreView.swift in Sources */,
 				AF9B62512C349484003762B0 /* ImageCarouselView.swift in Sources */,
 				AFD931292D2387E500B68D92 /* ResultTypeLinkPicker.swift in Sources */,
 				AF8A76652D446C640029BE40 /* RouteLocationInfoView.swift in Sources */,
@@ -1100,6 +1142,7 @@
 				AF8A75D32D4323B70029BE40 /* SectorTopGradesSummaryContainer.swift in Sources */,
 				6911F75652EFE19E90503597 /* SingleResultView.swift in Sources */,
 				6911FF8E122D5F4FF7E7BC52 /* MainNavigationButton.swift in Sources */,
+				AF3D94492D6A9833003FAF90 /* SearchBar.swift in Sources */,
 				6911F6332E2C522FD13518AC /* MainNavigationWithFloatingSearch.swift in Sources */,
 				AFD931692D29EF5B00B68D92 /* AuthInjection.swift in Sources */,
 				6911F238AC288B034145C1D5 /* MainNavigationView.swift in Sources */,
@@ -1110,6 +1153,7 @@
 				AF8A76ED2D46BDAF0029BE40 /* CragTopInfoContainerView.swift in Sources */,
 				AFC7D2922D3C759F0034DC05 /* DetailsTopView.swift in Sources */,
 				6911F969FF44336C6055B5F6 /* DetailsViewStateMachine.swift in Sources */,
+				AF3D95222D6B96E2003FAF90 /* NavigationSearchResultsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

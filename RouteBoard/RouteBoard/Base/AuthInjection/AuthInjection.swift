@@ -36,7 +36,7 @@ struct AuthInjection<Content: View>: View {
           .transition(.move(edge: .trailing))
       } else {
         LoginView()
-          .transition(.move(edge: .leading))
+          .transition(.asymmetric(insertion: .opacity, removal: .move(edge: .leading)))
       }
     }
     .environmentObject(authViewModel)

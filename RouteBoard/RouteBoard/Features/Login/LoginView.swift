@@ -13,6 +13,7 @@ struct LoginView: View {
   @State private var password: String = ""
   @State private var isLoading: Bool = false
   @State private var loginIsOpen: Bool = false
+  
   var body: some View {
     NavigationStack {
       ApplyBackgroundColor(backgroundColor: Color.black) {

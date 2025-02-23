@@ -5,13 +5,10 @@
 //  Created with <3 on 01.11.2024..
 //
 
-import Combine
 import GeneratedClient
-import OpenAPIRuntime
-import OpenAPIURLSession
 import SwiftUI
 
-struct SearchResultView: View {
+public struct SearchResultView: View {
   @Binding public var searchText: String
 
   @State private var results: [GetSearchResults] = []
@@ -28,27 +25,37 @@ struct SearchResultView: View {
   func search(value: String) async {
     isLoading = true
     // try? await Task.sleep(nanoseconds: 1_000_000_000)
-    results = await client.call(
+    let searchResults = await client.call(
       GetSearchResultsInput(query: value), authViewModel.getAuthData())
-    isLoading = false
+
+    withAnimation {
+      results = searchResults
+      isLoading = false
+    }
   }
 
-  var body: some View {
+  @ViewBuilder
+  private var resultsContent: some View {
+    if results.isEmpty && !searchText.isEmpty {
+      NoSearchResultsView()
+    } else {
+      LazyVStack(alignment: .leading, spacing: 20) {
+        ForEach($results, id: \.id) { result in
+          ResultTypeLinkPicker(result: result) {
+            SingleResultView(result: result)
+          }
+        }
+      }
+      .padding(.horizontal, 20)
+    }
+  }
+
+  public var body: some View {
     VStack(alignment: .leading) {
       if isLoading {
         LoadingSearchResultsView()
       } else {
-        if results.isEmpty {
-          NoSearchResultsView()
-        } else {
-          List($results, id: \.self.id) { result in
-            ResultTypeLinkPicker(result: result) {
-              SingleResultView(result: result)
-            }
-          }
-          .listStyle(.plain)
-
-        }
+        resultsContent
       }
     }
     .onChange(of: searchText) {

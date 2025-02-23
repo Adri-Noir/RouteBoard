@@ -13,7 +13,7 @@ struct RouteBoardApp: App {
   var body: some Scene {
     WindowGroup {
       AuthInjection {
-        MainNavigation()
+        NewMainNavigationView()
       }
     }
   }
@@ -23,6 +23,6 @@ let logger = Logger()
 
 #Preview {
   AuthInjection {
-    MainNavigation()
+    NewMainNavigationView()
   }
 }
