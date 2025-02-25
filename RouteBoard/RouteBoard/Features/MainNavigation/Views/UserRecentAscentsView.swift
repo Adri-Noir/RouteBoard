@@ -29,71 +29,73 @@ struct UserRecentAscentsView: View {
       ScrollView(.horizontal, showsIndicators: false) {
         LazyHStack(spacing: 20) {
           ForEach(0..<5) { _ in
-            VStack(spacing: 0) {
-              Color.black
-                .frame(height: 225)
-                .overlay(
-                  ZStack(alignment: .topLeading) {
-                    Image("TestingSamples/limski/pikachu")
-                      .resizable()
-                      .aspectRatio(contentMode: .fill)
-                      .opacity(0.4)
-                      .blur(radius: 1)
+            Color.black
+              .frame(height: 225)
+              .overlay(
+                ZStack(alignment: .topLeading) {
+                  Image("TestingSamples/limski/pikachu")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .opacity(0.4)
+                    .blur(radius: 1)
 
-                    VStack(alignment: .leading) {
-                      HStack(alignment: .center) {
-                        Text("Route Name")
-                          .font(.title2)
-                          .fontWeight(.bold)
-                          .foregroundColor(Color.white)
+                  VStack(alignment: .leading) {
+                    HStack(alignment: .center) {
+                      Text("Route Name")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color.white)
 
-                        Text("6a")
+                      Text("6a")
+                        .font(.subheadline)
+                        .foregroundColor(Color.white)
+                    }
+                    .padding(.horizontal, 10)
+                    .padding(.top, 30)
+
+                    Spacer()
+
+                    VStack(alignment: .leading, spacing: 8) {
+                      Button(action: {
+                        // Action to show crag details
+                      }) {
+                        Text("Crag")
                           .font(.subheadline)
                           .foregroundColor(Color.white)
                       }
-                      .padding(.horizontal, 10)
-                      .padding(.top, 30)
-
-                      Spacer()
-
-                      VStack(alignment: .leading, spacing: 8) {
-                        Button(action: {
-                          // Action to show crag details
-                        }) {
-                          Text("Crag")
-                            .font(.subheadline)
-                            .foregroundColor(Color.white)
-                        }
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
-                        .background(Color.clear)
-                        Button(action: {
-                          // Action to show sector details
-                        }) {
-                          Text("Sector")
-                            .font(.subheadline)
-                            .foregroundColor(Color.white)
-                        }
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
-                        .background(Color.clear)
+                      .padding(.horizontal, 12)
+                      .padding(.vertical, 6)
+                      .background(Color.clear)
+                      Button(action: {
+                        // Action to show sector details
+                      }) {
+                        Text("Sector")
+                          .font(.subheadline)
+                          .foregroundColor(Color.white)
                       }
-                      .padding(.horizontal, 10)
-                      .padding(.bottom, 10)
+                      .padding(.horizontal, 12)
+                      .padding(.vertical, 6)
+                      .background(Color.clear)
                     }
+                    .padding(.horizontal, 10)
+                    .padding(.bottom, 10)
                   }
-                )
-                .clipped()
-            }
-            .frame(width: UIScreen.main.bounds.width / 2 - 30)
-            .background(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                }
+              )
+              .clipped()
+              .containerRelativeFrame(.horizontal, count: 2, spacing: 0)
+              .background(.white)
+              .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
           }
         }
-        .padding(.horizontal, 20)
+        .scrollTargetLayout()
       }
+      .contentMargins(.horizontal, 20, for: .scrollContent)
       .scrollTargetBehavior(.viewAligned)
-      .scrollTargetLayout()
     }
   }
+}
+
+#Preview {
+  UserRecentAscentsView()
 }

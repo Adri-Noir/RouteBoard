@@ -30,12 +30,15 @@ public class AuthViewModel: ObservableObject {
   public init() {}
 
   public func loginWithSeededUser() async {
-    do {
-      try await login(emailOrUsername: "seededUser", password: "testpassword")
-      print("Successfully logged in with seeded user")
-    } catch {
+    guard
+      let loggedInUser = await loginClient.call(
+        LoginInput(emailOrUsername: "seededUser", password: "testpassword"))
+    else {
       print("Failed to login with seeded user")
+      return
     }
+
+    try? await self.saveUser(loggedInUser)
   }
 
   private func saveUser(_ loggedInUser: LoggedInUser) async throws {
