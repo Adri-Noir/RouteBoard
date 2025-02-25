@@ -157,10 +157,10 @@ struct RouteView: View {
     }
     .padding(.horizontal, 20)
     .padding(.vertical, 8)
+    .padding(.top, safeAreaInsets.top + 30)
     .background(
       Color.newPrimaryColor.ignoresSafeArea().background(.ultraThinMaterial).opacity(navbarOpacity)
     )
-    .padding(.top, safeAreaInsets.top + 30)
     .shadow(color: Color.black.opacity(0.15), radius: 2, x: 0, y: 1)
     .animation(.easeInOut(duration: 0.3), value: navbarOpacity)
     .frame(height: 54)
