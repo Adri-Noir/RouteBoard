@@ -6,7 +6,6 @@ namespace Alpinity.Application.Mappings;
 
 public class PhotoProfile : Profile
 {
-    // create a map from RoutePhoto to RoutePhotoDto
     public PhotoProfile()
     {
         CreateMap<RoutePhoto, RoutePhotoDto>()

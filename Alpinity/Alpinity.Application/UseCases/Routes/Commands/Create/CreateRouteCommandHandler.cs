@@ -1,6 +1,7 @@
 using Alpinity.Application.Interfaces.Repositories;
 using Alpinity.Application.UseCases.Routes.Dtos;
 using Alpinity.Domain.Entities;
+using Alpinity.Domain.Enums;
 using ApiExceptions.Exceptions;
 using AutoMapper;
 using MediatR;
@@ -17,15 +18,8 @@ public class CreateRouteCommandHandler(
         var sector = await sectorRepository.GetSectorById(request.SectorId);
         if (sector == null) throw new EntityNotFoundException("Sector not found.");
 
-        var route = new Route
-        {
-            Name = request.Name,
-            Description = request.Description,
-            Grade = request.Grade,
-            SectorId = request.SectorId,
-            RouteType = request.RouteType.Aggregate((a, b) => a | b),
-            Length = request.Length
-        };
+        var route = mapper.Map<Route>(request);
+        route.SectorId = request.SectorId;
 
         await routeRepository.CreateRoute(route);
 

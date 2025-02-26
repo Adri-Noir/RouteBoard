@@ -12,11 +12,11 @@ struct RouteLogAscent: View {
   @State private var selectedGrade: String = "4a"
   @State private var selectedClimbType: [String] = []
   @State private var rating: Int = 0
-  @State private var comment: String = ""
+  @State private var notes: String = ""
   @State private var isSubmitting: Bool = false
   @State private var scrollPosition: String?
 
-  @FocusState private var isCommentFocused: Bool
+  @FocusState private var isNotesFocused: Bool
 
   private let climbTypes = ["Onsight", "Flash", "Redpoint", "Pinkpoint", "Top Rope", "Attempt"]
 
@@ -113,13 +113,13 @@ struct RouteLogAscent: View {
           .padding(.horizontal, 20)
 
           VStack(alignment: .leading, spacing: 10) {
-            Text("Comment")
+            Text("Notes")
               .font(.headline)
               .fontWeight(.semibold)
               .foregroundColor(Color.newTextColor)
               .padding(.horizontal)
 
-            TextEditor(text: $comment)
+            TextEditor(text: $notes)
               .frame(minHeight: 120)
               .padding(10)
               .scrollContentBackground(.hidden)
@@ -130,9 +130,9 @@ struct RouteLogAscent: View {
                 RoundedRectangle(cornerRadius: 10)
                   .stroke(Color.gray.opacity(0.2), lineWidth: 1)
               )
-              .focused($isCommentFocused)
-              .onTapBackground(enabled: isCommentFocused) {
-                isCommentFocused = false
+              .focused($isNotesFocused)
+              .onTapBackground(enabled: isNotesFocused) {
+                isNotesFocused = false
               }
           }
           .padding(.horizontal, 20)

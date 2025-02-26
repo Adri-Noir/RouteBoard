@@ -30,6 +30,7 @@ public static class ServiceExtensions
         services.AddTransient<IRouteRepository, RouteRepository>();
         services.AddTransient<IPhotoRepository, PhotoRepository>();
         services.AddTransient<IUserRepository, UserRepository>();
+        services.AddTransient<IAscentRepository, AscentRepository>();
 
         return services;
     }

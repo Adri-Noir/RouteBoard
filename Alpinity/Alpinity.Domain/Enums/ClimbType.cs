@@ -1,5 +1,6 @@
 namespace Alpinity.Domain.Enums;
 
+[Flags]
 public enum ClimbType
 {
     Endurance = 0,

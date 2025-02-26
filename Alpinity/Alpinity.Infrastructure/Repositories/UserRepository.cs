@@ -52,7 +52,7 @@ public class UserRepository(
             .Include(u => u.ProfilePhoto)
             .FirstOrDefaultAsync(u => u.Id == userId);
 
-        user.ProfilePhoto = photo;
+        user!.ProfilePhoto = photo;
         await dbContext.SaveChangesAsync();
     }
 }

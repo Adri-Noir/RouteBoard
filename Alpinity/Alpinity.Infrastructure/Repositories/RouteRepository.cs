@@ -18,11 +18,12 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
     {
         return await dbContext.Routes
             .Include(route => route.Sector)
-            .ThenInclude(sector => sector.Crag)
+            .Include("Sector.Crag")
             .Include(route => route.RoutePhotos)
-            .ThenInclude(routePhoto => routePhoto.Image)
-            .Include(route => route.RoutePhotos)
-            .ThenInclude(routePhoto => routePhoto.PathLine)
+            .Include("RoutePhotos.Image")
+            .Include("RoutePhotos.PathLine")
+            .Include(route => route.Ascents!)
+            .ThenInclude(ascent => ascent.User)
             .FirstOrDefaultAsync(route => route.Id == routeId);
     }
 
@@ -43,6 +44,7 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
             .Include(route => route.RoutePhotos)
             .FirstOrDefaultAsync(route => route.Id == routeId);
 
+        route!.RoutePhotos ??= [];
         route.RoutePhotos.Add(routePhoto);
         await dbContext.SaveChangesAsync();
     }

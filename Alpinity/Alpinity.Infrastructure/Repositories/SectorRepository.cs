@@ -20,11 +20,9 @@ public class SectorRepository(ApplicationDbContext dbContext) : ISectorRepositor
             .Include(sector => sector.Crag)
             .Include(sector => sector.Photos)
             .Include(sector => sector.Routes)
-            .ThenInclude(route => route.RoutePhotos)
-            .ThenInclude(routePhoto => routePhoto.Image)
-            .Include(sector => sector.Routes)
-            .ThenInclude(route => route.RoutePhotos)
-            .ThenInclude(routePhoto => routePhoto.PathLine)
+            .Include("Routes.RoutePhotos.Image")
+            .Include("Routes.RoutePhotos.PathLine")
+            .Include("Routes.Ascents")
             .FirstOrDefaultAsync(sector => sector.Id == sectorId);
     }
 
@@ -45,6 +43,7 @@ public class SectorRepository(ApplicationDbContext dbContext) : ISectorRepositor
             .Include(sector => sector.Photos)
             .FirstOrDefaultAsync(sector => sector.Id == sectorId);
 
+        sector!.Photos ??= [];
         sector.Photos.Add(sectorPhoto);
         await dbContext.SaveChangesAsync();
     }
@@ -55,6 +54,7 @@ public class SectorRepository(ApplicationDbContext dbContext) : ISectorRepositor
             .Include(sector => sector.Photos)
             .FirstOrDefaultAsync(sector => sector.Id == sectorId);
 
+        sector!.Photos ??= [];
         sectorPhotos.ToList().ForEach(sectorPhoto => sector.Photos.Add(sectorPhoto));
 
         await dbContext.SaveChangesAsync();

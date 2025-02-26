@@ -1,9 +1,13 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Alpinity.Domain.Entities;
 
 public class Photo
 {
     public Guid Id { get; set; }
+    [StringLength(1000)]
     public string? Description { get; set; }
+    [StringLength(500)]
     public required string Url { get; set; }
     public DateTime TakenAt { get; set; } = DateTime.UtcNow;
 

@@ -17,6 +17,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Route> Routes { get; set; } = null!;
     public DbSet<RoutePhoto> RoutePhotos { get; set; } = null!;
     public DbSet<Photo> Photos { get; set; } = null!;
+    public DbSet<Ascent> Ascents { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -55,5 +56,17 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<User>()
             .HasIndex(u => u.Email)
             .IsUnique();
+            
+        modelBuilder.Entity<Ascent>()
+            .HasOne(a => a.User)
+            .WithMany(u => u.Ascents)
+            .HasForeignKey(a => a.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+            
+        modelBuilder.Entity<Ascent>()
+            .HasOne(a => a.Route)
+            .WithMany(r => r.Ascents)
+            .HasForeignKey(a => a.RouteId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -12,7 +12,7 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
     {
         return await dbContext.Crags
             .Include(crag => crag.Sectors)
-            .ThenInclude(sector => sector.Routes)
+            .Include("Sectors.Routes")
             .FirstOrDefaultAsync(crag => crag.Id == cragId);
     }
 

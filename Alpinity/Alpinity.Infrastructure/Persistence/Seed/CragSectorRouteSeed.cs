@@ -40,11 +40,36 @@ public static class CragSectorRouteSeed
                 Name = "Test Route",
                 Description = "This is a seeded route.",
                 Grade = ClimbingGrade.F_6a,
-                RouteType = RouteType.Sport | RouteType.Trad,
+                RouteType = new List<RouteType> { RouteType.Sport, RouteType.Trad },
                 SectorId = (await context.Sectors.FirstAsync()).Id
             };
             await context.Routes.AddAsync(route);
             await context.SaveChangesAsync();
+        }
+
+        if (!await context.Ascents.AnyAsync())
+        {
+            var user = await context.Users.FirstOrDefaultAsync();
+            var route = await context.Routes.FirstOrDefaultAsync();
+
+            if (user != null && route != null)
+            {
+                var ascent = new Ascent
+                {
+                    AscentDate = DateTime.UtcNow.AddDays(-5),
+                    Notes = "This is a seeded ascent. Great climbing day!",
+                    ClimbTypes = [ClimbType.Technical, ClimbType.Powerful],
+                    RockTypes = [RockType.Vertical, RockType.Arete],
+                    HoldTypes = [HoldType.Crimps, HoldType.Jugs],
+                    ProposedGrade = ClimbingGrade.F_6a,
+                    Rating = 4,
+                    UserId = user.Id,
+                    RouteId = route.Id
+                };
+
+                await context.Ascents.AddAsync(ascent);
+                await context.SaveChangesAsync();
+            }
         }
     }
 }
