@@ -13,7 +13,10 @@ struct RouteView: View {
   let routeId: String
   @State private var isLoading: Bool = false
   @State private var route: RouteDetails?
+
   @State private var isPresentingCreateRouteImageView = false
+  @State private var isPresentingRouteLogAscent = false
+
   @State private var scrollOffset: CGFloat = 0
   @State private var startingScrollOffset: CGFloat = 0
 
@@ -85,21 +88,50 @@ struct RouteView: View {
   }
 
   var navigationBarExpanded: some View {
-    AsyncImage(url: URL(string: routePhotos.first ?? "")) { image in
-      image
-        .resizable()
-        .aspectRatio(contentMode: .fill)
-        .frame(height: navigationImageSize)
-        .clipped()
-        .allowsHitTesting(false)
+    ZStack(alignment: .bottom) {
+      AsyncImage(url: URL(string: routePhotos.first ?? "")) { image in
+        image
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+          .frame(height: navigationImageSize)
+          .clipped()
+          .allowsHitTesting(false)
 
-    } placeholder: {
-      Image("TestingSamples/limski/pikachu")
-        .resizable()
-        .aspectRatio(contentMode: .fill)
-        .frame(height: navigationImageSize)
-        .clipped()
+      } placeholder: {
+        Image("TestingSamples/limski/pikachu")
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+          .frame(height: navigationImageSize)
+          .clipped()
+          .allowsHitTesting(false)
+      }
+
+      HStack(spacing: 0) {
+        Spacer()
+
+        Button(action: {
+          isPresentingRouteLogAscent = true
+        }) {
+          HStack(spacing: 8) {
+            Image(systemName: "plus")
+              .foregroundColor(.white)
+              .font(.system(size: 18, weight: .semibold))
+
+            Text("Log Ascent")
+              .foregroundColor(.white)
+              .font(.system(size: 16, weight: .semibold))
+          }
+          .padding(.vertical, 10)
+          .padding(.trailing, 16)
+          .padding(.leading, 10)
+          .background(Color.black.opacity(0.75))
+          .clipShape(RoundedRectangle(cornerRadius: 20))
+        }
+      }
+      .frame(height: 54)
+      .padding(20)
     }
+    .frame(height: navigationImageSize)
   }
 
   var compactNavigationBar: some View {
@@ -243,6 +275,9 @@ struct RouteView: View {
     }
     .fullScreenCover(isPresented: $isPresentingCreateRouteImageView) {
       CreateRouteImageView()
+    }
+    .sheet(isPresented: $isPresentingRouteLogAscent) {
+      RouteLogAscent(route: route)
     }
     .task {
       await getRoute(value: routeId)
