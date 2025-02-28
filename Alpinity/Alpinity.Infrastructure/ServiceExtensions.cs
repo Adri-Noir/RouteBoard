@@ -16,9 +16,11 @@ public static class ServiceExtensions
         IConfiguration configuration)
     {
         services.AddDbContext<ApplicationDbContext>(options =>
+        {
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), sqlOption =>
-                sqlOption.UseNetTopologySuite())
-        );
+                sqlOption.UseNetTopologySuite());
+            options.EnableSensitiveDataLogging();
+        });
 
         services.AddTransient<ISignInService, SignInService>();
 

@@ -70,7 +70,7 @@ struct RouteView: View {
 
   var navigationImageSize: CGFloat {
     if scrollOffset > startingScrollOffset {
-      return max(imageCollapseThreshold - (scrollOffset - startingScrollOffset), 0)
+      return max(imageCollapseThreshold - (scrollOffset - startingScrollOffset), 90)
     }
     return imageCollapseThreshold + max(-scrollOffset + startingScrollOffset, 0)
   }
@@ -219,7 +219,7 @@ struct RouteView: View {
                     .padding(.top, 20)
 
                   VStack(spacing: 30) {
-                    SectorClimbTypeView()
+                    SectorClimbTypeView(route: route)
                     RouteAscentsView(route: route)
                   }
                   .padding(.top, 20)
@@ -277,7 +277,13 @@ struct RouteView: View {
       CreateRouteImageView()
     }
     .sheet(isPresented: $isPresentingRouteLogAscent) {
-      RouteLogAscent(route: route)
+      RouteLogAscent(
+        route: route,
+        onAscentLogged: {
+          Task {
+            await getRoute(value: routeId)
+          }
+        })
     }
     .task {
       await getRoute(value: routeId)
@@ -288,6 +294,6 @@ struct RouteView: View {
 
 #Preview {
   AuthInjectionMock {
-    RouteView(routeId: "ebdabd5e-3a1e-4fa5-f931-08dd3b395c5b")
+    RouteView(routeId: "fd5eb7b6-734b-458d-b7e5-08dd56b8e84e")
   }
 }

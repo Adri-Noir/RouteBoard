@@ -26,4 +26,14 @@ class FrenchClimbingGrades: ClimbingGrades {
     return gradeString
   }
 
+  func convertStringToGrade(_ grade: String) -> Components.Schemas.ClimbingGrade? {
+    if grade == "?" {
+      return .PROJECT
+    }
+
+    let formattedGrade = grade.replacingOccurrences(of: "+", with: "_plus")
+    let enumCase = "F_\(formattedGrade)"
+
+    return Components.Schemas.ClimbingGrade(rawValue: enumCase) ?? .PROJECT
+  }
 }

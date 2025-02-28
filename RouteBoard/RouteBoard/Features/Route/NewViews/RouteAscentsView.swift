@@ -59,7 +59,7 @@ struct RouteAscentsView: View {
 
   var body: some View {
     VStack(alignment: .leading, spacing: 10) {
-      Text("Ascents (12)")
+      Text("Ascents (\(route?.ascents?.count ?? 0))")
         .font(.title2)
         .fontWeight(.bold)
         .foregroundColor(Color.newTextColor)

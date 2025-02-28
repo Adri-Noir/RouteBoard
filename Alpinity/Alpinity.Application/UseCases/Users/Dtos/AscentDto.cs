@@ -5,7 +5,7 @@ namespace Alpinity.Application.UseCases.Users.Dtos;
 public class AscentDto
 {
     public Guid Id { get; set; }
-    public DateTime AscentDate { get; set; }
+    public string AscentDate { get; set; }
     public string? Notes { get; set; }
     public ICollection<ClimbType>? ClimbTypes { get; set; }
     public ICollection<RockType>? RockTypes { get; set; }

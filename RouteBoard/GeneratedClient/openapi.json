@@ -558,10 +558,108 @@
           }
         }
       }
+    },
+    "/api/User/logAscent": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogAscentCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "AscentDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "ascentDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "climbTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClimbType"
+            },
+            "nullable": true
+          },
+          "rockTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RockType"
+            },
+            "nullable": true
+          },
+          "holdTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HoldType"
+            },
+            "nullable": true
+          },
+          "proposedGrade": {
+            "$ref": "#/components/schemas/ClimbingGrade"
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "userProfilePhotoUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClimbType": {
+        "enum": [
+          "Endurance",
+          "Powerful",
+          "Technical"
+        ],
+        "type": "string"
+      },
       "ClimbingGrade": {
         "enum": [
           "F_1",
@@ -698,6 +796,67 @@
         },
         "additionalProperties": false
       },
+      "HoldType": {
+        "enum": [
+          "Crack",
+          "Crimps",
+          "Slopers",
+          "Pinches",
+          "Jugs",
+          "Pockets"
+        ],
+        "type": "string"
+      },
+      "LogAscentCommand": {
+        "required": [
+          "routeId"
+        ],
+        "type": "object",
+        "properties": {
+          "routeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "ascentDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "climbTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClimbType"
+            },
+            "nullable": true
+          },
+          "rockTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RockType"
+            },
+            "nullable": true
+          },
+          "holdTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HoldType"
+            },
+            "nullable": true
+          },
+          "proposedGrade": {
+            "$ref": "#/components/schemas/ClimbingGrade"
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "LoggedInUserDto": {
         "required": [
           "email",
@@ -825,6 +984,17 @@
         },
         "additionalProperties": { }
       },
+      "RockType": {
+        "enum": [
+          "Vertical",
+          "Overhang",
+          "Roof",
+          "Slab",
+          "Arete",
+          "Dihedral"
+        ],
+        "type": "string"
+      },
       "RouteDetailedDto": {
         "required": [
           "cragId",
@@ -887,6 +1057,13 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/RoutePhotoDto"
+            },
+            "nullable": true
+          },
+          "ascents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AscentDto"
             },
             "nullable": true
           }

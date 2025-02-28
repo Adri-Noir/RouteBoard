@@ -28,6 +28,7 @@
 		AF1DC6C42D3489F200D8409D /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = AF1DC6C32D3489F200D8409D /* KeychainAccess */; };
 		AF1DC6C72D348A1D00D8409D /* OpenCV in Frameworks */ = {isa = PBXBuildFile; productRef = AF1DC6C62D348A1D00D8409D /* OpenCV */; };
 		AF21C0AF2D6E7AB6000BE26C /* RouteLogAscent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF21C0AD2D6E7AB3000BE26C /* RouteLogAscent.swift */; };
+		AF21C18D2D71107A000BE26C /* ClimbTypesConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF21C18B2D711073000BE26C /* ClimbTypesConverter.swift */; };
 		AF2991DE2D078CEE00BB7907 /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2991D92D078CEE00BB7907 /* MediaLibrary.swift */; };
 		AF2991E12D078CEE00BB7907 /* DataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2991D82D078CEE00BB7907 /* DataTypes.swift */; };
 		AF2991EA2D078CF200BB7907 /* PhotoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2991E32D078CF200BB7907 /* PhotoCapture.swift */; };
@@ -172,6 +173,7 @@
 		AF191C6D2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteFinderBottomInfoView.swift; sourceTree = "<group>"; };
 		AF191C6F2C34D953000EBB61 /* InformationRectanglesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationRectanglesView.swift; sourceTree = "<group>"; };
 		AF21C0AD2D6E7AB3000BE26C /* RouteLogAscent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteLogAscent.swift; sourceTree = "<group>"; };
+		AF21C18B2D711073000BE26C /* ClimbTypesConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbTypesConverter.swift; sourceTree = "<group>"; };
 		AF2991D82D078CEE00BB7907 /* DataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTypes.swift; sourceTree = "<group>"; };
 		AF2991D92D078CEE00BB7907 /* MediaLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibrary.swift; sourceTree = "<group>"; };
 		AF2991E32D078CF200BB7907 /* PhotoCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCapture.swift; sourceTree = "<group>"; };
@@ -384,6 +386,14 @@
 				AF8DA6452CD563D400751865 /* ColorTheme.swift */,
 			);
 			path = Theme;
+			sourceTree = "<group>";
+		};
+		AF21C16C2D710B07000BE26C /* EnumConverter */ = {
+			isa = PBXGroup;
+			children = (
+				AF21C18B2D711073000BE26C /* ClimbTypesConverter.swift */,
+			);
+			path = EnumConverter;
 			sourceTree = "<group>";
 		};
 		AF2991C12D078A7300BB7907 /* Camera */ = {
@@ -612,6 +622,7 @@
 		AF9B62462C346D47003762B0 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				AF21C16C2D710B07000BE26C /* EnumConverter */,
 				AF3D95CB2D6BE0C7003FAF90 /* WavingText */,
 				AF8A75AC2D4312280029BE40 /* AsyncImageWithFallback */,
 				AF8A74E42D407E380029BE40 /* MarqueeText */,
@@ -1111,6 +1122,7 @@
 				AF8DA6462CD563DC00751865 /* ColorTheme.swift in Sources */,
 				AFD9314A2D26081B00B68D92 /* LoginView.swift in Sources */,
 				AFBED2922D1370DC002CA393 /* ImageUtils.swift in Sources */,
+				AF21C18D2D71107A000BE26C /* ClimbTypesConverter.swift in Sources */,
 				AF869CCE2C307CC50092E371 /* RouteFinderView.swift in Sources */,
 				AFBED28A2D124079002CA393 /* ProcessInputSamples.swift in Sources */,
 				AFBED2942D162231002CA393 /* PhotoTakingOverlayView.swift in Sources */,

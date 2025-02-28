@@ -20,6 +20,8 @@ struct SlideupLayout<Content: View>: View {
     .clipShape(
       .rect(
         topLeadingRadius: 40, bottomLeadingRadius: 0, bottomTrailingRadius: 0,
-        topTrailingRadius: 40, style: .continuous))
+        topTrailingRadius: 40, style: .continuous)
+    )
+    .ignoresSafeArea(edges: .bottom)
   }
 }

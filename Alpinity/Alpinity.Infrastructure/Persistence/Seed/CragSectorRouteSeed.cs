@@ -56,7 +56,7 @@ public static class CragSectorRouteSeed
             {
                 var ascent = new Ascent
                 {
-                    AscentDate = DateTime.UtcNow.AddDays(-5),
+                    AscentDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-5)),
                     Notes = "This is a seeded ascent. Great climbing day!",
                     ClimbTypes = [ClimbType.Technical, ClimbType.Powerful],
                     RockTypes = [RockType.Vertical, RockType.Arete],

@@ -17,9 +17,9 @@ public class LogAscentCommandValidator : AbstractValidator<LogAscentCommand>
             .LessThanOrEqualTo(DateTime.UtcNow).WithMessage("Ascent date cannot be in the future");
             
         RuleFor(x => x.Rating)
-            .InclusiveBetween(1, 5)
+            .InclusiveBetween(0, 5)
             .When(x => x.Rating.HasValue)
-            .WithMessage("Rating must be between 1 and 5");
+            .WithMessage("Rating must be between 0 and 5");
             
         RuleFor(x => x.Notes)
             .MaximumLength(2000)

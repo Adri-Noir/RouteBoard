@@ -12,4 +12,6 @@ protocol ClimbingGrades {
   var climbingGrades: [String] { get }
 
   func convertGradeToString(_ grade: Components.Schemas.ClimbingGrade?) -> String
+
+  func convertStringToGrade(_ grade: String) -> Components.Schemas.ClimbingGrade?
 }

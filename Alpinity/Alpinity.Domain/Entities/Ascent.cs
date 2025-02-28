@@ -6,7 +6,7 @@ namespace Alpinity.Domain.Entities;
 public class Ascent
 {
     public Guid Id { get; set; }
-    public DateTime AscentDate { get; set; } = DateTime.UtcNow;
+    public DateOnly AscentDate { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
     [StringLength(2000)]
     public string? Notes { get; set; }
     public ICollection<ClimbType>? ClimbTypes { get; set; }

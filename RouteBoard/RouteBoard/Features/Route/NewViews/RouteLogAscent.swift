@@ -8,24 +8,36 @@ struct RouteLogAscent: View {
   @EnvironmentObject private var authViewModel: AuthViewModel
 
   let route: RouteDetails?
+  var onAscentLogged: (() -> Void)?
+
+  let logAscentClient = LogAscentClient()
 
   @State private var selectedGrade: String = "4a"
-  @State private var selectedClimbType: [String] = []
+  @State private var selectedClimbType: [UserClimbingType] = []
   @State private var rating: Int = 0
   @State private var notes: String = ""
   @State private var isSubmitting: Bool = false
   @State private var scrollPosition: String?
+  @State private var ascentDate: Date = Date()
+  @State private var showErrorAlert: Bool = false
+  @State private var errorMessage: String = ""
 
   @FocusState private var isNotesFocused: Bool
-
-  private let climbTypes = ["Onsight", "Flash", "Redpoint", "Pinkpoint", "Top Rope", "Attempt"]
 
   private var grades: [String] {
     authViewModel.getGradeSystem().climbingGrades
   }
 
-  init(route: RouteDetails?) {
+  private var safeAreaInsets: UIEdgeInsets {
+    guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+      let window = windowScene.windows.first
+    else { return .zero }
+    return window.safeAreaInsets
+  }
+
+  init(route: RouteDetails?, onAscentLogged: (() -> Void)? = nil) {
     self.route = route
+    self.onAscentLogged = onAscentLogged
   }
 
   var body: some View {
@@ -37,6 +49,25 @@ struct RouteLogAscent: View {
             .fontWeight(.bold)
             .foregroundColor(Color.newTextColor)
             .padding(.horizontal)
+
+          VStack(alignment: .leading, spacing: 10) {
+            Text("Ascent Date")
+              .font(.headline)
+              .fontWeight(.semibold)
+              .foregroundColor(Color.newTextColor)
+              .padding(.horizontal)
+
+            DatePicker("", selection: $ascentDate, displayedComponents: [.date])
+              .datePickerStyle(.compact)
+              .labelsHidden()
+              .colorScheme(.light)
+              .foregroundStyle(Color.newTextColor)
+              .accentColor(Color.newPrimaryColor)
+              .padding(.vertical, 8)
+              .cornerRadius(10)
+              .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+              .padding(.horizontal)
+          }
 
           VStack(alignment: .leading, spacing: 10) {
             Text("Proposed Grade")
@@ -117,7 +148,6 @@ struct RouteLogAscent: View {
               .font(.headline)
               .fontWeight(.semibold)
               .foregroundColor(Color.newTextColor)
-              .padding(.horizontal)
 
             TextEditor(text: $notes)
               .frame(minHeight: 120)
@@ -138,7 +168,9 @@ struct RouteLogAscent: View {
           .padding(.horizontal, 20)
 
           Button(action: {
-            submitAscent()
+            Task {
+              await submitAscent()
+            }
           }) {
             HStack {
               Spacer()
@@ -160,8 +192,9 @@ struct RouteLogAscent: View {
           .padding(.top, 10)
           .disabled(isSubmitting)
         }
-        .padding(.vertical)
+        .padding(.top)
       }
+      .contentMargins(.bottom, safeAreaInsets.bottom, for: .scrollContent)
       .task {
         selectedGrade = authViewModel.getGradeSystem().convertGradeToString(route?.grade)
         // Set the scroll position to the selected grade after a short delay
@@ -176,18 +209,50 @@ struct RouteLogAscent: View {
           scrollPosition = newGrade
         }
       }
+      .alert("Error", isPresented: $showErrorAlert) {
+        Button("OK", role: .cancel) {}
+      } message: {
+        Text(errorMessage)
+      }
     }
     .background(Color.newBackgroundGray)
   }
 
-  private func submitAscent() {
+  private func submitAscent() async {
+    guard let route = route else {
+      errorMessage = "Route information is missing"
+      showErrorAlert = true
+      return
+    }
+
     isSubmitting = true
 
-    // Here you would implement the API call to submit the ascent
-    // For now, we'll just simulate a delay and then dismiss
-    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-      isSubmitting = false
+    let result = await logAscentClient.call(
+      LogAscentInput(
+        routeId: route.id,
+        ascentDate: ascentDate,
+        notes: notes,
+        climbTypes: ClimbTypesConverter.convertUserClimbingTypesToComponentsClimbTypes(
+          userClimbingTypes: selectedClimbType
+        ),
+        rockTypes: ClimbTypesConverter.convertUserClimbingTypesToComponentsRockTypes(
+          userClimbingTypes: selectedClimbType
+        ),
+        holdTypes: ClimbTypesConverter.convertUserClimbingTypesToComponentsHoldTypes(
+          userClimbingTypes: selectedClimbType
+        ),
+        proposedGrade: authViewModel.getGradeSystem().convertStringToGrade(selectedGrade),
+        rating: Int32(rating)
+      ), authViewModel.getAuthData())
+
+    isSubmitting = false
+
+    if result {
+      onAscentLogged?()
       dismiss()
+    } else {
+      errorMessage = "Failed to log ascent"
+      showErrorAlert = true
     }
   }
 }

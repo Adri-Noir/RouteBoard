@@ -24,13 +24,13 @@ public class LogAscentCommandHandler(
         {
             UserId = request.UserId,
             RouteId = request.RouteId,
-            AscentDate = request.AscentDate,
+            AscentDate = DateOnly.FromDateTime(request.AscentDate),
             Notes = request.Notes,
             ClimbTypes = request.ClimbTypes,
             RockTypes = request.RockTypes,
             HoldTypes = request.HoldTypes,
             ProposedGrade = request.ProposedGrade,
-            Rating = request.Rating
+            Rating = request.Rating == 0 ? null : request.Rating
         };
         
         await ascentRepository.AddAsync(ascent);
