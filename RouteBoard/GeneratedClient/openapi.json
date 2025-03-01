@@ -577,10 +577,30 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/problem+json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
                 }
@@ -629,6 +649,14 @@
             },
             "nullable": true
           },
+          "ascentType": {
+            "$ref": "#/components/schemas/AscentType"
+          },
+          "numberOfAttempts": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
           "proposedGrade": {
             "$ref": "#/components/schemas/ClimbingGrade"
           },
@@ -651,6 +679,15 @@
           }
         },
         "additionalProperties": false
+      },
+      "AscentType": {
+        "enum": [
+          "Onsight",
+          "Flash",
+          "Redpoint",
+          "Aid"
+        ],
+        "type": "string"
       },
       "ClimbType": {
         "enum": [
@@ -844,6 +881,14 @@
             "items": {
               "$ref": "#/components/schemas/HoldType"
             },
+            "nullable": true
+          },
+          "ascentType": {
+            "$ref": "#/components/schemas/AscentType"
+          },
+          "numberOfAttempts": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
           "proposedGrade": {

@@ -10,6 +10,8 @@ public class AscentDto
     public ICollection<ClimbType>? ClimbTypes { get; set; }
     public ICollection<RockType>? RockTypes { get; set; }
     public ICollection<HoldType>? HoldTypes { get; set; }
+    public AscentType? AscentType { get; set; }
+    public int? NumberOfAttempts { get; set; }
     public ClimbingGrade? ProposedGrade { get; set; }
     public int? Rating { get; set; }
 

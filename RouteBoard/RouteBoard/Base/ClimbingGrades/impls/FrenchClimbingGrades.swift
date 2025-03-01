@@ -20,8 +20,11 @@ class FrenchClimbingGrades: ClimbingGrades {
   func convertGradeToString(_ grade: Components.Schemas.ClimbingGrade?) -> String {
     guard let grade = grade else { return "?" }
 
-    let rawGrade = grade.rawValue.split(separator: "_").last ?? ""
-    let gradeString = rawGrade.replacingOccurrences(of: "plus", with: "+")
+    let rawValue = grade.rawValue
+    guard rawValue.hasPrefix("F_") else { return "?" }
+
+    let withoutPrefix = rawValue.dropFirst(2)
+    let gradeString = String(withoutPrefix).replacingOccurrences(of: "_plus", with: "+")
 
     return gradeString
   }

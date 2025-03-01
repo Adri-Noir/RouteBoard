@@ -27,7 +27,13 @@ public static class ResponseExtensions
             options.Map<ValidationException>(exception => new CustomProblemDetailsResponse
             {
                 Status = StatusCodes.Status400BadRequest,
-                Errors = new ErrorInfoDto[] {new() {StatusCode = 400, Message = exception.Message}}
+                Errors = exception.Errors
+                    .Select(error => new ErrorInfoDto 
+                    { 
+                        StatusCode = 400, 
+                        Message = error.ErrorMessage 
+                    })
+                    .ToArray()
             });
 
             options.Map<UnAuthorizedAccessException>(exception => new CustomProblemDetailsResponse

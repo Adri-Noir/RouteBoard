@@ -6,9 +6,9 @@ public typealias LogAscentInput = Components.Schemas.LogAscentCommand
 
 public class LogAscentClient: AuthenticatedClientProvider {
   public typealias T = LogAscentInput
-  public typealias R = Bool
+  public typealias R = String
 
-  public func call(_ data: LogAscentInput, _ authData: AuthData) async -> Bool {
+  public func call(_ data: LogAscentInput, _ authData: AuthData) async -> String {
     do {
       let result = try await self.getClient(authData)
         .post_sol_api_sol_User_sol_logAscent(
@@ -17,19 +17,22 @@ public class LogAscentClient: AuthenticatedClientProvider {
 
       switch result {
       case .ok:
-        return true
+        return ""
+
+      case .badRequest(let error):
+        return getErrorMessage(try error.body.application_problem_plus_json.additionalProperties)
 
       case .unauthorized:
         await authData.unauthorizedHandler?()
-        return false
+        return returnUnauthorized()
 
       case .undocumented:
-        return false
+        return returnUnknownError()
       }
     } catch {
       print(error)
     }
 
-    return false
+    return returnUnknownError()
   }
 }

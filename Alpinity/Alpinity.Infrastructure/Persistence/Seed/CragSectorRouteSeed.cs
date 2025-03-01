@@ -63,6 +63,7 @@ public static class CragSectorRouteSeed
                     HoldTypes = [HoldType.Crimps, HoldType.Jugs],
                     ProposedGrade = ClimbingGrade.F_6a,
                     Rating = 4,
+                    AscentType = AscentType.Flash,
                     UserId = user.Id,
                     RouteId = route.Id
                 };

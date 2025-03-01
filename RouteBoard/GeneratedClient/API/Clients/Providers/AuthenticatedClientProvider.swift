@@ -5,6 +5,13 @@
 //  Created with <3 on 05.01.2025..
 //
 
+import OpenAPIRuntime
+
+struct ErrorResponse: Codable {
+  let statusCode: Int
+  let message: String
+}
+
 public enum AuthClientProviderError: Error {
   case noTokenProvided
 }
@@ -41,6 +48,27 @@ public class AuthenticationProvider {
 
   public func getClient(_ authData: AuthData) -> Client {
     return _client.getClient(token: authData.token)
+  }
+
+  public func returnUnauthorized() -> String {
+    return "Unauthorized"
+  }
+
+  public func returnUnknownError() -> String {
+    return "Unknown error occurred!"
+  }
+
+  public func getErrorMessage(_ error: [String: OpenAPIRuntime.OpenAPIValueContainer]) -> String {
+    if let errorsContainer = error["errors"],
+      let errorsArray = errorsContainer.value as? [[String: Any]],
+      let firstError = errorsArray.first,
+      let firstErrorDict = firstError as? [String: Any],
+      let message = firstErrorDict["message"] as? String
+    {
+      return message
+    }
+
+    return returnUnknownError()
   }
 }
 

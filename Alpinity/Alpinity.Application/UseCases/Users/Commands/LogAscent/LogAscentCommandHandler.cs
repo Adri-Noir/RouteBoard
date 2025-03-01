@@ -29,6 +29,11 @@ public class LogAscentCommandHandler(
             ClimbTypes = request.ClimbTypes,
             RockTypes = request.RockTypes,
             HoldTypes = request.HoldTypes,
+            AscentType = request.AscentType,
+            NumberOfAttempts = request.AscentType == Domain.Enums.AscentType.Onsight || 
+                               request.AscentType == Domain.Enums.AscentType.Flash 
+                               ? 1 
+                               : request.NumberOfAttempts,
             ProposedGrade = request.ProposedGrade,
             Rating = request.Rating == 0 ? null : request.Rating
         };

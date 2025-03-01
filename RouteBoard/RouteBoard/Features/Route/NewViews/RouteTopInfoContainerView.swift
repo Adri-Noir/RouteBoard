@@ -52,7 +52,7 @@ struct RouteTopInfoContainerView: View {
         Spacer()
 
         VStack(alignment: .center) {
-          Text("7")
+          Text(String(route?.ascents?.count ?? 0))
             .font(.title)
             .fontWeight(.semibold)
             .foregroundColor(.white)

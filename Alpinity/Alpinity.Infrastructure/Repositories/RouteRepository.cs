@@ -22,7 +22,7 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
             .Include(route => route.RoutePhotos)
             .Include("RoutePhotos.Image")
             .Include("RoutePhotos.PathLine")
-            .Include(route => route.Ascents!)
+            .Include(route => route.Ascents!.OrderByDescending(ascent => ascent.AscentDate))
             .ThenInclude(ascent => ascent.User)
             .FirstOrDefaultAsync(route => route.Id == routeId);
     }

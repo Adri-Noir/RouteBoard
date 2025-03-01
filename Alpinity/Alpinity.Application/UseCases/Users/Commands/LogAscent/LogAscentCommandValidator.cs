@@ -1,7 +1,5 @@
 using FluentValidation;
 using Alpinity.Domain.Enums;
-using System;
-using System.Linq;
 
 namespace Alpinity.Application.UseCases.Users.Commands.LogAscent;
 
@@ -45,5 +43,21 @@ public class LogAscentCommandValidator : AbstractValidator<LogAscentCommand>
             .Must(grade => grade == null || Enum.IsDefined(typeof(ClimbingGrade), grade))
             .When(x => x.ProposedGrade.HasValue)
             .WithMessage("The proposed climbing grade is invalid");
+            
+        RuleFor(x => x.AscentType)
+            .NotEmpty().WithMessage("Ascent type is required")
+            .Must(type => Enum.IsDefined(typeof(AscentType), type))
+            .WithMessage("The ascent type is invalid");
+            
+        RuleFor(x => x.NumberOfAttempts)
+            .GreaterThan(1)
+            .When(x => x.NumberOfAttempts.HasValue && 
+                       (x.AscentType == AscentType.Redpoint || x.AscentType == AscentType.Aid))
+            .WithMessage("Number of attempts must be greater than 1 for Redpoint or Aid ascent types");
+            
+        RuleFor(x => x.NumberOfAttempts)
+            .GreaterThan(0)
+            .When(x => x.NumberOfAttempts.HasValue)
+            .WithMessage("Number of attempts must be greater than 0");
     }
 } 

@@ -70,21 +70,39 @@ struct RouteView: View {
 
   var navigationImageSize: CGFloat {
     if scrollOffset > startingScrollOffset {
-      return max(imageCollapseThreshold - (scrollOffset - startingScrollOffset), 90)
+      return max(imageCollapseThreshold - (scrollOffset - startingScrollOffset), 0)
     }
     return imageCollapseThreshold + max(-scrollOffset + startingScrollOffset, 0)
   }
 
   var navbarOpacity: Double {
-    let startFadeIn = imageCollapseThreshold * 0.5
-
-    if scrollOffset <= startFadeIn {
-      return 0.0
-    } else if scrollOffset >= imageCollapseThreshold {
+    if scrollOffset >= imageCollapseThreshold * 0.7 {
       return 1.0
     } else {
-      return Double((scrollOffset - startFadeIn) / (imageCollapseThreshold - startFadeIn))
+      return 0.0
     }
+  }
+
+  var userAscent: Components.Schemas.AscentDto? {
+    return route?.ascents?.first(where: { ascent in
+      ascent.userId == authViewModel.user?.id
+    })
+  }
+
+  var userHasAscended: Bool {
+    return userAscent != nil
+  }
+
+  var userAscentDate: Date? {
+    guard let userAscent = userAscent else {
+      return nil
+    }
+
+    guard let dateString = userAscent.ascentDate else {
+      return nil
+    }
+
+    return DateTimeConverter.convertToDate(dateString: dateString)
   }
 
   var navigationBarExpanded: some View {
@@ -109,27 +127,39 @@ struct RouteView: View {
       HStack(spacing: 0) {
         Spacer()
 
-        Button(action: {
-          isPresentingRouteLogAscent = true
-        }) {
-          HStack(spacing: 8) {
-            Image(systemName: "plus")
-              .foregroundColor(.white)
-              .font(.system(size: 18, weight: .semibold))
-
-            Text("Log Ascent")
-              .foregroundColor(.white)
-              .font(.system(size: 16, weight: .semibold))
-          }
+        if userHasAscended {
+          Text(
+            "Ascended on: \(userAscentDate?.formatted(date: .long, time: .omitted) ?? "Unknown")"
+          )
+          .foregroundColor(.white)
+          .padding(.horizontal, 10)
           .padding(.vertical, 10)
-          .padding(.trailing, 16)
-          .padding(.leading, 10)
           .background(Color.black.opacity(0.75))
           .clipShape(RoundedRectangle(cornerRadius: 20))
+        } else {
+          Button(action: {
+            isPresentingRouteLogAscent = true
+          }) {
+            HStack(spacing: 8) {
+              Image(systemName: "plus")
+                .foregroundColor(.white)
+                .font(.system(size: 18, weight: .semibold))
+
+              Text("Log Ascent")
+                .foregroundColor(.white)
+                .font(.system(size: 16, weight: .semibold))
+            }
+            .padding(.vertical, 10)
+            .padding(.trailing, 16)
+            .padding(.leading, 10)
+            .background(Color.black.opacity(0.75))
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+          }
         }
       }
       .frame(height: 54)
       .padding(20)
+
     }
     .frame(height: navigationImageSize)
   }
@@ -200,8 +230,7 @@ struct RouteView: View {
 
   var body: some View {
     ApplyBackgroundColor(
-      backgroundColor: scrollOffset > imageCollapseThreshold
-        ? Color.newBackgroundGray : Color.newPrimaryColor
+      backgroundColor: Color.newBackgroundGray
     ) {
       DetailsViewStateMachine(details: $route, isLoading: $isLoading) {
         DetectRoutesWrapper(routes: routeList) {
@@ -240,9 +269,10 @@ struct RouteView: View {
                 .mask(
                   Rectangle().padding(.top, -40)
                 )
+                .background(Color.newPrimaryColor)
 
               }
-              .padding(.top, imageCollapseThreshold)
+              .padding(.top, imageCollapseThreshold - 10)
               .background(
                 GeometryReader { proxy -> Color in
                   DispatchQueue.main.async {
@@ -263,6 +293,7 @@ struct RouteView: View {
                     .clipped()
                 }
                 .frame(height: 0)
+                .background(Color.newPrimaryColor)
             }
             .ignoresSafeArea(edges: .top)
             .coordinateSpace(name: "scroll")
