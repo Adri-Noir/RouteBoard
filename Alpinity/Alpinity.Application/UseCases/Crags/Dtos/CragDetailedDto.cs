@@ -6,9 +6,10 @@ namespace Alpinity.Application.UseCases.Crags.Dtos;
 public class CragDetailedDto
 {
     public Guid Id { get; set; }
-    public required string Name { get; set; }
-    public string Description { get; set; } = null!;
-    public required PointDto Location { get; set; }
-    public ICollection<SectorDetailedDto> Sectors { get; set; } = null!;
-    public ICollection<string> Photos { get; set; } = null!;
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public PointDto? Location { get; set; }
+    public string? LocationName { get; set; }
+    public ICollection<SectorDetailedDto> Sectors { get; set; }
+    public ICollection<string> Photos { get; set; }
 }

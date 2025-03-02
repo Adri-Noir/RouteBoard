@@ -53,7 +53,7 @@ public static class CragSectorRouteSeed
                 {
                     Name = "Ceüse",
                     Description = "Premier limestone cliff in France with challenging routes.",
-                    Location = new Point(5.944444, 44.493333) { SRID = 4326 }
+                    Location = new Point(5.936576, 44.518188) { SRID = 4326 }
                 }
             };
 

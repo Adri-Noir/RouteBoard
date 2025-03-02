@@ -1,8 +1,10 @@
 using Alpinity.Application.Interfaces.Repositories;
+using Alpinity.Application.Interfaces.Services;
 using Alpinity.Application.Services;
 using Alpinity.Infrastructure.Identity;
 using Alpinity.Infrastructure.Persistence;
 using Alpinity.Infrastructure.Repositories;
+using Alpinity.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,7 +36,8 @@ public static class ServiceExtensions
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IAscentRepository, AscentRepository>();
         services.AddTransient<ISearchHistoryRepository, SearchHistoryRepository>();
-
+        services.AddTransient<ILocationInformationService, LocationInformationService>();
+        
         return services;
     }
 }

@@ -111,10 +111,15 @@ struct UserRecentAscentsView: View {
 
   private var recentAscentsScrollView: some View {
     ScrollView(.horizontal, showsIndicators: false) {
-      LazyHStack(spacing: 16) {
+      LazyHStack(spacing: 20) {
         ForEach(recentAscents, id: \.id) { route in
           RouteLink(routeId: .constant(route.id)) {
             routeCard(for: route)
+          }
+          .scrollTransition { content, phase in
+            content
+              .opacity(phase.isIdentity ? 1 : 0.5)
+              .scaleEffect(phase.isIdentity ? 1 : 0.95)
           }
         }
       }

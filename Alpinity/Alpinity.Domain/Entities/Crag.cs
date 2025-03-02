@@ -11,7 +11,8 @@ public class Crag
     public required string Name { get; set; }
     [StringLength(2000)]
     public string? Description { get; set; }
-    public Point Location { get; set; }
+    public Point? Location { get; set; }
+    public string? LocationName { get; set; }
     
     public ICollection<Sector>? Sectors { get; set; }
     
