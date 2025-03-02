@@ -9,7 +9,7 @@ public interface IRouteRepository
 
     Task<Route?> GetRouteById(Guid routeId);
 
-    Task<IEnumerable<Route>> GetRoutesByName(string query, SearchOptionsDto searchOptions);
+    Task<ICollection<Route>> GetRoutesByName(string query, SearchOptionsDto searchOptions);
 
     Task AddPhoto(Guid routeId, RoutePhoto routePhoto);
 }

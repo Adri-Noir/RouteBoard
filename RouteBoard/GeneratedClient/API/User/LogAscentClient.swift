@@ -20,7 +20,7 @@ public class LogAscentClient: AuthenticatedClientProvider {
         return ""
 
       case .badRequest(let error):
-        return getErrorMessage(try error.body.application_problem_plus_json.additionalProperties)
+        return getErrorMessage(try error.body.json.additionalProperties)
 
       case .unauthorized:
         await authData.unauthorizedHandler?()

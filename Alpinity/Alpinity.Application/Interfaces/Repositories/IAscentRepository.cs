@@ -6,8 +6,8 @@ public interface IAscentRepository
 {
     Task<Ascent> AddAsync(Ascent ascent);
     Task<Ascent?> GetByIdAsync(Guid id);
-    Task<IEnumerable<Ascent>> GetByUserIdAsync(Guid userId);
-    Task<IEnumerable<Ascent>> GetByRouteIdAsync(Guid routeId);
+    Task<ICollection<Ascent>> GetByUserIdAsync(Guid userId);
+    Task<ICollection<Ascent>> GetByRouteIdAsync(Guid routeId);
     Task<Ascent> UpdateAsync(Ascent ascent);
     Task DeleteAsync(Guid id);
 } 

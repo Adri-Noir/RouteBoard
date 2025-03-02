@@ -1,6 +1,10 @@
 using System.Net.Mime;
 using Alpinity.Application.Interfaces;
+using Alpinity.Application.UseCases.SearchHistory.Commands.GetUserSearchHistory;
+using Alpinity.Application.UseCases.SearchHistory.Dtos;
+using Alpinity.Application.UseCases.Users.Commands.GetUserProfile;
 using Alpinity.Application.UseCases.Users.Commands.LogAscent;
+using Alpinity.Application.UseCases.Users.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,5 +30,37 @@ public class UserController(
         
         await mediator.Send(command, cancellationToken);
         return Ok();
+    }
+    
+    [HttpGet("searchHistory")]
+    [Authorize]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(typeof(ICollection<SearchHistoryDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult<ICollection<SearchHistoryDto>>> GetSearchHistory([FromQuery] int count = 10, CancellationToken cancellationToken = default)
+    {
+        var command = new GetUserSearchHistoryCommand
+        {
+            SearchingUserId = (Guid)authenticationContext.GetUserId()!,
+            Count = count
+        };
+        
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
+    
+    [HttpGet("{profileUserId}")]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(typeof(UserProfileDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<UserProfileDto>> GetUserProfile(Guid profileUserId, CancellationToken cancellationToken = default)
+    {
+        var command = new GetUserProfileCommand
+        {
+            ProfileUserId = profileUserId
+        };
+        
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
     }
 }

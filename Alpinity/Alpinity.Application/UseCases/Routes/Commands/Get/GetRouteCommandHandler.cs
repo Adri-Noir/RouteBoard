@@ -1,5 +1,7 @@
+using Alpinity.Application.Interfaces;
 using Alpinity.Application.Interfaces.Repositories;
 using Alpinity.Application.UseCases.Routes.Dtos;
+using Alpinity.Domain.Entities;
 using ApiExceptions.Exceptions;
 using AutoMapper;
 using MediatR;
@@ -8,6 +10,8 @@ namespace Alpinity.Application.UseCases.Routes.Commands.Get;
 
 public class GetRouteCommandHandler(
     IRouteRepository routeRepository,
+    ISearchHistoryRepository searchHistoryRepository,
+    IAuthenticationContext authenticationContext,
     IMapper mapper) : IRequestHandler<GetRouteCommand, RouteDetailedDto>
 {
     public async Task<RouteDetailedDto> Handle(GetRouteCommand request, CancellationToken cancellationToken)
@@ -16,6 +20,22 @@ public class GetRouteCommandHandler(
         if (route == null)
         {
             throw new EntityNotFoundException("Route not found.");
+        }
+
+        // Save search history if user is authenticated
+        var userId = authenticationContext.GetUserId();
+        if (userId.HasValue)
+        {
+            var searchHistory = new Domain.Entities.SearchHistory
+            {
+                Id = Guid.NewGuid(),
+                RouteId = route.Id,
+                Route = route,
+                SearchingUserId = userId.Value,
+                SearchedAt = DateTime.UtcNow
+            };
+            
+            await searchHistoryRepository.AddSearchHistoryAsync(searchHistory);
         }
 
         return mapper.Map<RouteDetailedDto>(route);

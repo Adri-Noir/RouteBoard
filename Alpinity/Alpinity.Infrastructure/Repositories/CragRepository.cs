@@ -22,7 +22,7 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<Crag>> GetCragsByName(string query, SearchOptionsDto searchOptions)
+    public async Task<ICollection<Crag>> GetCragsByName(string query, SearchOptionsDto searchOptions)
     {
         return await dbContext.Crags
             .Where(crag => crag.Name.Contains(query))

@@ -17,21 +17,11 @@ struct RouteView: View {
   @State private var isPresentingCreateRouteImageView = false
   @State private var isPresentingRouteLogAscent = false
 
-  @State private var scrollOffset: CGFloat = 0
-  @State private var startingScrollOffset: CGFloat = 0
-
-  private let imageCollapseThreshold: CGFloat = 350
-  private var safeAreaInsets: UIEdgeInsets {
-    guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-      let window = windowScene.windows.first
-    else { return .zero }
-    return window.safeAreaInsets
-  }
-
   @EnvironmentObject private var authViewModel: AuthViewModel
   @Environment(\.dismiss) var dismiss
 
   private let getRouteDetailsClient = GetRouteDetailsClient()
+  private let imageSize: CGFloat = 300
 
   init(routeId: String) {
     self.routeId = routeId
@@ -52,180 +42,11 @@ struct RouteView: View {
     isLoading = false
   }
 
-  var routePhotos: [String] {
-    route?.routePhotos?.map {
-      $0.image?.url ?? ""
-    }
-    .filter {
-      $0 != ""
-    } ?? []
-  }
-
   var routeList: [RouteDetails] {
     guard let route = route else {
       return []
     }
     return [route]
-  }
-
-  var navigationImageSize: CGFloat {
-    if scrollOffset > startingScrollOffset {
-      return max(imageCollapseThreshold - (scrollOffset - startingScrollOffset), 0)
-    }
-    return imageCollapseThreshold + max(-scrollOffset + startingScrollOffset, 0)
-  }
-
-  var navbarOpacity: Double {
-    if scrollOffset >= imageCollapseThreshold * 0.7 {
-      return 1.0
-    } else {
-      return 0.0
-    }
-  }
-
-  var userAscent: Components.Schemas.AscentDto? {
-    return route?.ascents?.first(where: { ascent in
-      ascent.userId == authViewModel.user?.id
-    })
-  }
-
-  var userHasAscended: Bool {
-    return userAscent != nil
-  }
-
-  var userAscentDate: Date? {
-    guard let userAscent = userAscent else {
-      return nil
-    }
-
-    guard let dateString = userAscent.ascentDate else {
-      return nil
-    }
-
-    return DateTimeConverter.convertToDate(dateString: dateString)
-  }
-
-  var navigationBarExpanded: some View {
-    ZStack(alignment: .bottom) {
-      AsyncImage(url: URL(string: routePhotos.first ?? "")) { image in
-        image
-          .resizable()
-          .aspectRatio(contentMode: .fill)
-          .frame(height: navigationImageSize)
-          .clipped()
-          .allowsHitTesting(false)
-
-      } placeholder: {
-        Image("TestingSamples/limski/pikachu")
-          .resizable()
-          .aspectRatio(contentMode: .fill)
-          .frame(height: navigationImageSize)
-          .clipped()
-          .allowsHitTesting(false)
-      }
-
-      HStack(spacing: 0) {
-        Spacer()
-
-        if userHasAscended {
-          Text(
-            "Ascended on: \(userAscentDate?.formatted(date: .long, time: .omitted) ?? "Unknown")"
-          )
-          .foregroundColor(.white)
-          .padding(.horizontal, 10)
-          .padding(.vertical, 10)
-          .background(Color.black.opacity(0.75))
-          .clipShape(RoundedRectangle(cornerRadius: 20))
-        } else {
-          Button(action: {
-            isPresentingRouteLogAscent = true
-          }) {
-            HStack(spacing: 8) {
-              Image(systemName: "plus")
-                .foregroundColor(.white)
-                .font(.system(size: 18, weight: .semibold))
-
-              Text("Log Ascent")
-                .foregroundColor(.white)
-                .font(.system(size: 16, weight: .semibold))
-            }
-            .padding(.vertical, 10)
-            .padding(.trailing, 16)
-            .padding(.leading, 10)
-            .background(Color.black.opacity(0.75))
-            .clipShape(RoundedRectangle(cornerRadius: 20))
-          }
-        }
-      }
-      .frame(height: 54)
-      .padding(20)
-
-    }
-    .frame(height: navigationImageSize)
-  }
-
-  var compactNavigationBar: some View {
-    HStack {
-      Button(action: {
-        dismiss()
-      }) {
-        Image(systemName: "chevron.left")
-          .foregroundColor(.white)
-          .font(.system(size: 18, weight: .semibold))
-          .padding(8)
-          .background(Color.black.opacity(0.75))
-          .clipShape(Circle())
-      }
-
-      Spacer()
-
-      if let routePhoto = routePhotos.first, !routePhoto.isEmpty {
-        AsyncImage(url: URL(string: routePhoto)) { image in
-          image
-            .resizable()
-            .scaledToFill()
-            .frame(width: 32, height: 32)
-            .clipShape(RoundedRectangle(cornerRadius: 6))
-        } placeholder: {
-          Image("TestingSamples/limski/pikachu")
-            .resizable()
-            .scaledToFill()
-            .foregroundColor(Color.gray)
-            .frame(width: 32, height: 32)
-            .background(Color.gray.opacity(0.3))
-            .clipShape(RoundedRectangle(cornerRadius: 6))
-        }
-        .opacity(navbarOpacity)
-      }
-
-      Text(route?.name ?? "Route")
-        .font(.headline)
-        .foregroundColor(.white)
-        .opacity(navbarOpacity)
-        .lineLimit(1)
-
-      Spacer()
-
-      Button(action: {
-        // Menu action
-      }) {
-        Image(systemName: "ellipsis")
-          .foregroundColor(.white)
-          .font(.system(size: 18, weight: .semibold))
-          .padding(10)
-          .background(Color.black.opacity(0.75))
-          .clipShape(Circle())
-      }
-    }
-    .padding(.horizontal, 20)
-    .padding(.vertical, 8)
-    .padding(.top, safeAreaInsets.top + 30)
-    .background(
-      Color.newPrimaryColor.ignoresSafeArea().background(.ultraThinMaterial).opacity(navbarOpacity)
-    )
-    .shadow(color: Color.black.opacity(0.15), radius: 2, x: 0, y: 1)
-    .animation(.easeInOut(duration: 0.3), value: navbarOpacity)
-    .frame(height: 54)
   }
 
   var body: some View {
@@ -234,73 +55,44 @@ struct RouteView: View {
     ) {
       DetailsViewStateMachine(details: $route, isLoading: $isLoading) {
         DetectRoutesWrapper(routes: routeList) {
-          ZStack(alignment: .top) {
-            ScrollView {
-              VStack(spacing: 0) {
-                RouteTopInfoContainerView(route: route)
-                  .padding(.horizontal, 20)
-                  .padding(.top, 20)
-                  .padding(.bottom, 30)
-                  .background(Color.newPrimaryColor)
+          RouteHeaderView(route: route, isPresentingRouteLogAscent: $isPresentingRouteLogAscent) {
+            VStack(spacing: 0) {
+              RouteTopInfoContainerView(route: route)
+                .padding(.horizontal, 20)
+                .padding(.top, 20)
+                .padding(.bottom, 30)
+                .background(Color.newPrimaryColor)
 
-                VStack(spacing: 20) {
-                  RouteLocationInfoView(route: route)
-                    .padding(.top, 20)
-
-                  VStack(spacing: 30) {
-                    SectorClimbTypeView(route: route)
-                    RouteAscentsView(route: route)
-                  }
+              VStack(spacing: 20) {
+                RouteLocationInfoView(route: route)
                   .padding(.top, 20)
-                  .background(Color.newBackgroundGray)
-                  .clipShape(
-                    .rect(
-                      topLeadingRadius: 40, bottomLeadingRadius: 0, bottomTrailingRadius: 0,
-                      topTrailingRadius: 40)
-                  )
+
+                VStack(spacing: 30) {
+                  SectorClimbTypeView(route: route)
+                  RouteAscentsView(route: route)
                 }
-                .background(.white)
+                .padding(.top, 20)
+                .background(Color.newBackgroundGray)
                 .clipShape(
                   .rect(
                     topLeadingRadius: 40, bottomLeadingRadius: 0, bottomTrailingRadius: 0,
                     topTrailingRadius: 40)
                 )
-                .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: -5)
-                .mask(
-                  Rectangle().padding(.top, -40)
-                )
-                .background(Color.newPrimaryColor)
-
               }
-              .padding(.top, imageCollapseThreshold - 10)
-              .background(
-                GeometryReader { proxy -> Color in
-                  DispatchQueue.main.async {
-                    scrollOffset = -proxy.frame(in: .named("scroll")).origin.y
-                    if startingScrollOffset == 0 {
-                      startingScrollOffset = -proxy.frame(in: .named("scroll")).origin.y
-                    }
-                  }
-                  return Color.clear
-                }
+              .background(.white)
+              .clipShape(
+                .rect(
+                  topLeadingRadius: 40, bottomLeadingRadius: 0, bottomTrailingRadius: 0,
+                  topTrailingRadius: 40)
               )
-            }
-            .safeAreaInset(edge: .top) {
-              Color.clear
-                .overlay(alignment: .top) {
-                  navigationBarExpanded
-                    .frame(height: navigationImageSize)
-                    .clipped()
-                }
-                .frame(height: 0)
-                .background(Color.newPrimaryColor)
-            }
-            .ignoresSafeArea(edges: .top)
-            .coordinateSpace(name: "scroll")
+              .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: -5)
+              .mask(
+                Rectangle().padding(.top, -40)
+              )
+              .background(Color.newPrimaryColor)
 
-            compactNavigationBar
+            }
           }
-          .ignoresSafeArea(edges: .top)
         }
       }
     }

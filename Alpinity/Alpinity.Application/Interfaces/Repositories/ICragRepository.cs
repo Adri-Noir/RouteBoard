@@ -7,5 +7,5 @@ public interface ICragRepository
 {
     Task<Crag?> GetCragById(Guid cragId);
     Task CreateCrag(Crag crag);
-    Task<IEnumerable<Crag>> GetCragsByName(string query, SearchOptionsDto searchOptions);
+    Task<ICollection<Crag>> GetCragsByName(string query, SearchOptionsDto searchOptions);
 }

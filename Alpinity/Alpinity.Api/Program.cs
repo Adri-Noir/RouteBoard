@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Alpinity.Api.Extensions;
 using Alpinity.Api.ProblemDetails;
@@ -64,7 +65,15 @@ public partial class Program
     {
         services
             .AddControllers()
-            .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+            .AddJsonOptions(options => 
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowReadingFromString;
+                options.JsonSerializerOptions.WriteIndented = false;
+            });
         services.AddEndpointsApiExplorer();
         services.AddLogging();
 

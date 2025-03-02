@@ -23,7 +23,7 @@ public class AscentRepository(
             .FirstOrDefaultAsync(a => a.Id == id);
     }
 
-    public async Task<IEnumerable<Ascent>> GetByUserIdAsync(Guid userId)
+    public async Task<ICollection<Ascent>> GetByUserIdAsync(Guid userId)
     {
         return await dbContext.Ascents
             .Include(a => a.Route)
@@ -31,7 +31,7 @@ public class AscentRepository(
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Ascent>> GetByRouteIdAsync(Guid routeId)
+    public async Task<ICollection<Ascent>> GetByRouteIdAsync(Guid routeId)
     {
         return await dbContext.Ascents
             .Include(a => a.User)

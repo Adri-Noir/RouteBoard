@@ -18,6 +18,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<RoutePhoto> RoutePhotos { get; set; } = null!;
     public DbSet<Photo> Photos { get; set; } = null!;
     public DbSet<Ascent> Ascents { get; set; } = null!;
+    public DbSet<SearchHistory> SearchHistories { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -56,17 +57,47 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<User>()
             .HasIndex(u => u.Email)
             .IsUnique();
-            
+
         modelBuilder.Entity<Ascent>()
             .HasOne(a => a.User)
             .WithMany(u => u.Ascents)
             .HasForeignKey(a => a.UserId)
             .OnDelete(DeleteBehavior.Cascade);
-            
+
         modelBuilder.Entity<Ascent>()
             .HasOne(a => a.Route)
             .WithMany(r => r.Ascents)
             .HasForeignKey(a => a.RouteId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<SearchHistory>()
+            .HasOne(sh => sh.SearchingUser)
+            .WithMany()
+            .HasForeignKey(sh => sh.SearchingUserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<SearchHistory>()
+            .HasOne(sh => sh.ProfileUser)
+            .WithMany()
+            .HasForeignKey(sh => sh.ProfileUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<SearchHistory>()
+            .HasOne(sh => sh.Crag)
+            .WithMany()
+            .HasForeignKey(sh => sh.CragId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<SearchHistory>()
+            .HasOne(sh => sh.Sector)
+            .WithMany()
+            .HasForeignKey(sh => sh.SectorId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<SearchHistory>()
+            .HasOne(sh => sh.Route)
+            .WithMany()
+            .HasForeignKey(sh => sh.RouteId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

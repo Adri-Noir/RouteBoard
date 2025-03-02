@@ -6,6 +6,6 @@ public class DateOnlyProfile : Profile
 {
     public DateOnlyProfile()
     {
-        CreateMap<DateOnly, string>().ConvertUsing(d => d.ToString());
+        CreateMap<DateOnly, string>().ConvertUsing(d => d.ToString("yyyy-MM-dd"));
     }
 }

@@ -27,7 +27,7 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
             .FirstOrDefaultAsync(route => route.Id == routeId);
     }
 
-    public async Task<IEnumerable<Route>> GetRoutesByName(string query, SearchOptionsDto searchOptions)
+    public async Task<ICollection<Route>> GetRoutesByName(string query, SearchOptionsDto searchOptions)
     {
         return await dbContext.Routes
             .Where(route => route.Name.Contains(query))

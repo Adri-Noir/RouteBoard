@@ -584,10 +584,48 @@
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
                 }
-              },
-              "application/problem+json": {
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/User/searchHistory": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SearchHistoryDto"
+                  }
                 }
               }
             }
@@ -599,8 +637,43 @@
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
                 }
-              },
-              "application/problem+json": {
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/User/{profileUserId}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "profileUserId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfileDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
                 }
@@ -1148,6 +1221,112 @@
         ],
         "type": "string"
       },
+      "SearchHistoryDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "searchedAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "entityType": {
+            "$ref": "#/components/schemas/SearchResultItemType"
+          },
+          "cragLocation": {
+            "$ref": "#/components/schemas/PointDto"
+          },
+          "cragId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "cragName": {
+            "type": "string",
+            "nullable": true
+          },
+          "cragRoutesCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "cragSectorsCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "sectorName": {
+            "type": "string",
+            "nullable": true
+          },
+          "sectorId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "sectorCragId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "sectorCragName": {
+            "type": "string",
+            "nullable": true
+          },
+          "sectorRoutesCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "routeId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "routeDifficulty": {
+            "$ref": "#/components/schemas/ClimbingGrade"
+          },
+          "routeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "routeAscentsCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "routeSectorId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "routeSectorName": {
+            "type": "string",
+            "nullable": true
+          },
+          "routeCragId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "routeCragName": {
+            "type": "string",
+            "nullable": true
+          },
+          "profileUserId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "profileUsername": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "SearchQueryCommand": {
         "required": [
           "query"
@@ -1207,7 +1386,8 @@
         "enum": [
           "Crag",
           "Sector",
-          "Route"
+          "Route",
+          "UserProfile"
         ],
         "type": "string"
       },
@@ -1283,6 +1463,36 @@
             "nullable": true
           },
           "createdAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "profilePhotoUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserProfileDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
             "type": "string",
             "nullable": true
           },

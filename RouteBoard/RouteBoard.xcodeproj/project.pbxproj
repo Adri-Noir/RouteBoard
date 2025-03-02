@@ -30,6 +30,8 @@
 		AF21C0AF2D6E7AB6000BE26C /* RouteLogAscent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF21C0AD2D6E7AB3000BE26C /* RouteLogAscent.swift */; };
 		AF21C18D2D71107A000BE26C /* ClimbTypesConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF21C18B2D711073000BE26C /* ClimbTypesConverter.swift */; };
 		AF21C2D02D7378F1000BE26C /* DateTimeConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF21C2CF2D7378ED000BE26C /* DateTimeConverter.swift */; };
+		AF21C2DF2D737FD0000BE26C /* ScrollViewWithStickyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF21C2DD2D737FCB000BE26C /* ScrollViewWithStickyHeader.swift */; };
+		AF21C3192D73BD61000BE26C /* RouteHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF21C3172D73BD5E000BE26C /* RouteHeaderView.swift */; };
 		AF2991DE2D078CEE00BB7907 /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2991D92D078CEE00BB7907 /* MediaLibrary.swift */; };
 		AF2991E12D078CEE00BB7907 /* DataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2991D82D078CEE00BB7907 /* DataTypes.swift */; };
 		AF2991EA2D078CF200BB7907 /* PhotoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2991E32D078CF200BB7907 /* PhotoCapture.swift */; };
@@ -176,6 +178,8 @@
 		AF21C0AD2D6E7AB3000BE26C /* RouteLogAscent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteLogAscent.swift; sourceTree = "<group>"; };
 		AF21C18B2D711073000BE26C /* ClimbTypesConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbTypesConverter.swift; sourceTree = "<group>"; };
 		AF21C2CF2D7378ED000BE26C /* DateTimeConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeConverter.swift; sourceTree = "<group>"; };
+		AF21C2DD2D737FCB000BE26C /* ScrollViewWithStickyHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewWithStickyHeader.swift; sourceTree = "<group>"; };
+		AF21C3172D73BD5E000BE26C /* RouteHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteHeaderView.swift; sourceTree = "<group>"; };
 		AF2991D82D078CEE00BB7907 /* DataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTypes.swift; sourceTree = "<group>"; };
 		AF2991D92D078CEE00BB7907 /* MediaLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibrary.swift; sourceTree = "<group>"; };
 		AF2991E32D078CF200BB7907 /* PhotoCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCapture.swift; sourceTree = "<group>"; };
@@ -406,6 +410,14 @@
 			path = TimeConverter;
 			sourceTree = "<group>";
 		};
+		AF21C2DA2D737FBE000BE26C /* ScrollViewWithStickyHeader */ = {
+			isa = PBXGroup;
+			children = (
+				AF21C2DD2D737FCB000BE26C /* ScrollViewWithStickyHeader.swift */,
+			);
+			path = ScrollViewWithStickyHeader;
+			sourceTree = "<group>";
+		};
 		AF2991C12D078A7300BB7907 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
@@ -580,6 +592,7 @@
 		AF8A76442D4468D50029BE40 /* NewViews */ = {
 			isa = PBXGroup;
 			children = (
+				AF21C3172D73BD5E000BE26C /* RouteHeaderView.swift */,
 				AF21C0AD2D6E7AB3000BE26C /* RouteLogAscent.swift */,
 				AF8A76832D45AFCA0029BE40 /* RouteAscentsView.swift */,
 				AF8A76632D446C5A0029BE40 /* RouteLocationInfoView.swift */,
@@ -632,6 +645,7 @@
 		AF9B62462C346D47003762B0 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				AF21C2DA2D737FBE000BE26C /* ScrollViewWithStickyHeader */,
 				AF21C2CC2D7378E5000BE26C /* TimeConverter */,
 				AF21C16C2D710B07000BE26C /* EnumConverter */,
 				AF3D95CB2D6BE0C7003FAF90 /* WavingText */,
@@ -1121,6 +1135,7 @@
 				AF9E0C752C38ACC400984C58 /* CreateRouteImageModel.swift in Sources */,
 				AF3D94452D6A97A7003FAF90 /* UserRecentAscentsView.swift in Sources */,
 				AF9E0C6C2C3747C500984C58 /* ClimbingGrades.swift in Sources */,
+				AF21C2DF2D737FD0000BE26C /* ScrollViewWithStickyHeader.swift in Sources */,
 				AF8DA6402CD45DD400751865 /* RouteAscentView.swift in Sources */,
 				AF8DA63C2CD450CC00751865 /* RecentAscentsView.swift in Sources */,
 				AFBE85902D1229F70029217C /* PhotoCaptureButton.swift in Sources */,
@@ -1148,6 +1163,7 @@
 				AF8DA64E2CD56D8000751865 /* SearchResultView.swift in Sources */,
 				AFD3918F2C3191A8008CF2A7 /* ImportSamplesSwift.swift in Sources */,
 				AF8A76552D4469C60029BE40 /* RouteTopInfoContainerView.swift in Sources */,
+				AF21C3192D73BD61000BE26C /* RouteHeaderView.swift in Sources */,
 				AF2991DE2D078CEE00BB7907 /* MediaLibrary.swift in Sources */,
 				AF8A75E62D43244C0029BE40 /* SectorTopContainerView.swift in Sources */,
 				AF8A75DC2D43241D0029BE40 /* SectorLocationInfoView.swift in Sources */,
