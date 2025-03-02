@@ -14,7 +14,6 @@ struct UserRecentAscentsView: View {
   func fetchRecentAscents() async {
     isLoading = true
     recentAscents = await userRecentAscentsClient.call((), authViewModel.getAuthData())
-    print("recentAscents: \(recentAscents.count)")
     isLoading = false
   }
 
@@ -134,7 +133,7 @@ struct UserRecentAscentsView: View {
       // Gradient overlay
       LinearGradient(
         gradient: Gradient(colors: [
-          Color.black.opacity(0.7),
+          Color.black.opacity(0.9),
           Color.black.opacity(0.4),
           Color.black.opacity(0.2),
         ]),

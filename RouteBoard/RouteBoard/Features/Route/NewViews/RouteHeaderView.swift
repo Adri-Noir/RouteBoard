@@ -18,7 +18,7 @@ struct RouteHeaderView<Content: View>: View {
   let content: Content
   @Binding var isPresentingRouteLogAscent: Bool
 
-  @State private var headerVisibleRatio: CGFloat = 0
+  @State private var headerVisibleRatio: CGFloat = 1
 
   init(
     route: RouteDetails?, isPresentingRouteLogAscent: Binding<Bool>,
@@ -47,8 +47,6 @@ struct RouteHeaderView<Content: View>: View {
     guard let dateString = userAscent.ascentDate else {
       return nil
     }
-
-    print("dateString: \(dateString)")
 
     return DateTimeConverter.convertDateStringToDate(dateString: dateString)
   }

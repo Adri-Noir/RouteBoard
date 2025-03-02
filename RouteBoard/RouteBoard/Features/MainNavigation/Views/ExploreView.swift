@@ -3,11 +3,12 @@
 import SwiftUI
 
 struct ExploreView: View {
-  @State private var currentTab = 0
+  @State private var currentTab: String? = "0"
+  @Namespace private var scrollSpace
   let timer = Timer.publish(every: 10, on: .main, in: .common).autoconnect()
 
   var body: some View {
-    VStack(alignment: .leading) {
+    VStack(alignment: .leading, spacing: 0) {
       HStack {
         Image(systemName: "map")
           .foregroundColor(Color.white)
@@ -16,19 +17,27 @@ struct ExploreView: View {
           .fontWeight(.bold)
           .foregroundColor(Color.white)
       }
+      .padding(.horizontal, 20)
 
-      TabView(selection: $currentTab) {
-        ForEach(0..<5) { index in
-          Color.black
-            .frame(height: 200)
-            .overlay(
+      ScrollView(.horizontal) {
+        LazyHStack(spacing: 16) {
+          ForEach(0..<5) { index in
+            GeometryReader { geometry in
               ZStack(alignment: .bottomLeading) {
                 Image("TestingSamples/limski/pikachu")
                   .resizable()
                   .scaledToFill()
-                  .frame(height: 200)
-                  .opacity(0.4)
-                  .blur(radius: 1)
+                  .frame(width: geometry.size.width, height: geometry.size.height)
+
+                LinearGradient(
+                  gradient: Gradient(colors: [
+                    Color.black.opacity(0.9),
+                    Color.black.opacity(0.4),
+                    Color.black.opacity(0.2),
+                  ]),
+                  startPoint: .bottom,
+                  endPoint: .top
+                )
 
                 VStack(alignment: .leading) {
                   Text("Crag")
@@ -38,25 +47,45 @@ struct ExploreView: View {
                 }
                 .padding()
               }
-            )
-            .clipped()
-            .cornerRadius(10)
-            .tag(index)
+              .frame(width: geometry.size.width, height: geometry.size.height)
+              .cornerRadius(10)
+              .scrollTransition { content, phase in
+                content
+                  .opacity(phase.isIdentity ? 1 : 0.5)
+                  .scaleEffect(phase.isIdentity ? 1 : 0.9)
+                  .blur(radius: phase.isIdentity ? 0 : 5)
+              }
+            }
+            .padding(.horizontal, 20)
+            .containerRelativeFrame(.horizontal, count: 1, spacing: 0, alignment: .center)
+            .padding(.vertical, 10)
+            .id("\(index)")
+          }
         }
+        .scrollTargetLayout()
       }
-      .tabViewStyle(.page)
-      .frame(height: 200)
-      .cornerRadius(10)
+      .scrollPosition(id: $currentTab)
+      .scrollTargetBehavior(.viewAligned)
+      .scrollIndicators(.hidden)
+      .frame(height: 250)
+      .onScrollVisibilityChange { _ in
+        timer.upstream.connect().cancel()
+      }
       .onReceive(timer) { _ in
-        withAnimation {
-          currentTab = (currentTab + 1) % 5
+        withAnimation(.easeInOut(duration: 0.5)) {
+          if let current = currentTab, let currentInt = Int(current) {
+            currentTab = "\((currentInt + 1) % 5)"
+          } else {
+            currentTab = "0"
+          }
         }
       }
     }
-    .padding(.horizontal, 20)
   }
 }
 
 #Preview {
-  ExploreView()
+  AuthInjectionMock {
+    ExploreView()
+  }
 }
