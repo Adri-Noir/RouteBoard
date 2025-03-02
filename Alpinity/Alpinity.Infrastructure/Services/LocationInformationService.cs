@@ -9,7 +9,7 @@ public class LocationInformationService(IConfiguration configuration) : ILocatio
 {
     public async Task<LocationInformationResponse> GetLocationInformationFromCoordinates(double latitude, double longitude)
     {
-        var client = new HttpClient();
+        var client = new HttpClient();  
         var response = await client.GetAsync($"https://api.mapbox.com/search/geocode/v6/reverse?longitude={longitude}&latitude={latitude}&access_token={configuration["Mapbox:AccessToken"]}");
         var content = await response.Content.ReadAsStringAsync();
         var locationInformation = JsonSerializer.Deserialize<LocationInformationResponse>(content);
@@ -20,7 +20,7 @@ public class LocationInformationService(IConfiguration configuration) : ILocatio
         return locationInformation;
     }
 
-    public async Task<string?> GetLocationNameFromLocationInformation(LocationInformationResponse? locationInformation)
+    public string? GetLocationNameFromLocationInformation(LocationInformationResponse? locationInformation)
     {
         if (locationInformation == null || locationInformation.Features == null || locationInformation.Features.Count == 0)
         {

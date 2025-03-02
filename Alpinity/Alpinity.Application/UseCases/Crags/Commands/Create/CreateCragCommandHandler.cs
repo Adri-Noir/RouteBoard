@@ -13,7 +13,7 @@ public class CreateCragCommandHandler(ICragRepository repository, IMapper mapper
     public async Task<CragDetailedDto> Handle(CreateCragCommand request, CancellationToken cancellationToken)
     {
         var locationInformation = await locationInformationService.GetLocationInformationFromCoordinates(request.Location.Latitude, request.Location.Longitude);
-        var locationName = await locationInformationService.GetLocationNameFromLocationInformation(locationInformation);
+        var locationName = locationInformationService.GetLocationNameFromLocationInformation(locationInformation);
         var point = mapper.Map<Point>(request.Location);
         var crag = new Crag
         {

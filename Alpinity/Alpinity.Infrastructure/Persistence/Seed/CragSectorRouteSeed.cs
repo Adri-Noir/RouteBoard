@@ -17,43 +17,50 @@ public static class CragSectorRouteSeed
                 {
                     Name = "Test Crag 1",
                     Description = "This is a seeded crag.",
-                    Location = new Point(15.966568, 45.815399) { SRID = 4326 }
+                    Location = new Point(15.966568, 45.815399) { SRID = 4326 },
+                    LocationName = "Test Crag 1"
                 },
                 new Crag
                 {
                     Name = "Test Crag 2",
                     Description = "This is a second seeded crag.",
-                    Location = new Point(15.966568, 45.815399) { SRID = 4326 }
+                    Location = new Point(15.966568, 45.815399) { SRID = 4326 },
+                    LocationName = "Test Crag 2"
                 },
                 new Crag
                 {
                     Name = "Paklenica",
                     Description = "Famous Croatian climbing area with limestone walls.",
-                    Location = new Point(15.487778, 44.293889) { SRID = 4326 }
+                    Location = new Point(15.487778, 44.293889) { SRID = 4326 },
+                    LocationName = "Zadar, Croatia"
                 },
                 new Crag
                 {
                     Name = "Fontainebleau",
                     Description = "World-renowned bouldering area in France.",
-                    Location = new Point(2.699444, 48.404722) { SRID = 4326 }
+                    Location = new Point(2.699444, 48.404722) { SRID = 4326 },
+                    LocationName = "Fontainebleau, France"
                 },
                 new Crag
                 {
                     Name = "El Capitan",
                     Description = "Iconic big wall climbing in Yosemite National Park.",
-                    Location = new Point(-119.637778, 37.733333) { SRID = 4326 }
+                    Location = new Point(-119.637778, 37.733333) { SRID = 4326 },
+                    LocationName = "Yosemite National Park, USA"
                 },
                 new Crag
                 {
                     Name = "Kalymnos",
                     Description = "Greek island known for its sport climbing on limestone.",
-                    Location = new Point(26.983333, 36.966667) { SRID = 4326 }
+                    Location = new Point(26.983333, 36.966667) { SRID = 4326 },
+                    LocationName = "Kalymnos, Greece"
                 },
                 new Crag
                 {
                     Name = "Ceüse",
                     Description = "Premier limestone cliff in France with challenging routes.",
-                    Location = new Point(5.936576, 44.518188) { SRID = 4326 }
+                    Location = new Point(5.936576, 44.518188) { SRID = 4326 },
+                    LocationName = "Vaucluse, France"
                 }
             };
 

@@ -27,6 +27,8 @@ public class AscentRepository(
     {
         return await dbContext.Ascents
             .Include(a => a.Route)
+            .Include(a => a.Route.Sector)
+            .Include(a => a.Route.Sector.Crag)
             .Where(a => a.UserId == userId)
             .ToListAsync();
     }
