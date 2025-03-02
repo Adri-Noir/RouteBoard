@@ -23,6 +23,7 @@ public struct SearchResultView: View {
   }
 
   func search(value: String) async {
+    results = []
     isLoading = true
     // try? await Task.sleep(nanoseconds: 1_000_000_000)
     let searchResults = await client.call(
@@ -36,7 +37,7 @@ public struct SearchResultView: View {
 
   @ViewBuilder
   private var resultsContent: some View {
-    if results.isEmpty && !searchText.isEmpty {
+    if results.isEmpty && !searchText.isEmpty && !isLoading {
       NoSearchResultsView()
     } else {
       LazyVStack(alignment: .leading, spacing: 20) {
@@ -52,7 +53,7 @@ public struct SearchResultView: View {
 
   public var body: some View {
     VStack(alignment: .leading) {
-      if isLoading {
+      if isLoading && results.isEmpty {
         LoadingSearchResultsView()
       } else {
         resultsContent

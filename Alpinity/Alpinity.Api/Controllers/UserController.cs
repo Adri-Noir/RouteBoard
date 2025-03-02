@@ -1,9 +1,11 @@
 using System.Net.Mime;
 using Alpinity.Application.Interfaces;
+using Alpinity.Application.UseCases.Routes.Dtos;
 using Alpinity.Application.UseCases.SearchHistory.Commands.GetUserSearchHistory;
 using Alpinity.Application.UseCases.SearchHistory.Dtos;
 using Alpinity.Application.UseCases.Users.Commands.GetUserProfile;
 using Alpinity.Application.UseCases.Users.Commands.LogAscent;
+using Alpinity.Application.UseCases.Users.Commands.RecentlyAscendedRoutes;
 using Alpinity.Application.UseCases.Users.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -43,6 +45,23 @@ public class UserController(
         {
             SearchingUserId = (Guid)authenticationContext.GetUserId()!,
             Count = count
+        };
+        
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("recentlyAscendedRoutes")]
+    [Authorize]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(typeof(ICollection<RouteDetailedDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult<ICollection<RouteDetailedDto>>> GetRecentlyAscendedRoutes(CancellationToken cancellationToken = default)
+    {
+        var command = new RecentlyAscendedRoutesCommand
+        {
+            UserId = (Guid)authenticationContext.GetUserId()!
         };
         
         var result = await mediator.Send(command, cancellationToken);

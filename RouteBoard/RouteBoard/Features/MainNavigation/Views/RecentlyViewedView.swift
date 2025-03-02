@@ -209,7 +209,7 @@ struct RecentlyViewedView: View {
           .foregroundColor(.gray)
 
         if let routesCount = item.sectorRoutesCount {
-          Text("\(routesCount) routes")
+          Text("\(routesCount) Routes")
             .font(.caption)
             .foregroundColor(.gray)
         }
@@ -250,7 +250,7 @@ struct RecentlyViewedView: View {
         }
 
         if let sectorsCount = item.cragSectorsCount, let routesCount = item.cragRoutesCount {
-          Text("\(sectorsCount) sectors, \(routesCount) routes")
+          Text("\(sectorsCount) Sectors, \(routesCount) Routes")
             .font(.caption)
             .foregroundColor(.gray)
         }

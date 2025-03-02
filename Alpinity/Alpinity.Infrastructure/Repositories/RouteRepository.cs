@@ -48,4 +48,18 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
         route.RoutePhotos.Add(routePhoto);
         await dbContext.SaveChangesAsync();
     }
+
+    public async Task<ICollection<Route?>> GetRecentlyAscendedRoutes(Guid userId)
+    {
+        return await dbContext.Ascents
+            .Where(ascent => ascent.UserId == userId)
+            .OrderByDescending(ascent => ascent.AscentDate)
+            .Take(10)
+            .Include(ascent => ascent.Route!.Sector)
+            .Include(ascent => ascent.Route!.Sector!.Crag)
+            .Select(ascent => ascent.Route)
+            .Distinct()
+            .ToListAsync();
+    }
+    
 }

@@ -1,101 +1,239 @@
 // Created with <3 on 23.02.2025.
 
+import GeneratedClient
 import SwiftUI
 
 struct UserRecentAscentsView: View {
-  var body: some View {
-    VStack {
-      HStack(alignment: .center) {
-        Image(systemName: "figure.climbing")
-          .foregroundColor(Color.white)
+  @EnvironmentObject private var authViewModel: AuthViewModel
+  @State private var recentAscents: [UserRecentAscents] = []
+  @State private var isLoading = false
+  @State private var showAllAscents = false
 
-        Text("Recent ascents")
-          .font(.title3)
-          .fontWeight(.bold)
-          .foregroundColor(Color.white)
+  private let userRecentAscentsClient = UserRecentAscentsClient()
+
+  func fetchRecentAscents() async {
+    isLoading = true
+    recentAscents = await userRecentAscentsClient.call((), authViewModel.getAuthData())
+    print("recentAscents: \(recentAscents.count)")
+    isLoading = false
+  }
+
+  var body: some View {
+    VStack(spacing: 12) {
+      // Header
+      HStack(alignment: .center) {
+        HStack(spacing: 8) {
+          Image(systemName: "figure.climbing")
+            .font(.system(size: 18, weight: .semibold))
+            .foregroundColor(Color.white)
+
+          Text("Recent Ascents")
+            .font(.title3)
+            .fontWeight(.bold)
+            .foregroundColor(Color.white)
+        }
 
         Spacer()
 
         Button(action: {
-          // Action to show all recently ascended routes
+          showAllAscents = true
         }) {
           Text("Show All")
-            .font(.caption2)
-            .foregroundColor(.white)
+            .font(.subheadline)
+            .fontWeight(.medium)
+            .foregroundColor(.white.opacity(0.9))
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
+            .background(Color.white.opacity(0.15))
+            .clipShape(RoundedRectangle(cornerRadius: 8))
         }
       }
       .padding(.horizontal, 20)
 
-      ScrollView(.horizontal, showsIndicators: false) {
-        LazyHStack(spacing: 20) {
-          ForEach(0..<5) { _ in
-            Color.black
-              .frame(height: 225)
-              .overlay(
-                ZStack(alignment: .topLeading) {
-                  Image("TestingSamples/limski/pikachu")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .opacity(0.4)
-                    .blur(radius: 1)
-
-                  VStack(alignment: .leading) {
-                    HStack(alignment: .center) {
-                      Text("Route Name")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .foregroundColor(Color.white)
-
-                      Text("6a")
-                        .font(.subheadline)
-                        .foregroundColor(Color.white)
-                    }
-                    .padding(.horizontal, 10)
-                    .padding(.top, 30)
-
-                    Spacer()
-
-                    VStack(alignment: .leading, spacing: 8) {
-                      Button(action: {
-                        // Action to show crag details
-                      }) {
-                        Text("Crag")
-                          .font(.subheadline)
-                          .foregroundColor(Color.white)
-                      }
-                      .padding(.horizontal, 12)
-                      .padding(.vertical, 6)
-                      .background(Color.clear)
-                      Button(action: {
-                        // Action to show sector details
-                      }) {
-                        Text("Sector")
-                          .font(.subheadline)
-                          .foregroundColor(Color.white)
-                      }
-                      .padding(.horizontal, 12)
-                      .padding(.vertical, 6)
-                      .background(Color.clear)
-                    }
-                    .padding(.horizontal, 10)
-                    .padding(.bottom, 10)
-                  }
-                }
-              )
-              .clipped()
-              .containerRelativeFrame(.horizontal, count: 2, spacing: 0)
-              .background(.white)
-              .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-          }
+      // Content
+      Group {
+        if isLoading && recentAscents.isEmpty {
+          loadingView
+        } else if recentAscents.isEmpty {
+          emptyStateView
+        } else {
+          recentAscentsScrollView
         }
-        .scrollTargetLayout()
       }
-      .contentMargins(.horizontal, 20, for: .scrollContent)
-      .scrollTargetBehavior(.viewAligned)
+    }
+    .task {
+      await fetchRecentAscents()
     }
   }
-}
 
-#Preview {
-  UserRecentAscentsView()
+  private var loadingView: some View {
+    VStack(spacing: 12) {
+      ProgressView()
+        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+        .scaleEffect(1.2)
+
+      Text("Loading your ascents...")
+        .font(.subheadline)
+        .foregroundColor(.white.opacity(0.7))
+    }
+    .frame(maxWidth: .infinity, minHeight: 225)
+    .background(
+      RoundedRectangle(cornerRadius: 16)
+        .fill(Color.white.opacity(0.08))
+        .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+    )
+    .padding(.horizontal, 20)
+  }
+
+  private var emptyStateView: some View {
+    VStack(spacing: 16) {
+      Image(systemName: "mountain.2")
+        .font(.system(size: 40))
+        .foregroundColor(.white.opacity(0.5))
+
+      Text("No recent ascents")
+        .font(.headline)
+        .foregroundColor(.white.opacity(0.8))
+
+      Text("Your climbing achievements will appear here")
+        .font(.subheadline)
+        .foregroundColor(.white.opacity(0.6))
+        .multilineTextAlignment(.center)
+        .padding(.horizontal)
+    }
+    .frame(maxWidth: .infinity, minHeight: 225)
+    .background(
+      RoundedRectangle(cornerRadius: 16)
+        .fill(Color.white.opacity(0.08))
+        .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+    )
+    .padding(.horizontal, 20)
+  }
+
+  private var recentAscentsScrollView: some View {
+    ScrollView(.horizontal, showsIndicators: false) {
+      LazyHStack(spacing: 16) {
+        ForEach(recentAscents, id: \.id) { route in
+          RouteLink(routeId: .constant(route.id)) {
+            routeCard(for: route)
+          }
+        }
+      }
+      .scrollTargetLayout()
+      .padding(.horizontal, 20)
+      .padding(.bottom, 8)
+    }
+    .scrollTargetBehavior(.viewAligned)
+  }
+
+  private func routeCard(for route: UserRecentAscents) -> some View {
+    ZStack(alignment: .bottomLeading) {
+      // Background image
+      routeBackgroundImage(for: route)
+
+      // Gradient overlay
+      LinearGradient(
+        gradient: Gradient(colors: [
+          Color.black.opacity(0.7),
+          Color.black.opacity(0.4),
+          Color.black.opacity(0.2),
+        ]),
+        startPoint: .bottom,
+        endPoint: .top
+      )
+
+      // Content
+      VStack(alignment: .leading, spacing: 0) {
+        // Top section with grade
+        HStack {
+          Spacer()
+          if let grade = route.grade {
+            Text(authViewModel.getGradeSystem().convertGradeToString(grade))
+              .font(.system(size: 14, weight: .bold))
+              .foregroundColor(.white)
+              .padding(.horizontal, 10)
+              .padding(.vertical, 5)
+              .background(Color.black.opacity(0.6))
+              .clipShape(RoundedRectangle(cornerRadius: 8))
+          }
+        }
+        .padding([.top, .horizontal], 12)
+
+        Spacer()
+
+        // Route name
+        Text(route.name ?? "Unknown Route")
+          .font(.title3)
+          .fontWeight(.bold)
+          .foregroundColor(.white)
+          .lineLimit(1)
+          .padding(.horizontal, 16)
+
+        // Location info
+        VStack(alignment: .leading, spacing: 6) {
+          HStack(spacing: 6) {
+            Image(systemName: "mappin.circle.fill")
+              .font(.system(size: 12))
+              .foregroundColor(.white.opacity(0.8))
+
+            Text(route.cragName ?? "Unknown Crag")
+              .font(.subheadline)
+              .foregroundColor(.white.opacity(0.9))
+              .lineLimit(1)
+          }
+
+          HStack(spacing: 6) {
+            Image(systemName: "square.grid.2x2.fill")
+              .font(.system(size: 12))
+              .foregroundColor(.white.opacity(0.8))
+
+            Text(route.sectorName ?? "Unknown Sector")
+              .font(.subheadline)
+              .foregroundColor(.white.opacity(0.9))
+              .lineLimit(1)
+          }
+        }
+        .padding(.horizontal, 16)
+        .padding(.bottom, 16)
+        .padding(.top, 4)
+      }
+    }
+    .frame(width: 280, height: 200)
+    .clipShape(RoundedRectangle(cornerRadius: 16))
+    // .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)
+  }
+
+  private func routeBackgroundImage(for route: UserRecentAscents) -> some View {
+    Group {
+      if let firstPhoto = route.routePhotos?.first?.image?.url, !firstPhoto.isEmpty {
+        AsyncImage(url: URL(string: firstPhoto)) { phase in
+          switch phase {
+          case .empty:
+            Color.gray.opacity(0.3)
+          case .success(let image):
+            image
+              .resizable()
+              .aspectRatio(contentMode: .fill)
+          case .failure:
+            Image("TestingSamples/limski/pikachu")
+              .resizable()
+              .aspectRatio(contentMode: .fill)
+          @unknown default:
+            Image("TestingSamples/limski/pikachu")
+              .resizable()
+              .aspectRatio(contentMode: .fill)
+          }
+        }
+      } else {
+        defaultRouteImage
+      }
+    }
+    .frame(width: 280, height: 200)
+  }
+
+  private var defaultRouteImage: some View {
+    Image("TestingSamples/limski/pikachu")
+      .resizable()
+      .aspectRatio(contentMode: .fill)
+  }
 }
