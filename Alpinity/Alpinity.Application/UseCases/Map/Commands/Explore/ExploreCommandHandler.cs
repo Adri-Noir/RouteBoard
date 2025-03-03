@@ -1,14 +1,14 @@
 using Alpinity.Application.Interfaces.Repositories;
-using Alpinity.Application.UseCases.Crags.Dtos;
+using Alpinity.Application.UseCases.Map.Dtos;
 using AutoMapper;
 using MediatR;
 
 namespace Alpinity.Application.UseCases.Map.Commands.Explore;
 
 public class ExploreCommandHandler(ICragRepository cragRepository, IMapper mapper, IAscentRepository ascentRepository)
-    : IRequestHandler<ExploreCommand, ICollection<CragDetailedDto>>
+    : IRequestHandler<ExploreCommand, ICollection<ExploreDto>>
 {
-    public async Task<ICollection<CragDetailedDto>> Handle(ExploreCommand request, CancellationToken cancellationToken)
+    public async Task<ICollection<ExploreDto>> Handle(ExploreCommand request, CancellationToken cancellationToken)
     {
         var userId = request.UserId;
 
@@ -27,7 +27,7 @@ public class ExploreCommandHandler(ICragRepository cragRepository, IMapper mappe
                     var radius = request.Radius ?? 10000;
 
                     var crags = await cragRepository.GetCragsFromLocation(latitude, longitude, radius);
-                    return mapper.Map<ICollection<CragDetailedDto>>(crags);
+                    return mapper.Map<ICollection<ExploreDto>>(crags);
                 }
             }
         }
@@ -39,7 +39,7 @@ public class ExploreCommandHandler(ICragRepository cragRepository, IMapper mappe
             var radius = request.Radius ?? 10000;
 
             var crags = await cragRepository.GetCragsFromLocation(latitude, longitude, radius);
-            return mapper.Map<ICollection<CragDetailedDto>>(crags);
+            return mapper.Map<ICollection<ExploreDto>>(crags);
         }
 
         return [];

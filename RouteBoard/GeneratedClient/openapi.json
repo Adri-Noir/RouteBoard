@@ -266,6 +266,64 @@
         }
       }
     },
+    "/api/Map/explore": {
+      "get": {
+        "tags": [
+          "Map"
+        ],
+        "parameters": [
+          {
+            "name": "latitude",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "radius",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExploreDto"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Route/{id}": {
       "get": {
         "tags": [
@@ -853,10 +911,6 @@
         "type": "string"
       },
       "CragDetailedDto": {
-        "required": [
-          "location",
-          "name"
-        ],
         "type": "object",
         "properties": {
           "id": {
@@ -873,6 +927,10 @@
           },
           "location": {
             "$ref": "#/components/schemas/PointDto"
+          },
+          "locationName": {
+            "type": "string",
+            "nullable": true
           },
           "sectors": {
             "type": "array",
@@ -944,6 +1002,56 @@
           "sectorId": {
             "type": "string",
             "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExploreDto": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "cragId": {
+            "type": "string",
+            "nullable": true
+          },
+          "cragName": {
+            "type": "string",
+            "nullable": true
+          },
+          "cragDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "location": {
+            "$ref": "#/components/schemas/PointDto"
+          },
+          "locationName": {
+            "type": "string",
+            "nullable": true
+          },
+          "photo": {
+            "$ref": "#/components/schemas/PhotoDto"
+          },
+          "sectorsCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "routesCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "ascentsCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false

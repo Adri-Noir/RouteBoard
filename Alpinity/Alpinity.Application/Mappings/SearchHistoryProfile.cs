@@ -5,9 +5,9 @@ using AutoMapper;
 
 namespace Alpinity.Application.Mappings;
 
-public class SearchHistoryMappingProfile : Profile
+public class SearchHistoryProfile : Profile
 {
-    public SearchHistoryMappingProfile()
+    public SearchHistoryProfile()
     {
         CreateMap<SearchHistory, SearchHistoryDto>()
             .ForMember(dest => dest.SearchedAt, opt => opt.MapFrom(src => src.SearchedAt))

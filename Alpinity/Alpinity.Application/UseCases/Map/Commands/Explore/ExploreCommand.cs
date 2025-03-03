@@ -1,10 +1,10 @@
 using System.Text.Json.Serialization;
-using Alpinity.Application.UseCases.Crags.Dtos;
+using Alpinity.Application.UseCases.Map.Dtos;
 using MediatR;
 
 namespace Alpinity.Application.UseCases.Map.Commands.Explore;
 
-public class ExploreCommand : IRequest<ICollection<CragDetailedDto>>
+public class ExploreCommand : IRequest<ICollection<ExploreDto>>
 {
     public double? Latitude { get; set; }
     public double? Longitude { get; set; }
