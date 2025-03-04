@@ -8,7 +8,9 @@ public class ExploreClient: AuthenticatedClientProvider {
   public typealias T = Operations.get_sol_api_sol_Map_sol_explore.Input.Query
   public typealias R = [ExploreDto]
 
-  public func call(_ data: T, _ authData: AuthData) async -> R {
+  public func call(
+    _ data: T, _ authData: AuthData, _ errorHandler: ((_ message: String) -> Void)? = nil
+  ) async -> R {
     do {
       let result = try await self.getClient(authData).get_sol_api_sol_Map_sol_explore(
         Operations.get_sol_api_sol_Map_sol_explore.Input(
@@ -19,13 +21,21 @@ public class ExploreClient: AuthenticatedClientProvider {
       switch result {
       case .ok(let body):
         return try body.body.json
-      case .unauthorized:
-        await authData.unauthorizedHandler?()
+
+      case .unauthorized(let error):
+        await handleUnauthorize(try? error.body.json.additionalProperties, authData, errorHandler)
+        return []
+
+      case .badRequest(let error):
+        handleBadRequest(try? error.body.json.additionalProperties, "ExploreClient", errorHandler)
+        return []
+
       case .undocumented:
+        handleUndocumented(errorHandler)
         return []
       }
     } catch {
-      print(error)
+      errorHandler?(returnUnknownError())
     }
 
     return []

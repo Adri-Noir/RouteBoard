@@ -18,10 +18,11 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
     {
         return await dbContext.Routes
             .Include(route => route.Sector)
-            .Include("Sector.Crag")
-            .Include(route => route.RoutePhotos)
-            .Include("RoutePhotos.Image")
-            .Include("RoutePhotos.PathLine")
+            .Include(route => route.Sector!.Crag)
+            .Include(route => route.RoutePhotos!)
+            .ThenInclude(photo => photo.Image)
+            .Include(route => route.RoutePhotos!)
+            .ThenInclude(photo => photo.PathLine)
             .Include(route => route.Ascents!.OrderByDescending(ascent => ascent.AscentDate))
             .ThenInclude(ascent => ascent.User)
             .FirstOrDefaultAsync(route => route.Id == routeId);
@@ -49,16 +50,22 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task<ICollection<Route?>> GetRecentlyAscendedRoutes(Guid userId)
+    public async Task<ICollection<Route>> GetRecentlyAscendedRoutes(Guid userId)
     {
         return await dbContext.Ascents
             .Where(ascent => ascent.UserId == userId)
             .OrderByDescending(ascent => ascent.AscentDate)
-            .Take(10)
             .Include(ascent => ascent.Route!.Sector)
             .Include(ascent => ascent.Route!.Sector!.Crag)
-            .Select(ascent => ascent.Route)
+            .Include(ascent => ascent.Route!.RoutePhotos!)
+                .ThenInclude(photo => photo.Image)
+            .Include(ascent => ascent.Route!.RoutePhotos!)
+                .ThenInclude(photo => photo.PathLine)
+            .Include(ascent => ascent.Route!.Ascents!)
+            .Where(ascent => ascent.Route != null)
+            .Select(ascent => ascent.Route!)
             .Distinct()
+            .Take(10)
             .ToListAsync();
     }
     

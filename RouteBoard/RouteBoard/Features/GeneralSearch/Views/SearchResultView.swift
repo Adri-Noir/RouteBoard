@@ -13,7 +13,7 @@ public struct SearchResultView: View {
 
   @State private var results: [GetSearchResults] = []
   @State private var isLoading: Bool = false
-
+  @State private var errorMessage: String? = nil
   @EnvironmentObject private var authViewModel: AuthViewModel
 
   private var client = GetSearchResultsClient()
@@ -27,7 +27,7 @@ public struct SearchResultView: View {
     isLoading = true
     // try? await Task.sleep(nanoseconds: 1_000_000_000)
     let searchResults = await client.call(
-      GetSearchResultsInput(query: value), authViewModel.getAuthData())
+      GetSearchResultsInput(query: value), authViewModel.getAuthData(), { errorMessage = $0 })
 
     withAnimation {
       results = searchResults
@@ -64,5 +64,6 @@ public struct SearchResultView: View {
         await search(value: searchText)
       }
     }
+    .alert(message: $errorMessage)
   }
 }

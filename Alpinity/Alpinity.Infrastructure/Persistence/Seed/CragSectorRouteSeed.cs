@@ -179,7 +179,8 @@ public static class CragSectorRouteSeed
                     Description = "This is a seeded route.",
                     Grade = ClimbingGrade.F_6a,
                     RouteType = new List<RouteType> { RouteType.Sport, RouteType.Trad },
-                    SectorId = sectors.First(s => s.Name == "Test Sector").Id
+                    SectorId = sectors.First(s => s.Name == "Test Sector").Id,
+                    Length = 10
                 },
                 
                 // Additional routes for Test Sector
@@ -189,7 +190,8 @@ public static class CragSectorRouteSeed
                     Description = "Technical face climbing with small crimps.",
                     Grade = ClimbingGrade.F_6b,
                     RouteType = new List<RouteType> { RouteType.Sport },
-                    SectorId = sectors.First(s => s.Name == "Test Sector").Id
+                    SectorId = sectors.First(s => s.Name == "Test Sector").Id,
+                    Length = 10
                 },
                 
                 // Routes for Test Sector 2
@@ -199,7 +201,8 @@ public static class CragSectorRouteSeed
                     Description = "Powerful climbing on steep terrain.",
                     Grade = ClimbingGrade.F_7a,
                     RouteType = new List<RouteType> { RouteType.Sport },
-                    SectorId = sectors.First(s => s.Name == "Test Sector 2").Id
+                    SectorId = sectors.First(s => s.Name == "Test Sector 2").Id,
+                    Length = 10
                 },
                 
                 // Routes for Anića Kuk
@@ -209,7 +212,8 @@ public static class CragSectorRouteSeed
                     Description = "Classic multi-pitch route on Anića Kuk.",
                     Grade = ClimbingGrade.F_6a_plus,
                     RouteType = new List<RouteType> { RouteType.Sport, RouteType.MultiPitch },
-                    SectorId = sectors.First(s => s.Name == "Anića Kuk").Id
+                    SectorId = sectors.First(s => s.Name == "Anića Kuk").Id,
+                    Length = 60
                 },
                 
                 new Route
@@ -218,7 +222,8 @@ public static class CragSectorRouteSeed
                     Description = "Hard and technical route with small holds.",
                     Grade = ClimbingGrade.F_7c,
                     RouteType = new List<RouteType> { RouteType.Sport },
-                    SectorId = sectors.First(s => s.Name == "Anića Kuk").Id
+                    SectorId = sectors.First(s => s.Name == "Anića Kuk").Id,
+                    Length = 20
                 },
                 
                 // Routes for Klanci
@@ -228,7 +233,8 @@ public static class CragSectorRouteSeed
                     Description = "Perfect route for beginners with good holds.",
                     Grade = ClimbingGrade.F_5a,
                     RouteType = new List<RouteType> { RouteType.Sport },
-                    SectorId = sectors.First(s => s.Name == "Klanci").Id
+                    SectorId = sectors.First(s => s.Name == "Klanci").Id,
+                    Length = 17
                 },
                 
                 // Routes for Bas Cuvier
@@ -238,7 +244,8 @@ public static class CragSectorRouteSeed
                     Description = "Classic boulder problem.",
                     Grade = ClimbingGrade.F_6c,
                     RouteType = new List<RouteType> { RouteType.Boulder },
-                    SectorId = sectors.First(s => s.Name == "Bas Cuvier").Id
+                    SectorId = sectors.First(s => s.Name == "Bas Cuvier").Id,
+                    Length = 4
                 },
                 
                 // Routes for Franchard Isatis
@@ -248,7 +255,8 @@ public static class CragSectorRouteSeed
                     Description = "Famous boulder problem, a must-do.",
                     Grade = ClimbingGrade.F_6a,
                     RouteType = new List<RouteType> { RouteType.Boulder },
-                    SectorId = sectors.First(s => s.Name == "Franchard Isatis").Id
+                    SectorId = sectors.First(s => s.Name == "Franchard Isatis").Id,
+                    Length = 5
                 },
                 
                 // Routes for The Nose
@@ -258,7 +266,8 @@ public static class CragSectorRouteSeed
                     Description = "The most famous big wall route in the world.",
                     Grade = ClimbingGrade.F_8a,
                     RouteType = new List<RouteType> { RouteType.BigWall, RouteType.Trad, RouteType.Aid },
-                    SectorId = sectors.First(s => s.Name == "The Nose").Id
+                    SectorId = sectors.First(s => s.Name == "The Nose").Id,
+                    Length = 900
                 },
                 
                 // Routes for Freerider
@@ -268,7 +277,8 @@ public static class CragSectorRouteSeed
                     Description = "Famous free climbing route on El Capitan.",
                     Grade = ClimbingGrade.F_7c_plus,
                     RouteType = new List<RouteType> { RouteType.BigWall, RouteType.Trad },
-                    SectorId = sectors.First(s => s.Name == "Freerider").Id
+                    SectorId = sectors.First(s => s.Name == "Freerider").Id,
+                    Length = 1000
                 },
                 
                 // Routes for Grande Grotta
@@ -278,7 +288,8 @@ public static class CragSectorRouteSeed
                     Description = "Classic route through the cave with 3D climbing.",
                     Grade = ClimbingGrade.F_7a,
                     RouteType = new List<RouteType> { RouteType.Sport },
-                    SectorId = sectors.First(s => s.Name == "Grande Grotta").Id
+                    SectorId = sectors.First(s => s.Name == "Grande Grotta").Id,
+                    Length = 25
                 },
                 
                 new Route
@@ -287,7 +298,8 @@ public static class CragSectorRouteSeed
                     Description = "Spectacular route with tufa climbing.",
                     Grade = ClimbingGrade.F_7b_plus,
                     RouteType = new List<RouteType> { RouteType.Sport },
-                    SectorId = sectors.First(s => s.Name == "Grande Grotta").Id
+                    SectorId = sectors.First(s => s.Name == "Grande Grotta").Id,
+                    Length = 30
                 },
                 
                 // Routes for Odyssey
@@ -297,7 +309,8 @@ public static class CragSectorRouteSeed
                     Description = "Technical face climbing on good rock.",
                     Grade = ClimbingGrade.F_6c_plus,
                     RouteType = new List<RouteType> { RouteType.Sport },
-                    SectorId = sectors.First(s => s.Name == "Odyssey").Id
+                    SectorId = sectors.First(s => s.Name == "Odyssey").Id,
+                    Length = 22
                 },
                 
                 // Routes for Biographie Sector
@@ -307,7 +320,8 @@ public static class CragSectorRouteSeed
                     Description = "One of the most famous sport routes in the world.",
                     Grade = ClimbingGrade.F_9a_plus,
                     RouteType = new List<RouteType> { RouteType.Sport },
-                    SectorId = sectors.First(s => s.Name == "Biographie Sector").Id
+                    SectorId = sectors.First(s => s.Name == "Biographie Sector").Id,
+                    Length = 35
                 },
                 
                 // Routes for Berlin
@@ -317,7 +331,8 @@ public static class CragSectorRouteSeed
                     Description = "Hard and technical route on small holds.",
                     Grade = ClimbingGrade.F_8b,
                     RouteType = new List<RouteType> { RouteType.Sport },
-                    SectorId = sectors.First(s => s.Name == "Berlin").Id
+                    SectorId = sectors.First(s => s.Name == "Berlin").Id,
+                    Length = 28
                 }
             };
             

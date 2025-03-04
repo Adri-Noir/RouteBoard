@@ -31,20 +31,20 @@ public class SearchHistoryRepository : ISearchHistoryRepository
         return await _context.SearchHistories
             // Include Crag data
             .Include(sh => sh.Crag)
-            .ThenInclude(c => c.Sectors)
-            .ThenInclude(s => s.Routes)
+            .ThenInclude(c => c.Sectors!)
+            .ThenInclude(s => s.Routes!)
 
             // Include Sector data with its Crag
             .Include(sh => sh.Sector)
             .ThenInclude(s => s.Crag)
-            .ThenInclude(c => c.Sectors)
+            .ThenInclude(c => c.Sectors!)
 
             // Include Route data with its Sector and the Sector's Crag
             .Include(sh => sh.Route)
-            .ThenInclude(r => r.Sector)
+            .ThenInclude(r => r.Sector!)
             .ThenInclude(s => s.Crag)
             .Include(sh => sh.Route)
-            .ThenInclude(r => r.Ascents)
+            .ThenInclude(r => r.Ascents!)
 
             // Include User profile data
             .Include(sh => sh.ProfileUser)

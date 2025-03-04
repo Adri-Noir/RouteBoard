@@ -6,9 +6,9 @@ using AutoMapper;
 
 namespace Alpinity.Application.UseCases.Users.Commands.RecentlyAscendedRoutes;
 
-public class RecentlyAscendedRoutesCommandHandler(IRouteRepository routeRepository, IUserRepository userRepository, IMapper mapper) : IRequestHandler<RecentlyAscendedRoutesCommand, ICollection<RouteDetailedDto>>
+public class RecentlyAscendedRoutesCommandHandler(IRouteRepository routeRepository, IUserRepository userRepository, IMapper mapper) : IRequestHandler<RecentlyAscendedRoutesCommand, ICollection<RecentlyAscendedRouteDto>>
 {
-    public async Task<ICollection<RouteDetailedDto>> Handle(RecentlyAscendedRoutesCommand request, CancellationToken cancellationToken)
+    public async Task<ICollection<RecentlyAscendedRouteDto>> Handle(RecentlyAscendedRoutesCommand request, CancellationToken cancellationToken)
     {
         var user = await userRepository.GetByIdAsync(request.UserId);
 
@@ -18,6 +18,6 @@ public class RecentlyAscendedRoutesCommandHandler(IRouteRepository routeReposito
         }
 
         var routes = await routeRepository.GetRecentlyAscendedRoutes(user.Id);
-        return mapper.Map<ICollection<RouteDetailedDto>>(routes);
+        return mapper.Map<ICollection<RecentlyAscendedRouteDto>>(routes);
     }
 }

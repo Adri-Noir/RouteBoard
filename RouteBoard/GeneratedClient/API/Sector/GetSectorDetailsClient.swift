@@ -10,12 +10,16 @@ import OpenAPIURLSession
 public typealias SectorDetailsInput = Operations.get_sol_api_sol_Sector_sol__lcub_id_rcub_.Input
   .Path
 public typealias SectorDetails = Components.Schemas.SectorDetailedDto
+public typealias SectorRoute = Components.Schemas.SectorRouteDto
 
 public class GetSectorDetailsClient: AuthenticatedClientProvider {
   public typealias T = SectorDetailsInput
   public typealias R = SectorDetails?
 
-  public func call(_ data: SectorDetailsInput, _ authData: AuthData) async -> SectorDetails? {
+  public func call(
+    _ data: SectorDetailsInput, _ authData: AuthData,
+    _ errorHandler: ((_ message: String) -> Void)? = nil
+  ) async -> SectorDetails? {
     do {
       let result = try await self.getClient(authData).get_sol_api_sol_Sector_sol__lcub_id_rcub_(
         Operations.get_sol_api_sol_Sector_sol__lcub_id_rcub_.Input(
@@ -28,15 +32,26 @@ public class GetSectorDetailsClient: AuthenticatedClientProvider {
           return value
         }
 
-      case .unauthorized:
-        await authData.unauthorizedHandler?()
+      case .unauthorized(let error):
+        await handleUnauthorize(
+          try? error.body.json.additionalProperties, authData, errorHandler)
         return nil
 
-      case .undocumented(statusCode: _, _):
+      case .badRequest(let error):
+        handleBadRequest(
+          try? error.body.json.additionalProperties, "GetSectorDetailsClient", errorHandler)
+        return nil
+
+      case .notFound(let error):
+        handleNotFound(try? error.body.json.additionalProperties, errorHandler)
+        return nil
+
+      case .undocumented:
+        handleUndocumented(errorHandler)
         return nil
       }
     } catch {
-      print(error)
+      errorHandler?(returnUnknownError())
     }
 
     return nil

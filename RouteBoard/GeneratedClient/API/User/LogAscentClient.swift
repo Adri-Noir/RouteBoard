@@ -8,7 +8,9 @@ public class LogAscentClient: AuthenticatedClientProvider {
   public typealias T = LogAscentInput
   public typealias R = String
 
-  public func call(_ data: LogAscentInput, _ authData: AuthData) async -> String {
+  public func call(
+    _ data: LogAscentInput, _ authData: AuthData, _ errorHandler: ((_ message: String) -> Void)?
+  ) async -> String {
     do {
       let result = try await self.getClient(authData)
         .post_sol_api_sol_User_sol_logAscent(
@@ -20,19 +22,25 @@ public class LogAscentClient: AuthenticatedClientProvider {
         return ""
 
       case .badRequest(let error):
-        return getErrorMessage(try error.body.json.additionalProperties)
+        handleBadRequest(try? error.body.json.additionalProperties, "LogAscentClient", errorHandler)
+        return ""
 
-      case .unauthorized:
-        await authData.unauthorizedHandler?()
-        return returnUnauthorized()
+      case .unauthorized(let error):
+        await handleUnauthorize(try? error.body.json.additionalProperties, authData, errorHandler)
+        return ""
+
+      case .notFound(let error):
+        handleNotFound(try? error.body.json.additionalProperties, errorHandler)
+        return ""
 
       case .undocumented:
-        return returnUnknownError()
+        handleUndocumented(errorHandler)
+        return ""
       }
     } catch {
-      print(error)
+      errorHandler?(returnUnknownError())
     }
 
-    return returnUnknownError()
+    return ""
   }
 }

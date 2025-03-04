@@ -12,8 +12,17 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
     public async Task<Crag?> GetCragById(Guid cragId)
     {
         return await dbContext.Crags
-            .Include(crag => crag.Sectors)
-            .Include("Sectors.Routes")
+            .Include(crag => crag.Sectors!)
+            .ThenInclude(sector => sector.Routes!)
+            .ThenInclude(route => route.RoutePhotos!)
+            .ThenInclude(routePhoto => routePhoto.Image)
+            .Include(crag => crag.Sectors!)
+            .ThenInclude(sector => sector.Routes!)
+            .ThenInclude(route => route.RoutePhotos!)
+            .ThenInclude(routePhoto => routePhoto.PathLine)
+            .Include(crag => crag.Sectors!)
+            .ThenInclude(sector => sector.Routes!)
+            .ThenInclude(route => route.Ascents)
             .FirstOrDefaultAsync(crag => crag.Id == cragId);
     }
 
@@ -37,8 +46,8 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
     public async Task<ICollection<Crag>> GetCragsFromLocation(double latitude, double longitude, double radius)
     {
         return await dbContext.Crags
-            .Where(crag => crag.Location.Distance(new Point(longitude, latitude) { SRID = 4326 }) <= radius)
-            .OrderBy(crag => crag.Location.Distance(new Point(longitude, latitude) { SRID = 4326 }))
+            .Where(crag => crag.Location != null && crag.Location.Distance(new Point(longitude, latitude) { SRID = 4326 }) <= radius)
+            .OrderBy(crag => crag.Location != null ? crag.Location.Distance(new Point(longitude, latitude) { SRID = 4326 }) : 0)
             .ToListAsync();
     }
 }

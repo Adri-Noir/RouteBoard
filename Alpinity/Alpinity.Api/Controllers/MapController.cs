@@ -15,7 +15,8 @@ public class MapController(IMediator mediator, IAuthenticationContext authentica
     [HttpGet("explore")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
     [Produces(MediaTypeNames.Application.Json)]
     public async Task<ActionResult<ICollection<ExploreDto>>> Explore(double? latitude, double? longitude, double? radius, CancellationToken cancellationToken)
     {

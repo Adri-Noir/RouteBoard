@@ -18,9 +18,7 @@ public class LoginCommandHandler(
             ? await userRepository.GetByEmailAsync(request.NormalizedUsernameOrEmail)
             : await userRepository.GetByUsernameAsync(request.NormalizedUsernameOrEmail);
 
-        if (user is null) throw new UnAuthorizedAccessException("Invalid username/email or password.");
-
-        if (!signInService.CheckPasswordHash(user.PasswordHash, request.Password))
+        if (user is null || !signInService.CheckPasswordHash(user.PasswordHash, request.Password))
             throw new UnAuthorizedAccessException("Invalid username/email or password.");
 
         var result = mapper.Map<LoggedInUserDto>(user);

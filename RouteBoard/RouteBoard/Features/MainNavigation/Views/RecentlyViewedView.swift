@@ -9,6 +9,7 @@ struct RecentlyViewedView: View {
   @State private var isExpanded = false
   @State private var searchHistory: [SearchHistory] = []
   @State private var isLoading = false
+  @State private var errorMessage: String? = nil
 
   private let searchHistoryClient = SearchHistoryClient()
 
@@ -77,12 +78,14 @@ struct RecentlyViewedView: View {
     .task {
       await fetchSearchHistory()
     }
+    .alert(message: $errorMessage)
   }
 
   private func fetchSearchHistory() async {
     isLoading = true
 
-    let history = await searchHistoryClient.call((), authViewModel.getAuthData())
+    let history = await searchHistoryClient.call(
+      (), authViewModel.getAuthData(), { errorMessage = $0 })
     await MainActor.run {
       self.searchHistory = history
       self.isLoading = false

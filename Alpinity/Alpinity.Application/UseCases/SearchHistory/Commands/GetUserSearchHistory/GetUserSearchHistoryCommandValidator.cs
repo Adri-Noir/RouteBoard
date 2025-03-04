@@ -12,6 +12,8 @@ public class GetUserSearchHistoryCommandValidator : AbstractValidator<GetUserSea
 
         RuleFor(x => x.Count)
             .GreaterThan(0)
-            .WithMessage("Count must be greater than 0");
+            .WithMessage("Count must be greater than 0")
+            .LessThanOrEqualTo(100)
+            .WithMessage("Count must be less than or equal to 100");
     }
 }

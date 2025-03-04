@@ -12,7 +12,9 @@ public class LoginClient: NonAuthenticatedClientProvider {
   public typealias T = LoginInput
   public typealias R = LoggedInUser?
 
-  public func call(_ data: LoginInput) async -> LoggedInUser? {
+  public func call(_ data: LoginInput, _ errorHandler: ((_ message: String) -> Void)? = nil) async
+    -> LoggedInUser?
+  {
     do {
       let input = Operations.post_sol_api_sol_Authentication_sol_login.Input(
         body: Operations.post_sol_api_sol_Authentication_sol_login.Input.Body.json(
@@ -26,12 +28,20 @@ public class LoginClient: NonAuthenticatedClientProvider {
           return value
         }
 
-      default:
-        return nil
+      case .badRequest(let error):
+        handleBadRequest(
+          try? error.body.json.additionalProperties, "LoginClient", errorHandler)
+
+      case .undocumented:
+        handleUndocumented(errorHandler)
+
+      case .unauthorized(let error):
+        handleUnauthorized(
+          try? error.body.json.additionalProperties, errorHandler)
       }
 
     } catch {
-      print(error)
+      errorHandler?(returnUnknownError())
     }
 
     return nil

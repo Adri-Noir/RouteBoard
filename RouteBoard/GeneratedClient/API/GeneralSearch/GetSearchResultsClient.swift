@@ -14,8 +14,10 @@ public class GetSearchResultsClient: AuthenticatedClientProvider {
   public typealias T = GetSearchResultsInput
   public typealias R = [GetSearchResults]
 
-  public func call(_ data: GetSearchResultsInput, _ authData: AuthData) async -> [GetSearchResults]
-  {
+  public func call(
+    _ data: GetSearchResultsInput, _ authData: AuthData,
+    _ errorHandler: ((_ message: String) -> Void)? = nil
+  ) async -> [GetSearchResults] {
     do {
       let result = try await self.getClient(authData).post_sol_api_sol_Search(
         Operations.post_sol_api_sol_Search.Input(
@@ -29,11 +31,17 @@ public class GetSearchResultsClient: AuthenticatedClientProvider {
           return value.items ?? []
         }
 
-      case .unauthorized:
-        await authData.unauthorizedHandler?()
+      case .badRequest(let error):
+        handleBadRequest(
+          try? error.body.json.additionalProperties, "GetSearchResultsClient", errorHandler)
         return []
 
-      case .undocumented(statusCode: _, _):
+      case .unauthorized(let error):
+        await handleUnauthorize(try? error.body.json.additionalProperties, authData, errorHandler)
+        return []
+
+      case .undocumented:
+        handleUndocumented(errorHandler)
         return []
       }
     } catch {

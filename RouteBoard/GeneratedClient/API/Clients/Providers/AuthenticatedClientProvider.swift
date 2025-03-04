@@ -30,7 +30,8 @@ public protocol AuthenticationProtocol {
   associatedtype T
   associatedtype R
 
-  func call(_ data: T, _ authData: AuthData) async -> R
+  func call(_ data: T, _ authData: AuthData, _ errorHandler: ((_ message: String) -> Void)?) async
+    -> R
 }
 
 public class AuthenticationProvider {
@@ -58,6 +59,10 @@ public class AuthenticationProvider {
     return "Unknown error occurred!"
   }
 
+  public func logBadRequest(_ className: String) {
+    print("\(className): Bad request")
+  }
+
   public func getErrorMessage(_ error: [String: OpenAPIRuntime.OpenAPIValueContainer]) -> String {
     if let errorsContainer = error["errors"],
       let errorsArray = errorsContainer.value as? [[String: Any]],
@@ -69,6 +74,64 @@ public class AuthenticationProvider {
     }
 
     return returnUnknownError()
+  }
+
+  /// Handle unauthorized error case
+  /// - Parameters:
+  ///   - error: The error response with additional properties
+  ///   - authData: Authentication data containing token and unauthorized handler
+  ///   - errorHandler: Optional error handler callback
+  public func handleUnauthorize(
+    _ error: [String: OpenAPIRuntime.OpenAPIValueContainer]?,
+    _ authData: AuthData,
+    _ errorHandler: ((_ message: String) -> Void)?
+  ) async {
+    if let error = error {
+      errorHandler?(getErrorMessage(error))
+    } else {
+      errorHandler?(returnUnauthorized())
+    }
+    await authData.unauthorizedHandler?()
+  }
+
+  /// Handle bad request error case
+  /// - Parameters:
+  ///   - error: The error response with additional properties
+  ///   - className: The name of the client class for logging purposes
+  ///   - errorHandler: Optional error handler callback
+  public func handleBadRequest(
+    _ error: [String: OpenAPIRuntime.OpenAPIValueContainer]?,
+    _ className: String,
+    _ errorHandler: ((_ message: String) -> Void)?
+  ) {
+    if let error = error {
+      errorHandler?(getErrorMessage(error))
+    } else {
+      errorHandler?(returnUnknownError())
+    }
+    logBadRequest(className)
+  }
+
+  /// Handle not found error case
+  /// - Parameters:
+  ///   - error: The error response with additional properties
+  ///   - errorHandler: Optional error handler callback
+  public func handleNotFound(
+    _ error: [String: OpenAPIRuntime.OpenAPIValueContainer]?,
+    _ errorHandler: ((_ message: String) -> Void)?
+  ) {
+    if let error = error {
+      errorHandler?(getErrorMessage(error))
+    }
+  }
+
+  /// Handle undocumented error case
+  /// - Parameter errorHandler: Optional error handler callback
+  /// - Returns: Always returns nil to be used in a return statement
+  public func handleUndocumented(
+    _ errorHandler: ((_ message: String) -> Void)?
+  ) {
+    errorHandler?(returnUnknownError())
   }
 }
 

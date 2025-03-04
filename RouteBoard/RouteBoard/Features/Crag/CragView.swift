@@ -13,8 +13,9 @@ struct CragView: View {
 
   @State private var isLoading: Bool = false
   @State private var crag: CragDetails?
-
+  @State private var errorMessage: String? = nil
   @EnvironmentObject private var authViewModel: AuthViewModel
+  @Environment(\.dismiss) private var dismiss
 
   private let getCragDetailsClient = GetCragDetailsClient()
 
@@ -27,7 +28,7 @@ struct CragView: View {
 
     guard
       let cragDetails = await getCragDetailsClient.call(
-        CragDetailsInput(id: value), authViewModel.getAuthData())
+        CragDetailsInput(id: value), authViewModel.getAuthData(), { errorMessage = $0 })
     else {
       isLoading = false
       return
@@ -78,7 +79,11 @@ struct CragView: View {
     .task {
       await getCrag(value: cragId)
     }
-
+    .alert(
+      message: $errorMessage,
+      primaryAction: {
+        dismiss()
+      })
   }
 }
 

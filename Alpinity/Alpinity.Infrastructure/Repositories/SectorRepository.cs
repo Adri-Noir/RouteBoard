@@ -19,10 +19,14 @@ public class SectorRepository(ApplicationDbContext dbContext) : ISectorRepositor
         return await dbContext.Sectors
             .Include(sector => sector.Crag)
             .Include(sector => sector.Photos)
-            .Include(sector => sector.Routes)
-            .Include("Routes.RoutePhotos.Image")
-            .Include("Routes.RoutePhotos.PathLine")
-            .Include("Routes.Ascents")
+            .Include(sector => sector.Routes!)
+            .ThenInclude(route => route.RoutePhotos!)
+            .ThenInclude(photo => photo.Image)
+            .Include(sector => sector.Routes!)
+            .ThenInclude(route => route.RoutePhotos!)
+            .ThenInclude(photo => photo.PathLine)
+            .Include(sector => sector.Routes!)
+            .ThenInclude(route => route.Ascents)
             .FirstOrDefaultAsync(sector => sector.Id == sectorId);
     }
 

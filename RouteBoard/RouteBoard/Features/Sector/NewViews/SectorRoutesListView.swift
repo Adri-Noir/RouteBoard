@@ -8,8 +8,8 @@
 import GeneratedClient
 import SwiftUI
 
-private struct SectorRoute: View {
-  let route: RouteDetails
+private struct SectorRouteView: View {
+  let route: SectorRoute
 
   @EnvironmentObject private var authViewModel: AuthViewModel
 
@@ -48,7 +48,7 @@ private struct SectorRoute: View {
 }
 
 struct SectorRoutesList: View {
-  var routes: [RouteDetails] = []
+  var routes: [SectorRoute] = []
 
   init(sector: SectorDetails?) {
     self.routes = sector?.routes ?? []
@@ -81,7 +81,7 @@ struct SectorRoutesList: View {
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 20) {
           ForEach(routes, id: \.id) { route in
-            SectorRoute(route: route)
+            SectorRouteView(route: route)
           }
         }
         .padding(.horizontal, 20)

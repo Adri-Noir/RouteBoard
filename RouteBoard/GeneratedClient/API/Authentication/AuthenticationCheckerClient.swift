@@ -9,24 +9,35 @@ public class AuthenticationCheckerClient: AuthenticatedClientProvider {
   public typealias T = Never?
   public typealias R = Bool
 
-  public func call(_ data: Never? = nil, _ authData: AuthData) async -> Bool {
+  public func call(
+    _ data: Never? = nil, _ authData: AuthData, _ errorHandler: ((_ message: String) -> Void)? = nil
+  ) async -> Bool {
     do {
       let result = try await self.getClient(authData)
         .post_sol_api_sol_Authentication_sol_authenticated()
 
       switch result {
-      case .ok: return true
-      case .unauthorized:
+      case .ok:
+        return true
+
+      case .unauthorized(let error):
+        await handleUnauthorize(try? error.body.json.additionalProperties, authData, errorHandler)
         return false
 
-      default: return false
+      case .badRequest(let error):
+        handleBadRequest(
+          try? error.body.json.additionalProperties, "AuthenticationCheckerClient", errorHandler)
+        return false
+
+      case .undocumented:
+        handleUndocumented(errorHandler)
+        return false
       }
 
     } catch {
-      print(error)
+      errorHandler?(returnUnknownError())
     }
 
     return false
   }
-
 }

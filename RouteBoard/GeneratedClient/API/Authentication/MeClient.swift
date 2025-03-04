@@ -6,10 +6,12 @@
 //
 
 public class MeClient: AuthenticatedClientProvider {
-  public typealias T = Never?
+  public typealias T = Void
   public typealias R = LoggedInUser?
 
-  public func call(_ data: Never? = nil, _ authData: AuthData)
+  public func call(
+    _ data: Void, _ authData: AuthData, _ errorHandler: ((_ message: String) -> Void)? = nil
+  )
     async -> LoggedInUser?
   {
     do {
@@ -22,16 +24,19 @@ public class MeClient: AuthenticatedClientProvider {
           return value
         }
 
-      case .unauthorized:
-        // await self.runUnauthorizedHandler()
-        return nil
+      case .unauthorized(let error):
+        await handleUnauthorize(
+          try? error.body.json.additionalProperties, authData, errorHandler)
 
-      default:
-        return nil
+      case .badRequest(let error):
+        handleBadRequest(try? error.body.json.additionalProperties, "MeClient", errorHandler)
+
+      case .undocumented:
+        handleUndocumented(errorHandler)
       }
 
     } catch {
-      print(error)
+      errorHandler?(returnUnknownError())
     }
 
     return nil

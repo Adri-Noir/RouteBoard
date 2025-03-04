@@ -5,9 +5,12 @@ import OpenAPIURLSession
 public typealias SearchHistory = Components.Schemas.SearchHistoryDto
 
 public class SearchHistoryClient: AuthenticatedClientProvider {
+  public typealias T = Void
   public typealias R = [SearchHistory]
 
-  public func call(_ data: Void, _ authData: AuthData) async -> [SearchHistory] {
+  public func call(
+    _ data: Void, _ authData: AuthData, _ errorHandler: ((_ message: String) -> Void)? = nil
+  ) async -> [SearchHistory] {
     do {
       let result = try await self.getClient(authData)
         .get_sol_api_sol_User_sol_searchHistory()
@@ -19,15 +22,21 @@ public class SearchHistoryClient: AuthenticatedClientProvider {
           return value
         }
 
-      case .unauthorized:
-        await authData.unauthorizedHandler?()
+      case .unauthorized(let error):
+        await handleUnauthorize(try? error.body.json.additionalProperties, authData, errorHandler)
+        return []
+
+      case .badRequest(let error):
+        handleBadRequest(
+          try? error.body.json.additionalProperties, "SearchHistoryClient", errorHandler)
         return []
 
       case .undocumented:
+        handleUndocumented(errorHandler)
         return []
       }
     } catch {
-      print(error)
+      errorHandler?(returnUnknownError())
     }
 
     return []

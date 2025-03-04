@@ -2,12 +2,16 @@ import OpenAPIURLSession
 
 public typealias RouteDetailsInput = Operations.get_sol_api_sol_Route_sol__lcub_id_rcub_.Input.Path
 public typealias RouteDetails = Components.Schemas.RouteDetailedDto
+public typealias RoutePhoto = Components.Schemas.RoutePhotoDto
 
 public class GetRouteDetailsClient: AuthenticatedClientProvider {
   public typealias T = RouteDetailsInput
   public typealias R = RouteDetails?
 
-  public func call(_ data: RouteDetailsInput, _ authData: AuthData) async -> RouteDetails? {
+  public func call(
+    _ data: RouteDetailsInput, _ authData: AuthData,
+    _ errorHandler: ((_ message: String) -> Void)? = nil
+  ) async -> RouteDetails? {
     do {
       let result = try await self.getClient(authData).get_sol_api_sol_Route_sol__lcub_id_rcub_(
         Operations.get_sol_api_sol_Route_sol__lcub_id_rcub_.Input(
@@ -20,15 +24,26 @@ public class GetRouteDetailsClient: AuthenticatedClientProvider {
           return value
         }
 
-      case .unauthorized:
-        await authData.unauthorizedHandler?()
+      case .unauthorized(let error):
+        await handleUnauthorize(
+          try? error.body.json.additionalProperties, authData, errorHandler)
         return nil
 
-      case .undocumented(statusCode: _, _):
+      case .badRequest(let error):
+        handleBadRequest(
+          try? error.body.json.additionalProperties, "GetRouteDetailsClient", errorHandler)
+        return nil
+
+      case .notFound(let error):
+        handleNotFound(try? error.body.json.additionalProperties, errorHandler)
+        return nil
+
+      case .undocumented:
+        handleUndocumented(errorHandler)
         return nil
       }
     } catch {
-      print(error)
+      errorHandler?(returnUnknownError())
     }
 
     return nil

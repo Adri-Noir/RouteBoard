@@ -13,7 +13,7 @@ struct ExploreView: View {
   private let exploreClient = ExploreClient()
   @State private var exploreItems: [ExploreDto] = []
   @State private var isLoading = false
-
+  @State private var errorMessage: String? = nil
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
       HStack {
@@ -73,6 +73,7 @@ struct ExploreView: View {
         }
       }
     }
+    .alert(message: $errorMessage)
   }
 
   private var loadingView: some View {
@@ -102,20 +103,27 @@ struct ExploreView: View {
   }
 
   private var noResultsView: some View {
-    VStack(spacing: 16) {
-      Image(systemName: "mountain.2")
-        .font(.system(size: 40))
-        .foregroundColor(.white.opacity(0.5))
+    HStack {
+      Spacer()
 
-      Text("No explore items found")
-        .font(.headline)
-        .foregroundColor(.white.opacity(0.8))
+      VStack(spacing: 16) {
+        Image(systemName: "mountain.2")
+          .font(.system(size: 40))
+          .foregroundColor(.white.opacity(0.5))
 
-      Text("Discover climbing spots around you")
-        .font(.subheadline)
-        .foregroundColor(.white.opacity(0.6))
-        .multilineTextAlignment(.center)
-        .padding(.horizontal)
+        Text("No explore items found")
+          .font(.headline)
+          .foregroundColor(.white.opacity(0.8))
+
+        Text("Discover climbing spots around you")
+          .font(.subheadline)
+          .foregroundColor(.white.opacity(0.6))
+          .multilineTextAlignment(.center)
+          .padding(.horizontal)
+      }
+      .frame(height: 200)
+
+      Spacer()
     }
     .frame(height: 200)
     .background(
@@ -131,11 +139,11 @@ struct ExploreView: View {
     isLoading = true
     defer { isLoading = false }
 
-    try? await Task.sleep(nanoseconds: 5_000_000_000)
     // TODO: use user's current location
     let query = Operations.get_sol_api_sol_Map_sol_explore.Input.Query()
 
-    exploreItems = await exploreClient.call(query, authViewModel.getAuthData())
+    exploreItems = await exploreClient.call(
+      query, authViewModel.getAuthData(), { errorMessage = $0 })
   }
 }
 

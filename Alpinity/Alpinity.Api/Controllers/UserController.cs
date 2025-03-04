@@ -26,6 +26,7 @@ public class UserController(
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<ActionResult> LogAscent(LogAscentCommand command, CancellationToken cancellationToken)
     {
         command.UserId = (Guid)authenticationContext.GetUserId()!;
@@ -38,6 +39,7 @@ public class UserController(
     [Authorize]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(typeof(ICollection<SearchHistoryDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<ICollection<SearchHistoryDto>>> GetSearchHistory([FromQuery] int count = 10, CancellationToken cancellationToken = default)
     {
@@ -54,10 +56,10 @@ public class UserController(
     [HttpGet("recentlyAscendedRoutes")]
     [Authorize]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(ICollection<RouteDetailedDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<ICollection<RouteDetailedDto>>> GetRecentlyAscendedRoutes(CancellationToken cancellationToken = default)
+    public async Task<ActionResult<ICollection<RecentlyAscendedRouteDto>>> GetRecentlyAscendedRoutes(CancellationToken cancellationToken = default)
     {
         var command = new RecentlyAscendedRoutesCommand
         {
@@ -70,7 +72,9 @@ public class UserController(
     
     [HttpGet("{profileUserId}")]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(UserProfileDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<ActionResult<UserProfileDto>> GetUserProfile(Guid profileUserId, CancellationToken cancellationToken = default)
     {

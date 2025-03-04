@@ -13,5 +13,5 @@ public interface IRouteRepository
 
     Task AddPhoto(Guid routeId, RoutePhoto routePhoto);
 
-    Task<ICollection<Route?>> GetRecentlyAscendedRoutes(Guid userId);
+    Task<ICollection<Route>> GetRecentlyAscendedRoutes(Guid userId);
 }

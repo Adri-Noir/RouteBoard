@@ -15,7 +15,9 @@ public class SectorController(IMediator mediator) : ControllerBase
     [HttpPost]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status404NotFound)]
     [Produces(MediaTypeNames.Application.Json)]
     public async Task<ActionResult<SectorDetailedDto>> CreateSector(CreateSectorCommand cragCommand,
         CancellationToken cancellationToken)
@@ -28,7 +30,9 @@ public class SectorController(IMediator mediator) : ControllerBase
     [HttpGet("{id:guid}")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status404NotFound)]
     [Produces(MediaTypeNames.Application.Json)]
     public async Task<ActionResult<SectorDetailedDto>> GetSector(Guid id, CancellationToken cancellationToken)
     {

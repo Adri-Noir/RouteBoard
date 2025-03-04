@@ -12,7 +12,9 @@ public class GetCragDetailsClient: AuthenticatedClientProvider {
   public typealias T = CragDetailsInput
   public typealias R = CragDetails?
 
-  public func call(_ data: CragDetailsInput, _ authData: AuthData) async -> CragDetails? {
+  public func call(
+    _ data: CragDetailsInput, _ authData: AuthData, _ errorHandler: ((_ message: String) -> Void)?
+  ) async -> CragDetails? {
     do {
       let result = try await self.getClient(authData).get_sol_api_sol_Crag_sol__lcub_id_rcub_(
         Operations.get_sol_api_sol_Crag_sol__lcub_id_rcub_.Input(
@@ -25,15 +27,23 @@ public class GetCragDetailsClient: AuthenticatedClientProvider {
           return value
         }
 
-      case .unauthorized:
-        await authData.unauthorizedHandler?()
-        return nil
+      case .unauthorized(let error):
+        await handleUnauthorize(
+          try? error.body.json.additionalProperties, authData, errorHandler)
 
-      case .undocumented(statusCode: _, _):
+      case .badRequest(let error):
+        handleBadRequest(
+          try? error.body.json.additionalProperties, "GetCragDetailsClient", errorHandler)
+
+      case .notFound(let error):
+        handleNotFound(try? error.body.json.additionalProperties, errorHandler)
+
+      case .undocumented:
+        handleUndocumented(errorHandler)
         return nil
       }
     } catch {
-      print(error)
+      errorHandler?(returnUnknownError())
     }
 
     return nil

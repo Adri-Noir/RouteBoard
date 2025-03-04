@@ -19,8 +19,7 @@ struct RouteLogAscent: View {
   @State private var isSubmitting: Bool = false
   @State private var scrollPosition: String?
   @State private var ascentDate: Date = Date()
-  @State private var showErrorAlert: Bool = false
-  @State private var errorMessage: String = ""
+  @State private var errorMessage: String? = nil
   @State private var selectedAscentType: Components.Schemas.AscentType = .Redpoint
   @State private var attemptsCount: Int? = nil
   @FocusState private var isAttemptsCountFocused: Bool
@@ -95,11 +94,7 @@ struct RouteLogAscent: View {
         isAttemptsCountFocused = false
         isNotesFocused = false
       }
-      .alert("Error", isPresented: $showErrorAlert) {
-        Button("OK", role: .cancel) {}
-      } message: {
-        Text(errorMessage)
-      }
+      .alert(message: $errorMessage)
     }
     .background(Color.newBackgroundGray)
   }
@@ -392,11 +387,11 @@ struct RouteLogAscent: View {
   private func submitAscent() async {
     guard let route = route else {
       errorMessage = "Route information is missing"
-      showErrorAlert = true
       return
     }
 
     isSubmitting = true
+    defer { isSubmitting = false }
 
     let result = await logAscentClient.call(
       LogAscentInput(
@@ -416,16 +411,11 @@ struct RouteLogAscent: View {
         numberOfAttempts: attemptsCount.map { Int32($0) },
         proposedGrade: authViewModel.getGradeSystem().convertStringToGrade(selectedGrade),
         rating: Int32(rating)
-      ), authViewModel.getAuthData())
-
-    isSubmitting = false
+      ), authViewModel.getAuthData(), { errorMessage = $0 })
 
     if result == "" {
       onAscentLogged?()
       dismiss()
-    } else {
-      errorMessage = result
-      showErrorAlert = true
     }
   }
 }

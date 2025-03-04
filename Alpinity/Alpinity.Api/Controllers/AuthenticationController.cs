@@ -19,6 +19,9 @@ public class AuthenticationController(
     [HttpPost("login")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<LoggedInUserDto>> Login(LoginCommand command, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(command, cancellationToken);
@@ -28,6 +31,10 @@ public class AuthenticationController(
 
     [HttpPost("register")]
     [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status409Conflict)]
     public async Task<ActionResult<LoggedInUserDto>> Register(RegisterCommand command,
         CancellationToken cancellationToken)
     {
@@ -39,8 +46,9 @@ public class AuthenticationController(
     [HttpPost("authenticated")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [Produces(MediaTypeNames.Application.ProblemJson)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
+    [Produces(MediaTypeNames.Application.Json)]
     public ActionResult AuthCheck()
     {
         return Ok();
@@ -49,14 +57,15 @@ public class AuthenticationController(
     [HttpPost("me")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
     [Produces(MediaTypeNames.Application.Json)]
     public async Task<ActionResult<LoggedInUserDto>> GetUserFromJwt(
         CancellationToken cancellationToken)
     {
         var results = await mediator.Send(
             new MeCommand
-                { userId = (Guid)authenticationContext.GetUserId()!, token = authenticationContext.GetJwtToken() },
+                { UserId = (Guid)authenticationContext.GetUserId()!, Token = authenticationContext.GetJwtToken() },
             cancellationToken);
 
         return Ok(results);

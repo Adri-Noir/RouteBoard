@@ -12,12 +12,12 @@ public class MeCommandHandler(
 {
     public async Task<LoggedInUserDto> Handle(MeCommand request, CancellationToken cancellationToken)
     {
-        var user = await userRepository.GetByIdAsync(request.userId);
+        var user = await userRepository.GetByIdAsync(request.UserId);
         if (user is null) throw new UnAuthorizedAccessException("Invalid User ID");
 
         var result = mapper.Map<LoggedInUserDto>(user);
 
-        result.Token = request.token;
+        result.Token = request.Token;
 
         return result;
     }

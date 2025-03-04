@@ -8,12 +8,14 @@ struct UserRecentAscentsView: View {
   @State private var recentAscents: [UserRecentAscents] = []
   @State private var isLoading = false
   @State private var showAllAscents = false
+  @State private var errorMessage: String? = nil
 
   private let userRecentAscentsClient = UserRecentAscentsClient()
 
   func fetchRecentAscents() async {
     isLoading = true
-    recentAscents = await userRecentAscentsClient.call((), authViewModel.getAuthData())
+    recentAscents = await userRecentAscentsClient.call(
+      (), authViewModel.getAuthData(), { errorMessage = $0 })
     isLoading = false
   }
 
@@ -63,6 +65,7 @@ struct UserRecentAscentsView: View {
     .task {
       await fetchRecentAscents()
     }
+    .alert(message: $errorMessage)
   }
 
   private var loadingView: some View {

@@ -6,6 +6,6 @@ namespace Alpinity.Application.UseCases.Users.Commands.Me;
 
 public class MeCommand : IRequest<LoggedInUserDto>
 {
-    [JsonIgnore] public string? token;
-    [JsonIgnore] public Guid userId;
+    [JsonIgnore] public string? Token;
+    [JsonIgnore] public Guid UserId;
 }

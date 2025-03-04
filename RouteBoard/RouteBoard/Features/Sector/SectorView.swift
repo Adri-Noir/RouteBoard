@@ -62,7 +62,7 @@ struct SectorView: View {
   @State private var showRoutes = false
   @State private var show = true
   @State private var sector: SectorDetails?
-
+  @State private var errorMessage: String? = nil
   @EnvironmentObject private var authViewModel: AuthViewModel
   @Environment(\.dismiss) private var dismiss
 
@@ -75,7 +75,7 @@ struct SectorView: View {
     return window.safeAreaInsets
   }
 
-  private var sectorRoutes: [RouteDetails] {
+  private var sectorRoutes: [SectorRoute] {
     sector?.routes ?? []
   }
 
@@ -88,7 +88,7 @@ struct SectorView: View {
 
     guard
       let sectorDetails = await client.call(
-        SectorDetailsInput(id: value), authViewModel.getAuthData())
+        SectorDetailsInput(id: value), authViewModel.getAuthData(), { errorMessage = $0 })
     else {
       isLoading = false
       return
@@ -153,6 +153,11 @@ struct SectorView: View {
     .task {
       await getSector(value: sectorId)
     }
+    .alert(
+      message: $errorMessage,
+      primaryAction: {
+        dismiss()
+      })
   }
 }
 

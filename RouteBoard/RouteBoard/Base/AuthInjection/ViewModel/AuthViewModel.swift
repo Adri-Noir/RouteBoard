@@ -95,7 +95,7 @@ public class AuthViewModel: ObservableObject {
 
     guard
       let loggedInUser = await meClient.call(
-        nil, AuthData(token: keychainToken, unauthorizedHandler: self.logout))
+        (), AuthData(token: keychainToken, unauthorizedHandler: self.logout))
     else {
       await self.logout()
       return

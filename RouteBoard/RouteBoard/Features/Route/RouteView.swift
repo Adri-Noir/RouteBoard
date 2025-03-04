@@ -13,7 +13,7 @@ struct RouteView: View {
   let routeId: String
   @State private var isLoading: Bool = false
   @State private var route: RouteDetails?
-
+  @State private var errorMessage: String? = nil
   @State private var isPresentingCreateRouteImageView = false
   @State private var isPresentingRouteLogAscent = false
 
@@ -32,7 +32,7 @@ struct RouteView: View {
 
     guard
       let routeDetails = await getRouteDetailsClient.call(
-        RouteDetailsInput(id: value), authViewModel.getAuthData())
+        RouteDetailsInput(id: value), authViewModel.getAuthData(), { errorMessage = $0 })
     else {
       isLoading = false
       return
@@ -112,6 +112,11 @@ struct RouteView: View {
       await getRoute(value: routeId)
     }
     .navigationBarHidden(true)
+    .alert(
+      message: $errorMessage,
+      primaryAction: {
+        dismiss()
+      })
   }
 }
 
