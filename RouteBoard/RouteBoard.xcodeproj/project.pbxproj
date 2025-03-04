@@ -47,6 +47,8 @@
 		AF3D95222D6B96E2003FAF90 /* NavigationSearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D95212D6B96DC003FAF90 /* NavigationSearchResultsView.swift */; };
 		AF3D95D02D6BE0D9003FAF90 /* WavingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D95CE2D6BE0D7003FAF90 /* WavingText.swift */; };
 		AF62E0CB2D7679AD0039B67F /* AlertViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E0CA2D7679A20039B67F /* AlertViewExtension.swift */; };
+		AF62E0E02D777F4D0039B67F /* CragHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E0DE2D777F470039B67F /* CragHeaderView.swift */; };
+		AF62E0E22D777F580039B67F /* SectorHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E0E12D777F550039B67F /* SectorHeaderView.swift */; };
 		AF773D6C2C3DFBED00886C00 /* OverlayAndRouteId.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF773D6B2C3DFBED00886C00 /* OverlayAndRouteId.swift */; };
 		AF78ECAA2D1C8019009F3B79 /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = AF78ECA92D1C8019009F3B79 /* OpenAPIRuntime */; };
 		AF869C9D2C3064AA0092E371 /* RouteBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF869C9C2C3064AA0092E371 /* RouteBoardApp.swift */; };
@@ -197,6 +199,8 @@
 		AF3D95212D6B96DC003FAF90 /* NavigationSearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSearchResultsView.swift; sourceTree = "<group>"; };
 		AF3D95CE2D6BE0D7003FAF90 /* WavingText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WavingText.swift; sourceTree = "<group>"; };
 		AF62E0CA2D7679A20039B67F /* AlertViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewExtension.swift; sourceTree = "<group>"; };
+		AF62E0DE2D777F470039B67F /* CragHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CragHeaderView.swift; sourceTree = "<group>"; };
+		AF62E0E12D777F550039B67F /* SectorHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorHeaderView.swift; sourceTree = "<group>"; };
 		AF773D6B2C3DFBED00886C00 /* OverlayAndRouteId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayAndRouteId.swift; sourceTree = "<group>"; };
 		AF869C992C3064AA0092E371 /* RouteBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RouteBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF869C9C2C3064AA0092E371 /* RouteBoardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteBoardApp.swift; sourceTree = "<group>"; };
@@ -581,6 +585,7 @@
 		AF8A75CE2D4323A70029BE40 /* NewViews */ = {
 			isa = PBXGroup;
 			children = (
+				AF62E0E12D777F550039B67F /* SectorHeaderView.swift */,
 				AF8A75F22D43249E0029BE40 /* SectorGradesView.swift */,
 				AF8A75E92D4324670029BE40 /* SectorRoutesListView.swift */,
 				AF8A75E42D4324490029BE40 /* SectorTopContainerView.swift */,
@@ -863,6 +868,7 @@
 		AFD931372D25DBBC00B68D92 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AF62E0DE2D777F470039B67F /* CragHeaderView.swift */,
 				AF8A77422D46D8150029BE40 /* CragMapView.swift */,
 				AF8A77182D46CD5F0029BE40 /* CragGalleryView.swift */,
 				AF8A76EB2D46BDA90029BE40 /* CragTopInfoContainerView.swift */,
@@ -1117,6 +1123,7 @@
 				AFBED2962D16239B002CA393 /* PhotoEditingOverlayView.swift in Sources */,
 				AFBED2902D136D5B002CA393 /* CreateRouteImage.swift in Sources */,
 				AF8A75F32D4324A10029BE40 /* SectorGradesView.swift in Sources */,
+				AF62E0E02D777F4D0039B67F /* CragHeaderView.swift in Sources */,
 				AFD931642D29EC7300B68D92 /* KeychainService.swift in Sources */,
 				AF0A110B2C3C86D000BFAEAC /* RoutesListView.swift in Sources */,
 				AF29920B2D07BEB300BB7907 /* CameraPreview.swift in Sources */,
@@ -1200,6 +1207,7 @@
 				AF8A76ED2D46BDAF0029BE40 /* CragTopInfoContainerView.swift in Sources */,
 				AFC7D2922D3C759F0034DC05 /* DetailsTopView.swift in Sources */,
 				AF62E0CB2D7679AD0039B67F /* AlertViewExtension.swift in Sources */,
+				AF62E0E22D777F580039B67F /* SectorHeaderView.swift in Sources */,
 				6911F969FF44336C6055B5F6 /* DetailsViewStateMachine.swift in Sources */,
 				AF3D95222D6B96E2003FAF90 /* NavigationSearchResultsView.swift in Sources */,
 			);

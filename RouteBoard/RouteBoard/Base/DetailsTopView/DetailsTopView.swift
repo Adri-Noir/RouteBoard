@@ -5,52 +5,102 @@
 //  Created with <3 on 19.01.2025..
 //
 
+import GeneratedClient
 import SwiftUI
 
-struct DetailsTopView: View {
-  let pictures: [String]
+public typealias PhotoDto = Components.Schemas.PhotoDto
 
-  @Environment(\.dismiss) private var dismiss
+public struct DetailsTopView<Header: View, HeaderOverlay: View, Content: View>: View {
+  let photos: [PhotoDto]
+  @ViewBuilder let header: Header
+  @Binding var headerVisibleRatio: CGFloat
+  var headerHeight: CGFloat = 300
+  @ViewBuilder let overlay: HeaderOverlay
+  @ViewBuilder let content: Content
 
-  var body: some View {
-    ZStack(alignment: .top) {
-      ImageCarouselView(imagesNames: pictures, height: 500)
-        .cornerRadius(20)
+  private var safeAreaInsets: UIEdgeInsets {
+    guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+      let window = windowScene.windows.first
+    else { return .zero }
+    return window.safeAreaInsets
+  }
 
-      HStack {
-        Button(action: {
-          dismiss()
-        }) {
-          Image(systemName: "chevron.left")
-            .font(.title2)
-            .fontWeight(.medium)
-            .foregroundColor(.black)
-            .frame(width: 50, height: 50)
-            .background(Color.white)
-            .clipShape(Circle())
-            .shadow(color: .black.opacity(0.05), radius: 3, x: 0, y: 1)
+  public init(
+    photos: [PhotoDto],
+    header: Header,
+    headerVisibleRatio: Binding<CGFloat>,
+    overlay: HeaderOverlay,
+    headerHeight: CGFloat,
+    @ViewBuilder content: () -> Content
+  ) {
+    self.photos = photos
+    self.header = header
+    self._headerVisibleRatio = headerVisibleRatio
+    self.overlay = overlay
+    self.headerHeight = headerHeight
+    self.content = content()
+  }
+
+  var navigationBarExpanded: some View {
+    GeometryReader { proxy in
+      ZStack(alignment: .bottom) {
+        TabView {
+          if photos.isEmpty {
+            Image("TestingSamples/limski/pikachu")
+              .resizable()
+              .scaledToFill()
+              .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
+          } else {
+            ForEach(photos, id: \.id) { photo in
+              AsyncImage(url: URL(string: photo.url ?? "")) { image in
+                image
+                  .resizable()
+                  .scaledToFill()
+                  .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
+              } placeholder: {
+                Image("TestingSamples/limski/pikachu")
+                  .resizable()
+                  .scaledToFill()
+                  .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
+              }
+            }
+          }
         }
+        .tabViewStyle(PageTabViewStyle())
+        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+        .frame(width: proxy.size.width, height: proxy.size.height)
 
-        Spacer()
-
-        Button(action: {
-          print("Button tapped")
-        }) {
-          Image(systemName: "heart")
-            .font(.title2)
-            .fontWeight(.medium)
-            .foregroundColor(.black)
-            .frame(width: 50, height: 50)
-            .background(Color.white)
-            .clipShape(Circle())
-            .shadow(color: .black.opacity(0.05), radius: 3, x: 0, y: 1)
-        }
+        header
       }
+    }
+  }
+
+  var compactNavigationBar: some View {
+    overlay
       .padding(.horizontal, 20)
-      .padding(
-        .top,
-        (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?
-          .safeAreaInsets.top ?? 0)
+      .padding(.vertical, 8)
+      .padding(.top, safeAreaInsets.top)
+      .background(
+        Color.newPrimaryColor.ignoresSafeArea().background(.ultraThinMaterial).opacity(
+          1 - headerVisibleRatio)
+      )
+      .shadow(color: Color.black.opacity(0.15), radius: 2, x: 0, y: 1)
+      .animation(.easeInOut(duration: 0.2), value: headerVisibleRatio)
+  }
+
+  public var body: some View {
+    ScrollViewWithStickyHeader(
+      header: {
+        navigationBarExpanded
+      },
+      headerOverlay: {
+        compactNavigationBar
+      }, headerHeight: headerHeight,
+      onScroll: { _, headerVisibleRatio in
+        self.headerVisibleRatio = headerVisibleRatio
+      }
+    ) {
+      content
     }
   }
 }

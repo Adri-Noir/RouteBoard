@@ -1,10 +1,9 @@
-// Created with <3 on 01.03.2025.
+// Created with <3 on 04.03.2025.
 
 import GeneratedClient
 import SwiftUI
 
-struct RouteHeaderView<Content: View>: View {
-  @EnvironmentObject private var authViewModel: AuthViewModel
+struct CragHeaderView<Content: View>: View {
   @Environment(\.dismiss) var dismiss
 
   private var safeAreaInsets: UIEdgeInsets {
@@ -14,81 +13,35 @@ struct RouteHeaderView<Content: View>: View {
     return window.safeAreaInsets
   }
 
-  let route: RouteDetails?
+  let crag: CragDetails?
   let content: Content
-  @Binding var isPresentingRouteLogAscent: Bool
 
   @State private var headerVisibleRatio: CGFloat = 1
 
   init(
-    route: RouteDetails?, isPresentingRouteLogAscent: Binding<Bool>,
+    crag: CragDetails?,
     @ViewBuilder content: () -> Content
   ) {
-    self.route = route
+    self.crag = crag
     self.content = content()
-    self._isPresentingRouteLogAscent = isPresentingRouteLogAscent
   }
 
-  var userAscent: Components.Schemas.AscentDto? {
-    return route?.ascents?.first(where: { ascent in
-      ascent.userId == authViewModel.user?.id
-    })
-  }
-
-  var userHasAscended: Bool {
-    return userAscent != nil
-  }
-
-  var userAscentDate: Date? {
-    guard let userAscent = userAscent else {
-      return nil
-    }
-
-    guard let dateString = userAscent.ascentDate else {
-      return nil
-    }
-
-    return DateTimeConverter.convertDateStringToDate(dateString: dateString)
-  }
-
-  var routePhotos: [PhotoDto] {
-    route?.routePhotos?.compactMap {
-      $0.image
-    } ?? []
+  var cragPhotos: [PhotoDto] {
+    crag?.photos ?? []
   }
 
   var navigationBarExpanded: some View {
     HStack(spacing: 0) {
       Spacer()
 
-      if userHasAscended {
-        Text(
-          "Ascended on: \(userAscentDate?.formatted(date: .long, time: .omitted) ?? "Unknown")"
-        )
-        .foregroundColor(.white)
-        .padding(.horizontal, 10)
-        .padding(.vertical, 10)
-        .background(Color.black.opacity(0.75))
-        .clipShape(RoundedRectangle(cornerRadius: 20))
-      } else {
-        Button(action: {
-          isPresentingRouteLogAscent = true
-        }) {
-          HStack(spacing: 8) {
-            Image(systemName: "plus")
-              .foregroundColor(.white)
-              .font(.system(size: 18, weight: .semibold))
-
-            Text("Log Ascent")
-              .foregroundColor(.white)
-              .font(.system(size: 16, weight: .semibold))
-          }
+      // Could add crag-specific info here if needed
+      if let locationName = crag?.locationName {
+        Text("\(locationName)")
+          .foregroundColor(.white)
+          .padding(.horizontal, 10)
           .padding(.vertical, 10)
-          .padding(.trailing, 16)
-          .padding(.leading, 10)
           .background(Color.black.opacity(0.75))
           .clipShape(RoundedRectangle(cornerRadius: 20))
-        }
       }
     }
     .padding(20)
@@ -110,7 +63,7 @@ struct RouteHeaderView<Content: View>: View {
       Spacer()
 
       Group {
-        AsyncImage(url: URL(string: routePhotos.first?.url ?? "")) { image in
+        AsyncImage(url: URL(string: cragPhotos.first?.url ?? "")) { image in
           image
             .resizable()
             .scaledToFill()
@@ -126,7 +79,7 @@ struct RouteHeaderView<Content: View>: View {
             .clipShape(RoundedRectangle(cornerRadius: 6))
         }
 
-        Text(route?.name ?? "Route")
+        Text(crag?.name ?? "Crag")
           .font(.headline)
           .foregroundColor(.white)
           .lineLimit(1)
@@ -150,7 +103,7 @@ struct RouteHeaderView<Content: View>: View {
 
   public var body: some View {
     DetailsTopView(
-      photos: routePhotos,
+      photos: cragPhotos,
       header: navigationBarExpanded,
       headerVisibleRatio: $headerVisibleRatio,
       overlay: compactNavigationBar,

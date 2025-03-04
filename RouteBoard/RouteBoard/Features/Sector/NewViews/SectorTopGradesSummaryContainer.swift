@@ -44,6 +44,25 @@ struct SectorTopGradesSummaryContainer: View {
   var body: some View {
     HStack(alignment: .top, spacing: 0) {
       VStack(alignment: .center) {
+        Text(medianLength)
+          .font(.title)
+          .fontWeight(.semibold)
+          .foregroundColor(.white)
+
+        VStack(alignment: .center) {
+          Text("Median")
+            .font(.caption)
+            .foregroundColor(.white.opacity(0.7))
+
+          Text("Length")
+            .font(.caption)
+            .foregroundColor(.white.opacity(0.7))
+        }
+      }
+
+      Spacer()
+
+      VStack(alignment: .center) {
         Text(String(sector?.routes?.count ?? 0))
           .font(.title)
           .fontWeight(.semibold)
@@ -57,31 +76,20 @@ struct SectorTopGradesSummaryContainer: View {
       Spacer()
 
       VStack(alignment: .center) {
-        Text(medianLength)
-          .font(.title)
-          .fontWeight(.semibold)
-          .foregroundColor(.white)
-
-        Text("Median Length")
-          .font(.caption)
-          .foregroundColor(.white.opacity(0.7))
-          .multilineTextAlignment(.center)
-          .frame(width: 50)
-      }
-
-      Spacer()
-
-      VStack(alignment: .center) {
         Text(medianGrade)
           .font(.title)
           .fontWeight(.semibold)
           .foregroundColor(.white)
 
-        Text("Median Grade")
-          .font(.caption)
-          .foregroundColor(.white.opacity(0.7))
-          .multilineTextAlignment(.center)
-          .frame(width: 50)
+        VStack(alignment: .center) {
+          Text("Median")
+            .font(.caption)
+            .foregroundColor(.white.opacity(0.7))
+
+          Text("Grade")
+            .font(.caption)
+            .foregroundColor(.white.opacity(0.7))
+        }
       }
     }
     .padding(.horizontal, 40)

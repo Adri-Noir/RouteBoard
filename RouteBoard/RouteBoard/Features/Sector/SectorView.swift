@@ -99,12 +99,18 @@ struct SectorView: View {
   }
 
   var body: some View {
-    ApplyBackgroundColor(backgroundColors: [.newPrimaryColor, .newBackgroundGray]) {
+    ApplyBackgroundColor(backgroundColor: Color.newBackgroundGray) {
       DetailsViewStateMachine(details: $sector, isLoading: $isLoading) {
-        SectorTopContainerView(sector: sector) {
+        SectorHeaderView(sector: sector) {
           DetectRoutesWrapper(routes: sectorRoutes) {
-            ScrollView {
-              VStack(spacing: 30) {
+            VStack(spacing: 0) {
+              VStack(spacing: 20) {
+                Text(sector?.name ?? "")
+                  .font(.largeTitle)
+                  .fontWeight(.semibold)
+                  .foregroundColor(.white)
+                  .multilineTextAlignment(.center)
+                  .padding(.horizontal, 40)
                 SectorTopGradesSummaryContainer(sector: sector)
                 Spacer()
               }
@@ -149,7 +155,7 @@ struct SectorView: View {
         }
       }
     }
-    .detailsNavigationBar()
+    .navigationBarBackButtonHidden()
     .task {
       await getSector(value: sectorId)
     }
@@ -163,6 +169,6 @@ struct SectorView: View {
 
 #Preview {
   AuthInjectionMock {
-    SectorView(sectorId: "d9872fa7-8859-410e-9199-08dcf8780f2f")
+    SectorView(sectorId: "b51016dc-e873-4e96-ce33-08dd59ee5067")
   }
 }

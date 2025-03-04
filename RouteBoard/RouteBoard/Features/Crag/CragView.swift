@@ -39,16 +39,22 @@ struct CragView: View {
   }
 
   var body: some View {
-    ApplyBackgroundColor(backgroundColors: [.newPrimaryColor, .newBackgroundGray]) {
+    ApplyBackgroundColor(backgroundColor: Color.newBackgroundGray) {
       DetailsViewStateMachine(details: $crag, isLoading: $isLoading) {
-        CragTopContainerView(crag: crag) {
-          ScrollView {
-            VStack(spacing: 30) {
+        CragHeaderView(crag: crag) {
+          VStack(spacing: 0) {
+            VStack(spacing: 20) {
+              Text(crag?.name ?? "")
+                .font(.largeTitle)
+                .fontWeight(.semibold)
+                .foregroundColor(.white)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 40)
               CragTopInfoContainerView(crag: crag)
               Spacer()
             }
             .padding(.horizontal, 20)
-            .padding(.top, 20)
+            .padding(.vertical, 20)
             .background(Color.newPrimaryColor)
 
             ApplyBackgroundColor(backgroundColor: Color.newPrimaryColor) {
@@ -71,11 +77,12 @@ struct CragView: View {
                 Rectangle().padding(.top, -40)
               )
             }
+            .background(Color.newPrimaryColor)
           }
         }
       }
     }
-    .detailsNavigationBar()
+    .navigationBarBackButtonHidden()
     .task {
       await getCrag(value: cragId)
     }
@@ -89,6 +96,6 @@ struct CragView: View {
 
 #Preview {
   AuthInjectionMock {
-    CragView(cragId: "db203ffb-0c58-4a4c-541b-08dcf8780e0a")
+    CragView(cragId: "3eb16769-b6a3-4d1f-4411-08dd59ee505a")
   }
 }

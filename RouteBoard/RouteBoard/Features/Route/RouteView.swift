@@ -50,9 +50,7 @@ struct RouteView: View {
   }
 
   var body: some View {
-    ApplyBackgroundColor(
-      backgroundColor: Color.newBackgroundGray
-    ) {
+    ApplyBackgroundColor(backgroundColor: Color.newBackgroundGray) {
       DetailsViewStateMachine(details: $route, isLoading: $isLoading) {
         DetectRoutesWrapper(routes: routeList) {
           RouteHeaderView(route: route, isPresentingRouteLogAscent: $isPresentingRouteLogAscent) {
@@ -122,6 +120,6 @@ struct RouteView: View {
 
 #Preview {
   AuthInjectionMock {
-    RouteView(routeId: "fd5eb7b6-734b-458d-b7e5-08dd56b8e84e")
+    RouteView(routeId: "45613b8f-f391-4fd1-9494-08dd59ee506e")
   }
 }
