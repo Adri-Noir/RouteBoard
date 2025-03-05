@@ -49,6 +49,7 @@
 		AF62E0CB2D7679AD0039B67F /* AlertViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E0CA2D7679A20039B67F /* AlertViewExtension.swift */; };
 		AF62E0E02D777F4D0039B67F /* CragHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E0DE2D777F470039B67F /* CragHeaderView.swift */; };
 		AF62E0E22D777F580039B67F /* SectorHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E0E12D777F550039B67F /* SectorHeaderView.swift */; };
+		AF62E1002D779FDA0039B67F /* RegisteredUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E0FF2D779FD30039B67F /* RegisteredUserView.swift */; };
 		AF773D6C2C3DFBED00886C00 /* OverlayAndRouteId.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF773D6B2C3DFBED00886C00 /* OverlayAndRouteId.swift */; };
 		AF78ECAA2D1C8019009F3B79 /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = AF78ECA92D1C8019009F3B79 /* OpenAPIRuntime */; };
 		AF869C9D2C3064AA0092E371 /* RouteBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF869C9C2C3064AA0092E371 /* RouteBoardApp.swift */; };
@@ -201,6 +202,7 @@
 		AF62E0CA2D7679A20039B67F /* AlertViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewExtension.swift; sourceTree = "<group>"; };
 		AF62E0DE2D777F470039B67F /* CragHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CragHeaderView.swift; sourceTree = "<group>"; };
 		AF62E0E12D777F550039B67F /* SectorHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorHeaderView.swift; sourceTree = "<group>"; };
+		AF62E0FF2D779FD30039B67F /* RegisteredUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisteredUserView.swift; sourceTree = "<group>"; };
 		AF773D6B2C3DFBED00886C00 /* OverlayAndRouteId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayAndRouteId.swift; sourceTree = "<group>"; };
 		AF869C992C3064AA0092E371 /* RouteBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RouteBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF869C9C2C3064AA0092E371 /* RouteBoardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteBoardApp.swift; sourceTree = "<group>"; };
@@ -489,6 +491,22 @@
 			path = WavingText;
 			sourceTree = "<group>";
 		};
+		AF62E0FE2D779F1A0039B67F /* RegisteredUser */ = {
+			isa = PBXGroup;
+			children = (
+				AF62E1012D779FDE0039B67F /* Views */,
+				AF62E0FF2D779FD30039B67F /* RegisteredUserView.swift */,
+			);
+			path = RegisteredUser;
+			sourceTree = "<group>";
+		};
+		AF62E1012D779FDE0039B67F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		AF869C902C3064AA0092E371 = {
 			isa = PBXGroup;
 			children = (
@@ -676,6 +694,7 @@
 		AF9B62472C346D52003762B0 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				AF62E0FE2D779F1A0039B67F /* RegisteredUser */,
 				AFD931452D26080A00B68D92 /* Login */,
 				AFD931342D25DB8000B68D92 /* Crag */,
 				AF8DA6492CD56B9D00751865 /* GeneralSearch */,
@@ -1157,6 +1176,7 @@
 				AF9E0C7B2C39887F00984C58 /* RoutePoints.swift in Sources */,
 				AF8DA6462CD563DC00751865 /* ColorTheme.swift in Sources */,
 				AFD9314A2D26081B00B68D92 /* LoginView.swift in Sources */,
+				AF62E1002D779FDA0039B67F /* RegisteredUserView.swift in Sources */,
 				AFBED2922D1370DC002CA393 /* ImageUtils.swift in Sources */,
 				AF21C18D2D71107A000BE26C /* ClimbTypesConverter.swift in Sources */,
 				AF869CCE2C307CC50092E371 /* RouteFinderView.swift in Sources */,

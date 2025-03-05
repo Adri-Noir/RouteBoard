@@ -3,19 +3,12 @@
 import SwiftUI
 
 struct NewMainNavigationView: View {
+  @Namespace private var userProfileAnimation
   @EnvironmentObject var authViewModel: AuthViewModel
+
   @State private var searchText = ""
   @State private var isSearching = false
-  @State private var rotation: Double = 0
-
-  var insets: UIEdgeInsets {
-    guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-      let window = scene.windows.first
-    else {
-      return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-    }
-    return window.safeAreaInsets
-  }
+  @State private var showProfileView = false
 
   var body: some View {
     NavigationStack {
@@ -23,7 +16,7 @@ struct NewMainNavigationView: View {
         ScrollView {
           VStack(alignment: .leading, spacing: 30) {
             if !isSearching {
-              UserHelloView()
+              UserHelloView(showProfileView: $showProfileView)
             }
 
             SearchBar(searchText: $searchText, isSearching: $isSearching)

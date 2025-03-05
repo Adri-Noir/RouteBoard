@@ -3,6 +3,8 @@
 import SwiftUI
 
 struct UserHelloView: View {
+  @Binding var showProfileView: Bool
+
   @EnvironmentObject var authViewModel: AuthViewModel
 
   var body: some View {
@@ -21,9 +23,11 @@ struct UserHelloView: View {
 
       Spacer()
 
-      Image(systemName: "person.circle.fill")
-        .font(.largeTitle)
-        .foregroundColor(Color.white)
+      NavigationLink(destination: RegisteredUserView()) {
+        Image(systemName: "person.circle.fill")
+          .font(.largeTitle)
+          .foregroundColor(Color.white)
+      }
     }
     .padding(.top, 20)
     .padding(.horizontal, 20)
