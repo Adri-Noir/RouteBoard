@@ -28,4 +28,6 @@ public class Photo
 
     public Guid? UserPhotoId { get; set; }
     public User? UserPhoto { get; set; }
+    public Guid? UserPhotoGalleryId { get; set; }
+    public User? UserPhotoGallery { get; set; }
 }

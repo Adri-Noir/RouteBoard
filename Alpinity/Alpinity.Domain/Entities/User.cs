@@ -21,6 +21,6 @@ public class User
 
     public ICollection<Photo>? TakenPhotos { get; set; }
     public Photo? ProfilePhoto { get; set; }
-    
+    public ICollection<Photo>? UserPhotoGallery { get; set; }
     public ICollection<Ascent>? Ascents { get; set; }
 }

@@ -51,6 +51,12 @@ public class ApplicationDbContext : DbContext
             .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<User>()
+            .HasMany(u => u.UserPhotoGallery)
+            .WithOne(p => p.UserPhotoGallery)
+            .HasForeignKey(p => p.UserPhotoGalleryId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<User>()
             .HasIndex(u => u.Username)
             .IsUnique();
 

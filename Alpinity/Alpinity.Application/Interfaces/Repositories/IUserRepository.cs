@@ -11,4 +11,5 @@ public interface IUserRepository
     Task<User> UpdateAsync(User user);
     Task DeleteAsync(Guid id);
     Task ChangePhotoAsync(Guid userId, Photo photo);
+    Task<User?> GetUserProfileAsync(Guid userId);
 }

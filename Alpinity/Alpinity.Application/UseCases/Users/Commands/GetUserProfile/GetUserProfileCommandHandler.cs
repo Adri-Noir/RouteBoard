@@ -15,17 +15,13 @@ public class GetUserProfileCommandHandler(
 {
     public async Task<UserProfileDto> Handle(GetUserProfileCommand request, CancellationToken cancellationToken)
     {
-        var profileUser = await userRepository.GetByIdAsync(request.ProfileUserId);
-
-        if (profileUser == null) throw new EntityNotFoundException("User not found.");
-
-        // Save search history if user is authenticated
+        var profileUser = await userRepository.GetUserProfileAsync(request.ProfileUserId) ?? throw new EntityNotFoundException("User not found.");
+        
         var searchingUserId = authenticationContext.GetUserId();
-        if (searchingUserId.HasValue)
+        if (searchingUserId.HasValue && searchingUserId.Value != request.ProfileUserId)
         {
             var searchHistory = new Domain.Entities.SearchHistory
             {
-                Id = Guid.NewGuid(),
                 ProfileUserId = profileUser.Id,
                 ProfileUser = profileUser,
                 SearchingUserId = searchingUserId.Value,

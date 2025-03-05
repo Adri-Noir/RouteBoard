@@ -55,4 +55,15 @@ public class UserRepository(
         user!.ProfilePhoto = photo;
         await dbContext.SaveChangesAsync();
     }
+
+    public async Task<User?> GetUserProfileAsync(Guid userId)
+    {
+        return await dbContext.Users
+            .Include(u => u.ProfilePhoto)
+            .Include(u => u.Ascents!)
+            .ThenInclude(a => a.Route!)
+            .ThenInclude(r => r.Sector!)
+            .ThenInclude(s => s.Crag!)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+    }
 }

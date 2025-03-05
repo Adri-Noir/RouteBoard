@@ -69,8 +69,8 @@ public class UserController(
         var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }
-    
-    [HttpGet("{profileUserId}")]
+
+    [HttpGet("user/{profileUserId}")]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
