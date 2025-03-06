@@ -5,15 +5,10 @@ import SwiftUI
 
 struct ExploreView: View {
   @EnvironmentObject var authViewModel: AuthViewModel
+  @EnvironmentObject var exploreCacheClient: ExploreCacheClient
 
   @State private var currentTab: String?
   let timer = Timer.publish(every: 10, on: .main, in: .common).autoconnect()
-
-  private let exploreClient = ExploreClient(isCached: true)
-
-  init() {
-    print("init")
-  }
 
   @State private var exploreItems: [ExploreDto] = []
   @State private var isLoading = false
@@ -42,7 +37,7 @@ struct ExploreView: View {
       await fetchExploreData()
     }
     .onDisappear {
-      exploreClient.cancelRequest()
+      exploreCacheClient.cancel()
     }
   }
 
@@ -149,8 +144,12 @@ struct ExploreView: View {
     // TODO: use user's current location
     let query = Operations.get_sol_api_sol_Map_sol_explore.Input.Query()
 
-    exploreItems = await exploreClient.call(
-      query, authViewModel.getAuthData(), { errorMessage = $0 })
+    exploreItems =
+      await exploreCacheClient.call(
+        query, authViewModel.getAuthData(),
+        {
+          errorMessage = $0
+        }) ?? []
   }
 }
 

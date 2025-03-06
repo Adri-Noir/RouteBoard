@@ -50,6 +50,9 @@
 		AF62E0E02D777F4D0039B67F /* CragHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E0DE2D777F470039B67F /* CragHeaderView.swift */; };
 		AF62E0E22D777F580039B67F /* SectorHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E0E12D777F550039B67F /* SectorHeaderView.swift */; };
 		AF62E1002D779FDA0039B67F /* RegisteredUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E0FF2D779FD30039B67F /* RegisteredUserView.swift */; };
+		AF62E1A22D7A461A0039B67F /* APIClientInjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E1A12D7A45FF0039B67F /* APIClientInjection.swift */; };
+		AF62E1A52D7A46BC0039B67F /* ExploreCacheClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E1A42D7A46B90039B67F /* ExploreCacheClient.swift */; };
+		AF62E1B12D7A492C0039B67F /* APICache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E1B02D7A49280039B67F /* APICache.swift */; };
 		AF773D6C2C3DFBED00886C00 /* OverlayAndRouteId.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF773D6B2C3DFBED00886C00 /* OverlayAndRouteId.swift */; };
 		AF78ECAA2D1C8019009F3B79 /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = AF78ECA92D1C8019009F3B79 /* OpenAPIRuntime */; };
 		AF869C9D2C3064AA0092E371 /* RouteBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF869C9C2C3064AA0092E371 /* RouteBoardApp.swift */; };
@@ -189,7 +192,7 @@
 		AF2991E32D078CF200BB7907 /* PhotoCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCapture.swift; sourceTree = "<group>"; };
 		AF2991F32D078D3400BB7907 /* CameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModel.swift; sourceTree = "<group>"; };
 		AF29920A2D07BEB300BB7907 /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
-		AF35C6AD2CD80B5000FEBC40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		AF35C6AD2CD80B5000FEBC40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF3D932C2D67D62F003FAF90 /* NewMainNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMainNavigationView.swift; sourceTree = "<group>"; };
 		AF3D934C2D680122003FAF90 /* UserLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLoginView.swift; sourceTree = "<group>"; };
 		AF3D94442D6A97A2003FAF90 /* UserRecentAscentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRecentAscentsView.swift; sourceTree = "<group>"; };
@@ -203,6 +206,9 @@
 		AF62E0DE2D777F470039B67F /* CragHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CragHeaderView.swift; sourceTree = "<group>"; };
 		AF62E0E12D777F550039B67F /* SectorHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorHeaderView.swift; sourceTree = "<group>"; };
 		AF62E0FF2D779FD30039B67F /* RegisteredUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisteredUserView.swift; sourceTree = "<group>"; };
+		AF62E1A12D7A45FF0039B67F /* APIClientInjection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientInjection.swift; sourceTree = "<group>"; };
+		AF62E1A42D7A46B90039B67F /* ExploreCacheClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCacheClient.swift; sourceTree = "<group>"; };
+		AF62E1B02D7A49280039B67F /* APICache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICache.swift; sourceTree = "<group>"; };
 		AF773D6B2C3DFBED00886C00 /* OverlayAndRouteId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayAndRouteId.swift; sourceTree = "<group>"; };
 		AF869C992C3064AA0092E371 /* RouteBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RouteBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF869C9C2C3064AA0092E371 /* RouteBoardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteBoardApp.swift; sourceTree = "<group>"; };
@@ -507,6 +513,32 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		AF62E19A2D7A42990039B67F /* API */ = {
+			isa = PBXGroup;
+			children = (
+				AF62E1AF2D7A49240039B67F /* Helpers */,
+				AF62E1A32D7A46970039B67F /* Clients */,
+				AF62E1A12D7A45FF0039B67F /* APIClientInjection.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		AF62E1A32D7A46970039B67F /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				AF62E1A42D7A46B90039B67F /* ExploreCacheClient.swift */,
+			);
+			path = Clients;
+			sourceTree = "<group>";
+		};
+		AF62E1AF2D7A49240039B67F /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				AF62E1B02D7A49280039B67F /* APICache.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		AF869C902C3064AA0092E371 = {
 			isa = PBXGroup;
 			children = (
@@ -533,12 +565,13 @@
 		AF869C9B2C3064AA0092E371 /* RouteBoard */ = {
 			isa = PBXGroup;
 			children = (
+				AF62E19A2D7A42990039B67F /* API */,
 				AFC7D2B42D3C825C0034DC05 /* Extensions */,
-				AF35C6AD2CD80B5000FEBC40 /* Info.plist */,
 				AF9B62472C346D52003762B0 /* Features */,
 				AF9B62462C346D47003762B0 /* Base */,
 				AF869C9C2C3064AA0092E371 /* RouteBoardApp.swift */,
 				AF869CA02C3064AB0092E371 /* Assets.xcassets */,
+				AF35C6AD2CD80B5000FEBC40 /* Info.plist */,
 				AF869CA22C3064AB0092E371 /* Preview Content */,
 				AFD3916E2C30B977008CF2A7 /* OpenCVWrapper.mm */,
 				AFD3916D2C30B976008CF2A7 /* RouteBoard-Bridging-Header.h */,
@@ -1139,6 +1172,7 @@
 				AF8DA6482CD5671E00751865 /* ApplyBackgroundColor.swift in Sources */,
 				AF9E0C632C3741A900984C58 /* GradesGraphView.swift in Sources */,
 				AF869CD22C307D870092E371 /* RouteImageModel.swift in Sources */,
+				AF62E1A52D7A46BC0039B67F /* ExploreCacheClient.swift in Sources */,
 				AFBED2962D16239B002CA393 /* PhotoEditingOverlayView.swift in Sources */,
 				AFBED2902D136D5B002CA393 /* CreateRouteImage.swift in Sources */,
 				AF8A75F32D4324A10029BE40 /* SectorGradesView.swift in Sources */,
@@ -1186,6 +1220,7 @@
 				AF21C0AF2D6E7AB6000BE26C /* RouteLogAscent.swift in Sources */,
 				AF21C2D02D7378F1000BE26C /* DateTimeConverter.swift in Sources */,
 				AF0243342D163FC70007748D /* ConfirmPhotoOverlayView.swift in Sources */,
+				AF62E1A22D7A461A0039B67F /* APIClientInjection.swift in Sources */,
 				AF8DA6372CD4465500751865 /* IndexView.swift in Sources */,
 				AF0243382D1640250007748D /* PhotoDrawingCanvas.swift in Sources */,
 				AF9B624E2C348E4B003762B0 /* SectorView.swift in Sources */,
@@ -1199,6 +1234,7 @@
 				AF8A75DC2D43241D0029BE40 /* SectorLocationInfoView.swift in Sources */,
 				AF2991E12D078CEE00BB7907 /* DataTypes.swift in Sources */,
 				AFD931392D25DC1900B68D92 /* CragLink.swift in Sources */,
+				AF62E1B12D7A492C0039B67F /* APICache.swift in Sources */,
 				AF8A760A2D4457710029BE40 /* UINavigationBarExtension.swift in Sources */,
 				AF3D95D02D6BE0D9003FAF90 /* WavingText.swift in Sources */,
 				AF3D951F2D6B962A003FAF90 /* ExploreView.swift in Sources */,

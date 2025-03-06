@@ -40,7 +40,9 @@ struct NewMainNavigationView: View {
 }
 
 #Preview {
-  AuthInjectionMock {
-    NewMainNavigationView()
+  APIClientInjection {
+    AuthInjectionMock {
+      NewMainNavigationView()
+    }
   }
 }

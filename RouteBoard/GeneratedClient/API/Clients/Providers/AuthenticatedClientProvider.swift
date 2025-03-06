@@ -26,7 +26,7 @@ public struct AuthData {
   }
 }
 
-public protocol AuthenticationProtocol {
+public protocol AuthenticationClientProtocol {
   associatedtype T
   associatedtype R
 
@@ -38,12 +38,8 @@ public protocol AuthenticationProtocol {
 public class AuthenticationProvider {
   private var _client = ClientPicker()
   private var _cachedClient: ClientWithSession?
-  public var isCached: Bool
-  public var hasRunRequest = false
 
-  public init(isCached: Bool = false) {
-    self.isCached = isCached
-  }
+  public init() {}
 
   private func validateToken(_ token: String?) throws -> String {
     guard let token = token else {
@@ -54,13 +50,11 @@ public class AuthenticationProvider {
   }
 
   public func getClient(_ authData: AuthData) -> ClientWithSession {
-    hasRunRequest = true
     _cachedClient = _client.getClient(token: authData.token)
     return _cachedClient!
   }
 
   public func cancelRequest() {
-    hasRunRequest = false
     _cachedClient?.session.invalidateAndCancel()
   }
 
@@ -149,4 +143,4 @@ public class AuthenticationProvider {
 }
 
 public typealias AuthenticatedClientProvider = AuthenticationProvider
-  & AuthenticationProtocol
+  & AuthenticationClientProtocol

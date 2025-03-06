@@ -6,7 +6,7 @@ public typealias ExploreDto = Components.Schemas.ExploreDto
 
 public class ExploreClient: AuthenticatedClientProvider {
   public typealias T = Operations.get_sol_api_sol_Map_sol_explore.Input.Query
-  public typealias R = [ExploreDto]
+  public typealias R = [ExploreDto]?
 
   public func call(
     _ data: T, _ authData: AuthData, _ errorHandler: ((_ message: String) -> Void)? = nil
@@ -24,21 +24,21 @@ public class ExploreClient: AuthenticatedClientProvider {
 
       case .unauthorized(let error):
         await handleUnauthorize(try? error.body.json.additionalProperties, authData, errorHandler)
-        return []
+        return nil
 
       case .badRequest(let error):
         handleBadRequest(try? error.body.json.additionalProperties, "ExploreClient", errorHandler)
-        return []
+        return nil
 
       case .undocumented:
         handleUndocumented(errorHandler)
-        return []
+        return nil
       }
     } catch {
       errorHandler?(returnUnknownError())
     }
 
-    return []
+    return nil
   }
 
   public func cancel() {
