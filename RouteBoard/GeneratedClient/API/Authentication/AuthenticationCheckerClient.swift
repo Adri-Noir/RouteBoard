@@ -13,7 +13,7 @@ public class AuthenticationCheckerClient: AuthenticatedClientProvider {
     _ data: Never? = nil, _ authData: AuthData, _ errorHandler: ((_ message: String) -> Void)? = nil
   ) async -> Bool {
     do {
-      let result = try await self.getClient(authData)
+      let result = try await getClient(authData).client
         .post_sol_api_sol_Authentication_sol_authenticated()
 
       switch result {
@@ -39,5 +39,9 @@ public class AuthenticationCheckerClient: AuthenticatedClientProvider {
     }
 
     return false
+  }
+
+  public func cancel() {
+    cancelRequest()
   }
 }

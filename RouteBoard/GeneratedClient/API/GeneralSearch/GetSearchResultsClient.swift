@@ -19,7 +19,7 @@ public class GetSearchResultsClient: AuthenticatedClientProvider {
     _ errorHandler: ((_ message: String) -> Void)? = nil
   ) async -> [GetSearchResults] {
     do {
-      let result = try await self.getClient(authData).post_sol_api_sol_Search(
+      let result = try await getClient(authData).client.post_sol_api_sol_Search(
         Operations.post_sol_api_sol_Search.Input(
           body: .json(data)))
 
@@ -49,5 +49,9 @@ public class GetSearchResultsClient: AuthenticatedClientProvider {
     }
 
     return []
+  }
+
+  public func cancel() {
+    cancelRequest()
   }
 }

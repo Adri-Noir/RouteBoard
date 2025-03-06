@@ -6,11 +6,15 @@ import SwiftUI
 struct ExploreView: View {
   @EnvironmentObject var authViewModel: AuthViewModel
 
-  @State private var currentTab: String? = "0"
-  @Namespace private var scrollSpace
+  @State private var currentTab: String?
   let timer = Timer.publish(every: 10, on: .main, in: .common).autoconnect()
 
-  private let exploreClient = ExploreClient()
+  private let exploreClient = ExploreClient(isCached: true)
+
+  init() {
+    print("init")
+  }
+
   @State private var exploreItems: [ExploreDto] = []
   @State private var isLoading = false
   @State private var errorMessage: String? = nil
@@ -36,6 +40,9 @@ struct ExploreView: View {
     }
     .task {
       await fetchExploreData()
+    }
+    .onDisappear {
+      exploreClient.cancelRequest()
     }
   }
 

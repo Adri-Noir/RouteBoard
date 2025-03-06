@@ -109,6 +109,9 @@ struct RouteView: View {
     .task {
       await getRoute(value: routeId)
     }
+    .onDisappear {
+      getRouteDetailsClient.cancelRequest()
+    }
     .navigationBarHidden(true)
     .alert(
       message: $errorMessage,

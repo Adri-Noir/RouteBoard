@@ -97,6 +97,9 @@ struct RouteLogAscent: View {
       .alert(message: $errorMessage)
     }
     .background(Color.newBackgroundGray)
+    .onDisappear {
+      logAscentClient.cancel()
+    }
   }
 
   // MARK: - Subviews

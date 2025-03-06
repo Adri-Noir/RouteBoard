@@ -16,7 +16,7 @@ public class GetCragDetailsClient: AuthenticatedClientProvider {
     _ data: CragDetailsInput, _ authData: AuthData, _ errorHandler: ((_ message: String) -> Void)?
   ) async -> CragDetails? {
     do {
-      let result = try await self.getClient(authData).get_sol_api_sol_Crag_sol__lcub_id_rcub_(
+      let result = try await getClient(authData).client.get_sol_api_sol_Crag_sol__lcub_id_rcub_(
         Operations.get_sol_api_sol_Crag_sol__lcub_id_rcub_.Input(
           path: data))
 
@@ -47,5 +47,9 @@ public class GetCragDetailsClient: AuthenticatedClientProvider {
     }
 
     return nil
+  }
+
+  public func cancel() {
+    cancelRequest()
   }
 }

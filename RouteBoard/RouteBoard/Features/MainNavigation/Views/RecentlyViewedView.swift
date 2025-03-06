@@ -78,6 +78,9 @@ struct RecentlyViewedView: View {
     .task {
       await fetchSearchHistory()
     }
+    .onDisappear {
+      searchHistoryClient.cancelRequest()
+    }
     .alert(message: $errorMessage)
   }
 

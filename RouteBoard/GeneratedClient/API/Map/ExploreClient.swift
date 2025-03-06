@@ -12,7 +12,7 @@ public class ExploreClient: AuthenticatedClientProvider {
     _ data: T, _ authData: AuthData, _ errorHandler: ((_ message: String) -> Void)? = nil
   ) async -> R {
     do {
-      let result = try await self.getClient(authData).get_sol_api_sol_Map_sol_explore(
+      let result = try await getClient(authData).client.get_sol_api_sol_Map_sol_explore(
         Operations.get_sol_api_sol_Map_sol_explore.Input(
           query: data
         )
@@ -39,5 +39,9 @@ public class ExploreClient: AuthenticatedClientProvider {
     }
 
     return []
+  }
+
+  public func cancel() {
+    cancelRequest()
   }
 }

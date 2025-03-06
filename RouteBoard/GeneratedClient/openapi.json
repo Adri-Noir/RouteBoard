@@ -993,7 +993,7 @@
         }
       }
     },
-    "/api/User/{profileUserId}": {
+    "/api/User/user/{profileUserId}": {
       "get": {
         "tags": [
           "User"
@@ -2036,6 +2036,370 @@
           },
           "profilePhotoUrl": {
             "type": "string",
+            "nullable": true
+          },
+          "cragsVisited": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "routeTypeAscentCount": {
+            "type": "object",
+            "properties": {
+              "Boulder": {
+                "type": "object",
+                "properties": {
+                  "Onsight": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Flash": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Redpoint": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Aid": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "Sport": {
+                "type": "object",
+                "properties": {
+                  "Onsight": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Flash": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Redpoint": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Aid": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "Trad": {
+                "type": "object",
+                "properties": {
+                  "Onsight": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Flash": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Redpoint": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Aid": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "MultiPitch": {
+                "type": "object",
+                "properties": {
+                  "Onsight": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Flash": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Redpoint": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Aid": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "Ice": {
+                "type": "object",
+                "properties": {
+                  "Onsight": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Flash": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Redpoint": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Aid": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "BigWall": {
+                "type": "object",
+                "properties": {
+                  "Onsight": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Flash": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Redpoint": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Aid": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "Mixed": {
+                "type": "object",
+                "properties": {
+                  "Onsight": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Flash": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Redpoint": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Aid": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "Aid": {
+                "type": "object",
+                "properties": {
+                  "Onsight": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Flash": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Redpoint": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Aid": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "ViaFerrata": {
+                "type": "object",
+                "properties": {
+                  "Onsight": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Flash": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Redpoint": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Aid": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "nullable": true
+          },
+          "climbingGradesCount": {
+            "type": "object",
+            "properties": {
+              "F_1": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_2": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_3": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_4a": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_4b": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_4c": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_5a": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_5b": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_5c": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_6a": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_6a_plus": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_6b": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_6b_plus": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_6c": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_6c_plus": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_7a": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_7a_plus": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_7b": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_7b_plus": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_7c": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_7c_plus": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_8a": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_8a_plus": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_8b": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_8b_plus": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_8c": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_8c_plus": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_9a": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_9a_plus": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_9b": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_9b_plus": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_9c": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_9c_plus": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "F_10a": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "PROJECT": {
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            "additionalProperties": false,
+            "nullable": true
+          },
+          "photos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PhotoDto"
+            },
             "nullable": true
           }
         },

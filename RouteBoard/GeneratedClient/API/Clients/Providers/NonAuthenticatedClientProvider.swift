@@ -12,16 +12,25 @@ public protocol NonAuthenticationProtocol {
   associatedtype R
 
   func call(_ data: T, _ errorHandler: ((_ message: String) -> Void)?) async -> R
+  func cancel()
 }
 
 public class NonAuthenticatedProvider {
   private var _client = ClientPicker()
+  private var _cachedClient: ClientWithSession?
+  public var isCached: Bool
 
-  public init() {
+  public init(isCached: Bool = false) {
+    self.isCached = isCached
   }
 
-  public func getClient() -> Client {
-    return _client.getClient(token: nil)
+  public func getClient() -> ClientWithSession {
+    _cachedClient = _client.getClient(token: nil)
+    return _cachedClient!
+  }
+
+  public func cancelRequest() {
+    _cachedClient?.session.invalidateAndCancel()
   }
 
   public func returnUnknownError() -> String {

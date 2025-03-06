@@ -13,7 +13,7 @@ public class UserRecentAscentsClient: AuthenticatedClientProvider {
     _ errorHandler: ((_ message: String) -> Void)? = nil
   ) async -> [UserRecentAscents] {
     do {
-      let result = try await self.getClient(authData)
+      let result = try await getClient(authData).client
         .get_sol_api_sol_User_sol_recentlyAscendedRoutes()
       switch result {
       case .ok(let response):
@@ -34,5 +34,9 @@ public class UserRecentAscentsClient: AuthenticatedClientProvider {
     }
 
     return []
+  }
+
+  public func cancel() {
+    cancelRequest()
   }
 }

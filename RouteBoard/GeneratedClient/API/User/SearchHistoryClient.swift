@@ -12,7 +12,7 @@ public class SearchHistoryClient: AuthenticatedClientProvider {
     _ data: Void, _ authData: AuthData, _ errorHandler: ((_ message: String) -> Void)? = nil
   ) async -> [SearchHistory] {
     do {
-      let result = try await self.getClient(authData)
+      let result = try await getClient(authData).client
         .get_sol_api_sol_User_sol_searchHistory()
 
       switch result {
@@ -40,5 +40,9 @@ public class SearchHistoryClient: AuthenticatedClientProvider {
     }
 
     return []
+  }
+
+  public func cancel() {
+    cancelRequest()
   }
 }

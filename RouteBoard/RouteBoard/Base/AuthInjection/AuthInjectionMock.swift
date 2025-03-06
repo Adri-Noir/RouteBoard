@@ -24,5 +24,8 @@ struct AuthInjectionMock<Content: View>: View {
       await authViewModel.loginWithSeededUser()
       delayContent = false
     }
+    .onDisappear {
+      authViewModel.cancelRequests()
+    }
   }
 }

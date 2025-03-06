@@ -3,7 +3,6 @@
 import SwiftUI
 
 struct NewMainNavigationView: View {
-  @Namespace private var userProfileAnimation
   @EnvironmentObject var authViewModel: AuthViewModel
 
   @State private var searchText = ""

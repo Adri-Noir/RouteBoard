@@ -65,5 +65,8 @@ public struct SearchResultView: View {
       }
     }
     .alert(message: $errorMessage)
+    .onDisappear {
+      client.cancel()
+    }
   }
 }

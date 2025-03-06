@@ -132,4 +132,10 @@ public class AuthViewModel: ObservableObject {
     // TODO: Implement user's grade system
     return FrenchClimbingGrades()
   }
+
+  func cancelRequests() {
+    loginClient.cancelRequest()
+    meClient.cancelRequest()
+    authenticationCheckerClient.cancelRequest()
+  }
 }

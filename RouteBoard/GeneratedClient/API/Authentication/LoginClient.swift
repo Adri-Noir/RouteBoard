@@ -19,7 +19,7 @@ public class LoginClient: NonAuthenticatedClientProvider {
       let input = Operations.post_sol_api_sol_Authentication_sol_login.Input(
         body: Operations.post_sol_api_sol_Authentication_sol_login.Input.Body.json(
           data))
-      let result = try await self.getClient().post_sol_api_sol_Authentication_sol_login(input)
+      let result = try await getClient().client.post_sol_api_sol_Authentication_sol_login(input)
 
       switch result {
       case let .ok(okResponse):
@@ -45,5 +45,9 @@ public class LoginClient: NonAuthenticatedClientProvider {
     }
 
     return nil
+  }
+
+  public func cancel() {
+    cancelRequest()
   }
 }

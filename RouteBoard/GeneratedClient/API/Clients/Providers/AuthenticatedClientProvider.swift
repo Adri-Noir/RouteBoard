@@ -32,12 +32,18 @@ public protocol AuthenticationProtocol {
 
   func call(_ data: T, _ authData: AuthData, _ errorHandler: ((_ message: String) -> Void)?) async
     -> R
+  func cancel()
 }
 
 public class AuthenticationProvider {
   private var _client = ClientPicker()
+  private var _cachedClient: ClientWithSession?
+  public var isCached: Bool
+  public var hasRunRequest = false
 
-  public init() {}
+  public init(isCached: Bool = false) {
+    self.isCached = isCached
+  }
 
   private func validateToken(_ token: String?) throws -> String {
     guard let token = token else {
@@ -47,8 +53,15 @@ public class AuthenticationProvider {
     return token
   }
 
-  public func getClient(_ authData: AuthData) -> Client {
-    return _client.getClient(token: authData.token)
+  public func getClient(_ authData: AuthData) -> ClientWithSession {
+    hasRunRequest = true
+    _cachedClient = _client.getClient(token: authData.token)
+    return _cachedClient!
+  }
+
+  public func cancelRequest() {
+    hasRunRequest = false
+    _cachedClient?.session.invalidateAndCancel()
   }
 
   public func returnUnauthorized() -> String {

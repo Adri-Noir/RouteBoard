@@ -21,9 +21,10 @@ public class GetSectorDetailsClient: AuthenticatedClientProvider {
     _ errorHandler: ((_ message: String) -> Void)? = nil
   ) async -> SectorDetails? {
     do {
-      let result = try await self.getClient(authData).get_sol_api_sol_Sector_sol__lcub_id_rcub_(
-        Operations.get_sol_api_sol_Sector_sol__lcub_id_rcub_.Input(
-          path: data))
+      let result = try await getClient(authData).client
+        .get_sol_api_sol_Sector_sol__lcub_id_rcub_(
+          Operations.get_sol_api_sol_Sector_sol__lcub_id_rcub_.Input(
+            path: data))
 
       switch result {
       case let .ok(okResponse):
@@ -55,5 +56,9 @@ public class GetSectorDetailsClient: AuthenticatedClientProvider {
     }
 
     return nil
+  }
+
+  public func cancel() {
+    cancelRequest()
   }
 }

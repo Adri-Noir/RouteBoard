@@ -9,5 +9,5 @@ import OpenAPIRuntime
 import OpenAPIURLSession
 
 protocol ClientProtocol {
-  func getClient(_ token: String?) -> Client
+  func getClient(_ token: String?) -> ClientWithSession
 }

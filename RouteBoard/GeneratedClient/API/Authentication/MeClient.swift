@@ -15,7 +15,7 @@ public class MeClient: AuthenticatedClientProvider {
     async -> LoggedInUser?
   {
     do {
-      let result = try await self.getClient(authData).post_sol_api_sol_Authentication_sol_me()
+      let result = try await getClient(authData).client.post_sol_api_sol_Authentication_sol_me()
 
       switch result {
       case let .ok(okResponse):
@@ -40,5 +40,9 @@ public class MeClient: AuthenticatedClientProvider {
     }
 
     return nil
+  }
+
+  public func cancel() {
+    cancelRequest()
   }
 }

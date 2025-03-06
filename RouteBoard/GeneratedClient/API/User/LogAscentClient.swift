@@ -12,7 +12,7 @@ public class LogAscentClient: AuthenticatedClientProvider {
     _ data: LogAscentInput, _ authData: AuthData, _ errorHandler: ((_ message: String) -> Void)?
   ) async -> String {
     do {
-      let result = try await self.getClient(authData)
+      let result = try await getClient(authData).client
         .post_sol_api_sol_User_sol_logAscent(
           Operations.post_sol_api_sol_User_sol_logAscent.Input(
             body: .json(data)))
@@ -42,5 +42,9 @@ public class LogAscentClient: AuthenticatedClientProvider {
     }
 
     return ""
+  }
+
+  public func cancel() {
+    cancelRequest()
   }
 }

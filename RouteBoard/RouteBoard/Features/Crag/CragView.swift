@@ -86,6 +86,9 @@ struct CragView: View {
     .task {
       await getCrag(value: cragId)
     }
+    .onDisappear {
+      getCragDetailsClient.cancelRequest()
+    }
     .alert(
       message: $errorMessage,
       primaryAction: {

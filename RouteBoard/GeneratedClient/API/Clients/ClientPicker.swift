@@ -9,7 +9,7 @@ let IS_DEVELOPMENT = true
 // let devClient = DevClient()
 
 struct ClientPicker {
-  func getClient(token: String?) -> Client {
+  func getClient(token: String?) -> ClientWithSession {
     if IS_DEVELOPMENT {
       return DevClient().getClient(token)
     }

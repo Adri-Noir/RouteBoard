@@ -163,7 +163,11 @@ struct SectorView: View {
       message: $errorMessage,
       primaryAction: {
         dismiss()
-      })
+      }
+    )
+    .onDisappear {
+      client.cancel()
+    }
   }
 }
 
