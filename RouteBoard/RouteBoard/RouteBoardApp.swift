@@ -12,8 +12,10 @@ import os
 struct RouteBoardApp: App {
   var body: some Scene {
     WindowGroup {
-      AuthInjection {
-        NewMainNavigationView()
+      APIClientInjection {
+        AuthInjection {
+          NewMainNavigationView()
+        }
       }
     }
   }
