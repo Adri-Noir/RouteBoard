@@ -127,18 +127,19 @@ struct RegisteredUserView: View {
         // Extract ascent counts for this route type
         if let ascentCounts = routeTypeData.ascentCount {
           for ascentCount in ascentCounts {
-            if let ascentType = ascentCount.ascentType?.rawValue, let count = ascentCount.count,
+            if let ascentType = ascentCount.ascentType, let count = ascentCount.count,
               count > 0
             {
+              let ascentTypeString = AscentTypeConverter.convertToString(ascentType) ?? "Unknown"
               let color: Color
-              switch ascentType {
+              switch ascentTypeString {
               case "Onsight": color = .green
               case "Flash": color = .blue
               case "Redpoint": color = .red
               case "Aid": color = .orange
               default: color = .gray
               }
-              stats.append(ClimbingStat(type: ascentType, count: Int(count), color: color))
+              stats.append(ClimbingStat(type: ascentTypeString, count: Int(count), color: color))
             }
           }
         }
@@ -152,8 +153,9 @@ struct RegisteredUserView: View {
         // Add up the counts for each ascent type
         if let ascentCountArray = routeTypeData.ascentCount {
           for ascentCount in ascentCountArray {
-            if let ascentType = ascentCount.ascentType?.rawValue, let count = ascentCount.count {
-              ascentCounts[ascentType] = (ascentCounts[ascentType] ?? 0) + Int(count)
+            if let ascentType = ascentCount.ascentType, let count = ascentCount.count {
+              let ascentTypeString = AscentTypeConverter.convertToString(ascentType) ?? "Unknown"
+              ascentCounts[ascentTypeString] = (ascentCounts[ascentTypeString] ?? 0) + Int(count)
             }
           }
         }
@@ -398,6 +400,14 @@ struct RegisteredUserView: View {
         .font(.headline)
         .foregroundColor(Color.newTextColor)
 
+      if let selectedType = selectedAscentType {
+        Text(
+          "Filtered by: \(RouteTypeConverter.convertToString(selectedType) ?? selectedType.rawValue)"
+        )
+        .font(.subheadline)
+        .foregroundColor(Color.newTextColor.opacity(0.7))
+      }
+
       VStack(spacing: 0) {
         HStack {
           Text("Type")
@@ -475,17 +485,27 @@ struct RegisteredUserView: View {
           .frame(maxWidth: .infinity, alignment: .center)
           .frame(height: 200)
       } else {
-        Chart {
-          ForEach(climbingStats) { stat in
-            BarMark(
-              x: .value("Type", stat.type),
-              y: .value("Count", stat.count)
+        VStack(alignment: .leading, spacing: 12) {
+          if let selectedType = selectedAscentType {
+            Text(
+              "Filtered by: \(RouteTypeConverter.convertToString(selectedType) ?? "")"
             )
-            .foregroundStyle(stat.color)
+            .font(.subheadline)
+            .foregroundColor(Color.newTextColor.opacity(0.7))
           }
+
+          Chart {
+            ForEach(climbingStats) { stat in
+              BarMark(
+                x: .value("Type", stat.type),
+                y: .value("Count", stat.count)
+              )
+              .foregroundStyle(stat.color)
+            }
+          }
+          .frame(height: 200)
+          .chartYScale(domain: 0...(climbingStats.map { $0.count }.max() ?? 0) + 10)
         }
-        .frame(height: 200)
-        .chartYScale(domain: 0...(climbingStats.map { $0.count }.max() ?? 0) + 10)
       }
     }
     .padding()
@@ -525,7 +545,7 @@ struct RegisteredUserView: View {
                 selectedAscentType = type
               }
             }) {
-              Text(type.rawValue)
+              Text(RouteTypeConverter.convertToString(type) ?? type.rawValue)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
                 .background(
@@ -551,14 +571,16 @@ struct RegisteredUserView: View {
         .foregroundColor(Color.newTextColor)
 
       if let selectedType = selectedAscentType {
-        Text("Filtered by: \(selectedType.rawValue)")
-          .font(.subheadline)
-          .foregroundColor(Color.newTextColor.opacity(0.7))
+        Text(
+          "Filtered by: \(RouteTypeConverter.convertToString(selectedType) ?? selectedType.rawValue)"
+        )
+        .font(.subheadline)
+        .foregroundColor(Color.newTextColor.opacity(0.7))
       }
 
       if climbingGradesStats.isEmpty {
         Text(
-          "No grade data available\(selectedAscentType != nil ? " for \(selectedAscentType!.rawValue)" : "")"
+          "No grade data available\(selectedAscentType != nil ? " for \(RouteTypeConverter.convertToString(selectedAscentType) ?? "")" : "")"
         )
         .foregroundColor(Color.newTextColor.opacity(0.7))
         .padding()
