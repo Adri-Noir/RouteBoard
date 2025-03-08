@@ -46,7 +46,9 @@ struct ExploreView: View {
       LazyHStack(spacing: 16) {
         ForEach(exploreItems, id: \.id) { item in
           GeometryReader { geometry in
-            ExploreItemCard(item: item, geometry: geometry)
+            CragLink(cragId: item.cragId ?? "") {
+              ExploreItemCard(item: item, geometry: geometry)
+            }
           }
           .padding(.horizontal, 20)
           .containerRelativeFrame(.horizontal, count: 1, spacing: 0, alignment: .center)
