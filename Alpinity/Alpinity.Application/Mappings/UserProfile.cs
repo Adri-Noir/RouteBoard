@@ -24,13 +24,26 @@ public class UserProfile : Profile
                 .Where(a => a.Route!.RouteType != null && a.Route.RouteType.Any())
                 .SelectMany(a => a.Route!.RouteType!.Select(rt => new { RouteType = rt, Ascent = a }))
                 .GroupBy(x => x.RouteType)
-                .ToDictionary(g => g.Key,
-                    g => g.GroupBy(x => x.Ascent.AscentType ?? AscentType.Redpoint)
-                        .ToDictionary(ga => ga.Key, ga => ga.Count()))))
-            .ForMember(dest => dest.ClimbingGradesCount, opt => opt.MapFrom(src => src.Ascents!
-                .Where(a => a.Route != null)
-                .GroupBy(a => a.Route!.Grade ?? ClimbingGrade.PROJECT)
-                .ToDictionary(g => g.Key, g => g.Count())))
+                .Select(g => new RouteTypeAscentCountDto
+                {
+                    RouteType = g.Key,
+                    AscentCount = g.GroupBy(x => x.Ascent.AscentType ?? AscentType.Redpoint)
+                        .Select(ga => new AscentCountDto { AscentType = ga.Key, Count = ga.Count() })
+                        .ToList()
+                })
+                .ToList()))
+            .ForMember(dest => dest.ClimbingGradeAscentCount, opt => opt.MapFrom(src => src.Ascents!
+                .Where(a => a.Route != null && a.Route.RouteType != null && a.Route.RouteType.Any())
+                .SelectMany(a => a.Route!.RouteType!.Select(rt => new { RouteType = rt, Ascent = a }))
+                .GroupBy(x => x.RouteType)
+                .Select(g => new ClimbingGradeAscentCountDto
+                {
+                    RouteType = g.Key,
+                    GradeCount = g.GroupBy(x => x.Ascent.Route!.Grade ?? ClimbingGrade.PROJECT)
+                        .Select(ga => new GradeCountDto { ClimbingGrade = ga.Key, Count = ga.Count() })
+                        .ToList()
+                })
+                .ToList()))
             .ForMember(dest => dest.Photos,
                 opt => opt.MapFrom(src => src.UserPhotoGallery!.Select(p => p.Url).ToList()));
     }

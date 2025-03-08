@@ -3,6 +3,30 @@ using Alpinity.Domain.Enums;
 
 namespace Alpinity.Application.UseCases.Users.Dtos;
 
+public class AscentCountDto
+{
+    public AscentType AscentType { get; set; }
+    public int Count { get; set; }
+}
+
+public class GradeCountDto
+{
+    public ClimbingGrade ClimbingGrade { get; set; }
+    public int Count { get; set; }
+}
+
+public class RouteTypeAscentCountDto
+{
+    public RouteType RouteType { get; set; }
+    public List<AscentCountDto> AscentCount { get; set; } = new List<AscentCountDto>();
+}
+
+public class ClimbingGradeAscentCountDto
+{
+    public RouteType RouteType { get; set; }
+    public List<GradeCountDto> GradeCount { get; set; } = new List<GradeCountDto>();
+}
+
 public class UserProfileDto
 {
     public Guid Id { get; set; }
@@ -12,8 +36,8 @@ public class UserProfileDto
     public string? LastName { get; set; }
     public string? ProfilePhotoUrl { get; set; }
     public int? CragsVisited { get; set; }
-    public Dictionary<RouteType, Dictionary<AscentType, int>> RouteTypeAscentCount { get; set; } = new Dictionary<RouteType, Dictionary<AscentType, int>>();
-    public Dictionary<ClimbingGrade, int> ClimbingGradesCount { get; set; } = new Dictionary<ClimbingGrade, int>();
+    public ICollection<RouteTypeAscentCountDto> RouteTypeAscentCount { get; set; } = new List<RouteTypeAscentCountDto>();
+    public ICollection<ClimbingGradeAscentCountDto> ClimbingGradeAscentCount { get; set; } = new List<ClimbingGradeAscentCountDto>();
     public ICollection<PhotoDto> Photos { get; set; } = new List<PhotoDto>();
 
     // TODO: Add friends support
