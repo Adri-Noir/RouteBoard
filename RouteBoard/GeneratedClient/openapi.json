@@ -444,6 +444,66 @@
         }
       }
     },
+    "/api/Map/weather/{cragId}": {
+      "get": {
+        "tags": [
+          "Map"
+        ],
+        "parameters": [
+          {
+            "name": "cragId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WeatherResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Route/{id}": {
       "get": {
         "tags": [
@@ -1305,6 +1365,130 @@
         },
         "additionalProperties": false
       },
+      "CurrentWeatherDto": {
+        "type": "object",
+        "properties": {
+          "dateTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "sunrise": {
+            "type": "string",
+            "nullable": true
+          },
+          "sunset": {
+            "type": "string",
+            "nullable": true
+          },
+          "temperature": {
+            "type": "number",
+            "format": "double"
+          },
+          "feelsLike": {
+            "type": "number",
+            "format": "double"
+          },
+          "pressure": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "humidity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dewPoint": {
+            "type": "number",
+            "format": "double"
+          },
+          "uvIndex": {
+            "type": "number",
+            "format": "double"
+          },
+          "clouds": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "visibility": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "windSpeed": {
+            "type": "number",
+            "format": "double"
+          },
+          "windDegree": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "windGust": {
+            "type": "number",
+            "format": "double"
+          },
+          "weather": {
+            "$ref": "#/components/schemas/WeatherDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DailyForecastDto": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "nullable": true
+          },
+          "temperature": {
+            "$ref": "#/components/schemas/TemperatureDto"
+          },
+          "feelsLike": {
+            "$ref": "#/components/schemas/FeelsLikeDto"
+          },
+          "pressure": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "humidity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dewPoint": {
+            "type": "number",
+            "format": "double"
+          },
+          "windSpeed": {
+            "type": "number",
+            "format": "double"
+          },
+          "windDegree": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "windGust": {
+            "type": "number",
+            "format": "double"
+          },
+          "weather": {
+            "$ref": "#/components/schemas/WeatherDto"
+          },
+          "clouds": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "probabilityOfPrecipitation": {
+            "type": "number",
+            "format": "double"
+          },
+          "rain": {
+            "type": "number",
+            "format": "double"
+          },
+          "uvIndex": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
       "ExploreDto": {
         "required": [
           "id"
@@ -1355,6 +1539,28 @@
         },
         "additionalProperties": false
       },
+      "FeelsLikeDto": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "number",
+            "format": "double"
+          },
+          "night": {
+            "type": "number",
+            "format": "double"
+          },
+          "evening": {
+            "type": "number",
+            "format": "double"
+          },
+          "morning": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
       "GradeCountDto": {
         "type": "object",
         "properties": {
@@ -1378,6 +1584,67 @@
           "Pockets"
         ],
         "type": "string"
+      },
+      "HourlyForecastDto": {
+        "type": "object",
+        "properties": {
+          "dateTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "temperature": {
+            "type": "number",
+            "format": "double"
+          },
+          "feelsLike": {
+            "type": "number",
+            "format": "double"
+          },
+          "pressure": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "humidity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dewPoint": {
+            "type": "number",
+            "format": "double"
+          },
+          "uvIndex": {
+            "type": "number",
+            "format": "double"
+          },
+          "clouds": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "visibility": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "windSpeed": {
+            "type": "number",
+            "format": "double"
+          },
+          "windDegree": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "windGust": {
+            "type": "number",
+            "format": "double"
+          },
+          "weather": {
+            "$ref": "#/components/schemas/WeatherDto"
+          },
+          "probabilityOfPrecipitation": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
       },
       "LogAscentCommand": {
         "required": [
@@ -2031,6 +2298,36 @@
         },
         "additionalProperties": false
       },
+      "TemperatureDto": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "number",
+            "format": "double"
+          },
+          "min": {
+            "type": "number",
+            "format": "double"
+          },
+          "max": {
+            "type": "number",
+            "format": "double"
+          },
+          "night": {
+            "type": "number",
+            "format": "double"
+          },
+          "evening": {
+            "type": "number",
+            "format": "double"
+          },
+          "morning": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
       "UserDto": {
         "type": "object",
         "properties": {
@@ -2119,6 +2416,51 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PhotoDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WeatherDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "main": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "icon": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WeatherResponseDto": {
+        "type": "object",
+        "properties": {
+          "currentWeather": {
+            "$ref": "#/components/schemas/CurrentWeatherDto"
+          },
+          "hourly": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HourlyForecastDto"
+            },
+            "nullable": true
+          },
+          "daily": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DailyForecastDto"
             },
             "nullable": true
           }

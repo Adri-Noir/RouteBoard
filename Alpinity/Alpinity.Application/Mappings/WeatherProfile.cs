@@ -35,7 +35,7 @@ public class WeatherProfile : Profile
     private string ConvertUnixTimestampToDateTime(long unixTimeStamp)
     {
         DateTime dateTime = DateTimeOffset.FromUnixTimeSeconds(unixTimeStamp).DateTime;
-        return dateTime.ToString("o");
+        return dateTime.ToString("yyyy-MM-ddTHH:mm:ss");
     }
 
     private string ConvertUnixTimestampToDateOnly(long unixTimeStamp)

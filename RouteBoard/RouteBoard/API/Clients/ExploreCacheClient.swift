@@ -24,4 +24,8 @@ class ExploreCacheClient: AuthenticationClientProtocol, ObservableObject {
   func cancel() {
     exploreClient.cancel()
   }
+
+  func clearCache() {
+    cache.clear()
+  }
 }

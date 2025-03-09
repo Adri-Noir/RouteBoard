@@ -98,7 +98,9 @@ struct CragView: View {
 }
 
 #Preview {
-  AuthInjectionMock {
-    CragView(cragId: "3eb16769-b6a3-4d1f-4411-08dd59ee505a")
+  APIClientInjection {
+    AuthInjectionMock {
+      CragView(cragId: "3eb16769-b6a3-4d1f-4411-08dd59ee505a")
+    }
   }
 }

@@ -6,6 +6,6 @@ public class DatetimeProfile : Profile
 {
     public DatetimeProfile()
     {
-        CreateMap<DateTime, string>().ConvertUsing(s => s.ToString("o"));
+        CreateMap<DateTime, string>().ConvertUsing(s => s.ToString("yyyy-MM-ddTHH:mm:ss"));
     }
 }

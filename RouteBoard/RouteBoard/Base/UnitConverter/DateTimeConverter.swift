@@ -6,4 +6,10 @@ public class DateTimeConverter {
     dateFormatter.dateFormat = "yyyy-MM-dd"
     return dateFormatter.date(from: dateString)
   }
+
+  public static func convertDateTimeStringToDate(dateTimeString: String) -> Date? {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+    return dateFormatter.date(from: dateTimeString)
+  }
 }

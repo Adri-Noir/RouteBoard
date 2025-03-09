@@ -133,6 +133,10 @@ public class AuthViewModel: ObservableObject {
     return FrenchClimbingGrades()
   }
 
+  func getTemperatureConverter() -> TemperatureConverterProtocol {
+    return CelsiusTemperatureConverter()
+  }
+
   func cancelRequests() {
     loginClient.cancelRequest()
     meClient.cancelRequest()
