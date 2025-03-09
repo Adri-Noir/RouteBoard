@@ -19,6 +19,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Photo> Photos { get; set; } = null!;
     public DbSet<Ascent> Ascents { get; set; } = null!;
     public DbSet<SearchHistory> SearchHistories { get; set; } = null!;
+    public DbSet<CragWeather> CragWeathers { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -105,5 +106,11 @@ public class ApplicationDbContext : DbContext
             .WithMany()
             .HasForeignKey(sh => sh.RouteId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<CragWeather>()
+            .HasOne(cw => cw.Crag)
+            .WithMany()
+            .HasForeignKey(cw => cw.CragId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

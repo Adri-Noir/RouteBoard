@@ -36,7 +36,9 @@ public static class ServiceExtensions
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IAscentRepository, AscentRepository>();
         services.AddTransient<ISearchHistoryRepository, SearchHistoryRepository>();
+        services.AddTransient<ICragWeatherRepository, CragWeatherRepository>();
         services.AddTransient<ILocationInformationService, LocationInformationService>();
+        services.AddTransient<IWeatherService, WeatherService>();
         
         return services;
     }

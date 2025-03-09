@@ -11,6 +11,9 @@ public class LocationInformationService(IConfiguration configuration) : ILocatio
     {
         var client = new HttpClient();  
         var response = await client.GetAsync($"https://api.mapbox.com/search/geocode/v6/reverse?longitude={longitude}&latitude={latitude}&access_token={configuration["Mapbox:AccessToken"]}");
+
+        response.EnsureSuccessStatusCode();
+
         var content = await response.Content.ReadAsStringAsync();
         var locationInformation = JsonSerializer.Deserialize<LocationInformationResponse>(content);
         if (locationInformation == null)
