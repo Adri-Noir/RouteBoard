@@ -15,8 +15,7 @@ namespace Alpinity.Infrastructure.Persistence.Migrations
                 name: "CragWeathers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CragId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     WeatherData = table.Column<string>(type: "nvarchar(max)", nullable: false)

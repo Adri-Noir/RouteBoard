@@ -100,11 +100,9 @@ namespace Alpinity.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Alpinity.Domain.Entities.CragWeather", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CragId")
                         .HasColumnType("uniqueidentifier");

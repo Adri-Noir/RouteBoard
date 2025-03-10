@@ -8,6 +8,60 @@
 import GeneratedClient
 import SwiftUI
 
+func getWeatherSystemIcon(for weatherCode: Int32) -> String {
+  // Map weather codes to SF Symbols
+  switch weatherCode {
+  case 0: return "sun.max.fill"  // Clear sky
+  case 1, 2, 3: return "cloud.sun.fill"  // Mainly clear, partly cloudy, and overcast
+  case 45, 48: return "cloud.fog.fill"  // Fog and depositing rime fog
+  case 51, 53, 55: return "cloud.drizzle.fill"  // Drizzle: Light, moderate, and dense intensity
+  case 56, 57: return "cloud.sleet.fill"  // Freezing Drizzle: Light and dense intensity
+  case 61, 63, 65: return "cloud.rain.fill"  // Rain: Slight, moderate and heavy intensity
+  case 66, 67: return "cloud.sleet.fill"  // Freezing Rain: Light and heavy intensity
+  case 71, 73, 75: return "cloud.snow.fill"  // Snow fall: Slight, moderate, and heavy intensity
+  case 77: return "cloud.snow.fill"  // Snow grains
+  case 80, 81, 82: return "cloud.heavyrain.fill"  // Rain showers: Slight, moderate, and violent
+  case 85, 86: return "cloud.snow.fill"  // Snow showers slight and heavy
+  case 95: return "cloud.bolt.fill"  // Thunderstorm: Slight or moderate
+  case 96, 99: return "cloud.bolt.rain.fill"  // Thunderstorm with slight and heavy hail
+  default: return "cloud.fill"
+  }
+}
+
+func getWeatherDescription(for weatherCode: Int32) -> String {
+  switch weatherCode {
+  case 0: return "Clear sky"
+  case 1: return "Mainly clear"
+  case 2: return "Partly cloudy"
+  case 3: return "Overcast"
+  case 45: return "Fog"
+  case 48: return "Depositing rime fog"
+  case 51: return "Light drizzle"
+  case 53: return "Moderate drizzle"
+  case 55: return "Dense drizzle"
+  case 56: return "Light freezing drizzle"
+  case 57: return "Dense freezing drizzle"
+  case 61: return "Slight rain"
+  case 63: return "Moderate rain"
+  case 65: return "Heavy rain"
+  case 66: return "Light freezing rain"
+  case 67: return "Heavy freezing rain"
+  case 71: return "Slight snow fall"
+  case 73: return "Moderate snow fall"
+  case 75: return "Heavy snow fall"
+  case 77: return "Snow grains"
+  case 80: return "Slight rain showers"
+  case 81: return "Moderate rain showers"
+  case 82: return "Violent rain showers"
+  case 85: return "Slight snow showers"
+  case 86: return "Heavy snow showers"
+  case 95: return "Thunderstorm"
+  case 96: return "Thunderstorm with slight hail"
+  case 99: return "Thunderstorm with heavy hail"
+  default: return "Unknown weather"
+  }
+}
+
 private struct CragWeatherInfoView: View {
   var icon: String
   var value: String
@@ -45,105 +99,166 @@ private struct CragWeatherInfoView: View {
 private struct DetailedCurrentWeatherView: View {
   @EnvironmentObject var authViewModel: AuthViewModel
   var currentWeather: Components.Schemas.CurrentWeatherDto?
+  var selectedDailyWeather: Components.Schemas.DailyWeatherDto?
+  var uniqueDays: [Date]
+  var selectedDayIndex: Int
+  var onDaySelected: (Int) -> Void
+  var formatDayForSelector: (Date) -> String
+
+  @State private var isDaySelectorOpen = false
 
   var body: some View {
     VStack(spacing: 16) {
-      // Weather description and icon
-      if let weather = currentWeather?.weather {
-        HStack {
-          Spacer()
-          VStack(spacing: 8) {
-            Text(weather.description?.capitalized ?? "Unknown")
+      // Weather description and icon - use selected day's weather code if available
+      let weatherCode = selectedDailyWeather?.weatherCode ?? currentWeather?.weatherCode ?? 0
+
+      // Day selector dropdown
+      HStack {
+        Spacer()
+        VStack(spacing: 8) {
+          HStack(spacing: 10) {
+
+            if !uniqueDays.isEmpty {
+              Button {
+                isDaySelectorOpen.toggle()
+              } label: {
+                HStack(spacing: 4) {
+                  Text(formatDayForSelector(uniqueDays[selectedDayIndex]))
+                    .font(.subheadline)
+                    .foregroundColor(Color.newTextColor)
+
+                  Image(systemName: "chevron.down")
+                    .font(.caption)
+                    .foregroundColor(Color.newTextColor)
+                }
+                .padding(.vertical, 4)
+                .padding(.horizontal, 8)
+                .background(Color.newBackgroundGray)
+                .cornerRadius(20)
+              }
+              .popover(
+                isPresented: $isDaySelectorOpen,
+                attachmentAnchor: .point(.bottom),
+                arrowEdge: .top
+              ) {
+                ScrollView {
+                  VStack(alignment: .leading, spacing: 8) {
+                    ForEach(0..<uniqueDays.count, id: \.self) { index in
+                      Button(action: {
+                        onDaySelected(index)
+                        isDaySelectorOpen = false
+                      }) {
+                        HStack {
+                          Text(formatDayForSelector(uniqueDays[index]))
+                          Spacer()
+                          if selectedDayIndex == index {
+                            Image(systemName: "checkmark")
+                          }
+                        }
+                        .padding(.vertical, 6)
+                        .padding(.horizontal, 12)
+                        .contentShape(Rectangle())
+                      }
+                      .buttonStyle(PlainButtonStyle())
+                      .foregroundColor(Color.newTextColor)
+
+                      if index < uniqueDays.count - 1 {
+                        Divider()
+                          .padding(.horizontal, 12)
+                      }
+                    }
+                  }
+                  .padding()
+                  .frame(width: 200)
+                }
+                .presentationCompactAdaptation(.popover)
+              }
+            }
+
+            Text(getWeatherDescription(for: weatherCode))
               .font(.headline)
               .foregroundColor(Color.newTextColor)
-
-            // You might want to use a custom weather icon here based on the icon code
-            Image(systemName: getWeatherSystemIcon(for: weather.icon ?? ""))
-              .font(.system(size: 50))
-              .foregroundColor(Color.newTextColor)
           }
-          Spacer()
+
+          Image(systemName: getWeatherSystemIcon(for: weatherCode))
+            .font(.system(size: 50))
+            .foregroundColor(Color.newTextColor)
         }
+        Spacer()
       }
 
       // Additional weather details in a grid
       LazyVGrid(
         columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 16
       ) {
-        // Feels like temperature
-        if let feelsLike = currentWeather?.feelsLike {
+        // Temperature - use selected day's max temperature if available
+        if let temperature = selectedDailyWeather?.temperature2mMax ?? currentWeather?.temperature2m
+        {
           DetailWeatherInfoItem(
             icon: "thermometer.medium",
-            title: "Feels Like",
+            title: "Max Temp",
             value:
-              "\(Int(authViewModel.getTemperatureConverter().convertKelvinTemperature(temperature: feelsLike)))",
+              "\(Int(authViewModel.getTemperatureConverter().convertCelsiusTemperature(temperature: temperature)))",
             unit: "°C"
           )
         }
 
-        // UV Index
-        if let uvIndex = currentWeather?.uvIndex {
+        // Apparent (feels like) temperature max
+        if let apparentTempMax = selectedDailyWeather?.apparentTemperatureMax {
           DetailWeatherInfoItem(
-            icon: "sun.max.fill",
-            title: "UV Index",
-            value: "\(Int(uvIndex))",
-            unit: ""
+            icon: "thermometer.sun",
+            title: "Feels Like Max",
+            value:
+              "\(Int(authViewModel.getTemperatureConverter().convertCelsiusTemperature(temperature: apparentTempMax)))",
+            unit: "°C"
           )
         }
 
-        // Pressure
-        if let pressure = currentWeather?.pressure {
+        // Precipitation - only available in daily forecast
+        if let precipitation = selectedDailyWeather?.precipitationSum {
           DetailWeatherInfoItem(
-            icon: "gauge",
-            title: "Pressure",
-            value: "\(pressure)",
-            unit: "hPa"
+            icon: "cloud.rain",
+            title: "Precipitation",
+            value: "\(precipitation)",
+            unit: "mm"
           )
         }
 
-        // Visibility
-        if let visibility = currentWeather?.visibility {
+        // Min Temperature - only available in daily forecast
+        if let minTemperature = selectedDailyWeather?.temperature2mMin {
           DetailWeatherInfoItem(
-            icon: "eye",
-            title: "Visibility",
-            value: "\(visibility / 1000)",
-            unit: "km"
+            icon: "thermometer.low",
+            title: "Min Temp",
+            value:
+              "\(Int(authViewModel.getTemperatureConverter().convertCelsiusTemperature(temperature: minTemperature)))",
+            unit: "°C"
           )
         }
 
-        // Clouds
-        if let clouds = currentWeather?.clouds {
+        // Apparent (feels like) temperature min
+        if let apparentTempMin = selectedDailyWeather?.apparentTemperatureMin {
           DetailWeatherInfoItem(
-            icon: "cloud",
-            title: "Cloudiness",
-            value: "\(clouds)",
+            icon: "thermometer.snowflake",
+            title: "Feels Like Min",
+            value:
+              "\(Int(authViewModel.getTemperatureConverter().convertCelsiusTemperature(temperature: apparentTempMin)))",
+            unit: "°C"
+          )
+        }
+
+        // Precipitation probability
+        if let precipProb = selectedDailyWeather?.precipitationProbabilityMax {
+          DetailWeatherInfoItem(
+            icon: "drop.fill",
+            title: "Chance of Rain",
+            value: "\(precipProb)",
             unit: "%"
-          )
-        }
-
-        // Wind gust if available
-        if let windGust = currentWeather?.windGust, windGust > 0 {
-          DetailWeatherInfoItem(
-            icon: "wind",
-            title: "Wind Gust",
-            value: "\(Int(windGust))",
-            unit: "km/h"
-          )
-        }
-
-        // Wind direction
-        if let windDegree = currentWeather?.windDegree {
-          DetailWeatherInfoItem(
-            icon: "arrow.up.left.and.arrow.down.right",
-            title: "Wind Direction",
-            value: "\(windDegree)",
-            unit: ""
           )
         }
       }
 
-      // Sunrise and sunset times
-      if let sunrise = currentWeather?.sunrise, let sunset = currentWeather?.sunset {
+      // Sunrise, sunset and UV index in a row
+      if let sunrise = selectedDailyWeather?.sunrise, let sunset = selectedDailyWeather?.sunset {
         HStack(spacing: 30) {
           Spacer()
 
@@ -171,8 +286,65 @@ private struct DetailedCurrentWeatherView: View {
               .foregroundColor(Color.newTextColor.opacity(0.75))
           }
 
+          if let uvIndex = selectedDailyWeather?.uvIndexMax {
+            VStack(spacing: 8) {
+              Image(systemName: "sun.max.fill")
+                .font(.title2)
+                .foregroundColor(.yellow)
+              Text("\(Int(uvIndex))")
+                .font(.subheadline)
+                .foregroundColor(Color.newTextColor)
+              Text("UV Index")
+                .font(.caption)
+                .foregroundColor(Color.newTextColor.opacity(0.75))
+            }
+          }
+
           Spacer()
         }
+        .padding(.top, 10)
+      }
+
+      // Wind information in a row
+      if let windSpeed = selectedDailyWeather?.windSpeed10mMax,
+        let windDirection = selectedDailyWeather?.windDirection10mDominant
+      {
+        HStack(spacing: 30) {
+          Spacer()
+
+          VStack(spacing: 8) {
+            Image(systemName: "wind")
+              .font(.title2)
+              .foregroundColor(.blue)
+            HStack(alignment: .top, spacing: 2) {
+              Text("\(Int(windSpeed))")
+                .font(.subheadline)
+                .foregroundColor(Color.newTextColor)
+              Text("km/h")
+                .font(.caption2)
+                .foregroundColor(Color.newTextColor.opacity(0.75))
+                .padding(.top, 2)
+            }
+            Text("Max Wind")
+              .font(.caption)
+              .foregroundColor(Color.newTextColor.opacity(0.75))
+          }
+
+          VStack(spacing: 8) {
+            Image(systemName: "arrow.up.left.and.arrow.down.right")
+              .font(.title2)
+              .foregroundColor(.blue)
+            Text("\(windDirection)°")
+              .font(.subheadline)
+              .foregroundColor(Color.newTextColor)
+            Text("Direction")
+              .font(.caption)
+              .foregroundColor(Color.newTextColor.opacity(0.75))
+          }
+
+          Spacer()
+        }
+        .padding(.top, 10)
       }
     }
     .padding(.vertical, 10)
@@ -187,23 +359,6 @@ private struct DetailedCurrentWeatherView: View {
     let formatter = DateFormatter()
     formatter.dateFormat = "HH:mm"
     return formatter.string(from: date)
-  }
-
-  private func getWeatherSystemIcon(for iconCode: String) -> String {
-    // TODO: maybe expand this to include all possible icon codes
-    switch iconCode {
-    case "01d": return "sun.max.fill"
-    case "01n": return "moon.stars.fill"
-    case "02d", "02n": return "cloud.sun.fill"
-    case "03d", "03n": return "cloud.fill"
-    case "04d", "04n": return "cloud.fill"
-    case "09d", "09n": return "cloud.drizzle.fill"
-    case "10d", "10n": return "cloud.rain.fill"
-    case "11d", "11n": return "cloud.bolt.fill"
-    case "13d", "13n": return "cloud.snow.fill"
-    case "50d", "50n": return "cloud.fog.fill"
-    default: return "cloud.fill"
-    }
   }
 }
 
@@ -246,15 +401,15 @@ private struct ForecastItemView: View {
   var isHourly: Bool
   var dateTime: String
   var temperature: Double
-  var weatherIcon: String?
-  var weatherDescription: String?
-  var precipitation: Double?
+  var weatherCode: Int32?
+  var precipitation: Int32?
+  var windSpeed: Double?
 
   var precipitationIcon: String {
     if let precip = precipitation {
-      if precip * 100 < 33 {
+      if precip < 33 {
         return "drop"
-      } else if precip * 100 < 66 {
+      } else if precip < 66 {
         return "drop.halffull"
       } else {
         return "drop.fill"
@@ -272,8 +427,8 @@ private struct ForecastItemView: View {
         .fontWeight(.medium)
         .foregroundColor(Color.newTextColor)
 
-      // Weather icon
-      Image(systemName: getWeatherSystemIcon(for: weatherIcon ?? ""))
+      // Weather icon based on weather code
+      Image(systemName: getWeatherSystemIcon(for: weatherCode ?? 0))
         .font(.title3)
         .foregroundColor(Color.newTextColor)
         .frame(height: 30)
@@ -281,7 +436,7 @@ private struct ForecastItemView: View {
       // Temperature
       HStack(alignment: .top, spacing: 1) {
         Text(
-          "\(Int(authViewModel.getTemperatureConverter().convertKelvinTemperature(temperature: temperature)))"
+          "\(Int(authViewModel.getTemperatureConverter().convertCelsiusTemperature(temperature: temperature)))"
         )
         .font(.subheadline)
         .fontWeight(.semibold)
@@ -300,13 +455,26 @@ private struct ForecastItemView: View {
             .font(.caption2)
             .foregroundColor(.blue)
 
-          Text("\(Int(precip * 100))%")
+          Text("\(precip)%")
+            .font(.caption2)
+            .foregroundColor(Color.newTextColor.opacity(0.75))
+        }
+      }
+
+      // Wind speed if available
+      if let wind = windSpeed {
+        HStack(spacing: 2) {
+          Image(systemName: "wind")
+            .font(.caption2)
+            .foregroundColor(.blue)
+
+          Text("\(Int(wind)) km/h")
             .font(.caption2)
             .foregroundColor(Color.newTextColor.opacity(0.75))
         }
       }
     }
-    .frame(width: 70, height: 100)
+    .frame(width: 70, height: 120)
     .padding(.vertical, 10)
     .padding(.horizontal, 5)
     .background(Color.newBackgroundGray)
@@ -333,23 +501,6 @@ private struct ForecastItemView: View {
       return formatter.string(from: date)
     }
   }
-
-  private func getWeatherSystemIcon(for iconCode: String) -> String {
-    // Map OpenWeather icon codes to SF Symbols
-    switch iconCode {
-    case "01d": return "sun.max.fill"
-    case "01n": return "moon.stars.fill"
-    case "02d", "02n": return "cloud.sun.fill"
-    case "03d", "03n": return "cloud.fill"
-    case "04d", "04n": return "cloud.fill"
-    case "09d", "09n": return "cloud.drizzle.fill"
-    case "10d", "10n": return "cloud.rain.fill"
-    case "11d", "11n": return "cloud.bolt.fill"
-    case "13d", "13n": return "cloud.snow.fill"
-    case "50d", "50n": return "cloud.fog.fill"
-    default: return "cloud.fill"
-    }
-  }
 }
 
 struct CragTopInfoContainerView: View {
@@ -361,6 +512,7 @@ struct CragTopInfoContainerView: View {
   @State private var isExpanded = false
   @State private var weather: CragWeather?
   @State private var isLoading = false
+  @State private var selectedDayIndex = 0
 
   func getCragWeather() async {
     if let crag = crag, let cragId = crag.id {
@@ -369,6 +521,74 @@ struct CragTopInfoContainerView: View {
         CragWeatherInput(cragId: cragId), authViewModel.getAuthData(), nil)
       isLoading = false
     }
+  }
+
+  // Get unique days from hourly forecasts
+  private func getUniqueDays() -> [Date] {
+    guard let hourlyForecasts = weather?.hourly else { return [] }
+
+    var uniqueDays: [Date] = []
+    let calendar = Calendar.current
+
+    for hourly in hourlyForecasts {
+      if let timeString = hourly.time,
+        let date = DateTimeConverter.convertDateTimeStringToDate(dateTimeString: timeString)
+      {
+        let startOfDay = calendar.startOfDay(for: date)
+        if !uniqueDays.contains(where: { calendar.isDate($0, inSameDayAs: startOfDay) }) {
+          uniqueDays.append(startOfDay)
+        }
+      }
+    }
+
+    return uniqueDays
+  }
+
+  // Filter hourly forecasts for selected day
+  private func hourlyForecastsForSelectedDay() -> [Components.Schemas.HourlyWeatherDto] {
+    guard let hourlyForecasts = weather?.hourly else { return [] }
+    let uniqueDays = getUniqueDays()
+
+    if uniqueDays.isEmpty || selectedDayIndex >= uniqueDays.count {
+      return []
+    }
+
+    let selectedDay = uniqueDays[selectedDayIndex]
+    let calendar = Calendar.current
+
+    return hourlyForecasts.compactMap { hourly in
+      guard let timeString = hourly.time,
+        let date = DateTimeConverter.convertDateTimeStringToDate(dateTimeString: timeString)
+      else {
+        return nil
+      }
+      return calendar.isDate(date, inSameDayAs: selectedDay) ? hourly : nil
+    }
+  }
+
+  // Format date for day selector
+  private func formatDayForSelector(_ date: Date) -> String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "E, MMM d"  // e.g. "Mon, Jan 15"
+    return formatter.string(from: date)
+  }
+
+  // Get selected daily weather based on selected day index
+  private func getSelectedDailyWeather() -> Components.Schemas.DailyWeatherDto? {
+    guard let dailyForecasts = weather?.daily else { return nil }
+
+    let uniqueDays = getUniqueDays()
+    if uniqueDays.isEmpty || selectedDayIndex >= uniqueDays.count {
+      return nil
+    }
+
+    // For the first day (today), we have a corresponding daily forecast
+    // We can directly use the selectedDayIndex to access the forecast
+    if selectedDayIndex < dailyForecasts.count {
+      return dailyForecasts[selectedDayIndex]
+    }
+
+    return nil
   }
 
   var body: some View {
@@ -385,23 +605,24 @@ struct CragTopInfoContainerView: View {
           CragWeatherInfoView(
             icon: "thermometer",
             value:
-              "\(authViewModel.getTemperatureConverter().convertKelvinTemperature(temperature: weather.currentWeather?.temperature ?? 0))",
+              "\(authViewModel.getTemperatureConverter().convertCelsiusTemperature(temperature: weather.current?.temperature2m ?? 0))",
             unit: "°C",
             title: "Temperature")
 
           Spacer()
 
           CragWeatherInfoView(
-            icon: "drop.halffull", value: "\(weather.currentWeather?.humidity ?? 0)", unit: "%",
+            icon: "drop.halffull", value: "\(weather.current?.relativeHumidity2m ?? 0)", unit: "%",
             title: "Humidity")
 
           Spacer()
 
           CragWeatherInfoView(
-            icon: "wind", value: "\(Int(floor(weather.currentWeather?.windSpeed ?? 0)))",
+            icon: "wind", value: "\(Int(floor(weather.current?.windSpeed10m ?? 0)))",
             unit: "km/h",
             title: "Wind Speed")
         }
+        .padding(.horizontal, 20)
       } else {
         HStack {
           Spacer()
@@ -416,89 +637,93 @@ struct CragTopInfoContainerView: View {
           .padding()
           Spacer()
         }
+        .padding(.horizontal, 20)
       }
 
       if isExpanded, let weather = weather {
         VStack(spacing: 20) {
-          // Detailed current weather
-          DetailedCurrentWeatherView(currentWeather: weather.currentWeather)
+          // Detailed current weather - pass selected daily weather
+          DetailedCurrentWeatherView(
+            currentWeather: weather.current,
+            selectedDailyWeather: getSelectedDailyWeather(),
+            uniqueDays: getUniqueDays(),
+            selectedDayIndex: selectedDayIndex,
+            onDaySelected: { index in
+              selectedDayIndex = index
+            },
+            formatDayForSelector: formatDayForSelector
+          )
 
           Divider()
 
           // Forecast section title
-          HStack {
-            Text("Forecast")
-              .font(.headline)
-              .fontWeight(.semibold)
-              .foregroundColor(Color.newTextColor)
-            Spacer()
+          VStack(spacing: 10) {
+            HStack {
+              Text("Forecast")
+                .font(.headline)
+                .fontWeight(.semibold)
+                .foregroundColor(Color.newTextColor)
+
+              Spacer()
+            }
           }
-          .padding(.horizontal, 5)
+          .padding(.horizontal, 20)
 
           // Combined forecast scrollview
           ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 10, pinnedViews: []) {
-              // Hourly forecast items
-              if let hourlyForecasts = weather.hourly {
-                ForEach(0..<min(24, hourlyForecasts.count), id: \.self) { index in
-                  let hourly = hourlyForecasts[index]
-                  if let dateTime = hourly.dateTime, let temperature = hourly.temperature {
+              // Hourly forecast items for selected day
+              let filteredHourlyForecasts = hourlyForecastsForSelectedDay()
+              if !filteredHourlyForecasts.isEmpty {
+                ForEach(0..<filteredHourlyForecasts.count, id: \.self) { index in
+                  let hourly = filteredHourlyForecasts[index]
+                  if let time = hourly.time,
+                    let temperature = hourly.temperature2m
+                  {
                     ForecastItemView(
                       isHourly: true,
-                      dateTime: dateTime,
+                      dateTime: time,
                       temperature: temperature,
-                      weatherIcon: hourly.weather?.icon,
-                      weatherDescription: hourly.weather?.description,
-                      precipitation: hourly.probabilityOfPrecipitation
+                      weatherCode: hourly.weatherCode,
+                      precipitation: hourly.precipitationProbability,
+                      windSpeed: hourly.windSpeed10m
                     )
-                  }
-                }
-              }
-
-              // Daily forecast items
-              if let dailyForecasts = weather.daily {
-                ForEach(0..<min(7, dailyForecasts.count), id: \.self) { index in
-                  let daily = dailyForecasts[index]
-                  if let date = daily.date, let temperature = daily.temperature?.day {
-                    ForecastItemView(
-                      isHourly: false,
-                      dateTime: date,
-                      temperature: temperature,
-                      weatherIcon: daily.weather?.icon,
-                      weatherDescription: daily.weather?.description,
-                      precipitation: daily.probabilityOfPrecipitation
-                    )
+                    .environmentObject(authViewModel)
                   }
                 }
               }
             }
-            .padding(.horizontal, 5)
+            .padding(.horizontal, 20)
           }
-          .frame(height: 150)
+          .frame(height: 170)
         }
       }
 
-      Button(action: {
-        withAnimation {
-          isExpanded.toggle()
-        }
-      }) {
-        HStack {
-          Spacer()
+      if weather != nil {
+        Button(action: {
+          withAnimation {
+            isExpanded.toggle()
+          }
+        }) {
+          HStack {
+            Spacer()
 
-          Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-            .font(.title3)
-            .foregroundColor(Color.newTextColor)
+            Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+              .font(.title3)
+              .foregroundColor(Color.newTextColor)
 
-          Spacer()
+            Spacer()
+          }
+          .padding(5)
+          .background(Color.newBackgroundGray)
+          .cornerRadius(10)
+          .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
         }
-        .padding(5)
-        .background(Color.newBackgroundGray)
-        .cornerRadius(10)
-        .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
+        .padding(.horizontal, 20)
+        .background(Color.white)
       }
     }
-    .padding(20)
+    .padding(.vertical, 20)
     .background(.white)
     .clipShape(RoundedRectangle(cornerRadius: 20))
     .task {

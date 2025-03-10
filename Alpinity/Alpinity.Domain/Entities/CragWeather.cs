@@ -5,7 +5,7 @@ namespace Alpinity.Domain.Entities;
 
 public class CragWeather
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public Guid CragId { get; set; }
     public DateTime Timestamp { get; set; }
     public string WeatherData { get; set; } = null!;
@@ -31,6 +31,6 @@ public class CragWeather
     
     public bool IsExpired()
     {
-        return DateTime.UtcNow.Subtract(Timestamp).TotalHours > 4;
+        return DateTime.UtcNow.Subtract(Timestamp).TotalHours > 1;
     }
 } 

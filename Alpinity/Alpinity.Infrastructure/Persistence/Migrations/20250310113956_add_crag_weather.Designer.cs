@@ -13,7 +13,7 @@ using NetTopologySuite.Geometries;
 namespace Alpinity.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250309151638_add_crag_weather")]
+    [Migration("20250310113956_add_crag_weather")]
     partial class add_crag_weather
     {
         /// <inheritdoc />
@@ -103,11 +103,9 @@ namespace Alpinity.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Alpinity.Domain.Entities.CragWeather", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CragId")
                         .HasColumnType("uniqueidentifier");

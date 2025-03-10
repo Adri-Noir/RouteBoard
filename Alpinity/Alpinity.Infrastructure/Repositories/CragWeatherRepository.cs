@@ -18,6 +18,16 @@ public class CragWeatherRepository(ApplicationDbContext dbContext) : ICragWeathe
 
     public async Task<CragWeather> SaveWeatherForCragAsync(Guid cragId, WeatherInformationResponse weatherData)
     {
+        // Delete previous weather records for this crag
+        var previousWeathers = await dbContext.CragWeathers
+            .Where(cw => cw.CragId == cragId)
+            .ToListAsync();
+        
+        if (previousWeathers.Any())
+        {
+            dbContext.CragWeathers.RemoveRange(previousWeathers);
+        }
+        
         var cragWeather = CragWeather.Create(cragId, weatherData);
         
         dbContext.CragWeathers.Add(cragWeather);
