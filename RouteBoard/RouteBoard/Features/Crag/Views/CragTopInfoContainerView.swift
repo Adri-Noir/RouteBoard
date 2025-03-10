@@ -116,69 +116,66 @@ private struct DetailedCurrentWeatherView: View {
       HStack {
         Spacer()
         VStack(spacing: 8) {
-          HStack(spacing: 10) {
+          if !uniqueDays.isEmpty {
+            Button {
+              isDaySelectorOpen.toggle()
+            } label: {
+              HStack(spacing: 4) {
+                Text(formatDayForSelector(uniqueDays[selectedDayIndex]))
+                  .font(.subheadline)
+                  .foregroundColor(Color.newTextColor)
 
-            if !uniqueDays.isEmpty {
-              Button {
-                isDaySelectorOpen.toggle()
-              } label: {
-                HStack(spacing: 4) {
-                  Text(formatDayForSelector(uniqueDays[selectedDayIndex]))
-                    .font(.subheadline)
-                    .foregroundColor(Color.newTextColor)
-
-                  Image(systemName: "chevron.down")
-                    .font(.caption)
-                    .foregroundColor(Color.newTextColor)
-                }
-                .padding(.vertical, 4)
-                .padding(.horizontal, 8)
-                .background(Color.newBackgroundGray)
-                .cornerRadius(20)
+                Image(systemName: "chevron.down")
+                  .font(.caption)
+                  .foregroundColor(Color.newTextColor)
               }
-              .popover(
-                isPresented: $isDaySelectorOpen,
-                attachmentAnchor: .point(.bottom),
-                arrowEdge: .top
-              ) {
-                ScrollView {
-                  VStack(alignment: .leading, spacing: 8) {
-                    ForEach(0..<uniqueDays.count, id: \.self) { index in
-                      Button(action: {
-                        onDaySelected(index)
-                        isDaySelectorOpen = false
-                      }) {
-                        HStack {
-                          Text(formatDayForSelector(uniqueDays[index]))
-                          Spacer()
-                          if selectedDayIndex == index {
-                            Image(systemName: "checkmark")
-                          }
+              .padding(.vertical, 4)
+              .padding(.horizontal, 8)
+              .background(Color.newBackgroundGray)
+              .cornerRadius(20)
+            }
+            .popover(
+              isPresented: $isDaySelectorOpen,
+              attachmentAnchor: .point(.bottom),
+              arrowEdge: .top
+            ) {
+              ScrollView {
+                VStack(alignment: .leading, spacing: 8) {
+                  ForEach(0..<uniqueDays.count, id: \.self) { index in
+                    Button(action: {
+                      onDaySelected(index)
+                      isDaySelectorOpen = false
+                    }) {
+                      HStack {
+                        Text(formatDayForSelector(uniqueDays[index]))
+                        Spacer()
+                        if selectedDayIndex == index {
+                          Image(systemName: "checkmark")
                         }
-                        .padding(.vertical, 6)
-                        .padding(.horizontal, 12)
-                        .contentShape(Rectangle())
                       }
-                      .buttonStyle(PlainButtonStyle())
-                      .foregroundColor(Color.newTextColor)
+                      .padding(.vertical, 6)
+                      .padding(.horizontal, 12)
+                      .contentShape(Rectangle())
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .foregroundColor(Color.newTextColor)
 
-                      if index < uniqueDays.count - 1 {
-                        Divider()
-                          .padding(.horizontal, 12)
-                      }
+                    if index < uniqueDays.count - 1 {
+                      Divider()
+                        .padding(.horizontal, 12)
                     }
                   }
-                  .padding()
-                  .frame(width: 200)
                 }
-                .presentationCompactAdaptation(.popover)
+                .padding()
+                .frame(width: 200)
               }
+              .presentationCompactAdaptation(.popover)
             }
-
-            Text(getWeatherDescription(for: weatherCode))
-              .font(.headline)
-              .foregroundColor(Color.newTextColor)
           }
+
+          Text(getWeatherDescription(for: weatherCode))
+            .font(.headline)
+            .foregroundColor(Color.newTextColor)
 
           Image(systemName: getWeatherSystemIcon(for: weatherCode))
             .font(.system(size: 50))
