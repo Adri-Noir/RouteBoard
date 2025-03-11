@@ -25,17 +25,17 @@ struct CragView: View {
 
   func getCrag(value: String) async {
     isLoading = true
+    defer { isLoading = false }
 
     guard
       let cragDetails = await getCragDetailsClient.call(
         CragDetailsInput(id: value), authViewModel.getAuthData(), { errorMessage = $0 })
     else {
-      isLoading = false
+      print("Error: \(errorMessage ?? "Unknown error")")
       return
     }
 
     self.crag = cragDetails
-    isLoading = false
   }
 
   var body: some View {
@@ -57,26 +57,30 @@ struct CragView: View {
             .padding(.vertical, 20)
             .background(Color.newPrimaryColor)
 
-            ApplyBackgroundColor(backgroundColor: Color.newPrimaryColor) {
-              VStack(spacing: 20) {
-                CragGalleryView(crag: crag)
-                  .padding(.horizontal, 20)
-                CragMapView(crag: crag)
-                  .padding(.horizontal, 20)
-                Spacer()
+            VStack(spacing: 20) {
+              CragGalleryView(crag: crag)
+                .padding(.horizontal, 20)
+              CragMapView(crag: crag)
+                .padding(.horizontal, 20)
+
+              // Add the Sectors & Routes section
+              if let sectors = crag?.sectors, !sectors.isEmpty {
+                CragSectorRouteSelection(crag: crag)
               }
-              .padding(.top, 20)
-              .background(Color.newBackgroundGray)
-              .clipShape(
-                .rect(
-                  topLeadingRadius: 40, bottomLeadingRadius: 0, bottomTrailingRadius: 0,
-                  topTrailingRadius: 40)
-              )
-              .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: -5)
-              .mask(
-                Rectangle().padding(.top, -40)
-              )
+
+              Spacer()
             }
+            .padding(.top, 20)
+            .background(Color.newBackgroundGray)
+            .clipShape(
+              .rect(
+                topLeadingRadius: 40, bottomLeadingRadius: 0, bottomTrailingRadius: 0,
+                topTrailingRadius: 40)
+            )
+            .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: -5)
+            .mask(
+              Rectangle().padding(.top, -40)
+            )
             .background(Color.newPrimaryColor)
           }
         }

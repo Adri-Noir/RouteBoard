@@ -107,12 +107,12 @@ private struct DetailedCurrentWeatherView: View {
 
   @State private var isDaySelectorOpen = false
 
+  var weatherCode: Int32 {
+    selectedDailyWeather?.weatherCode ?? currentWeather?.weatherCode ?? 0
+  }
+
   var body: some View {
     VStack(spacing: 16) {
-      // Weather description and icon - use selected day's weather code if available
-      let weatherCode = selectedDailyWeather?.weatherCode ?? currentWeather?.weatherCode ?? 0
-
-      // Day selector dropdown
       HStack {
         Spacer()
         VStack(spacing: 8) {
@@ -162,13 +162,13 @@ private struct DetailedCurrentWeatherView: View {
 
                     if index < uniqueDays.count - 1 {
                       Divider()
-                        .padding(.horizontal, 12)
                     }
                   }
                 }
-                .padding()
+                .padding(.vertical, 12)
                 .frame(width: 200)
               }
+              .preferredColorScheme(.light)
               .presentationCompactAdaptation(.popover)
             }
           }
@@ -508,15 +508,17 @@ struct CragTopInfoContainerView: View {
 
   @State private var isExpanded = false
   @State private var weather: CragWeather?
-  @State private var isLoading = false
+  @State private var isLoading = true
   @State private var selectedDayIndex = 0
 
   func getCragWeather() async {
+    defer {
+      isLoading = false
+    }
+
     if let crag = crag, let cragId = crag.id {
-      isLoading = true
       weather = await cragWeatherCacheClient.call(
         CragWeatherInput(cragId: cragId), authViewModel.getAuthData(), nil)
-      isLoading = false
     }
   }
 
@@ -594,6 +596,7 @@ struct CragTopInfoContainerView: View {
         HStack {
           Spacer()
           ProgressView()
+            .foregroundColor(Color.newTextColor)
             .padding()
           Spacer()
         }
@@ -624,7 +627,7 @@ struct CragTopInfoContainerView: View {
         HStack {
           Spacer()
           VStack(spacing: 8) {
-            Image(systemName: "cloud.slash")
+            Image(systemName: "icloud.slash")
               .font(.title)
               .foregroundColor(Color.newTextColor.opacity(0.6))
             Text("No weather data available")
@@ -726,8 +729,5 @@ struct CragTopInfoContainerView: View {
     .task {
       await getCragWeather()
     }
-
-    // GradesGraphView(gradesModel: GradesGraphModel(crag: crag))
-    // .frame(height: 200)
   }
 }
