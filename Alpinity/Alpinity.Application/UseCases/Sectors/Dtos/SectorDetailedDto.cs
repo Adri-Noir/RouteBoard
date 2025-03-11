@@ -1,3 +1,4 @@
+using Alpinity.Application.Dtos;
 using Alpinity.Application.UseCases.Photos.Dtos;
 using Alpinity.Application.UseCases.Routes.Dtos;
 using Alpinity.Domain.Entities;
@@ -9,6 +10,7 @@ public class SectorDetailedDto
     public required Guid Id { get; set; }
     public required string Name { get; set; }
     public string Description { get; set; } = null!;
+    public PointDto? Location { get; set; }
     public ICollection<PhotoDto> Photos { get; set; } = null!;
     public ICollection<SectorRouteDto> Routes { get; set; } = null!;
 

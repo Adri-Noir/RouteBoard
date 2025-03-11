@@ -78,14 +78,16 @@ public static class CragSectorRouteSeed
             {
                 Name = "Test Sector",
                 Description = "This is a seeded sector.",
-                CragId = crags[0].Id
+                CragId = crags[0].Id,
+                Location = new Point(15.966768, 45.815599) { SRID = 4326 }
             });
             
             sectors.Add(new Sector    
             {
                 Name = "Test Sector 2",
                 Description = "This is a second seeded sector.",
-                CragId = crags[0].Id
+                CragId = crags[0].Id,
+                Location = new Point(15.966368, 45.815199) { SRID = 4326 }
             });
 
             // For Paklenica
@@ -93,14 +95,16 @@ public static class CragSectorRouteSeed
             {
                 Name = "Anića Kuk",
                 Description = "The main wall of Paklenica with many classic routes.",
-                CragId = crags.First(c => c.Name == "Paklenica").Id
+                CragId = crags.First(c => c.Name == "Paklenica").Id,
+                Location = new Point(15.488778, 44.294889) { SRID = 4326 }
             });
             
             sectors.Add(new Sector
             {
                 Name = "Klanci",
                 Description = "Area with shorter routes, good for beginners.",
-                CragId = crags.First(c => c.Name == "Paklenica").Id
+                CragId = crags.First(c => c.Name == "Paklenica").Id,
+                Location = new Point(15.486778, 44.292889) { SRID = 4326 }
             });
 
             // For Fontainebleau
@@ -108,14 +112,16 @@ public static class CragSectorRouteSeed
             {
                 Name = "Bas Cuvier",
                 Description = "Popular area with a wide range of boulder problems.",
-                CragId = crags.First(c => c.Name == "Fontainebleau").Id
+                CragId = crags.First(c => c.Name == "Fontainebleau").Id,
+                Location = new Point(2.698444, 48.403722) { SRID = 4326 }
             });
             
             sectors.Add(new Sector
             {
                 Name = "Franchard Isatis",
                 Description = "Famous for its technical slabs and crimpy problems.",
-                CragId = crags.First(c => c.Name == "Fontainebleau").Id
+                CragId = crags.First(c => c.Name == "Fontainebleau").Id,
+                Location = new Point(2.700444, 48.405722) { SRID = 4326 }
             });
 
             // For El Capitan
@@ -123,14 +129,16 @@ public static class CragSectorRouteSeed
             {
                 Name = "The Nose",
                 Description = "The most famous big wall route in the world.",
-                CragId = crags.First(c => c.Name == "El Capitan").Id
+                CragId = crags.First(c => c.Name == "El Capitan").Id,
+                Location = new Point(-119.636778, 37.732333) { SRID = 4326 }
             });
             
             sectors.Add(new Sector
             {
                 Name = "Freerider",
                 Description = "Famous free climbing route on El Capitan.",
-                CragId = crags.First(c => c.Name == "El Capitan").Id
+                CragId = crags.First(c => c.Name == "El Capitan").Id,
+                Location = new Point(-119.638778, 37.734333) { SRID = 4326 }
             });
 
             // For Kalymnos
@@ -138,14 +146,16 @@ public static class CragSectorRouteSeed
             {
                 Name = "Grande Grotta",
                 Description = "Spectacular cave with 3D climbing on tufas.",
-                CragId = crags.First(c => c.Name == "Kalymnos").Id
+                CragId = crags.First(c => c.Name == "Kalymnos").Id,
+                Location = new Point(26.984333, 36.967667) { SRID = 4326 }
             });
             
             sectors.Add(new Sector
             {
                 Name = "Odyssey",
                 Description = "Beautiful sector with technical routes on good rock.",
-                CragId = crags.First(c => c.Name == "Kalymnos").Id
+                CragId = crags.First(c => c.Name == "Kalymnos").Id,
+                Location = new Point(26.982333, 36.965667) { SRID = 4326 }
             });
 
             // For Ceüse
@@ -153,14 +163,16 @@ public static class CragSectorRouteSeed
             {
                 Name = "Biographie Sector",
                 Description = "Home to the famous Biographie/Realization route.",
-                CragId = crags.First(c => c.Name == "Ceüse").Id
+                CragId = crags.First(c => c.Name == "Ceüse").Id,
+                Location = new Point(5.937576, 44.519188) { SRID = 4326 }
             });
             
             sectors.Add(new Sector
             {
                 Name = "Berlin",
                 Description = "Sector with many challenging routes.",
-                CragId = crags.First(c => c.Name == "Ceüse").Id
+                CragId = crags.First(c => c.Name == "Ceüse").Id,
+                Location = new Point(5.935576, 44.517188) { SRID = 4326 }
             });
 
             await context.Sectors.AddRangeAsync(sectors);

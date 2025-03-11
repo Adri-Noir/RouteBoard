@@ -772,6 +772,24 @@
             }
           },
           {
+            "name": "Location.Latitude",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "Location.Longitude",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
             "name": "CragId",
             "in": "query",
             "schema": {
@@ -2142,6 +2160,9 @@
           "description": {
             "type": "string",
             "nullable": true
+          },
+          "location": {
+            "$ref": "#/components/schemas/PointDto"
           },
           "photos": {
             "type": "array",
