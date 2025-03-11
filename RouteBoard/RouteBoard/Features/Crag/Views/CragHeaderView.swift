@@ -17,7 +17,7 @@ struct CragHeaderView<Content: View>: View {
   let content: Content
 
   @State private var headerVisibleRatio: CGFloat = 1
-
+  @State private var isLocationDetailsPresented: Bool = false
   init(
     crag: CragDetails?,
     @ViewBuilder content: () -> Content
@@ -36,12 +36,81 @@ struct CragHeaderView<Content: View>: View {
 
       // Could add crag-specific info here if needed
       if let locationName = crag?.locationName {
-        Text("\(locationName)")
-          .foregroundColor(.white)
+        Button {
+          isLocationDetailsPresented.toggle()
+        } label: {
+          HStack(spacing: 4) {
+            Text("\(locationName)")
+              .foregroundColor(.white)
+
+            Image(systemName: "chevron.down")
+              .font(.caption)
+              .foregroundColor(.white)
+          }
           .padding(.horizontal, 10)
           .padding(.vertical, 10)
           .background(Color.black.opacity(0.75))
           .clipShape(RoundedRectangle(cornerRadius: 20))
+        }
+        .popover(
+          isPresented: $isLocationDetailsPresented,
+          attachmentAnchor: .point(.bottom),
+          arrowEdge: .top
+        ) {
+          VStack(alignment: .leading, spacing: 12) {
+            Text("Location Details")
+              .font(.headline)
+              .padding(.bottom, 5)
+
+            Text(locationName)
+              .font(.subheadline)
+
+            Divider()
+
+            Button(action: {
+              // Open in Maps action would go here
+            }) {
+              HStack {
+                Image(systemName: "map")
+                  .foregroundColor(Color.newPrimaryColor)
+                Text("Open in Maps")
+                  .foregroundColor(Color.newTextColor)
+                Spacer()
+              }
+              .padding(.vertical, 6)
+            }
+
+            Button(action: {
+              // Parking location action would go here
+            }) {
+              HStack {
+                Image(systemName: "car")
+                  .foregroundColor(Color.newPrimaryColor)
+                Text("Parking Location")
+                  .foregroundColor(Color.newTextColor)
+                Spacer()
+              }
+              .padding(.vertical, 6)
+            }
+
+            Button(action: {
+              // Parking location action would go here
+            }) {
+              HStack {
+                Image(systemName: "info.circle")
+                  .foregroundColor(Color.newPrimaryColor)
+                Text("Approach Info")
+                  .foregroundColor(Color.newTextColor)
+                Spacer()
+              }
+              .padding(.vertical, 6)
+            }
+          }
+          .padding()
+          .frame(width: 240)
+          .presentationCompactAdaptation(.popover)
+          .preferredColorScheme(.light)
+        }
       }
     }
     .padding(20)
@@ -70,12 +139,9 @@ struct CragHeaderView<Content: View>: View {
             .frame(width: 32, height: 32)
             .clipShape(RoundedRectangle(cornerRadius: 6))
         } placeholder: {
-          Image("TestingSamples/limski/pikachu")
-            .resizable()
-            .scaledToFill()
-            .foregroundColor(Color.gray)
+          PlaceholderImage(iconFont: Font.body)
+            .background(Color.white)
             .frame(width: 32, height: 32)
-            .background(Color.gray.opacity(0.3))
             .clipShape(RoundedRectangle(cornerRadius: 6))
         }
 

@@ -26,6 +26,7 @@
 		AF0760E12D7E1F64003BB9BA /* CragWeatherCacheClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0760DF2D7E1F5A003BB9BA /* CragWeatherCacheClient.swift */; };
 		AF0760EF2D7E271A003BB9BA /* TemperatureConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0760EE2D7E2715003BB9BA /* TemperatureConverter.swift */; };
 		AF0761882D7F9E86003BB9BA /* CragSectorRouteSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0761862D7F9E7B003BB9BA /* CragSectorRouteSelection.swift */; };
+		AF07620D2D80F843003BB9BA /* PlaceholderImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07620B2D80F83F003BB9BA /* PlaceholderImage.swift */; };
 		AF0A110B2C3C86D000BFAEAC /* RoutesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0A110A2C3C86D000BFAEAC /* RoutesListView.swift */; };
 		AF0A110F2C3C8EEB00BFAEAC /* SimpleRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0A110E2C3C8EEB00BFAEAC /* SimpleRoute.swift */; };
 		AF191C6E2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF191C6D2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift */; };
@@ -188,6 +189,7 @@
 		AF0760DF2D7E1F5A003BB9BA /* CragWeatherCacheClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CragWeatherCacheClient.swift; sourceTree = "<group>"; };
 		AF0760EE2D7E2715003BB9BA /* TemperatureConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureConverter.swift; sourceTree = "<group>"; };
 		AF0761862D7F9E7B003BB9BA /* CragSectorRouteSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CragSectorRouteSelection.swift; sourceTree = "<group>"; };
+		AF07620B2D80F83F003BB9BA /* PlaceholderImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderImage.swift; sourceTree = "<group>"; };
 		AF0A110A2C3C86D000BFAEAC /* RoutesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesListView.swift; sourceTree = "<group>"; };
 		AF0A110E2C3C8EEB00BFAEAC /* SimpleRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleRoute.swift; sourceTree = "<group>"; };
 		AF191C6D2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteFinderBottomInfoView.swift; sourceTree = "<group>"; };
@@ -399,6 +401,14 @@
 				AFD931302D238C1F00B68D92 /* RouteLink.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		AF0762082D80F839003BB9BA /* PlaceholderImage */ = {
+			isa = PBXGroup;
+			children = (
+				AF07620B2D80F83F003BB9BA /* PlaceholderImage.swift */,
+			);
+			path = PlaceholderImage;
 			sourceTree = "<group>";
 		};
 		AF0A110D2C3C8EC500BFAEAC /* Model */ = {
@@ -717,6 +727,7 @@
 		AF9B62462C346D47003762B0 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				AF0762082D80F839003BB9BA /* PlaceholderImage */,
 				AF21C2DA2D737FBE000BE26C /* ScrollViewWithStickyHeader */,
 				AF21C2CC2D7378E5000BE26C /* UnitConverter */,
 				AF21C16C2D710B07000BE26C /* EnumConverter */,
@@ -1238,6 +1249,7 @@
 				AF8A74E62D407E570029BE40 /* MarqueeText.swift in Sources */,
 				AF21C0AF2D6E7AB6000BE26C /* RouteLogAscent.swift in Sources */,
 				AF21C2D02D7378F1000BE26C /* DateTimeConverter.swift in Sources */,
+				AF07620D2D80F843003BB9BA /* PlaceholderImage.swift in Sources */,
 				AF0243342D163FC70007748D /* ConfirmPhotoOverlayView.swift in Sources */,
 				AF62E1A22D7A461A0039B67F /* APIClientInjection.swift in Sources */,
 				AF8DA6372CD4465500751865 /* IndexView.swift in Sources */,

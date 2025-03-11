@@ -11,6 +11,7 @@ import SwiftUI
 struct CragView: View {
   let cragId: String
 
+  @State private var selectedSectorId: String? = nil
   @State private var isLoading: Bool = false
   @State private var crag: CragDetails?
   @State private var errorMessage: String? = nil
@@ -36,6 +37,7 @@ struct CragView: View {
     }
 
     self.crag = cragDetails
+    self.selectedSectorId = cragDetails.sectors?.first?.id
   }
 
   var body: some View {
@@ -44,28 +46,52 @@ struct CragView: View {
         CragHeaderView(crag: crag) {
           VStack(spacing: 0) {
             VStack(spacing: 20) {
-              Text(crag?.name ?? "")
-                .font(.largeTitle)
-                .fontWeight(.semibold)
-                .foregroundColor(.white)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 40)
+              VStack(spacing: 8) {
+                Text(crag?.name ?? "")
+                  .font(.largeTitle)
+                  .fontWeight(.semibold)
+                  .foregroundColor(.white)
+                  .multilineTextAlignment(.center)
+                  .padding(.horizontal, 40)
+
+                HStack {
+                  Spacer()
+
+                  HStack {
+                    Text("6 Sectors")
+                      .font(.subheadline)
+                      .foregroundColor(Color.white)
+
+                    Text("•")
+                      .font(.subheadline)
+                      .foregroundColor(Color.white)
+                      .padding(.horizontal, 4)
+
+                    Text("100 Routes")
+                      .font(.subheadline)
+                      .foregroundColor(Color.white)
+                  }
+
+                  Spacer()
+                }
+              }
+
               CragTopInfoContainerView(crag: crag)
-              Spacer()
+
+              CragMapView(crag: crag, selectedSectorId: $selectedSectorId)
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 20)
             .background(Color.newPrimaryColor)
 
             VStack(spacing: 20) {
-              CragGalleryView(crag: crag)
-                .padding(.horizontal, 20)
-              CragMapView(crag: crag)
-                .padding(.horizontal, 20)
+              Text("Sectors")
+                .font(.title2)
+                .fontWeight(.semibold)
+                .foregroundColor(Color.newTextColor)
 
-              // Add the Sectors & Routes section
               if let sectors = crag?.sectors, !sectors.isEmpty {
-                CragSectorRouteSelection(crag: crag)
+                CragSectorRouteSelection(crag: crag, selectedSectorId: $selectedSectorId)
               }
 
               Spacer()
@@ -104,7 +130,7 @@ struct CragView: View {
 #Preview {
   APIClientInjection {
     AuthInjectionMock {
-      CragView(cragId: "3eb16769-b6a3-4d1f-4411-08dd59ee505a")
+      CragView(cragId: "7a1da5fe-a1f3-4d80-7115-08dd60e35697")
     }
   }
 }

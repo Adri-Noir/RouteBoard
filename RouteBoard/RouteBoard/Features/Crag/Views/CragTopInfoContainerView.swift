@@ -601,6 +601,11 @@ struct CragTopInfoContainerView: View {
           Spacer()
         }
       } else if let weather = weather {
+        Text("Current Weather")
+          .font(.headline)
+          .foregroundColor(Color.newTextColor)
+          .padding(.horizontal, 20)
+
         HStack {
           CragWeatherInfoView(
             icon: "thermometer",
@@ -641,6 +646,8 @@ struct CragTopInfoContainerView: View {
       }
 
       if isExpanded, let weather = weather {
+        Divider()
+
         VStack(spacing: 20) {
           // Detailed current weather - pass selected daily weather
           DetailedCurrentWeatherView(

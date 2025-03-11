@@ -46,10 +46,9 @@ public struct DetailsTopView<Header: View, HeaderOverlay: View, Content: View>: 
       ZStack(alignment: .bottom) {
         TabView {
           if photos.isEmpty {
-            Image("TestingSamples/limski/pikachu")
-              .resizable()
-              .scaledToFill()
+            PlaceholderImage()
               .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
+              .background(Color.newBackgroundGray)
           } else {
             ForEach(photos, id: \.id) { photo in
               AsyncImage(url: URL(string: photo.url ?? "")) { image in
@@ -58,10 +57,9 @@ public struct DetailsTopView<Header: View, HeaderOverlay: View, Content: View>: 
                   .scaledToFill()
                   .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
               } placeholder: {
-                Image("TestingSamples/limski/pikachu")
-                  .resizable()
-                  .scaledToFill()
+                PlaceholderImage()
                   .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
+                  .background(Color.newBackgroundGray)
               }
             }
           }

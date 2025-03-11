@@ -13,7 +13,8 @@ enum RouteViewMode {
 
 struct CragSectorRouteSelection: View {
   let crag: CragDetails?
-  @State private var selectedSectorIndex = 0
+  @Binding var selectedSectorId: String?
+
   @State private var viewMode: RouteViewMode = .tabs
   @State private var isSectorSelectorOpen = false
   private var sectors: [SectorDetailedDto] {
@@ -21,8 +22,11 @@ struct CragSectorRouteSelection: View {
   }
 
   private var selectedSector: SectorDetailedDto? {
-    guard !sectors.isEmpty, selectedSectorIndex < sectors.count else { return nil }
-    return sectors[selectedSectorIndex]
+    guard let selectedSectorId = selectedSectorId else {
+      // If no sector is selected yet, default to the first one if available
+      return sectors.first
+    }
+    return sectors.first(where: { $0.id == selectedSectorId })
   }
 
   private var routes: [SectorRouteDto] {
@@ -49,6 +53,12 @@ struct CragSectorRouteSelection: View {
             routesListView
           }
         }
+      }
+    }
+    .onAppear {
+      // Initialize selectedSectorId if it's nil and sectors are available
+      if selectedSectorId == nil, let firstSector = sectors.first {
+        selectedSectorId = firstSector.id
       }
     }
   }
@@ -95,17 +105,17 @@ struct CragSectorRouteSelection: View {
     ) {
       ScrollView {
         VStack(alignment: .leading, spacing: 8) {
-          ForEach(0..<sectors.count, id: \.self) { index in
+          ForEach(sectors, id: \.id) { sector in
             Button(action: {
               withAnimation {
-                selectedSectorIndex = index
+                selectedSectorId = sector.id
               }
               isSectorSelectorOpen = false
             }) {
               HStack {
-                Text(sectors[index].name ?? "Unnamed Sector")
+                Text(sector.name ?? "Unnamed Sector")
                 Spacer()
-                if selectedSectorIndex == index {
+                if selectedSectorId == sector.id {
                   Image(systemName: "checkmark")
                 }
               }
@@ -116,7 +126,7 @@ struct CragSectorRouteSelection: View {
             .buttonStyle(PlainButtonStyle())
             .foregroundColor(Color.newTextColor)
 
-            if index < sectors.count - 1 {
+            if sector.id != sectors.last?.id {
               Divider()
             }
           }
@@ -159,7 +169,7 @@ struct CragSectorRouteSelection: View {
     .tabViewStyle(PageTabViewStyle())
     .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
     .frame(height: 500)
-    .animation(.easeInOut, value: selectedSectorIndex)
+    .animation(.easeInOut, value: selectedSectorId)
     .transition(.opacity)
   }
 
@@ -214,12 +224,7 @@ struct RouteCardList: View {
                 .resizable()
                 .aspectRatio(contentMode: .fill)
             case .failure:
-              Rectangle()
-                .fill(Color.gray.opacity(0.2))
-                .overlay(
-                  Image(systemName: "photo")
-                    .foregroundColor(.gray)
-                )
+              PlaceholderImage()
             @unknown default:
               EmptyView()
             }
@@ -228,14 +233,9 @@ struct RouteCardList: View {
           .cornerRadius(8)
           .clipped()
         } else {
-          Rectangle()
-            .fill(Color.gray.opacity(0.2))
+          PlaceholderImage()
             .frame(width: 100, height: 150)
             .cornerRadius(8)
-            .overlay(
-              Image(systemName: "photo")
-                .foregroundColor(.gray)
-            )
         }
 
         // Route info
@@ -296,13 +296,7 @@ struct RouteCardFullscreen: View {
                 .resizable()
                 .aspectRatio(contentMode: .fill)
             case .failure:
-              Rectangle()
-                .fill(Color.gray.opacity(0.2))
-                .overlay(
-                  Image(systemName: "photo")
-                    .font(.system(size: 40))
-                    .foregroundColor(.gray)
-                )
+              PlaceholderImage()
             @unknown default:
               EmptyView()
             }
@@ -310,13 +304,9 @@ struct RouteCardFullscreen: View {
           .frame(maxWidth: .infinity, maxHeight: .infinity)
           .clipped()
         } else {
-          Rectangle()
-            .fill(Color.gray.opacity(0.2))
-            .overlay(
-              Image(systemName: "photo")
-                .font(.system(size: 40))
-                .foregroundColor(.gray)
-            )
+          PlaceholderImage()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .clipped()
         }
 
         // Gradient overlay
@@ -331,7 +321,6 @@ struct RouteCardFullscreen: View {
           startPoint: .top,
           endPoint: .bottom
         )
-        .frame(height: 300)
 
         // Route info
         VStack(alignment: .leading, spacing: 16) {
