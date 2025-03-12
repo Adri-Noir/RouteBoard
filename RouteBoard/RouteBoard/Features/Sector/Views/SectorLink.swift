@@ -2,7 +2,6 @@ import Foundation
 import SwiftUI
 
 struct SectorLink<Content: View>: View {
-  var nonBindingSectorId: String?
   @Binding var sectorId: String?
   @ViewBuilder var content: Content
 
@@ -12,13 +11,12 @@ struct SectorLink<Content: View>: View {
   }
 
   init(sectorId: String?, @ViewBuilder content: @escaping () -> Content) {
-    self.nonBindingSectorId = sectorId
     self._sectorId = .constant(sectorId)
     self.content = content()
   }
 
   var body: some View {
-    NavigationLink(destination: SectorView(sectorId: sectorId ?? nonBindingSectorId ?? "")) {
+    NavigationLink(destination: SectorView(sectorId: sectorId ?? "")) {
       content
     }
   }

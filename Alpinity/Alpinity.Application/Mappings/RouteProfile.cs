@@ -16,6 +16,7 @@ public class RouteProfile : Profile
 
         CreateMap<Route, RouteDetailedDto>()
             .ForMember(t => t.SectorName, opt => opt.MapFrom(s => s.Sector!.Name))
+            .ForMember(t => t.CragId, opt => opt.MapFrom(s => s.Sector!.Crag!.Id))
             .ForMember(t => t.CragName, opt => opt.MapFrom(s => s.Sector!.Crag!.Name));
 
         CreateMap<Route, SectorRouteDto>()

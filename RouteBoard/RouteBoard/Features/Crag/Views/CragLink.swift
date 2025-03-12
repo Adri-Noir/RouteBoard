@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CragLink<Content: View>: View {
   @Binding var cragId: String?
-  var nonBindingCragId: String?
   @ViewBuilder var content: Content
 
   init(cragId: Binding<String?>, @ViewBuilder content: @escaping () -> Content) {
@@ -18,13 +17,12 @@ struct CragLink<Content: View>: View {
   }
 
   init(cragId: String, @ViewBuilder content: @escaping () -> Content) {
-    self._cragId = .constant(nil)
-    self.nonBindingCragId = cragId
+    self._cragId = .constant(cragId)
     self.content = content()
   }
 
   var body: some View {
-    NavigationLink(destination: CragView(cragId: cragId ?? nonBindingCragId ?? "")) {
+    NavigationLink(destination: CragView(cragId: cragId ?? "")) {
       content
     }
   }

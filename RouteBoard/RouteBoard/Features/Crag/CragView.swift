@@ -10,6 +10,7 @@ import SwiftUI
 
 struct CragView: View {
   let cragId: String
+  var sectorId: String? = nil
 
   @State private var selectedSectorId: String? = nil
   @State private var isLoading: Bool = false
@@ -114,6 +115,9 @@ struct CragView: View {
     }
     .navigationBarBackButtonHidden()
     .task {
+      if let sectorId = sectorId {
+        selectedSectorId = sectorId
+      }
       await getCrag(value: cragId)
     }
     .onDisappear {
