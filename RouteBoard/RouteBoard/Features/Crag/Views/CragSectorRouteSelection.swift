@@ -3,8 +3,9 @@
 import GeneratedClient
 import SwiftUI
 
-typealias SectorDetailedDto = Components.Schemas.SectorDetailedDto
+typealias CragSectorDto = Components.Schemas.CragSectorDto
 typealias SectorRouteDto = Components.Schemas.SectorRouteDto
+typealias SectorDetailedDto = Components.Schemas.SectorDetailedDto
 
 enum RouteViewMode {
   case tabs
@@ -12,37 +13,56 @@ enum RouteViewMode {
 }
 
 struct CragSectorRouteSelection: View {
+  @EnvironmentObject private var authViewModel: AuthViewModel
+  @EnvironmentObject private var sectorDetailsCacheClient: SectorDetailsCacheClient
+
   let crag: CragDetails?
   @Binding var selectedSectorId: String?
 
+  @State private var selectedSector: SectorDetails?
   @State private var viewMode: RouteViewMode = .tabs
   @State private var isSectorSelectorOpen = false
-  private var sectors: [SectorDetailedDto] {
-    crag?.sectors ?? []
-  }
+  @State private var isLoading = true
 
-  private var selectedSector: SectorDetailedDto? {
-    guard let selectedSectorId = selectedSectorId else {
-      // If no sector is selected yet, default to the first one if available
-      return sectors.first
-    }
-    return sectors.first(where: { $0.id == selectedSectorId })
+  private var sectors: [CragSectorDto] {
+    crag?.sectors ?? []
   }
 
   private var routes: [SectorRouteDto] {
     selectedSector?.routes ?? []
   }
 
+  func getSector(id: String) async {
+    isLoading = true
+    defer { isLoading = false }
+
+    let sector = await sectorDetailsCacheClient.call(
+      SectorDetailsInput(id: id), authViewModel.getAuthData(), nil)
+    selectedSector = sector
+  }
+
   var body: some View {
     VStack(spacing: 0) {
-      if sectors.isEmpty {
+      if sectors.isEmpty || selectedSector == nil {
         emptyStateView
       } else {
         if let sector = selectedSector, let sectorName = sector.name {
           sectorHeaderWithViewSwitcher(name: sectorName, description: sector.description)
+
+          GradeDistributionGraph(routes: routes)
+            .padding(.top, 8)
+
+          if let photos = sector.photos, !photos.isEmpty {
+            GalleryView(images: photos)
+              .padding(.top, 8)
+              .padding(.horizontal, 20)
+          }
         }
 
-        if routes.isEmpty {
+        if isLoading {
+          loadingView
+            .padding(.top, 20)
+        } else if routes.isEmpty {
           noRoutesView
             .padding(.top, 20)
         } else {
@@ -55,26 +75,47 @@ struct CragSectorRouteSelection: View {
         }
       }
     }
-    .onAppear {
-      // Initialize selectedSectorId if it's nil and sectors are available
-      if selectedSectorId == nil, let firstSector = sectors.first {
-        selectedSectorId = firstSector.id
+    .task {
+      if let sectorId = selectedSectorId {
+        await getSector(id: sectorId)
       }
     }
+    .onChange(of: selectedSectorId) { _, newValue in
+      if let sectorId = newValue {
+        Task {
+          await getSector(id: sectorId)
+        }
+      }
+    }
+  }
+
+  private var loadingView: some View {
+    VStack(spacing: 16) {
+      ProgressView()
+        .scaleEffect(1.5)
+        .padding(.bottom, 8)
+
+      Text("Loading sector data...")
+        .font(.headline)
+        .foregroundColor(Color.newTextColor)
+    }
+    .frame(maxWidth: .infinity, minHeight: 200)
+    .padding()
   }
 
   private var emptyStateView: some View {
     VStack(spacing: 16) {
       Image(systemName: "mountain.2")
         .font(.system(size: 60))
-        .foregroundColor(.gray)
+        .foregroundColor(Color.newTextColor)
 
       Text("No sectors available")
         .font(.headline)
+        .foregroundColor(Color.newTextColor)
 
       Text("This crag doesn't have any sectors yet.")
         .font(.subheadline)
-        .foregroundColor(.secondary)
+        .foregroundColor(Color.newTextColor)
         .multilineTextAlignment(.center)
         .padding(.horizontal)
     }
@@ -83,59 +124,68 @@ struct CragSectorRouteSelection: View {
   }
 
   private var sectorPicker: some View {
-    Button {
-      isSectorSelectorOpen.toggle()
-    } label: {
-      HStack(spacing: 4) {
+    Group {
+      if sectors.count <= 1 {
         Text(selectedSector?.name ?? "Select Sector")
           .font(.title2)
           .fontWeight(.bold)
           .foregroundColor(Color.newTextColor)
+      } else {
+        Button {
+          isSectorSelectorOpen.toggle()
+        } label: {
+          HStack(spacing: 4) {
+            Text(selectedSector?.name ?? "Select Sector")
+              .font(.title2)
+              .fontWeight(.bold)
+              .foregroundColor(Color.newTextColor)
 
-        Image(systemName: "chevron.down")
-          .font(.caption)
+            Image(systemName: "chevron.down")
+              .font(.caption)
+              .foregroundColor(Color.newTextColor)
+          }
           .foregroundColor(Color.newTextColor)
-      }
-      .foregroundColor(Color.newTextColor)
-    }
-    .popover(
-      isPresented: $isSectorSelectorOpen,
-      attachmentAnchor: .point(.bottom),
-      arrowEdge: .top
-    ) {
-      ScrollView {
-        VStack(alignment: .leading, spacing: 8) {
-          ForEach(sectors, id: \.id) { sector in
-            Button(action: {
-              withAnimation {
-                selectedSectorId = sector.id
-              }
-              isSectorSelectorOpen = false
-            }) {
-              HStack {
-                Text(sector.name ?? "Unnamed Sector")
-                Spacer()
-                if selectedSectorId == sector.id {
-                  Image(systemName: "checkmark")
+        }
+        .popover(
+          isPresented: $isSectorSelectorOpen,
+          attachmentAnchor: .point(.bottom),
+          arrowEdge: .top
+        ) {
+          ScrollView {
+            VStack(alignment: .leading, spacing: 8) {
+              ForEach(sectors, id: \.id) { sector in
+                Button(action: {
+                  withAnimation {
+                    selectedSectorId = sector.id
+                  }
+                  isSectorSelectorOpen = false
+                }) {
+                  HStack {
+                    Text(sector.name ?? "Unnamed Sector")
+                    Spacer()
+                    if selectedSectorId == sector.id {
+                      Image(systemName: "checkmark")
+                    }
+                  }
+                  .padding(.vertical, 6)
+                  .padding(.horizontal, 12)
+                  .contentShape(Rectangle())
+                }
+                .buttonStyle(PlainButtonStyle())
+                .foregroundColor(Color.newTextColor)
+
+                if sector.id != sectors.last?.id {
+                  Divider()
                 }
               }
-              .padding(.vertical, 6)
-              .padding(.horizontal, 12)
-              .contentShape(Rectangle())
             }
-            .buttonStyle(PlainButtonStyle())
-            .foregroundColor(Color.newTextColor)
-
-            if sector.id != sectors.last?.id {
-              Divider()
-            }
+            .padding(.vertical, 12)
+            .frame(width: 200)
           }
+          .preferredColorScheme(.light)
+          .presentationCompactAdaptation(.popover)
         }
-        .padding(.vertical, 12)
-        .frame(width: 200)
       }
-      .preferredColorScheme(.light)
-      .presentationCompactAdaptation(.popover)
     }
   }
 
@@ -143,11 +193,11 @@ struct CragSectorRouteSelection: View {
     HStack(alignment: .top) {
       VStack(alignment: .leading, spacing: 8) {
         sectorPicker
-
         if let description = description, !description.isEmpty {
           Text(description)
             .font(.subheadline)
             .foregroundColor(Color.newTextColor)
+            .multilineTextAlignment(.leading)
         }
       }
 
@@ -190,7 +240,7 @@ struct CragSectorRouteSelection: View {
 
       Text("No routes available")
         .font(.headline)
-
+        .foregroundColor(Color.newTextColor)
       Text("This sector doesn't have any routes yet.")
         .font(.subheadline)
         .foregroundColor(Color.newTextColor)
@@ -567,6 +617,112 @@ struct ViewModeSwitcher: View {
       .frame(width: 200)
       .preferredColorScheme(.light)
       .presentationCompactAdaptation(.popover)
+    }
+  }
+}
+
+struct GradeDistributionGraph: View {
+  let routes: [SectorRouteDto]
+  @EnvironmentObject private var authViewModel: AuthViewModel
+
+  private var gradeConverter: ClimbingGrades {
+    authViewModel.getGradeSystem()
+  }
+
+  private var gradeDistribution: [Components.Schemas.ClimbingGrade: Int] {
+    var distribution: [Components.Schemas.ClimbingGrade: Int] = [:]
+
+    // Count routes by grade
+    for route in routes {
+      if let grade = route.grade {
+        distribution[grade, default: 0] += 1
+      }
+    }
+
+    return distribution
+  }
+
+  private var sortedGradeDistribution: [Components.Schemas.ClimbingGrade] {
+    gradeConverter.sortedGrades()
+  }
+
+  // Header view extracted to reduce complexity
+  private var headerView: some View {
+    HStack(alignment: .center, spacing: 0) {
+      Text("Grade Distribution")
+        .font(.headline)
+        .foregroundColor(Color.newTextColor)
+
+      Spacer()
+
+      if !gradeDistribution.isEmpty {
+        Text("\(routes.count) routes")
+          .font(.subheadline)
+          .foregroundColor(Color.newTextColor.opacity(0.7))
+          .padding(.trailing, 0)
+      }
+    }
+    .padding(.horizontal, 20)
+  }
+
+  // Empty state view extracted
+  private var emptyStateView: some View {
+    Text("No grade information available")
+      .font(.subheadline)
+      .foregroundColor(Color.newTextColor.opacity(0.7))
+      .padding(.top, 4)
+  }
+
+  // Grade bar view for each grade
+  private func gradeBarView(for grade: Components.Schemas.ClimbingGrade) -> some View {
+    let count = gradeDistribution[grade] ?? 0
+    let maxCount = gradeDistribution.values.max() ?? 1
+    let height = CGFloat(count) / CGFloat(maxCount) * 70
+
+    return VStack(spacing: 4) {
+      Text("\(count)")
+        .font(.caption)
+        .foregroundColor(Color.newTextColor)
+
+      Rectangle()
+        .fill(gradeConverter.getGradeColor(grade))
+        .frame(width: 24, height: height)
+        .cornerRadius(4)
+
+      Text(gradeConverter.convertGradeToString(grade))
+        .font(.caption)
+        .foregroundColor(Color.newTextColor)
+        .fixedSize()
+    }
+    .frame(minWidth: 30)
+  }
+
+  // Chart view extracted
+  private var chartView: some View {
+    ScrollView(.horizontal, showsIndicators: false) {
+      HStack(alignment: .bottom, spacing: 6) {
+        ForEach(
+          Array(sortedGradeDistribution.filter { gradeDistribution[$0] ?? 0 > 0 }), id: \.self
+        ) { grade in
+          gradeBarView(for: grade)
+        }
+      }
+      .padding(.vertical, 8)
+      .padding(.horizontal, 20)
+      .animation(.easeInOut, value: routes)
+    }
+    .frame(height: 120)
+  }
+
+  var body: some View {
+    VStack(alignment: .leading, spacing: 8) {
+      headerView
+
+      if gradeDistribution.isEmpty {
+        emptyStateView
+      } else {
+        chartView
+      }
     }
   }
 }

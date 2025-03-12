@@ -14,15 +14,8 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
         return await dbContext.Crags
             .Include(crag => crag.Sectors!)
             .ThenInclude(sector => sector.Routes!)
-            .ThenInclude(route => route.RoutePhotos!)
-            .ThenInclude(routePhoto => routePhoto.Image)
-            .Include(crag => crag.Sectors!)
-            .ThenInclude(sector => sector.Routes!)
-            .ThenInclude(route => route.RoutePhotos!)
-            .ThenInclude(routePhoto => routePhoto.PathLine)
-            .Include(crag => crag.Sectors!)
-            .ThenInclude(sector => sector.Routes!)
-            .ThenInclude(route => route.Ascents)
+            .Include(crag => crag.Sectors!.OrderBy(sector => sector.Name))
+            .ThenInclude(sector => sector.Photos)
             .FirstOrDefaultAsync(crag => crag.Id == cragId);
     }
 

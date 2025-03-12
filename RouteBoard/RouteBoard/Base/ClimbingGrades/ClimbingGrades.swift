@@ -7,6 +7,7 @@
 
 import Foundation
 import GeneratedClient
+import SwiftUI
 
 protocol ClimbingGrades {
   var climbingGrades: [String] { get }
@@ -14,4 +15,10 @@ protocol ClimbingGrades {
   func convertGradeToString(_ grade: Components.Schemas.ClimbingGrade?) -> String
 
   func convertStringToGrade(_ grade: String) -> Components.Schemas.ClimbingGrade?
+
+  func getGradeColor(_ grade: Components.Schemas.ClimbingGrade) -> Color
+
+  func getTextColor(_ grade: Components.Schemas.ClimbingGrade) -> Color
+
+  func sortedGrades() -> [Components.Schemas.ClimbingGrade]
 }

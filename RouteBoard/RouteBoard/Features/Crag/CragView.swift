@@ -16,10 +16,10 @@ struct CragView: View {
   @State private var isLoading: Bool = false
   @State private var crag: CragDetails?
   @State private var errorMessage: String? = nil
-  @EnvironmentObject private var authViewModel: AuthViewModel
-  @Environment(\.dismiss) private var dismiss
 
-  private let getCragDetailsClient = GetCragDetailsClient()
+  @EnvironmentObject private var authViewModel: AuthViewModel
+  @EnvironmentObject private var cragDetailsCacheClient: CragDetailsCacheClient
+  @Environment(\.dismiss) private var dismiss
 
   init(cragId: String) {
     self.cragId = cragId
@@ -30,15 +30,22 @@ struct CragView: View {
     defer { isLoading = false }
 
     guard
-      let cragDetails = await getCragDetailsClient.call(
+      let cragDetails = await cragDetailsCacheClient.call(
         CragDetailsInput(id: value), authViewModel.getAuthData(), { errorMessage = $0 })
     else {
-      print("Error: \(errorMessage ?? "Unknown error")")
       return
     }
 
     self.crag = cragDetails
     self.selectedSectorId = cragDetails.sectors?.first?.id
+  }
+
+  var routesCount: Int32 {
+    crag?.sectors?.reduce(
+      0,
+      { (sum: Int32, sector: CragSectorDto) in
+        sum + (sector.routesCount ?? 0)
+      }) ?? 0
   }
 
   var body: some View {
@@ -59,7 +66,7 @@ struct CragView: View {
                   Spacer()
 
                   HStack {
-                    Text("6 Sectors")
+                    Text("\(crag?.sectors?.count ?? 0) Sectors")
                       .font(.subheadline)
                       .foregroundColor(Color.white)
 
@@ -68,7 +75,7 @@ struct CragView: View {
                       .foregroundColor(Color.white)
                       .padding(.horizontal, 4)
 
-                    Text("100 Routes")
+                    Text("\(routesCount) Routes")
                       .font(.subheadline)
                       .foregroundColor(Color.white)
                   }
@@ -121,7 +128,7 @@ struct CragView: View {
       await getCrag(value: cragId)
     }
     .onDisappear {
-      getCragDetailsClient.cancelRequest()
+      cragDetailsCacheClient.cancel()
     }
     .alert(
       message: $errorMessage,

@@ -28,6 +28,9 @@
 		AF0761882D7F9E86003BB9BA /* CragSectorRouteSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0761862D7F9E7B003BB9BA /* CragSectorRouteSelection.swift */; };
 		AF07620D2D80F843003BB9BA /* PlaceholderImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07620B2D80F83F003BB9BA /* PlaceholderImage.swift */; };
 		AF0762402D820878003BB9BA /* PhotoDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07623F2D820874003BB9BA /* PhotoDownloader.swift */; };
+		AF07624B2D82163C003BB9BA /* CragDetailsCacheClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07624A2D821636003BB9BA /* CragDetailsCacheClient.swift */; };
+		AF07624D2D821644003BB9BA /* SectorDetailsCacheClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07624C2D821640003BB9BA /* SectorDetailsCacheClient.swift */; };
+		AF07624F2D82164B003BB9BA /* RouteDetailsCacheClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07624E2D821646003BB9BA /* RouteDetailsCacheClient.swift */; };
 		AF0A110B2C3C86D000BFAEAC /* RoutesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0A110A2C3C86D000BFAEAC /* RoutesListView.swift */; };
 		AF0A110F2C3C8EEB00BFAEAC /* SimpleRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0A110E2C3C8EEB00BFAEAC /* SimpleRoute.swift */; };
 		AF191C6E2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF191C6D2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift */; };
@@ -86,7 +89,6 @@
 		AF8A76852D45AFE70029BE40 /* RouteAscentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A76832D45AFCA0029BE40 /* RouteAscentsView.swift */; };
 		AF8A76D72D46BADA0029BE40 /* CragTopContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A76D52D46BAD40029BE40 /* CragTopContainerView.swift */; };
 		AF8A76ED2D46BDAF0029BE40 /* CragTopInfoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A76EB2D46BDA90029BE40 /* CragTopInfoContainerView.swift */; };
-		AF8A771A2D46CDAE0029BE40 /* CragGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A77182D46CD5F0029BE40 /* CragGalleryView.swift */; };
 		AF8A77442D46D8180029BE40 /* CragMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A77422D46D8150029BE40 /* CragMapView.swift */; };
 		AF8DA6372CD4465500751865 /* IndexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA6362CD4465200751865 /* IndexView.swift */; };
 		AF8DA63A2CD44C7E00751865 /* WelcomeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA6392CD44C7B00751865 /* WelcomeTextView.swift */; };
@@ -107,6 +109,7 @@
 		AF9E0C752C38ACC400984C58 /* CreateRouteImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9E0C742C38ACC400984C58 /* CreateRouteImageModel.swift */; };
 		AF9E0C782C38BE1800984C58 /* CreateRouteOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9E0C772C38BE1800984C58 /* CreateRouteOverlayView.swift */; };
 		AF9E0C7B2C39887F00984C58 /* RoutePoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9E0C7A2C39887F00984C58 /* RoutePoints.swift */; };
+		AFBDC6062D8233B60083F30D /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBDC6052D8233B30083F30D /* GalleryView.swift */; };
 		AFBE85902D1229F70029217C /* PhotoCaptureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBE858F2D1229F20029217C /* PhotoCaptureButton.swift */; };
 		AFBED28A2D124079002CA393 /* ProcessInputSamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBED2892D12406F002CA393 /* ProcessInputSamples.swift */; };
 		AFBED2902D136D5B002CA393 /* CreateRouteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBED28F2D136D4F002CA393 /* CreateRouteImage.swift */; };
@@ -192,6 +195,9 @@
 		AF0761862D7F9E7B003BB9BA /* CragSectorRouteSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CragSectorRouteSelection.swift; sourceTree = "<group>"; };
 		AF07620B2D80F83F003BB9BA /* PlaceholderImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderImage.swift; sourceTree = "<group>"; };
 		AF07623F2D820874003BB9BA /* PhotoDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDownloader.swift; sourceTree = "<group>"; };
+		AF07624A2D821636003BB9BA /* CragDetailsCacheClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CragDetailsCacheClient.swift; sourceTree = "<group>"; };
+		AF07624C2D821640003BB9BA /* SectorDetailsCacheClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorDetailsCacheClient.swift; sourceTree = "<group>"; };
+		AF07624E2D821646003BB9BA /* RouteDetailsCacheClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteDetailsCacheClient.swift; sourceTree = "<group>"; };
 		AF0A110A2C3C86D000BFAEAC /* RoutesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesListView.swift; sourceTree = "<group>"; };
 		AF0A110E2C3C8EEB00BFAEAC /* SimpleRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleRoute.swift; sourceTree = "<group>"; };
 		AF191C6D2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteFinderBottomInfoView.swift; sourceTree = "<group>"; };
@@ -251,7 +257,6 @@
 		AF8A76832D45AFCA0029BE40 /* RouteAscentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteAscentsView.swift; sourceTree = "<group>"; };
 		AF8A76D52D46BAD40029BE40 /* CragTopContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CragTopContainerView.swift; sourceTree = "<group>"; };
 		AF8A76EB2D46BDA90029BE40 /* CragTopInfoContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CragTopInfoContainerView.swift; sourceTree = "<group>"; };
-		AF8A77182D46CD5F0029BE40 /* CragGalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CragGalleryView.swift; sourceTree = "<group>"; };
 		AF8A77422D46D8150029BE40 /* CragMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CragMapView.swift; sourceTree = "<group>"; };
 		AF8DA6362CD4465200751865 /* IndexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexView.swift; sourceTree = "<group>"; };
 		AF8DA6392CD44C7B00751865 /* WelcomeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeTextView.swift; sourceTree = "<group>"; };
@@ -272,6 +277,7 @@
 		AF9E0C742C38ACC400984C58 /* CreateRouteImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRouteImageModel.swift; sourceTree = "<group>"; };
 		AF9E0C772C38BE1800984C58 /* CreateRouteOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRouteOverlayView.swift; sourceTree = "<group>"; };
 		AF9E0C7A2C39887F00984C58 /* RoutePoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePoints.swift; sourceTree = "<group>"; };
+		AFBDC6052D8233B30083F30D /* GalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
 		AFBE858F2D1229F20029217C /* PhotoCaptureButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCaptureButton.swift; sourceTree = "<group>"; };
 		AFBED2892D12406F002CA393 /* ProcessInputSamples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessInputSamples.swift; sourceTree = "<group>"; };
 		AFBED28F2D136D4F002CA393 /* CreateRouteImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRouteImage.swift; sourceTree = "<group>"; };
@@ -559,6 +565,9 @@
 		AF62E1A32D7A46970039B67F /* Clients */ = {
 			isa = PBXGroup;
 			children = (
+				AF07624E2D821646003BB9BA /* RouteDetailsCacheClient.swift */,
+				AF07624C2D821640003BB9BA /* SectorDetailsCacheClient.swift */,
+				AF07624A2D821636003BB9BA /* CragDetailsCacheClient.swift */,
 				AF0760DF2D7E1F5A003BB9BA /* CragWeatherCacheClient.swift */,
 				AF62E1A42D7A46B90039B67F /* ExploreCacheClient.swift */,
 			);
@@ -737,6 +746,7 @@
 		AF9B62462C346D47003762B0 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				AFBDC6042D8233AD0083F30D /* GalleryView */,
 				AF07623E2D8207DC003BB9BA /* PhotoDownloader */,
 				AF0762082D80F839003BB9BA /* PlaceholderImage */,
 				AF21C2DA2D737FBE000BE26C /* ScrollViewWithStickyHeader */,
@@ -916,6 +926,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AFBDC6042D8233AD0083F30D /* GalleryView */ = {
+			isa = PBXGroup;
+			children = (
+				AFBDC6052D8233B30083F30D /* GalleryView.swift */,
+			);
+			path = GalleryView;
+			sourceTree = "<group>";
+		};
 		AFBED2882D12405C002CA393 /* OpenCVAlgorithms */ = {
 			isa = PBXGroup;
 			children = (
@@ -959,7 +977,6 @@
 				AF0761862D7F9E7B003BB9BA /* CragSectorRouteSelection.swift */,
 				AF62E0DE2D777F470039B67F /* CragHeaderView.swift */,
 				AF8A77422D46D8150029BE40 /* CragMapView.swift */,
-				AF8A77182D46CD5F0029BE40 /* CragGalleryView.swift */,
 				AF8A76EB2D46BDA90029BE40 /* CragTopInfoContainerView.swift */,
 				AF8A76D52D46BAD40029BE40 /* CragTopContainerView.swift */,
 				AFD931382D25DC1600B68D92 /* CragLink.swift */,
@@ -1222,8 +1239,8 @@
 				AFD931642D29EC7300B68D92 /* KeychainService.swift in Sources */,
 				AF0A110B2C3C86D000BFAEAC /* RoutesListView.swift in Sources */,
 				AF29920B2D07BEB300BB7907 /* CameraPreview.swift in Sources */,
+				AF07624D2D821644003BB9BA /* SectorDetailsCacheClient.swift in Sources */,
 				AF9E0C722C38AC0B00984C58 /* CreateRouteImageView.swift in Sources */,
-				AF8A771A2D46CDAE0029BE40 /* CragGalleryView.swift in Sources */,
 				AFD3916F2C30B977008CF2A7 /* OpenCVWrapper.mm in Sources */,
 				AF3D944D2D6A98AC003FAF90 /* UserHelloView.swift in Sources */,
 				AF9B62542C34A271003762B0 /* ExtendedDivider.swift in Sources */,
@@ -1236,6 +1253,8 @@
 				AF869CD02C307CFA0092E371 /* ViewFinderView.swift in Sources */,
 				AF9E0C782C38BE1800984C58 /* CreateRouteOverlayView.swift in Sources */,
 				AFD9316D2D29EF6B00B68D92 /* AuthViewModel.swift in Sources */,
+				AF07624F2D82164B003BB9BA /* RouteDetailsCacheClient.swift in Sources */,
+				AFBDC6062D8233B60083F30D /* GalleryView.swift in Sources */,
 				AFD931312D238C2100B68D92 /* RouteLink.swift in Sources */,
 				AF9E0C752C38ACC400984C58 /* CreateRouteImageModel.swift in Sources */,
 				AF3D94452D6A97A7003FAF90 /* UserRecentAscentsView.swift in Sources */,
@@ -1260,6 +1279,7 @@
 				AFBED2942D162231002CA393 /* PhotoTakingOverlayView.swift in Sources */,
 				AF8A74E62D407E570029BE40 /* MarqueeText.swift in Sources */,
 				AF21C0AF2D6E7AB6000BE26C /* RouteLogAscent.swift in Sources */,
+				AF07624B2D82163C003BB9BA /* CragDetailsCacheClient.swift in Sources */,
 				AF21C2D02D7378F1000BE26C /* DateTimeConverter.swift in Sources */,
 				AF07620D2D80F843003BB9BA /* PlaceholderImage.swift in Sources */,
 				AF0243342D163FC70007748D /* ConfirmPhotoOverlayView.swift in Sources */,

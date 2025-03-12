@@ -6,6 +6,9 @@ import SwiftUI
 struct APIClientInjection<Content: View>: View {
   private let exploreCacheClient = ExploreCacheClient()
   private let cragWeatherCacheClient = CragWeatherCacheClient()
+  private let cragDetailsCacheClient = CragDetailsCacheClient()
+  private let sectorDetailsCacheClient = SectorDetailsCacheClient()
+  private let routeDetailsCacheClient = RouteDetailsCacheClient()
 
   @ViewBuilder let content: () -> Content
 
@@ -13,5 +16,8 @@ struct APIClientInjection<Content: View>: View {
     content()
       .environmentObject(exploreCacheClient)
       .environmentObject(cragWeatherCacheClient)
+      .environmentObject(cragDetailsCacheClient)
+      .environmentObject(sectorDetailsCacheClient)
+      .environmentObject(routeDetailsCacheClient)
   }
 }

@@ -44,13 +44,6 @@ class GradesGraphModel {
     addGradesFromSector(sector: sector)
   }
 
-  init(crag: CragDetails?, gradeStandard: ClimbingGrades = FrenchClimbingGrades()) {
-    self.gradeStandard = gradeStandard
-    crag?.sectors?.forEach { sector in
-      addGradesFromSector(sector: sector)
-    }
-  }
-
   private func addGradesFromSector(sector: SectorDetails?) {
     guard let routes = sector?.routes else {
       return

@@ -11,6 +11,6 @@ public class CragDetailedDto
     public string Description { get; set; }
     public PointDto? Location { get; set; }
     public string? LocationName { get; set; }
-    public ICollection<SectorDetailedDto> Sectors { get; set; }
+    public ICollection<CragSectorDto> Sectors { get; set; }
     public ICollection<PhotoDto> Photos { get; set; }
 }

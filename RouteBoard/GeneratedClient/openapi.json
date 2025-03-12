@@ -1312,7 +1312,7 @@
           "sectors": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/SectorDetailedDto"
+              "$ref": "#/components/schemas/CragSectorDto"
             },
             "nullable": true
           },
@@ -1322,6 +1322,42 @@
               "$ref": "#/components/schemas/PhotoDto"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CragSectorDto": {
+        "required": [
+          "id",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "location": {
+            "$ref": "#/components/schemas/PointDto"
+          },
+          "photos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PhotoDto"
+            },
+            "nullable": true
+          },
+          "routesCount": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
