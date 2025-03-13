@@ -68,7 +68,7 @@ struct RegisteredUserView: View {
     }
     .background(Color.newPrimaryColor)
     .navigationBarBackButtonHidden()
-    .onAppear {
+    .onAppearOnce {
       if let userId = authViewModel.user?.id {
         Task {
           await fetchUserProfile(userId: userId, authData: authViewModel.getAuthData())

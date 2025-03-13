@@ -7,22 +7,13 @@ struct SearchBar: View {
   @Binding var searchText: String
   @Binding var isSearching: Bool
 
+  @FocusState var isSearchFocused: Bool
+
   @State private var internalSearchText: String = ""
   @State private var searchTextPublisher = PassthroughSubject<String, Never>()
 
   func searchTextChanged(_ oldSearchText: String, _ newSearchText: String) {
     searchTextPublisher.send(newSearchText)
-    if newSearchText == "" && isSearching {
-      withAnimation {
-        isSearching = false
-      }
-    }
-
-    if newSearchText != "" && !isSearching {
-      withAnimation {
-        isSearching = true
-      }
-    }
   }
 
   var body: some View {
@@ -35,20 +26,29 @@ struct SearchBar: View {
         "", text: $internalSearchText, prompt: Text("Search...").foregroundColor(.gray)
       )
       .padding()
+      .focused($isSearchFocused)
       .background(Color.clear)
       .foregroundColor(Color.newTextColor)
       .autocorrectionDisabled()
       .autocapitalization(.none)
       .onChange(of: internalSearchText, searchTextChanged)
+      .onChange(of: isSearchFocused) {
+        withAnimation {
+          if searchText.isEmpty {
+            isSearching = isSearchFocused
+          }
+        }
+      }
       .onReceive(
         searchTextPublisher.debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
       ) { newSearchText in
         searchText = newSearchText
       }
 
-      if isSearching {
+      if isSearchFocused {
         Button(action: {
           searchText = ""
+          isSearchFocused = false
         }) {
           Image(systemName: "xmark.circle.fill")
             .foregroundColor(.gray)
@@ -66,6 +66,12 @@ struct SearchBar: View {
     .padding(.horizontal, 20)
     .onChange(of: searchText) {
       internalSearchText = searchText
+    }
+    .task {
+      if !searchText.isEmpty {
+        isSearching = true
+        isSearchFocused = true
+      }
     }
   }
 }

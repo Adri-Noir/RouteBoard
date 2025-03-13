@@ -9,28 +9,40 @@ import GeneratedClient
 import SwiftUI
 
 struct ResultTypeLinkPicker<Content: View>: View {
-  @Binding var result: GetSearchResults
+  var result: SearchResultDto
   @ViewBuilder var content: Content
 
   var body: some View {
-    switch result._type {
+    switch result.entityType {
     case .Sector:
-      SectorLink(sectorId: $result.id) {
+      if let sectorId = result.sectorId {
+        SectorLink(sectorId: sectorId) {
+          content
+        }
+      } else {
         content
       }
     case .Route:
-      RouteLink(routeId: $result.id) {
+      if let routeId = result.routeId {
+        RouteLink(routeId: routeId) {
+          content
+        }
+      } else {
         content
       }
     case .Crag:
-      CragLink(cragId: $result.id) {
+      if let cragId = result.cragId {
+        CragLink(cragId: cragId) {
+          content
+        }
+      } else {
         content
       }
+    case .UserProfile:
+      // Handle user profile navigation if needed
+      content
     default:
-      RouteLink(routeId: $result.id) {
-        content
-      }
-
+      content
     }
   }
 }

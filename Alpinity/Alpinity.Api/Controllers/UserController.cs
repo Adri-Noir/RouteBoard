@@ -2,7 +2,7 @@ using System.Net.Mime;
 using Alpinity.Application.Interfaces;
 using Alpinity.Application.UseCases.Routes.Dtos;
 using Alpinity.Application.UseCases.SearchHistory.Commands.GetUserSearchHistory;
-using Alpinity.Application.UseCases.SearchHistory.Dtos;
+using Alpinity.Application.UseCases.Search.Dtos;    
 using Alpinity.Application.UseCases.Users.Commands.GetUserProfile;
 using Alpinity.Application.UseCases.Users.Commands.LogAscent;
 using Alpinity.Application.UseCases.Users.Commands.RecentlyAscendedRoutes;
@@ -37,11 +37,11 @@ public class UserController(
     
     [HttpGet("searchHistory")]
     [Authorize]
-    [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(ICollection<SearchHistoryDto>), StatusCodes.Status200OK)]
+    [Produces(MediaTypeNames.Application.Json)] 
+    [ProducesResponseType(typeof(ICollection<SearchResultDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<ICollection<SearchHistoryDto>>> GetSearchHistory([FromQuery] int count = 10, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<ICollection<SearchResultDto>>> GetSearchHistory([FromQuery] int count = 10, CancellationToken cancellationToken = default)
     {
         var command = new GetUserSearchHistoryCommand
         {

@@ -19,60 +19,8 @@ struct RecentlyViewedView: View {
 
   var body: some View {
     VStack(alignment: .leading) {
-      HStack {
-        Image(systemName: "clock")
-          .foregroundColor(Color.white)
-
-        Text("Recently Viewed")
-          .font(.title3)
-          .fontWeight(.bold)
-          .foregroundColor(Color.white)
-
-        Spacer()
-
-        Button(action: {
-          withAnimation {
-            isExpanded.toggle()
-          }
-        }) {
-          Text(isExpanded ? "Show Less" : "Show More")
-            .font(.caption2)
-            .foregroundColor(.white)
-            .cornerRadius(10)
-        }
-      }
-
-      if isLoading && searchHistory.isEmpty {
-        ProgressView()
-          .progressViewStyle(CircularProgressViewStyle(tint: .white))
-          .frame(maxWidth: .infinity, minHeight: 100)
-          .background(Color.white.opacity(0.1))
-          .cornerRadius(10)
-      } else if searchHistory.isEmpty {
-        Text("No recently viewed items")
-          .foregroundColor(.white.opacity(0.7))
-          .frame(maxWidth: .infinity, minHeight: 100)
-          .background(Color.white.opacity(0.1))
-          .cornerRadius(10)
-      } else {
-        LazyVStack(spacing: 0) {
-          ForEach(Array(searchHistory.prefix(numberOfItems).enumerated()), id: \.element.id) {
-            index, item in
-            VStack(spacing: 0) {
-              historyItemWithNavigation(for: item)
-
-              if index < numberOfItems - 1 {
-                Divider()
-                  .padding(.horizontal, 10)
-              }
-            }
-          }
-        }
-        .background(Color.white)
-        .cornerRadius(10)
-        .animation(.easeInOut(duration: 0.2), value: isExpanded)
-        .shadow(color: Color.white.opacity(0.5), radius: 50, x: 0, y: 10)
-      }
+      headerView
+      contentView
     }
     .padding(.horizontal, 20)
     .task {
@@ -82,6 +30,78 @@ struct RecentlyViewedView: View {
       searchHistoryClient.cancelRequest()
     }
     .alert(message: $errorMessage)
+  }
+
+  private var headerView: some View {
+    HStack {
+      Image(systemName: "clock")
+        .foregroundColor(Color.white)
+
+      Text("Recently Viewed")
+        .font(.title3)
+        .fontWeight(.bold)
+        .foregroundColor(Color.white)
+
+      Spacer()
+
+      Button(action: {
+        withAnimation {
+          isExpanded.toggle()
+        }
+      }) {
+        Text(isExpanded ? "Show Less" : "Show More")
+          .font(.caption2)
+          .foregroundColor(.white)
+          .cornerRadius(10)
+      }
+    }
+  }
+
+  private var contentView: some View {
+    Group {
+      if isLoading && searchHistory.isEmpty {
+        loadingView
+      } else if searchHistory.isEmpty {
+        emptyStateView
+      } else {
+        historyListView
+      }
+    }
+  }
+
+  private var loadingView: some View {
+    ProgressView()
+      .progressViewStyle(CircularProgressViewStyle(tint: .white))
+      .frame(maxWidth: .infinity, minHeight: 100)
+      .background(Color.white.opacity(0.1))
+      .cornerRadius(10)
+  }
+
+  private var emptyStateView: some View {
+    Text("No recently viewed items")
+      .foregroundColor(.white.opacity(0.7))
+      .frame(maxWidth: .infinity, minHeight: 100)
+      .background(Color.white.opacity(0.1))
+      .cornerRadius(10)
+  }
+
+  private var historyListView: some View {
+    LazyVStack(spacing: 0) {
+      ForEach(isExpanded ? searchHistory : Array(searchHistory.prefix(2)), id: \.id) { item in
+        VStack(spacing: 0) {
+          historyItemWithNavigation(for: item)
+
+          if item != (isExpanded ? searchHistory.last : searchHistory.prefix(2).last) {
+            Divider()
+              .padding(.horizontal, 10)
+          }
+        }
+      }
+    }
+    .background(Color.white)
+    .cornerRadius(10)
+    .animation(.easeInOut(duration: 0.2), value: isExpanded)
+    .shadow(color: Color.white.opacity(0.5), radius: 50, x: 0, y: 10)
   }
 
   private func fetchSearchHistory() async {

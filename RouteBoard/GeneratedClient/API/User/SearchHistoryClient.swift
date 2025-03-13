@@ -2,7 +2,7 @@
 
 import OpenAPIURLSession
 
-public typealias SearchHistory = Components.Schemas.SearchHistoryDto
+public typealias SearchHistory = Components.Schemas.SearchResultDto
 
 public class SearchHistoryClient: AuthenticatedClientProvider {
   public typealias T = Void

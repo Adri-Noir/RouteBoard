@@ -122,6 +122,7 @@
 		AFD3916F2C30B977008CF2A7 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = AFD3916E2C30B977008CF2A7 /* OpenCVWrapper.mm */; };
 		AFD3918F2C3191A8008CF2A7 /* ImportSamplesSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD3918E2C3191A8008CF2A7 /* ImportSamplesSwift.swift */; };
 		AFD391912C319B82008CF2A7 /* ProcessedSamplesSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD391902C319B82008CF2A7 /* ProcessedSamplesSwift.swift */; };
+		AFD64A6F2D825CED00EE84F3 /* OnAppearOnceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD64A6D2D825CE500EE84F3 /* OnAppearOnceExtension.swift */; };
 		AFD92D8A2D1CCB1600B68D92 /* OpenAPIURLSession in Frameworks */ = {isa = PBXBuildFile; productRef = AFD92D892D1CCB1600B68D92 /* OpenAPIURLSession */; };
 		AFD92D9B2D1CCDEE00B68D92 /* HTTPTypes in Frameworks */ = {isa = PBXBuildFile; productRef = AFD92D9A2D1CCDEE00B68D92 /* HTTPTypes */; };
 		AFD92D9D2D1CCDEE00B68D92 /* HTTPTypesFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = AFD92D9C2D1CCDEE00B68D92 /* HTTPTypesFoundation */; };
@@ -293,6 +294,7 @@
 		AFD391712C30C11B008CF2A7 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		AFD3918E2C3191A8008CF2A7 /* ImportSamplesSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportSamplesSwift.swift; sourceTree = "<group>"; };
 		AFD391902C319B82008CF2A7 /* ProcessedSamplesSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedSamplesSwift.swift; sourceTree = "<group>"; };
+		AFD64A6D2D825CE500EE84F3 /* OnAppearOnceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnAppearOnceExtension.swift; sourceTree = "<group>"; };
 		AFD9310D2D2386AE00B68D92 /* RouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteView.swift; sourceTree = "<group>"; };
 		AFD931282D2387DF00B68D92 /* ResultTypeLinkPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTypeLinkPicker.swift; sourceTree = "<group>"; };
 		AFD931302D238C1F00B68D92 /* RouteLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteLink.swift; sourceTree = "<group>"; };
@@ -955,6 +957,7 @@
 		AFC7D2B42D3C825C0034DC05 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				AFD64A6D2D825CE500EE84F3 /* OnAppearOnceExtension.swift */,
 				AF62E0CA2D7679A20039B67F /* AlertViewExtension.swift */,
 				AF8A76082D4457600029BE40 /* UINavigationBarExtension.swift */,
 				AFC7D2B52D3C82640034DC05 /* UINavigationGestureOverwrite.swift */,
@@ -1221,6 +1224,7 @@
 				AF3D945A2D6A9BA4003FAF90 /* RecentlyViewedView.swift in Sources */,
 				AF0760EF2D7E271A003BB9BA /* TemperatureConverter.swift in Sources */,
 				AF8A76492D4468E30029BE40 /* RouteTopContainerView.swift in Sources */,
+				AFD64A6F2D825CED00EE84F3 /* OnAppearOnceExtension.swift in Sources */,
 				AF0760C72D7CEC7A003BB9BA /* AscentTypeConverter.swift in Sources */,
 				AFD931362D25DBA200B68D92 /* CragView.swift in Sources */,
 				AF8DA64B2CD56C1300751865 /* GeneralSearchView.swift in Sources */,

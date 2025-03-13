@@ -713,6 +713,16 @@
               "schema": {
                 "$ref": "#/components/schemas/SearchQueryCommand"
               }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchQueryCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchQueryCommand"
+              }
             }
           }
         },
@@ -722,7 +732,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SearchResultDto"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SearchResultDto"
+                  }
                 }
               }
             }
@@ -1000,7 +1013,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/SearchHistoryDto"
+                    "$ref": "#/components/schemas/SearchResultDto"
                   }
                 }
               }
@@ -2008,16 +2021,33 @@
         },
         "additionalProperties": false
       },
-      "SearchHistoryDto": {
+      "SearchQueryCommand": {
+        "required": [
+          "query"
+        ],
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "nullable": true
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SearchResultDto": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
             "format": "uuid"
-          },
-          "searchedAt": {
-            "type": "string",
-            "nullable": true
           },
           "entityType": {
             "$ref": "#/components/schemas/SearchResultItemType"
@@ -2110,61 +2140,6 @@
           "profileUsername": {
             "type": "string",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "SearchQueryCommand": {
-        "required": [
-          "query"
-        ],
-        "type": "object",
-        "properties": {
-          "query": {
-            "type": "string",
-            "nullable": true
-          },
-          "page": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "SearchResultDto": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SearchResultItemDto"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "SearchResultItemDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "type": {
-            "$ref": "#/components/schemas/SearchResultItemType"
           }
         },
         "additionalProperties": false

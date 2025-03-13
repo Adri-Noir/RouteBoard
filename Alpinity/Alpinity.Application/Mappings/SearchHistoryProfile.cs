@@ -1,4 +1,4 @@
-using Alpinity.Application.UseCases.SearchHistory.Dtos;
+using Alpinity.Application.UseCases.Search.Dtos;
 using Alpinity.Domain.Entities;
 using Alpinity.Domain.Enums;
 using AutoMapper;
@@ -9,9 +9,7 @@ public class SearchHistoryProfile : Profile
 {
     public SearchHistoryProfile()
     {
-        CreateMap<SearchHistory, SearchHistoryDto>()
-            .ForMember(dest => dest.SearchedAt, opt => opt.MapFrom(src => src.SearchedAt))
-            
+        CreateMap<SearchHistory, SearchResultDto>()
             .ForMember(dest => dest.EntityType, opt => opt.MapFrom(src => 
                 src.ProfileUserId != null ? SearchResultItemType.UserProfile :
                 src.CragId != null ? SearchResultItemType.Crag : 

@@ -6,9 +6,9 @@ using MediatR;
 
 namespace Alpinity.Application.UseCases.Search.Commands.Query;
 
-public class SearchQueryCommandHandler(ICragRepository cragRepository, ISectorRepository sectorRepository, IRouteRepository routeRepository, IMapper mapper) : IRequestHandler<SearchQueryCommand, SearchResultDto>
+public class SearchQueryCommandHandler(ICragRepository cragRepository, ISectorRepository sectorRepository, IRouteRepository routeRepository, IMapper mapper) : IRequestHandler<SearchQueryCommand, ICollection<SearchResultDto>>
 {
-    public async Task<SearchResultDto> Handle(SearchQueryCommand request, CancellationToken cancellationToken)
+    public async Task<ICollection<SearchResultDto>> Handle(SearchQueryCommand request, CancellationToken cancellationToken)
     {
         var searchOptions = new SearchOptionsDto
         {
@@ -19,14 +19,11 @@ public class SearchQueryCommandHandler(ICragRepository cragRepository, ISectorRe
         var sectors = await sectorRepository.GetSectorsByName(request.query, searchOptions);
         var crags = await cragRepository.GetCragsByName(request.query, searchOptions);
         
-        var items = new List<SearchResultItemDto>();
-        items.AddRange(routes.Select(route => mapper.Map<SearchResultItemDto>(route)));
-        items.AddRange(sectors.Select(sector => mapper.Map<SearchResultItemDto>(sector)));
-        items.AddRange(crags.Select(crag => mapper.Map<SearchResultItemDto>(crag)));
+        var items = new List<SearchResultDto>();
+        items.AddRange(routes.Select(route => mapper.Map<SearchResultDto>(route)));
+        items.AddRange(sectors.Select(sector => mapper.Map<SearchResultDto>(sector)));
+        items.AddRange(crags.Select(crag => mapper.Map<SearchResultDto>(crag)));
         
-        return new SearchResultDto
-        {
-            Items = items
-        };
+        return items;
     }
 }

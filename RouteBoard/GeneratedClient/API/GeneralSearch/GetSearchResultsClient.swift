@@ -8,16 +8,16 @@
 import OpenAPIURLSession
 
 public typealias GetSearchResultsInput = Components.Schemas.SearchQueryCommand
-public typealias GetSearchResults = Components.Schemas.SearchResultItemDto
+public typealias SearchResultDto = Components.Schemas.SearchResultDto
 
 public class GetSearchResultsClient: AuthenticatedClientProvider {
   public typealias T = GetSearchResultsInput
-  public typealias R = [GetSearchResults]
+  public typealias R = [SearchResultDto]
 
   public func call(
     _ data: GetSearchResultsInput, _ authData: AuthData,
     _ errorHandler: ((_ message: String) -> Void)? = nil
-  ) async -> [GetSearchResults] {
+  ) async -> [SearchResultDto] {
     do {
       let result = try await getClient(authData).client.post_sol_api_sol_Search(
         Operations.post_sol_api_sol_Search.Input(
@@ -28,7 +28,7 @@ public class GetSearchResultsClient: AuthenticatedClientProvider {
       case let .ok(okResponse):
         switch okResponse.body {
         case .json(let value):
-          return value.items ?? []
+          return value
         }
 
       case .badRequest(let error):

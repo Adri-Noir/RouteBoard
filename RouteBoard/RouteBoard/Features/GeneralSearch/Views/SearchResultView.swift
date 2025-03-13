@@ -11,7 +11,7 @@ import SwiftUI
 public struct SearchResultView: View {
   @Binding public var searchText: String
 
-  @State private var results: [GetSearchResults] = []
+  @State private var results: [SearchResultDto] = []
   @State private var isLoading: Bool = false
   @State private var errorMessage: String? = nil
   @EnvironmentObject private var authViewModel: AuthViewModel
@@ -23,6 +23,10 @@ public struct SearchResultView: View {
   }
 
   func search(value: String) async {
+    if value.count < 3 {
+      return
+    }
+
     results = []
     isLoading = true
     // try? await Task.sleep(nanoseconds: 1_000_000_000)
@@ -40,10 +44,10 @@ public struct SearchResultView: View {
     if results.isEmpty && !searchText.isEmpty && !isLoading {
       NoSearchResultsView()
     } else {
-      LazyVStack(alignment: .leading, spacing: 20) {
-        ForEach($results, id: \.id) { result in
-          ResultTypeLinkPicker(result: result) {
-            SingleResultView(result: result)
+      LazyVStack(alignment: .leading, spacing: 12) {
+        ForEach(results, id: \.id) { item in
+          ResultTypeLinkPicker(result: item) {
+            SingleResultView(result: item)
           }
         }
       }
@@ -60,7 +64,7 @@ public struct SearchResultView: View {
       }
     }
     .onChange(of: searchText) {
-      Task(priority: .userInitiated) {
+      Task {
         await search(value: searchText)
       }
     }

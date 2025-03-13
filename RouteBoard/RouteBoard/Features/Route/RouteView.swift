@@ -14,6 +14,7 @@ struct RouteView: View {
   @Environment(\.dismiss) var dismiss
   @EnvironmentObject private var authViewModel: AuthViewModel
 
+  @State private var hasAppeared = false
   @State private var route: RouteDetails?
   @State private var routeSamples: [DetectSample] = []
 
@@ -171,8 +172,10 @@ struct RouteView: View {
           }
         })
     }
-    .task {
-      await getRoute(value: routeId)
+    .onAppearOnce {
+      Task {
+        await getRoute(value: routeId)
+      }
     }
     .onDisappear {
       getRouteDetailsClient.cancelRequest()

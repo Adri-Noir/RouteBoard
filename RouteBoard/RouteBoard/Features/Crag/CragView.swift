@@ -12,6 +12,7 @@ struct CragView: View {
   let cragId: String
   var sectorId: String? = nil
 
+  @State private var hasAppeared = false
   @State private var selectedSectorId: String? = nil
   @State private var isLoading: Bool = false
   @State private var crag: CragDetails?
@@ -121,11 +122,13 @@ struct CragView: View {
       }
     }
     .navigationBarBackButtonHidden()
-    .task {
+    .onAppearOnce {
       if let sectorId = sectorId {
         selectedSectorId = sectorId
       }
-      await getCrag(value: cragId)
+      Task {
+        await getCrag(value: cragId)
+      }
     }
     .onDisappear {
       cragDetailsCacheClient.cancel()
