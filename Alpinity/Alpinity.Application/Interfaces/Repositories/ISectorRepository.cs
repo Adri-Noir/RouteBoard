@@ -9,6 +9,8 @@ public interface ISectorRepository
 
     Task<Sector?> GetSectorById(Guid sectorId);
 
+    Task<Crag?> GetCragBySectorId(Guid sectorId);
+
     Task<ICollection<Sector>> GetSectorsByName(string query, SearchOptionsDto searchOptions);
 
     Task AddPhoto(Guid sectorId, Photo sectorPhoto);

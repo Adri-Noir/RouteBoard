@@ -16,7 +16,7 @@ struct SectorLink<Content: View>: View {
   }
 
   var body: some View {
-    NavigationLink(destination: SectorView(sectorId: sectorId ?? "")) {
+    NavigationLink(destination: CragView(sectorId: sectorId ?? "")) {
       content
     }
   }

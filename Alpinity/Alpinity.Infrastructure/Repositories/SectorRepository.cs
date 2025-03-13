@@ -1,3 +1,4 @@
+using System.Reflection.Metadata.Ecma335;
 using Alpinity.Application.Dtos;
 using Alpinity.Application.Interfaces.Repositories;
 using Alpinity.Domain.Entities;
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Alpinity.Infrastructure.Repositories;
 
-public class SectorRepository(ApplicationDbContext dbContext) : ISectorRepository
+public class SectorRepository(ApplicationDbContext dbContext, ICragRepository cragRepository) : ISectorRepository
 {
     public async Task CreateSector(Sector sector)
     {
@@ -28,6 +29,21 @@ public class SectorRepository(ApplicationDbContext dbContext) : ISectorRepositor
             .Include(sector => sector.Routes!)
             .ThenInclude(route => route.Ascents)
             .FirstOrDefaultAsync(sector => sector.Id == sectorId);
+    }
+
+    public async Task<Crag?> GetCragBySectorId(Guid sectorId)
+    {
+        var cragId = await dbContext.Sectors
+            .Where(sector => sector.Id == sectorId)
+            .Select(sector => sector.CragId)
+            .FirstOrDefaultAsync();
+
+        if (cragId == default)
+        {
+            return null;
+        }
+
+        return await cragRepository.GetCragById(cragId);
     }
 
     public async Task<ICollection<Sector>> GetSectorsByName(string query, SearchOptionsDto searchOptions)

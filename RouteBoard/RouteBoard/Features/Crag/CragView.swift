@@ -9,7 +9,7 @@ import GeneratedClient
 import SwiftUI
 
 struct CragView: View {
-  let cragId: String
+  var cragId: String? = nil
   var sectorId: String? = nil
 
   @State private var hasAppeared = false
@@ -22,8 +22,14 @@ struct CragView: View {
   @EnvironmentObject private var cragDetailsCacheClient: CragDetailsCacheClient
   @Environment(\.dismiss) private var dismiss
 
+  private let sectorCragDetailsClient = GetSectorCragDetailsClient()
+
   init(cragId: String) {
     self.cragId = cragId
+  }
+
+  init(sectorId: String) {
+    self.sectorId = sectorId
   }
 
   func getCrag(value: String) async {
@@ -39,6 +45,22 @@ struct CragView: View {
 
     self.crag = cragDetails
     self.selectedSectorId = cragDetails.sectors?.first?.id
+  }
+
+  func getCragFromSectorId(value: String) async {
+    isLoading = true
+    defer { isLoading = false }
+
+    guard
+      let cragDetails = await sectorCragDetailsClient.call(
+        SectorCragDetailsInput(id: value), authViewModel.getAuthData(),
+        { errorMessage = $0 })
+    else {
+      return
+    }
+
+    self.crag = cragDetails
+    self.selectedSectorId = value
   }
 
   var routesCount: Int32 {
@@ -123,11 +145,12 @@ struct CragView: View {
     }
     .navigationBarBackButtonHidden()
     .onAppearOnce {
-      if let sectorId = sectorId {
-        selectedSectorId = sectorId
-      }
       Task {
-        await getCrag(value: cragId)
+        if let cragId = cragId {
+          await getCrag(value: cragId)
+        } else if let sectorId = sectorId {
+          await getCragFromSectorId(value: sectorId)
+        }
       }
     }
     .onDisappear {
