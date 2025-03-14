@@ -14,14 +14,14 @@ public static class OpenApiExtensions
 
             setup.AddServer(new OpenApiServer
             {
-                Url = "https://localhost:7244",
-                Description = "Dev server"
+                Url = "https://192.168.50.175:7244",
+                Description = "Local Dev server"
             });
 
             setup.AddServer(new OpenApiServer
             {
-                Url = "https://192.168.50.175:7244",
-                Description = "Local Dev server"
+                Url = "https://localhost:7244",
+                Description = "Dev server"
             });
 
             setup.AddSecurityDefinition(

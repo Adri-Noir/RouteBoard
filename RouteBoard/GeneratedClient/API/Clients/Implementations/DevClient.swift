@@ -36,7 +36,7 @@ class DevClient: ClientProtocol {
     let session = URLSession(
       configuration: .default, delegate: InsecureURLSessionDelegate(), delegateQueue: nil)
     do {
-      let server = try Servers.Server2.url()
+      let server = try Servers.Server1.url()
       let client = Client(
         serverURL: server, transport: URLSessionTransport(configuration: .init(session: session)),
         middlewares: [AuthenticationMiddleware(value: token)])
