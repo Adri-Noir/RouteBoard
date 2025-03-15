@@ -5,7 +5,7 @@ using AutoMapper;
 
 namespace Alpinity.Application.Mappings;
 
-public class CragProfile: Profile
+public class CragProfile : Profile
 {
     public CragProfile()
     {
@@ -19,5 +19,8 @@ public class CragProfile: Profile
             .ForMember(t => t.SectorsCount, opt => opt.MapFrom(s => s.Sectors.Count))
             .ForMember(t => t.RoutesCount, opt => opt.MapFrom(s => s.Sectors.Sum(s => s.Routes.Count)))
             .ForMember(t => t.AscentsCount, opt => opt.MapFrom(s => s.Sectors.Sum(s => s.Routes.Sum(r => r.Ascents.Count))));
+
+        CreateMap<Crag, GlobeResponseDto>()
+        .ForMember(t => t.ImageUrl, opt => opt.MapFrom(s => s.Photos != null && s.Photos.Any() ? s.Photos.First().Url : null));
     }
 }

@@ -19,6 +19,11 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
             .FirstOrDefaultAsync(crag => crag.Id == cragId);
     }
 
+    public async Task<bool> CragExists(Guid cragId, CancellationToken cancellationToken)
+    {
+        return await dbContext.Crags.AnyAsync(crag => crag.Id == cragId, cancellationToken);
+    }
+
     public async Task CreateCrag(Crag crag)
     {
         await dbContext.Crags.AddAsync(crag);
@@ -42,5 +47,12 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
             .Where(crag => crag.Location != null && crag.Location.Distance(new Point(longitude, latitude) { SRID = 4326 }) <= radius)
             .OrderBy(crag => crag.Location != null ? crag.Location.Distance(new Point(longitude, latitude) { SRID = 4326 }) : 0)
             .ToListAsync();
+    }
+
+    public async Task<ICollection<Crag>> GetCragsByBoundingBox(Point northEast, Point southWest, CancellationToken cancellationToken)
+    {
+        return await dbContext.Crags
+            .Where(crag => crag.Location != null && crag.Location.X >= southWest.X && crag.Location.X <= northEast.X && crag.Location.Y >= southWest.Y && crag.Location.Y <= northEast.Y)
+            .ToListAsync(cancellationToken);
     }
 }

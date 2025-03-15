@@ -1,6 +1,8 @@
 using System.Net.Mime;
 using Alpinity.Application.Interfaces;
 using Alpinity.Application.UseCases.Map.Commands.Explore;
+using Alpinity.Application.UseCases.Map.Commands.Globe;
+using Alpinity.Application.UseCases.Map.Commands.Globe.Sector;
 using Alpinity.Application.UseCases.Map.Commands.Weather;
 using Alpinity.Application.UseCases.Map.Dtos;
 using MediatR;
@@ -42,6 +44,35 @@ public class MapController(IMediator mediator, IAuthenticationContext authentica
     public async Task<ActionResult<WeatherResponseDto>> GetCragWeather(Guid cragId, CancellationToken cancellationToken)
     {
         var command = new GetCragWeatherCommand
+        {
+            CragId = cragId
+        };
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpPost("globe")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
+    [Produces(MediaTypeNames.Application.Json)]
+    public async Task<ActionResult<ICollection<GlobeResponseDto>>> GetGlobe(GetGlobeCommand command, CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("globe/sectors/{cragId}")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status404NotFound)]
+    [Produces(MediaTypeNames.Application.Json)]
+    public async Task<ActionResult<ICollection<GlobeSectorResponseDto>>> GetGlobeSectors(Guid cragId, CancellationToken cancellationToken)
+    {
+        var command = new GetGlobeSectorCommand
         {
             CragId = cragId
         };

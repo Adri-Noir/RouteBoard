@@ -4,6 +4,7 @@ using Alpinity.Application.Interfaces.Repositories;
 using Alpinity.Domain.Entities;
 using Alpinity.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
 
 namespace Alpinity.Infrastructure.Repositories;
 
@@ -78,5 +79,20 @@ public class SectorRepository(ApplicationDbContext dbContext, ICragRepository cr
         sectorPhotos.ToList().ForEach(sectorPhoto => sector.Photos.Add(sectorPhoto));
 
         await dbContext.SaveChangesAsync();
+    }
+
+    public async Task<ICollection<Sector>> GetSectorsByBoundingBox(Point northEast, Point southWest, CancellationToken cancellationToken)
+    {
+        return await dbContext.Sectors
+            .Where(sector => sector.Location != null && sector.Location.X >= southWest.X && sector.Location.X <= northEast.X && sector.Location.Y >= southWest.Y && sector.Location.Y <= northEast.Y)
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<ICollection<Sector>> GetSectorsOnlyByCragId(Guid cragId, CancellationToken cancellationToken)
+    {
+        return await dbContext.Sectors
+            .Where(sector => sector.CragId == cragId)
+            .Include(sector => sector.Photos)
+            .ToListAsync(cancellationToken);
     }
 }

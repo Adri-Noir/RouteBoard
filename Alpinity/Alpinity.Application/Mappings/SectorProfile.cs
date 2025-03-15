@@ -1,14 +1,13 @@
-using Alpinity.Application.Dtos;
 using Alpinity.Application.UseCases.Crags.Dtos;
+using Alpinity.Application.UseCases.Map.Dtos;
 using Alpinity.Application.UseCases.Sectors.Commands.Create;
 using Alpinity.Application.UseCases.Sectors.Dtos;
 using Alpinity.Domain.Entities;
 using AutoMapper;
-using NetTopologySuite.Geometries;
 
 namespace Alpinity.Application.Mappings;
 
-public class SectorProfile: Profile
+public class SectorProfile : Profile
 {
     public SectorProfile()
     {
@@ -28,5 +27,8 @@ public class SectorProfile: Profile
             .ForMember(t => t.Photos, opt => opt.MapFrom(s => s.Photos))
             .ForMember(t => t.RoutesCount, opt => opt.MapFrom(s => s.Routes != null ? s.Routes.Count : 0))
             .ForMember(t => t.Location, opt => opt.MapFrom(s => s.Location));
+
+        CreateMap<Sector, GlobeSectorResponseDto>()
+            .ForMember(t => t.ImageUrl, opt => opt.MapFrom(s => s.Photos != null && s.Photos.Any() ? s.Photos.First().Url : null));
     }
 }

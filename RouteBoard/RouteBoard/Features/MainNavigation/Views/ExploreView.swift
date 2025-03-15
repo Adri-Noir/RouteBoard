@@ -22,6 +22,21 @@ struct ExploreView: View {
           .font(.title3)
           .fontWeight(.bold)
           .foregroundColor(Color.white)
+
+        Spacer()
+
+        NavigationLink(destination: MapView()) {
+          HStack {
+            Image(systemName: "globe")
+              .foregroundColor(Color.white)
+            Text("Explore")
+              .foregroundColor(Color.white)
+          }
+          .padding(.horizontal, 12)
+          .padding(.vertical, 8)
+          .background(Color.white.opacity(0.1))
+          .cornerRadius(8)
+        }
       }
       .padding(.horizontal, 20)
 
