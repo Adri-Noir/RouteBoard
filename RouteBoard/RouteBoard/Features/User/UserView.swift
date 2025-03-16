@@ -1,11 +1,13 @@
-// Created with <3 on 04.03.2025.
+// Created with <3 on 16.03.2025.
 
 import Charts
 import GeneratedClient
 import SwiftUI
 
 // MARK: - Main View
-struct RegisteredUserView: View {
+struct UserView: View {
+  let userId: String
+
   @State private var headerVisibleRatio: CGFloat = 1
   @EnvironmentObject var authViewModel: AuthViewModel
   @Environment(\.dismiss) var dismiss
@@ -27,12 +29,12 @@ struct RegisteredUserView: View {
   var body: some View {
     ScrollViewWithStickyHeader(
       header: {
-        ProfileHeaderExpandedView(userProfile: userProfile, username: authViewModel.user?.username)
+        ProfileHeaderExpandedView(userProfile: userProfile, username: userProfile?.username)
       },
       headerOverlay: {
         ProfileHeaderCollapsedView(
           userProfile: userProfile,
-          username: authViewModel.user?.username,
+          username: userProfile?.username,
           headerVisibleRatio: headerVisibleRatio,
           safeAreaInsets: safeAreaInsets,
           dismiss: dismiss
@@ -76,10 +78,8 @@ struct RegisteredUserView: View {
     .background(Color.newPrimaryColor)
     .navigationBarBackButtonHidden()
     .onAppearOnce {
-      if let userId = authViewModel.user?.id {
-        Task {
-          await fetchUserProfile(userId: userId, authData: authViewModel.getAuthData())
-        }
+      Task {
+        await fetchUserProfile(userId: userId)
       }
     }
     .onDisappear {
@@ -87,7 +87,7 @@ struct RegisteredUserView: View {
     }
   }
 
-  private func fetchUserProfile(userId: String, authData: AuthData) async {
+  private func fetchUserProfile(userId: String) async {
     await MainActor.run {
       isLoading = true
       errorMessage = nil
@@ -95,7 +95,8 @@ struct RegisteredUserView: View {
 
     let profileInput = UserProfileInput(profileUserId: userId)
 
-    let profile = await getUserProfileClient.call(profileInput, authData) { errorMessage in
+    let profile = await getUserProfileClient.call(profileInput, authViewModel.getAuthData()) {
+      errorMessage in
       Task { @MainActor in
         self.errorMessage = errorMessage
         self.isLoading = false
@@ -126,47 +127,8 @@ struct RegisteredUserView: View {
   }
 }
 
-// MARK: - Content Views
-struct ErrorView: View {
-  let errorMessage: String
-
-  var body: some View {
-    VStack {
-      Text("Error loading profile")
-        .font(.headline)
-        .foregroundColor(.red)
-
-      Text(errorMessage)
-        .font(.subheadline)
-        .foregroundColor(.red)
-        .multilineTextAlignment(.center)
-        .padding()
-    }
-    .padding(.top, 50)
-  }
-}
-
-// MARK: - Supporting Views
-struct StatItem: View {
-  let value: String
-  let label: String
-
-  var body: some View {
-    VStack(alignment: .center, spacing: 4) {
-      Text(value)
-        .font(.title2)
-        .fontWeight(.bold)
-        .foregroundColor(Color.newTextColor)
-
-      Text(label)
-        .font(.caption)
-        .foregroundColor(Color.newTextColor.opacity(0.8))
-    }
-  }
-}
-
 #Preview {
   AuthInjectionMock {
-    RegisteredUserView()
+    UserView(userId: "preview-user-id")
   }
 }

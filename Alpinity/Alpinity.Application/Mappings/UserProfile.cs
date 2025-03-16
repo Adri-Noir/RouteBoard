@@ -1,3 +1,4 @@
+using Alpinity.Application.UseCases.Search.Dtos;
 using Alpinity.Application.UseCases.Users.Dtos;
 using Alpinity.Domain.Entities;
 using Alpinity.Domain.Enums;
@@ -46,5 +47,12 @@ public class UserProfile : Profile
                 .ToList()))
             .ForMember(dest => dest.Photos,
                 opt => opt.MapFrom(src => src.UserPhotoGallery!.Select(p => p.Url).ToList()));
+
+        CreateMap<User, SearchResultDto>()
+            .ForMember(dest => dest.EntityType, opt => opt.MapFrom(src => SearchResultItemType.UserProfile))
+            .ForMember(dest => dest.ProfileUsername, opt => opt.MapFrom(src => src.Username))
+            .ForMember(dest => dest.ProfileUserId, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.ProfilePhotoUrl, opt => opt.MapFrom(src => src.ProfilePhoto != null ? src.ProfilePhoto.Url : null))
+            .ForMember(dest => dest.AscentsCount, opt => opt.MapFrom(src => src.Ascents!.Count()));
     }
 }

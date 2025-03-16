@@ -39,8 +39,13 @@ struct ResultTypeLinkPicker<Content: View>: View {
         content
       }
     case .UserProfile:
-      // Handle user profile navigation if needed
-      content
+      if let userId = result.profileUserId {
+        UserLink(userId: userId) {
+          content
+        }
+      } else {
+        content
+      }
     default:
       content
     }

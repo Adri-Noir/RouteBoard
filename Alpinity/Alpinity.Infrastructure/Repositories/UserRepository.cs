@@ -1,3 +1,4 @@
+using Alpinity.Application.Dtos;
 using Alpinity.Application.Interfaces.Repositories;
 using Alpinity.Domain.Entities;
 using Alpinity.Infrastructure.Persistence;
@@ -27,6 +28,17 @@ public class UserRepository(
         return await dbContext.Users
             .Include(u => u.ProfilePhoto)
             .FirstOrDefaultAsync(user => user.Username == username, cancellationToken);
+    }
+
+    public async Task<ICollection<User>> GetUsersByUsernameAsync(string username, SearchOptionsDto searchOptions, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Users
+            .Include(u => u.ProfilePhoto)
+            .Include(u => u.Ascents!)
+            .Where(user => user.Username.Contains(username))
+            .Skip(searchOptions.Page * searchOptions.PageSize)
+            .Take(searchOptions.PageSize)
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<User> CreateAsync(User user, CancellationToken cancellationToken = default)
