@@ -33,7 +33,6 @@ class MapViewModel: ObservableObject {
   @Published var selectedSector: Components.Schemas.GlobeSectorResponseDto?
 
   private var sectorsCache: [String: [Components.Schemas.GlobeSectorResponseDto]] = [:]
-  private var clustersCache: [ClusterItem] = []
 
   private var authViewModel: AuthViewModel?
   private let globeClient = GlobeClient()
@@ -75,24 +74,32 @@ class MapViewModel: ObservableObject {
       }
 
       if !newCrags.isEmpty {
-        crags.append(contentsOf: newCrags)
-        cragSet.formUnion(newCrags.compactMap(\.id))
+        // Update crags array with new crags
+        let updatedCrags = self.crags + newCrags
+        let updatedCragSet = self.cragSet.union(newCrags.compactMap(\.id))
 
-        // Regenerate clusters when new crags are added
-        generateClusters()
+        // Generate clusters on background thread
+        let newClusters = await generateClusters(for: updatedCrags)
+
+        // Update UI on main thread
+        Task { @MainActor in
+          self.crags = updatedCrags
+          self.cragSet = updatedCragSet
+          self.clusters = newClusters
+        }
       }
     }
   }
 
-  private func generateClusters() {
+  private func generateClusters(for crags: [Components.Schemas.GlobeResponseDto]) async
+    -> [ClusterItem]
+  {
     var newClusters: [ClusterItem] = []
 
     let validCrags = crags.filter { $0.location != nil }
 
     if validCrags.isEmpty {
-      clusters = []
-      clustersCache = []
-      return
+      return []
     }
 
     var processedCrags = Set<String>()
@@ -110,7 +117,8 @@ class MapViewModel: ObservableObject {
           longitude: location.longitude
         ),
         distance: clusterDistance,
-        excludingProcessed: processedCrags
+        excludingProcessed: processedCrags,
+        in: crags
       )
 
       for nearbyCrag in nearbyCrags {
@@ -144,14 +152,14 @@ class MapViewModel: ObservableObject {
       }
     }
 
-    clustersCache = newClusters
-    self.clusters = newClusters
+    return newClusters
   }
 
   private func findNearbyCrags(
     coordinate: CLLocationCoordinate2D,
     distance: Double,
-    excludingProcessed processedIds: Set<String>
+    excludingProcessed processedIds: Set<String>,
+    in crags: [Components.Schemas.GlobeResponseDto]
   ) -> [Components.Schemas.GlobeResponseDto] {
     var nearbyCrags: [Components.Schemas.GlobeResponseDto] = []
 
@@ -186,55 +194,64 @@ class MapViewModel: ObservableObject {
 
   func selectCrag(_ crag: Components.Schemas.GlobeResponseDto) async {
     if selectedCrag?.id == crag.id {
-      selectedCrag = nil
+      Task { @MainActor in
+        selectedCrag = nil
+      }
       return
     }
 
-    selectedCrag = crag
+    Task { @MainActor in
+      selectedCrag = crag
+    }
 
     guard let cragId = crag.id else {
-      sectors = []
+      Task { @MainActor in
+        sectors = []
+      }
       return
     }
 
     if let cachedSectors = sectorsCache[cragId] {
-      sectors = cachedSectors
+      Task { @MainActor in
+        sectors = cachedSectors
+      }
       return
     }
 
-    await fetchSectorsForCrag(cragId: cragId)
+    let cragSectors = await fetchSectorsForCrag(cragId: cragId)
+    Task { @MainActor in
+      sectorsCache[cragId] = cragSectors
+      sectors = cragSectors
+    }
   }
 
   func selectSector(_ sector: Components.Schemas.GlobeSectorResponseDto) {
-    if selectedSector?.id == sector.id {
-      selectedSector = nil
-      return
-    }
+    Task { @MainActor in
+      if selectedSector?.id == sector.id {
+        selectedSector = nil
+        return
+      }
 
-    selectedSector = sector
+      selectedSector = sector
+    }
   }
 
   func selectCluster(_ cluster: ClusterItem, zoomLevel: Double) {
-    selectedCrag = nil
-    sectors = []
+    Task { @MainActor in
+      selectedCrag = nil
+      sectors = []
+    }
   }
 
-  func fetchSectorsForCrag(cragId: String) async {
+  func fetchSectorsForCrag(cragId: String) async -> [Components.Schemas.GlobeSectorResponseDto] {
     guard let authViewModel = authViewModel else {
-      return
-    }
-
-    if let cachedSectors = sectorsCache[cragId] {
-      sectors = cachedSectors
-      return
+      return []
     }
 
     let command = GetGlobeSectorCommand(cragId: cragId)
 
     let result = await globeSectorClient.call(command, authViewModel.getAuthData())
-    if let result = result {
-      sectorsCache[cragId] = result
-      sectors = result
-    }
+
+    return result ?? []
   }
 }

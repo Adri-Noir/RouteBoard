@@ -111,6 +111,9 @@
 		AF9E0C7B2C39887F00984C58 /* RoutePoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9E0C7A2C39887F00984C58 /* RoutePoints.swift */; };
 		AFB321B52D85C810003A60F7 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB321B32D85C80E003A60F7 /* MapView.swift */; };
 		AFB321C52D85D1D9003A60F7 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB321C32D85D1D5003A60F7 /* MapViewModel.swift */; };
+		AFB322502D87368A003A60F7 /* MapContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB3224F2D873686003A60F7 /* MapContent.swift */; };
+		AFB322552D874062003A60F7 /* MapControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB322542D87405D003A60F7 /* MapControls.swift */; };
+		AFB322572D87413B003A60F7 /* MapDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB322562D874136003A60F7 /* MapDetails.swift */; };
 		AFBDC6062D8233B60083F30D /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBDC6052D8233B30083F30D /* GalleryView.swift */; };
 		AFBE85902D1229F70029217C /* PhotoCaptureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBE858F2D1229F20029217C /* PhotoCaptureButton.swift */; };
 		AFBED28A2D124079002CA393 /* ProcessInputSamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBED2892D12406F002CA393 /* ProcessInputSamples.swift */; };
@@ -282,6 +285,9 @@
 		AF9E0C7A2C39887F00984C58 /* RoutePoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePoints.swift; sourceTree = "<group>"; };
 		AFB321B32D85C80E003A60F7 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		AFB321C32D85D1D5003A60F7 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		AFB3224F2D873686003A60F7 /* MapContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContent.swift; sourceTree = "<group>"; };
+		AFB322542D87405D003A60F7 /* MapControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapControls.swift; sourceTree = "<group>"; };
+		AFB322562D874136003A60F7 /* MapDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetails.swift; sourceTree = "<group>"; };
 		AFBDC6052D8233B30083F30D /* GalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
 		AFBE858F2D1229F20029217C /* PhotoCaptureButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCaptureButton.swift; sourceTree = "<group>"; };
 		AFBED2892D12406F002CA393 /* ProcessInputSamples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessInputSamples.swift; sourceTree = "<group>"; };
@@ -936,6 +942,7 @@
 		AFB321B12D85C808003A60F7 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				AFB3224E2D87367E003A60F7 /* Views */,
 				AFB321C12D85D1D0003A60F7 /* View Model */,
 				AFB321B32D85C80E003A60F7 /* MapView.swift */,
 			);
@@ -948,6 +955,16 @@
 				AFB321C32D85D1D5003A60F7 /* MapViewModel.swift */,
 			);
 			path = "View Model";
+			sourceTree = "<group>";
+		};
+		AFB3224E2D87367E003A60F7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AFB322562D874136003A60F7 /* MapDetails.swift */,
+				AFB322542D87405D003A60F7 /* MapControls.swift */,
+				AFB3224F2D873686003A60F7 /* MapContent.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		AFBDC6042D8233AD0083F30D /* GalleryView */ = {
@@ -1323,6 +1340,7 @@
 				AF8A75E62D43244C0029BE40 /* SectorTopContainerView.swift in Sources */,
 				AF8A75DC2D43241D0029BE40 /* SectorLocationInfoView.swift in Sources */,
 				AF2991E12D078CEE00BB7907 /* DataTypes.swift in Sources */,
+				AFB322502D87368A003A60F7 /* MapContent.swift in Sources */,
 				AFD931392D25DC1900B68D92 /* CragLink.swift in Sources */,
 				AF62E1B12D7A492C0039B67F /* APICache.swift in Sources */,
 				AF8A760A2D4457710029BE40 /* UINavigationBarExtension.swift in Sources */,
@@ -1353,11 +1371,13 @@
 				6911FD154165DD1FB3490BFC /* SectorLink.swift in Sources */,
 				AF8A76ED2D46BDAF0029BE40 /* CragTopInfoContainerView.swift in Sources */,
 				AFC7D2922D3C759F0034DC05 /* DetailsTopView.swift in Sources */,
+				AFB322552D874062003A60F7 /* MapControls.swift in Sources */,
 				AF62E0CB2D7679AD0039B67F /* AlertViewExtension.swift in Sources */,
 				AF62E0E22D777F580039B67F /* SectorHeaderView.swift in Sources */,
 				6911F969FF44336C6055B5F6 /* DetailsViewStateMachine.swift in Sources */,
 				AF0761882D7F9E86003BB9BA /* CragSectorRouteSelection.swift in Sources */,
 				AF3D95222D6B96E2003FAF90 /* NavigationSearchResultsView.swift in Sources */,
+				AFB322572D87413B003A60F7 /* MapDetails.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
