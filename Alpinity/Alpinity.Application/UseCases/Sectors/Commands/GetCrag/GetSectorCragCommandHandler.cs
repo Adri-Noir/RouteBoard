@@ -11,7 +11,7 @@ public class GetSectorCragCommandHandler(ISectorRepository sectorRepository, IMa
 {
     public async Task<CragDetailedDto> Handle(GetSectorCragCommand request, CancellationToken cancellationToken)
     {
-        var crag = await sectorRepository.GetCragBySectorId(request.SectorId);
+        var crag = await sectorRepository.GetCragBySectorId(request.SectorId, cancellationToken);
 
         if (crag == null)
         {

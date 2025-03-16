@@ -8,13 +8,13 @@ namespace Alpinity.Infrastructure.Repositories;
 
 public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
 {
-    public async Task CreateRoute(Route route)
+    public async Task CreateRoute(Route route, CancellationToken cancellationToken = default)
     {
-        await dbContext.Routes.AddAsync(route);
-        await dbContext.SaveChangesAsync();
+        await dbContext.Routes.AddAsync(route, cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<Route?> GetRouteById(Guid routeId)
+    public async Task<Route?> GetRouteById(Guid routeId, CancellationToken cancellationToken = default)
     {
         return await dbContext.Routes
             .Include(route => route.Sector)
@@ -25,10 +25,10 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
             .ThenInclude(photo => photo.PathLine)
             .Include(route => route.Ascents!.OrderByDescending(ascent => ascent.AscentDate))
             .ThenInclude(ascent => ascent.User)
-            .FirstOrDefaultAsync(route => route.Id == routeId);
+            .FirstOrDefaultAsync(route => route.Id == routeId, cancellationToken);
     }
 
-    public async Task<ICollection<Route>> GetRoutesByName(string query, SearchOptionsDto searchOptions)
+    public async Task<ICollection<Route>> GetRoutesByName(string query, SearchOptionsDto searchOptions, CancellationToken cancellationToken = default)
     {
         return await dbContext.Routes
             .Where(route => route.Name.Contains(query))
@@ -36,21 +36,21 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
             // .OrderByDescending(route => EF.Functions.FreeText(route.Name, query))
             .Skip(searchOptions.Page * searchOptions.PageSize)
             .Take(searchOptions.PageSize)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
-    public async Task AddPhoto(Guid routeId, RoutePhoto routePhoto)
+    public async Task AddPhoto(Guid routeId, RoutePhoto routePhoto, CancellationToken cancellationToken = default)
     {
         var route = await dbContext.Routes
             .Include(route => route.RoutePhotos)
-            .FirstOrDefaultAsync(route => route.Id == routeId);
+            .FirstOrDefaultAsync(route => route.Id == routeId, cancellationToken);
 
         route!.RoutePhotos ??= [];
         route.RoutePhotos.Add(routePhoto);
-        await dbContext.SaveChangesAsync();
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<ICollection<Route>> GetRecentlyAscendedRoutes(Guid userId)
+    public async Task<ICollection<Route>> GetRecentlyAscendedRoutes(Guid userId, CancellationToken cancellationToken = default)
     {
         return await dbContext.Ascents
             .Where(ascent => ascent.UserId == userId)
@@ -66,7 +66,6 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
             .Select(ascent => ascent.Route!)
             .Distinct()
             .Take(10)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
-    
 }

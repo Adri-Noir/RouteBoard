@@ -16,7 +16,7 @@ public class GetRouteCommandHandler(
 {
     public async Task<RouteDetailedDto> Handle(GetRouteCommand request, CancellationToken cancellationToken)
     {
-        var route = await routeRepository.GetRouteById(request.Id);
+        var route = await routeRepository.GetRouteById(request.Id, cancellationToken);
         if (route == null)
         {
             throw new EntityNotFoundException("Route not found.");
@@ -34,8 +34,8 @@ public class GetRouteCommandHandler(
                 SearchingUserId = userId.Value,
                 SearchedAt = DateTime.UtcNow
             };
-            
-            await searchHistoryRepository.AddSearchHistoryAsync(searchHistory);
+
+            await searchHistoryRepository.AddSearchHistoryAsync(searchHistory, cancellationToken);
         }
 
         return mapper.Map<RouteDetailedDto>(route);

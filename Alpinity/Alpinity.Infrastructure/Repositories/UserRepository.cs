@@ -8,55 +8,55 @@ namespace Alpinity.Infrastructure.Repositories;
 public class UserRepository(
     ApplicationDbContext dbContext) : IUserRepository
 {
-    public async Task<User?> GetByIdAsync(Guid id)
+    public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await dbContext.Users
             .Include(u => u.ProfilePhoto)
-            .FirstOrDefaultAsync(user => user.Id == id);
+            .FirstOrDefaultAsync(user => user.Id == id, cancellationToken);
     }
 
-    public async Task<User?> GetByEmailAsync(string email)
+    public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
         return await dbContext.Users
             .Include(u => u.ProfilePhoto)
-            .FirstOrDefaultAsync(user => user.Email == email);
+            .FirstOrDefaultAsync(user => user.Email == email, cancellationToken);
     }
 
-    public async Task<User?> GetByUsernameAsync(string username)
+    public async Task<User?> GetByUsernameAsync(string username, CancellationToken cancellationToken = default)
     {
         return await dbContext.Users
             .Include(u => u.ProfilePhoto)
-            .FirstOrDefaultAsync(user => user.Username == username);
+            .FirstOrDefaultAsync(user => user.Username == username, cancellationToken);
     }
 
-    public async Task<User> CreateAsync(User user)
+    public async Task<User> CreateAsync(User user, CancellationToken cancellationToken = default)
     {
-        await dbContext.Users.AddAsync(user);
-        await dbContext.SaveChangesAsync();
+        await dbContext.Users.AddAsync(user, cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
         return user;
     }
 
-    public Task<User> UpdateAsync(User user)
+    public Task<User> UpdateAsync(User user, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
-    public Task DeleteAsync(Guid id)
+    public Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
-    public async Task ChangePhotoAsync(Guid userId, Photo photo)
+    public async Task ChangePhotoAsync(Guid userId, Photo photo, CancellationToken cancellationToken = default)
     {
         var user = await dbContext.Users
             .Include(u => u.ProfilePhoto)
-            .FirstOrDefaultAsync(u => u.Id == userId);
+            .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
 
         user!.ProfilePhoto = photo;
-        await dbContext.SaveChangesAsync();
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<User?> GetUserProfileAsync(Guid userId)
+    public async Task<User?> GetUserProfileAsync(Guid userId, CancellationToken cancellationToken = default)
     {
         return await dbContext.Users
             .Include(u => u.ProfilePhoto)
@@ -64,6 +64,6 @@ public class UserRepository(
             .ThenInclude(a => a.Route!)
             .ThenInclude(r => r.Sector!)
             .ThenInclude(s => s.Crag!)
-            .FirstOrDefaultAsync(u => u.Id == userId);
+            .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
     }
 }

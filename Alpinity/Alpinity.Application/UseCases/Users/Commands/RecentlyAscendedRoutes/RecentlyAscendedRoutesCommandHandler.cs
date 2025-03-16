@@ -10,14 +10,14 @@ public class RecentlyAscendedRoutesCommandHandler(IRouteRepository routeReposito
 {
     public async Task<ICollection<RecentlyAscendedRouteDto>> Handle(RecentlyAscendedRoutesCommand request, CancellationToken cancellationToken)
     {
-        var user = await userRepository.GetByIdAsync(request.UserId);
+        var user = await userRepository.GetByIdAsync(request.UserId, cancellationToken);
 
         if (user == null)
         {
             throw new EntityNotFoundException("User not found");
         }
 
-        var routes = await routeRepository.GetRecentlyAscendedRoutes(user.Id);
+        var routes = await routeRepository.GetRecentlyAscendedRoutes(user.Id, cancellationToken);
         return mapper.Map<ICollection<RecentlyAscendedRouteDto>>(routes);
     }
 }

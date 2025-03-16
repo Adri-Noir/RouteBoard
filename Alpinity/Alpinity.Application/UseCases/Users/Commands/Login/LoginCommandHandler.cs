@@ -15,8 +15,8 @@ public class LoginCommandHandler(
     public async Task<LoggedInUserDto> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         var user = request.NormalizedUsernameOrEmail.Contains('@')
-            ? await userRepository.GetByEmailAsync(request.NormalizedUsernameOrEmail)
-            : await userRepository.GetByUsernameAsync(request.NormalizedUsernameOrEmail);
+            ? await userRepository.GetByEmailAsync(request.NormalizedUsernameOrEmail, cancellationToken)
+            : await userRepository.GetByUsernameAsync(request.NormalizedUsernameOrEmail, cancellationToken);
 
         if (user is null || !signInService.CheckPasswordHash(user.PasswordHash, request.Password))
             throw new UnAuthorizedAccessException("Invalid username/email or password.");

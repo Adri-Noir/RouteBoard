@@ -21,10 +21,10 @@ public class CreateCragCommandHandler(ICragRepository repository, IMapper mapper
             Description = request.Description,
             Location = point,
             LocationName = locationName
-        };  
+        };
 
-        await repository.CreateCrag(crag);
+        await repository.CreateCrag(crag, cancellationToken);
 
-        return mapper.Map<CragDetailedDto>(crag); 
+        return mapper.Map<CragDetailedDto>(crag);
     }
 }

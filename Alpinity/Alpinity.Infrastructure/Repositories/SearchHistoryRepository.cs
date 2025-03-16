@@ -14,19 +14,19 @@ public class SearchHistoryRepository : ISearchHistoryRepository
         _context = context;
     }
 
-    public async Task AddSearchHistoryAsync(SearchHistory searchHistory)
+    public async Task AddSearchHistoryAsync(SearchHistory searchHistory, CancellationToken cancellationToken = default)
     {
-        await _context.SearchHistories.AddAsync(searchHistory);
+        await _context.SearchHistories.AddAsync(searchHistory, cancellationToken);
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
 
         // Cleanup old searches to keep only the most recent ones
-        await CleanupOldSearchesAsync(searchHistory.SearchingUserId);
+        await CleanupOldSearchesAsync(searchHistory.SearchingUserId, 10, cancellationToken);
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<ICollection<SearchHistory>> GetRecentSearchesByUserAsync(Guid searchingUserId, int count = 10)
+    public async Task<ICollection<SearchHistory>> GetRecentSearchesByUserAsync(Guid searchingUserId, int count = 10, CancellationToken cancellationToken = default)
     {
         return await _context.SearchHistories
             // Include Crag data
@@ -53,15 +53,15 @@ public class SearchHistoryRepository : ISearchHistoryRepository
             .Where(sh => sh.SearchingUserId == searchingUserId)
             .OrderByDescending(sh => sh.SearchedAt)
             .Take(count)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
-    public async Task CleanupOldSearchesAsync(Guid searchingUserId, int keepCount = 10)
+    public async Task CleanupOldSearchesAsync(Guid searchingUserId, int keepCount = 10, CancellationToken cancellationToken = default)
     {
         var userSearchHistories = await _context.SearchHistories
             .Where(sh => sh.SearchingUserId == searchingUserId)
             .OrderByDescending(sh => sh.SearchedAt)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
 
         var processedEntities = new HashSet<string>();
         var toKeep = new List<SearchHistory>();
@@ -89,12 +89,12 @@ public class SearchHistoryRepository : ISearchHistoryRepository
         if (toRemove.Any()) _context.SearchHistories.RemoveRange(toRemove);
     }
 
-    public async Task<ICollection<SearchHistory>> GetRecentSearchesAsync(int count = 10)
+    public async Task<ICollection<SearchHistory>> GetRecentSearchesAsync(int count = 10, CancellationToken cancellationToken = default)
     {
         return await _context.SearchHistories
             .OrderByDescending(sh => sh.SearchedAt)
             .Take(count)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
     private string GetEntityKey(SearchHistory searchHistory)

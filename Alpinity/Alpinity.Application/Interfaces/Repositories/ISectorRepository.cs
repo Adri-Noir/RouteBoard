@@ -6,19 +6,19 @@ namespace Alpinity.Application.Interfaces.Repositories;
 
 public interface ISectorRepository
 {
-    Task CreateSector(Sector sector);
+    Task CreateSector(Sector sector, CancellationToken cancellationToken = default);
 
-    Task<Sector?> GetSectorById(Guid sectorId);
+    Task<Sector?> GetSectorById(Guid sectorId, CancellationToken cancellationToken = default);
 
-    Task<Crag?> GetCragBySectorId(Guid sectorId);
+    Task<Crag?> GetCragBySectorId(Guid sectorId, CancellationToken cancellationToken = default);
 
-    Task<ICollection<Sector>> GetSectorsByName(string query, SearchOptionsDto searchOptions);
+    Task<ICollection<Sector>> GetSectorsByName(string query, SearchOptionsDto searchOptions, CancellationToken cancellationToken = default);
 
-    Task AddPhoto(Guid sectorId, Photo sectorPhoto);
+    Task AddPhoto(Guid sectorId, Photo sectorPhoto, CancellationToken cancellationToken = default);
 
-    Task AddPhotos(Guid sectorId, ICollection<Photo> sectorPhotos);
+    Task AddPhotos(Guid sectorId, ICollection<Photo> sectorPhotos, CancellationToken cancellationToken = default);
 
-    Task<ICollection<Sector>> GetSectorsByBoundingBox(Point northEast, Point southWest, CancellationToken cancellationToken);
+    Task<ICollection<Sector>> GetSectorsByBoundingBox(Point northEast, Point southWest, CancellationToken cancellationToken = default);
 
-    Task<ICollection<Sector>> GetSectorsOnlyByCragId(Guid cragId, CancellationToken cancellationToken);
+    Task<ICollection<Sector>> GetSectorsOnlyByCragId(Guid cragId, CancellationToken cancellationToken = default);
 }

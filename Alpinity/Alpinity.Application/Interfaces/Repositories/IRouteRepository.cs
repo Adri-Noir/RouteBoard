@@ -5,13 +5,13 @@ namespace Alpinity.Application.Interfaces.Repositories;
 
 public interface IRouteRepository
 {
-    Task CreateRoute(Route route);
+    Task CreateRoute(Route route, CancellationToken cancellationToken = default);
 
-    Task<Route?> GetRouteById(Guid routeId);
+    Task<Route?> GetRouteById(Guid routeId, CancellationToken cancellationToken = default);
 
-    Task<ICollection<Route>> GetRoutesByName(string query, SearchOptionsDto searchOptions);
+    Task<ICollection<Route>> GetRoutesByName(string query, SearchOptionsDto searchOptions, CancellationToken cancellationToken = default);
 
-    Task AddPhoto(Guid routeId, RoutePhoto routePhoto);
+    Task AddPhoto(Guid routeId, RoutePhoto routePhoto, CancellationToken cancellationToken = default);
 
-    Task<ICollection<Route>> GetRecentlyAscendedRoutes(Guid userId);
+    Task<ICollection<Route>> GetRecentlyAscendedRoutes(Guid userId, CancellationToken cancellationToken = default);
 }

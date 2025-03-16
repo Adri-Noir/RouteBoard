@@ -9,20 +9,20 @@ using MediatR;
 namespace Alpinity.Application.UseCases.Sectors.Get;
 
 public class GetSectorCommandHandler(
-    IMapper mapper, 
+    IMapper mapper,
     ISectorRepository sectorRepository,
     ISearchHistoryRepository searchHistoryRepository,
-    IAuthenticationContext authenticationContext): IRequestHandler<GetSectorCommand, SectorDetailedDto>
+    IAuthenticationContext authenticationContext) : IRequestHandler<GetSectorCommand, SectorDetailedDto>
 {
     public async Task<SectorDetailedDto> Handle(GetSectorCommand request, CancellationToken cancellationToken)
     {
-        var sector = await sectorRepository.GetSectorById(request.SectorId);
-        
+        var sector = await sectorRepository.GetSectorById(request.SectorId, cancellationToken);
+
         if (sector == null)
         {
             throw new EntityNotFoundException("Sector not found.");
         }
-        
+
         // Save search history if user is authenticated
         var userId = authenticationContext.GetUserId();
         if (userId.HasValue)
@@ -35,10 +35,10 @@ public class GetSectorCommandHandler(
                 SearchingUserId = userId.Value,
                 SearchedAt = DateTime.UtcNow
             };
-            
-            await searchHistoryRepository.AddSearchHistoryAsync(searchHistory);
+
+            await searchHistoryRepository.AddSearchHistoryAsync(searchHistory, cancellationToken);
         }
-        
+
         return mapper.Map<SectorDetailedDto>(sector);
     }
 }

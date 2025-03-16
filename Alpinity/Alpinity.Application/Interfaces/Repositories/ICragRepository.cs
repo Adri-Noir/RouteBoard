@@ -6,11 +6,11 @@ namespace Alpinity.Application.Interfaces.Repositories;
 
 public interface ICragRepository
 {
-    Task<Crag?> GetCragById(Guid cragId);
-    Task CreateCrag(Crag crag);
-    Task<ICollection<Crag>> GetCragsByName(string query, SearchOptionsDto searchOptions);
-    Task<ICollection<Crag>> GetCragsFromLocation(double latitude, double longitude, double radius);
-    Task<ICollection<Crag>> GetCragsByBoundingBox(Point northEast, Point southWest, CancellationToken cancellationToken);
+    Task<Crag?> GetCragById(Guid cragId, CancellationToken cancellationToken = default);
+    Task CreateCrag(Crag crag, CancellationToken cancellationToken = default);
+    Task<ICollection<Crag>> GetCragsByName(string query, SearchOptionsDto searchOptions, CancellationToken cancellationToken = default);
+    Task<ICollection<Crag>> GetCragsFromLocation(double latitude, double longitude, double radius, CancellationToken cancellationToken = default);
+    Task<ICollection<Crag>> GetCragsByBoundingBox(Point northEast, Point southWest, CancellationToken cancellationToken = default);
 
-    Task<bool> CragExists(Guid cragId, CancellationToken cancellationToken);
+    Task<bool> CragExists(Guid cragId, CancellationToken cancellationToken = default);
 }

@@ -15,7 +15,7 @@ public class AddRoutePhotoCommandHandler(
 {
     public async Task Handle(AddRoutePhotoCommand request, CancellationToken cancellationToken)
     {
-        var route = await routeRepository.GetRouteById(request.RouteId);
+        var route = await routeRepository.GetRouteById(request.RouteId, cancellationToken);
         if (route == null) throw new EntityNotFoundException("Route not found.");
 
         var photoFile = mapper.Map<FileRequest>(request.Photo);
@@ -27,12 +27,12 @@ public class AddRoutePhotoCommandHandler(
         var photo = await photoRepository.AddImage(new Photo
         {
             Url = photoUrl
-        });
+        }, cancellationToken);
 
         var linePhoto = await photoRepository.AddImage(new Photo
         {
             Url = linePhotoUrl
-        });
+        }, cancellationToken);
 
         var routePhoto = new RoutePhoto
         {
@@ -41,6 +41,6 @@ public class AddRoutePhotoCommandHandler(
             PathLineId = linePhoto.Id
         };
 
-        await routeRepository.AddPhoto(route.Id, routePhoto);
+        await routeRepository.AddPhoto(route.Id, routePhoto, cancellationToken);
     }
 }

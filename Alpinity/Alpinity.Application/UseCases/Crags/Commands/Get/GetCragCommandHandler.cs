@@ -9,14 +9,14 @@ using MediatR;
 namespace Alpinity.Application.UseCases.Crags.Commands.Get;
 
 public class GetCragCommandHandler(
-    ICragRepository cragRepository, 
+    ICragRepository cragRepository,
     ISearchHistoryRepository searchHistoryRepository,
     IAuthenticationContext authenticationContext,
     IMapper mapper) : IRequestHandler<GetCragCommand, CragDetailedDto>
 {
     public async Task<CragDetailedDto> Handle(GetCragCommand request, CancellationToken cancellationToken)
     {
-        var crag = await cragRepository.GetCragById(request.CragId);
+        var crag = await cragRepository.GetCragById(request.CragId, cancellationToken);
 
         if (crag == null)
         {
@@ -35,8 +35,8 @@ public class GetCragCommandHandler(
                 SearchingUserId = userId.Value,
                 SearchedAt = DateTime.UtcNow
             };
-            
-            await searchHistoryRepository.AddSearchHistoryAsync(searchHistory);
+
+            await searchHistoryRepository.AddSearchHistoryAsync(searchHistory, cancellationToken);
         }
 
         return mapper.Map<CragDetailedDto>(crag);

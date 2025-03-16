@@ -8,26 +8,26 @@ using MediatR;
 namespace Alpinity.Application.UseCases.Map.Commands.Weather;
 
 public class GetCragWeatherCommandHandler(
-    ICragRepository cragRepository, 
-    IWeatherService weatherService, 
+    ICragRepository cragRepository,
+    IWeatherService weatherService,
     ICragWeatherRepository cragWeatherRepository,
     IMapper mapper) : IRequestHandler<GetCragWeatherCommand, WeatherResponseDto>
 {
     public async Task<WeatherResponseDto> Handle(GetCragWeatherCommand request, CancellationToken cancellationToken)
     {
-        var crag = await cragRepository.GetCragById(request.CragId) ?? throw new EntityNotFoundException("Crag not found");
+        var crag = await cragRepository.GetCragById(request.CragId, cancellationToken) ?? throw new EntityNotFoundException("Crag not found");
         var location = crag.Location ?? throw new EntityNotFoundException("Crag location not found");
-        
-        var cachedWeather = await cragWeatherRepository.GetLatestWeatherForCragAsync(request.CragId);
-        
+
+        var cachedWeather = await cragWeatherRepository.GetLatestWeatherForCragAsync(request.CragId, cancellationToken);
+
         if (cachedWeather != null && !cachedWeather.IsExpired())
         {
             return mapper.Map<WeatherResponseDto>(cachedWeather.GetWeatherInformation());
         }
-        
+
         var weather = await weatherService.GetWeatherInformationAsync(location.Y, location.X);
-        await cragWeatherRepository.SaveWeatherForCragAsync(request.CragId, weather);
-        
+        await cragWeatherRepository.SaveWeatherForCragAsync(request.CragId, weather, cancellationToken);
+
         return mapper.Map<WeatherResponseDto>(weather);
     }
 }

@@ -11,8 +11,8 @@ public class GetUserSearchHistoryCommandHandler(
 {
     public async Task<ICollection<SearchResultDto>> Handle(GetUserSearchHistoryCommand request, CancellationToken cancellationToken)
     {
-        var searchHistories = await searchHistoryRepository.GetRecentSearchesByUserAsync(request.SearchingUserId, request.Count);
-        
+        var searchHistories = await searchHistoryRepository.GetRecentSearchesByUserAsync(request.SearchingUserId, request.Count, cancellationToken);
+
         return mapper.Map<ICollection<SearchResultDto>>(searchHistories);
     }
-} 
+}

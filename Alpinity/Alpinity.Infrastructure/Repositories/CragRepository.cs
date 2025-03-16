@@ -9,28 +9,28 @@ namespace Alpinity.Infrastructure.Repositories;
 
 public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
 {
-    public async Task<Crag?> GetCragById(Guid cragId)
+    public async Task<Crag?> GetCragById(Guid cragId, CancellationToken cancellationToken = default)
     {
         return await dbContext.Crags
             .Include(crag => crag.Sectors!)
             .ThenInclude(sector => sector.Routes!)
             .Include(crag => crag.Sectors!.OrderBy(sector => sector.Name))
             .ThenInclude(sector => sector.Photos)
-            .FirstOrDefaultAsync(crag => crag.Id == cragId);
+            .FirstOrDefaultAsync(crag => crag.Id == cragId, cancellationToken);
     }
 
-    public async Task<bool> CragExists(Guid cragId, CancellationToken cancellationToken)
+    public async Task<bool> CragExists(Guid cragId, CancellationToken cancellationToken = default)
     {
         return await dbContext.Crags.AnyAsync(crag => crag.Id == cragId, cancellationToken);
     }
 
-    public async Task CreateCrag(Crag crag)
+    public async Task CreateCrag(Crag crag, CancellationToken cancellationToken = default)
     {
-        await dbContext.Crags.AddAsync(crag);
-        await dbContext.SaveChangesAsync();
+        await dbContext.Crags.AddAsync(crag, cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<ICollection<Crag>> GetCragsByName(string query, SearchOptionsDto searchOptions)
+    public async Task<ICollection<Crag>> GetCragsByName(string query, SearchOptionsDto searchOptions, CancellationToken cancellationToken = default)
     {
         return await dbContext.Crags
             .Where(crag => crag.Name.Contains(query))
@@ -38,18 +38,18 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
             // .OrderByDescending(crag => EF.Functions.FreeText(crag.Name, query))
             .Skip(searchOptions.Page * searchOptions.PageSize)
             .Take(searchOptions.PageSize)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
-    public async Task<ICollection<Crag>> GetCragsFromLocation(double latitude, double longitude, double radius)
+    public async Task<ICollection<Crag>> GetCragsFromLocation(double latitude, double longitude, double radius, CancellationToken cancellationToken = default)
     {
         return await dbContext.Crags
             .Where(crag => crag.Location != null && crag.Location.Distance(new Point(longitude, latitude) { SRID = 4326 }) <= radius)
             .OrderBy(crag => crag.Location != null ? crag.Location.Distance(new Point(longitude, latitude) { SRID = 4326 }) : 0)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
-    public async Task<ICollection<Crag>> GetCragsByBoundingBox(Point northEast, Point southWest, CancellationToken cancellationToken)
+    public async Task<ICollection<Crag>> GetCragsByBoundingBox(Point northEast, Point southWest, CancellationToken cancellationToken = default)
     {
         return await dbContext.Crags
             .Where(crag => crag.Location != null && crag.Location.X >= southWest.X && crag.Location.X <= northEast.X && crag.Location.Y >= southWest.Y && crag.Location.Y <= northEast.Y)

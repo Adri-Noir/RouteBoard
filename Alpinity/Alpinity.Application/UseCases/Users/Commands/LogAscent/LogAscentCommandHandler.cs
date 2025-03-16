@@ -12,14 +12,14 @@ public class LogAscentCommandHandler(
 {
     public async Task Handle(LogAscentCommand request, CancellationToken cancellationToken)
     {
-        var user = await userRepository.GetByIdAsync(request.UserId);
+        var user = await userRepository.GetByIdAsync(request.UserId, cancellationToken);
         if (user is null)
             throw new EntityNotFoundException("User not found");
 
-        var route = await routeRepository.GetRouteById(request.RouteId);
+        var route = await routeRepository.GetRouteById(request.RouteId, cancellationToken);
         if (route is null)
             throw new EntityNotFoundException("Route not found");
-            
+
         var ascent = new Ascent
         {
             UserId = request.UserId,
@@ -30,16 +30,16 @@ public class LogAscentCommandHandler(
             RockTypes = request.RockTypes,
             HoldTypes = request.HoldTypes,
             AscentType = request.AscentType,
-            NumberOfAttempts = request.AscentType == Domain.Enums.AscentType.Onsight || 
-                               request.AscentType == Domain.Enums.AscentType.Flash 
-                               ? 1 
+            NumberOfAttempts = request.AscentType == Domain.Enums.AscentType.Onsight ||
+                               request.AscentType == Domain.Enums.AscentType.Flash
+                               ? 1
                                : request.NumberOfAttempts,
             ProposedGrade = request.ProposedGrade,
             Rating = request.Rating == 0 ? null : request.Rating
         };
-        
-        await ascentRepository.AddAsync(ascent);
-        
+
+        await ascentRepository.AddAsync(ascent, cancellationToken);
+
         return;
     }
-} 
+}

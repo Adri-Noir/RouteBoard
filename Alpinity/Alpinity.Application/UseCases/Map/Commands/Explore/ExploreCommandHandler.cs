@@ -14,7 +14,7 @@ public class ExploreCommandHandler(ICragRepository cragRepository, IMapper mappe
 
         if (userId != null && (request.Latitude == null || request.Longitude == null))
         {
-            var ascents = await ascentRepository.GetByUserIdAsync(userId.Value);
+            var ascents = await ascentRepository.GetByUserIdAsync(userId.Value, cancellationToken);
 
             if (ascents.Any())
             {
@@ -26,7 +26,7 @@ public class ExploreCommandHandler(ICragRepository cragRepository, IMapper mappe
                     var longitude = latestCrag.Location.X;
                     var radius = request.Radius ?? 10000;
 
-                    var crags = await cragRepository.GetCragsFromLocation(latitude, longitude, radius);
+                    var crags = await cragRepository.GetCragsFromLocation(latitude, longitude, radius, cancellationToken);
                     return mapper.Map<ICollection<ExploreDto>>(crags);
                 }
             }
@@ -38,7 +38,7 @@ public class ExploreCommandHandler(ICragRepository cragRepository, IMapper mappe
             var longitude = request.Longitude.Value;
             var radius = request.Radius ?? 10000;
 
-            var crags = await cragRepository.GetCragsFromLocation(latitude, longitude, radius);
+            var crags = await cragRepository.GetCragsFromLocation(latitude, longitude, radius, cancellationToken);
             return mapper.Map<ICollection<ExploreDto>>(crags);
         }
 

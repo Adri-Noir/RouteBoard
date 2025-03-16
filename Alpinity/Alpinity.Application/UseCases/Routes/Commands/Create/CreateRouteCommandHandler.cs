@@ -15,13 +15,13 @@ public class CreateRouteCommandHandler(
 {
     public async Task<RouteDetailedDto> Handle(CreateRouteCommand request, CancellationToken cancellationToken)
     {
-        var sector = await sectorRepository.GetSectorById(request.SectorId);
+        var sector = await sectorRepository.GetSectorById(request.SectorId, cancellationToken);
         if (sector == null) throw new EntityNotFoundException("Sector not found.");
 
         var route = mapper.Map<Route>(request);
         route.SectorId = request.SectorId;
 
-        await routeRepository.CreateRoute(route);
+        await routeRepository.CreateRoute(route, cancellationToken);
 
         return mapper.Map<RouteDetailedDto>(route);
     }

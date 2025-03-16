@@ -6,17 +6,17 @@ namespace Alpinity.Infrastructure.Repositories;
 
 public class PhotoRepository(ApplicationDbContext dbContext) : IPhotoRepository
 {
-    public async Task<Photo> AddImage(Photo photo)
+    public async Task<Photo> AddImage(Photo photo, CancellationToken cancellationToken = default)
     {
         dbContext.Photos.Add(photo);
-        await dbContext.SaveChangesAsync();
+        await dbContext.SaveChangesAsync(cancellationToken);
         return photo;
     }
 
-    public async Task<ICollection<Photo>> AddImages(ICollection<Photo> photos)
+    public async Task<ICollection<Photo>> AddImages(ICollection<Photo> photos, CancellationToken cancellationToken = default)
     {
         dbContext.Photos.AddRange(photos);
-        await dbContext.SaveChangesAsync();
+        await dbContext.SaveChangesAsync(cancellationToken);
         return photos;
     }
 }

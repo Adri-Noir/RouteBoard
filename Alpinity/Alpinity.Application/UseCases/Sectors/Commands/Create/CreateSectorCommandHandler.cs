@@ -17,7 +17,7 @@ public class CreateSectorCommandHandler(
 {
     public async Task<SectorDetailedDto> Handle(CreateSectorCommand request, CancellationToken cancellationToken)
     {
-        var crag = await cragRepository.GetCragById(request.CragId);
+        var crag = await cragRepository.GetCragById(request.CragId, cancellationToken);
         if (crag == null) throw new EntityNotFoundException("Crag not found.");
 
         var sector = new Sector
@@ -27,7 +27,7 @@ public class CreateSectorCommandHandler(
             CragId = request.CragId
         };
 
-        await sectorRepository.CreateSector(sector);
+        await sectorRepository.CreateSector(sector, cancellationToken);
 
         var photos = new List<Photo>();
 
@@ -43,10 +43,10 @@ public class CreateSectorCommandHandler(
             };
 
             photos.Add(photoEntity);
-            await photoRepository.AddImage(photoEntity);
+            await photoRepository.AddImage(photoEntity, cancellationToken);
         }
 
-        await sectorRepository.AddPhotos(sector.Id, photos);
+        await sectorRepository.AddPhotos(sector.Id, photos, cancellationToken);
 
         return mapper.Map<SectorDetailedDto>(sector);
     }

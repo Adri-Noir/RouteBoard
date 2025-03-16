@@ -18,10 +18,10 @@ public class RegisterCommandHandler(
 {
     public async Task<LoggedInUserDto> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
-        if (await userRepository.GetByEmailAsync(request.NormalizedEmail) != null)
+        if (await userRepository.GetByEmailAsync(request.NormalizedEmail, cancellationToken) != null)
             throw new EntityAlreadyExistsException("User with this email already exists");
 
-        if (await userRepository.GetByUsernameAsync(request.Username) != null)
+        if (await userRepository.GetByUsernameAsync(request.Username, cancellationToken) != null)
             throw new EntityAlreadyExistsException("User with this username already exists");
 
         if (!signInService.PasswordIsStrong(request.Password))
@@ -37,7 +37,7 @@ public class RegisterCommandHandler(
             photo = await photoRepository.AddImage(new Photo
             {
                 Url = photoUrl
-            });
+            }, cancellationToken);
         }
 
         var user = new User
@@ -53,7 +53,7 @@ public class RegisterCommandHandler(
         if (photo != null)
             user.ProfilePhoto = photo;
 
-        await userRepository.CreateAsync(user);
+        await userRepository.CreateAsync(user, cancellationToken);
 
         var result = mapper.Map<LoggedInUserDto>(user);
         result.Token = signInService.GenerateJwToken(user);

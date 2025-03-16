@@ -15,15 +15,15 @@ public class SearchQueryCommandHandler(ICragRepository cragRepository, ISectorRe
             Page = request.page,
             PageSize = request.pageSize
         };
-        var routes = await routeRepository.GetRoutesByName(request.query, searchOptions);
-        var sectors = await sectorRepository.GetSectorsByName(request.query, searchOptions);
-        var crags = await cragRepository.GetCragsByName(request.query, searchOptions);
-        
+        var routes = await routeRepository.GetRoutesByName(request.query, searchOptions, cancellationToken);
+        var sectors = await sectorRepository.GetSectorsByName(request.query, searchOptions, cancellationToken);
+        var crags = await cragRepository.GetCragsByName(request.query, searchOptions, cancellationToken);
+
         var items = new List<SearchResultDto>();
         items.AddRange(routes.Select(route => mapper.Map<SearchResultDto>(route)));
         items.AddRange(sectors.Select(sector => mapper.Map<SearchResultDto>(sector)));
         items.AddRange(crags.Select(crag => mapper.Map<SearchResultDto>(crag)));
-        
+
         return items;
     }
 }
