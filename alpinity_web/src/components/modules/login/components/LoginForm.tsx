@@ -86,7 +86,7 @@ const LoginForm = () => {
           selector={(state) => [state.canSubmit, state.isSubmitting]}
           children={([canSubmit, isSubmitting]) => (
             <>
-              <Button type="submit" className="w-full" disabled={!canSubmit}>
+              <Button type="submit" className="w-full" variant="default" disabled={!canSubmit}>
                 {isSubmitting || isLoginLoading ? (
                   <>
                     <Loader2 className="animate-spin" />

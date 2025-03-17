@@ -8,5 +8,5 @@ type LoadingSpinnerProps = PropsWithChildren<{
 }>;
 
 export const SmallLoadingSpinner = ({ children, isLoading }: LoadingSpinnerProps) => {
-  return <>{isLoading ? <Loader2 className="animate-spin text-black" /> : children}</>;
+  return <>{isLoading ? <Loader2 className="animate-spin text-white" /> : children}</>;
 };

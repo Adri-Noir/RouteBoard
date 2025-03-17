@@ -1,14 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import {
-  postApiAuthenticationLoginMutation,
-  postApiAuthenticationMeOptions,
-  postApiAuthenticationMeQueryKey,
-} from "../api/@tanstack/react-query.gen";
-import { usePathname, useRouter } from "next/navigation";
-import { client } from "../api/client.gen";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { postApiAuthenticationLoginMutation, postApiAuthenticationMeOptions } from "../api/@tanstack/react-query.gen";
+import { client } from "../api/client.gen";
 
 const getToken = () => {
   return Cookies.get("token") ?? null;
@@ -34,6 +30,7 @@ const useAuth = () => {
   const { data: user, isLoading: isUserLoading } = useQuery({
     ...postApiAuthenticationMeOptions(),
     enabled: !!token,
+    retry: false,
   });
 
   const {
@@ -45,6 +42,8 @@ const useAuth = () => {
     ...postApiAuthenticationLoginMutation(),
     onSuccess: (data) => {
       if (data.token) {
+        queryClient.invalidateQueries();
+        queryClient.clear();
         setToken(data.token);
         Cookies.set("token", data.token);
         router.push("/");

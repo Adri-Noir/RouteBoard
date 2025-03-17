@@ -4,9 +4,9 @@ import Link from "next/link";
 
 export const CallToAction = () => {
   return (
-    <div className="bg-blue-50 py-24">
+    <div className="py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Card className="border-0 shadow-lg">
+        <Card>
           <div className="grid gap-6 md:grid-cols-2">
             <CardHeader className="pb-0 md:pb-6">
               <CardTitle className="text-3xl font-bold tracking-tight">Ready to start your adventure?</CardTitle>

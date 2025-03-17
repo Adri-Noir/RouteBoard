@@ -4,6 +4,7 @@ import useAuth from "@/lib/hooks/useAuth";
 import { LogOut, Settings, User } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "../../avatar";
 import { Button } from "../../button";
 import {
@@ -24,6 +25,8 @@ const DynamicSmallLoadingSpinner = dynamic(
 );
 
 const UserProfileNavigation = () => {
+  const pathname = usePathname();
+
   const { isAuthenticated, isUserLoading, logout } = useAuth();
 
   return (
@@ -57,9 +60,13 @@ const UserProfileNavigation = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
-        <Link href="/login">
-          <Button>Login</Button>
-        </Link>
+        <>
+          {pathname !== "/login" && (
+            <Link href="/login">
+              <Button>Login</Button>
+            </Link>
+          )}
+        </>
       )}
     </DynamicSmallLoadingSpinner>
   );

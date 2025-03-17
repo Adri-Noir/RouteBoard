@@ -3,7 +3,7 @@ import LoginForm from "./components/LoginForm";
 
 const Login = () => {
   return (
-    <div className="flex h-screen items-center justify-center">
+    <div className="flex min-h-[calc(100vh-64px)] w-full flex-col items-center justify-center">
       <div className={"flex w-full max-w-[500px] flex-col gap-6 px-4"}>
         <Card>
           <CardHeader>

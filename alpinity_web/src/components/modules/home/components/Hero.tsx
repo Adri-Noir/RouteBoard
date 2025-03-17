@@ -1,19 +1,7 @@
-"use client";
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import Image from "next/image";
-import { useState } from "react";
+import HeroInput from "./HeroInput";
 
 export const Hero = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Searching for:", searchQuery);
-    // Implement search functionality here
-  };
-
   return (
     <div className="relative h-[600px] w-full">
       {/* Hero Image */}
@@ -32,20 +20,7 @@ export const Hero = () => {
         </p>
 
         {/* Search Bar */}
-        <div className="mt-10 w-full max-w-lg">
-          <form onSubmit={handleSearch} className="flex w-full flex-col items-center gap-2 sm:flex-row">
-            <Input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search for crags, sectors, router or users..."
-              className="rounded-md bg-white/95 px-4 py-6"
-            />
-            <Button type="submit" className="px-6 py-6">
-              Search
-            </Button>
-          </form>
-        </div>
+        <HeroInput />
       </div>
     </div>
   );
