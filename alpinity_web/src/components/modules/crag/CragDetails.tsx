@@ -6,8 +6,8 @@ import { CragDetailedDto } from "@/lib/api/types.gen";
 import useAuth from "@/lib/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { AlertCircle } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useMemo, useState } from "react";
 import SectorDetails from "../sector/SectorDetails";
 import CragDetailsSkeleton from "./CragDetailsSkeleton";
 import CragHeader from "./CragHeader";
@@ -23,7 +23,6 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
   const { isAuthenticated } = useAuth();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const pathname = usePathname();
 
   const initialSectorId = searchParams.get("sectorId") || "";
   const [selectedSectorId, setSelectedSectorId] = useState(initialSectorId);
@@ -55,12 +54,32 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
     enabled: isAuthenticated && !!selectedSectorId,
   });
 
-  const handleSectorChange = (sectorId: string) => {
-    setSelectedSectorId(sectorId);
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("sectorId", sectorId);
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
-  };
+  const handleSectorChange = useMemo(
+    () => (sectorId: string) => {
+      setSelectedSectorId(sectorId);
+      const params = new URLSearchParams();
+      params.set("sectorId", sectorId);
+      router.push(`/crag/${cragId}?${params.toString()}`, { scroll: false });
+    },
+    [cragId, router],
+  );
+
+  const sectors = useMemo(
+    () =>
+      crag?.sectors
+        ?.filter(
+          (sector) =>
+            sector.location &&
+            typeof sector.location.latitude === "number" &&
+            typeof sector.location.longitude === "number",
+        )
+        .map((sector) => ({
+          latitude: sector.location!.latitude,
+          longitude: sector.location!.longitude,
+          id: sector.id,
+        })),
+    [crag?.sectors],
+  );
 
   if (cragError) {
     return (
@@ -90,7 +109,7 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
       {crag.location && (
         <section className="rounded-lg border p-4">
           <h2 className="mb-4 text-2xl font-semibold">Location</h2>
-          <CragLocation location={crag.location} />
+          <CragLocation location={crag.location} sectors={sectors} onSectorClick={handleSectorChange} />
         </section>
       )}
 
