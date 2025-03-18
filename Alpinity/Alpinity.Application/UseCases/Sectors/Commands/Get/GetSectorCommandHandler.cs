@@ -1,7 +1,7 @@
 using Alpinity.Application.Interfaces;
 using Alpinity.Application.Interfaces.Repositories;
 using Alpinity.Application.UseCases.Sectors.Dtos;
-using Alpinity.Domain.Entities;
+using Alpinity.Domain.Enums;
 using ApiExceptions.Exceptions;
 using AutoMapper;
 using MediatR;
@@ -30,6 +30,7 @@ public class GetSectorCommandHandler(
             var searchHistory = new Domain.Entities.SearchHistory
             {
                 Id = Guid.NewGuid(),
+                EntityType = SearchResultItemType.Sector,
                 SectorId = sector.Id,
                 Sector = sector,
                 SearchingUserId = userId.Value,

@@ -1,7 +1,7 @@
 using Alpinity.Application.Interfaces;
 using Alpinity.Application.Interfaces.Repositories;
 using Alpinity.Application.UseCases.Routes.Dtos;
-using Alpinity.Domain.Entities;
+using Alpinity.Domain.Enums;
 using ApiExceptions.Exceptions;
 using AutoMapper;
 using MediatR;
@@ -29,6 +29,7 @@ public class GetRouteCommandHandler(
             var searchHistory = new Domain.Entities.SearchHistory
             {
                 Id = Guid.NewGuid(),
+                EntityType = SearchResultItemType.Route,
                 RouteId = route.Id,
                 Route = route,
                 SearchingUserId = userId.Value,

@@ -1,7 +1,7 @@
 using Alpinity.Application.Interfaces;
 using Alpinity.Application.Interfaces.Repositories;
 using Alpinity.Application.UseCases.Crags.Dtos;
-using Alpinity.Domain.Entities;
+using Alpinity.Domain.Enums;
 using ApiExceptions.Exceptions;
 using AutoMapper;
 using MediatR;
@@ -30,6 +30,7 @@ public class GetCragCommandHandler(
             var searchHistory = new Domain.Entities.SearchHistory
             {
                 Id = Guid.NewGuid(),
+                EntityType = SearchResultItemType.Crag,
                 CragId = crag.Id,
                 Crag = crag,
                 SearchingUserId = userId.Value,

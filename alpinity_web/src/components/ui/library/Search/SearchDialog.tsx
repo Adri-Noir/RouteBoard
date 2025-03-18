@@ -9,13 +9,13 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 import { getApiUserSearchHistoryOptions, postApiSearchOptions } from "@/lib/api/@tanstack/react-query.gen";
+import { SearchResultDto } from "@/lib/api/types.gen";
 import useAuth from "@/lib/hooks/useAuth";
 import { useDebounce } from "@/lib/hooks/useDebounce";
 import { useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { SearchSuggestionItem } from "./SearchSuggestionItem";
 import { GroupedSuggestions } from "./types";
-import { mapSearchResultToSuggestion } from "./utils";
 
 interface SearchDialogProps {
   open: boolean;
@@ -46,22 +46,10 @@ export const SearchDialog = ({
     enabled: shouldFetch && open && isAuthenticated,
   });
 
-  const { data: searchHistoryData } = useQuery({
+  const { data: searchHistoryData = [] } = useQuery({
     ...getApiUserSearchHistoryOptions(),
     enabled: open && isAuthenticated,
   });
-
-  // Process suggestions directly from the search data
-  const suggestions = useMemo(() => {
-    if (!searchData) return [];
-    return searchData.map(mapSearchResultToSuggestion);
-  }, [searchData]);
-
-  // Process the search history
-  const recentSearches = useMemo(() => {
-    if (!searchHistoryData) return [];
-    return searchHistoryData.map(mapSearchResultToSuggestion);
-  }, [searchHistoryData]);
 
   // Handle input change
   const handleInputChange = useCallback((value: string) => {
@@ -71,18 +59,20 @@ export const SearchDialog = ({
   // Group suggestions by type
   const grouped = useMemo(() => {
     const grouped: GroupedSuggestions = {
-      crag: [],
-      sector: [],
-      route: [],
-      user: [],
+      Crag: [],
+      Sector: [],
+      Route: [],
+      UserProfile: [],
     };
 
-    suggestions.forEach((suggestion) => {
-      grouped[suggestion.type].push(suggestion);
+    searchData?.forEach((suggestion) => {
+      if (suggestion.entityType) {
+        grouped[suggestion.entityType].push(suggestion);
+      }
     });
 
     return grouped;
-  }, [suggestions]);
+  }, [searchData]);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -96,11 +86,11 @@ export const SearchDialog = ({
     return () => document.removeEventListener("keydown", down);
   }, [open, onOpenChange]);
 
-  const hasCrags = grouped.crag.length > 0;
-  const hasSectors = grouped.sector.length > 0;
-  const hasRoutes = grouped.route.length > 0;
-  const hasUsers = grouped.user.length > 0;
-  const hasRecentSearches = recentSearches.length > 0;
+  const hasCrags = grouped["Crag"].length > 0;
+  const hasSectors = grouped["Sector"].length > 0;
+  const hasRoutes = grouped["Route"].length > 0;
+  const hasUsers = grouped["UserProfile"].length > 0;
+  const hasRecentSearches = searchHistoryData.length > 0;
   const hasSearchResults = hasCrags || hasSectors || hasRoutes || hasUsers;
   const showRecent = !inputValue.trim() && hasRecentSearches;
   const showResults = shouldFetch && hasSearchResults;
@@ -122,7 +112,7 @@ export const SearchDialog = ({
         {/* Show recent searches when no input */}
         {showRecent && (
           <CommandGroup heading="Recent Searches">
-            {recentSearches.slice(0, 5).map((recent) => (
+            {searchHistoryData.slice(0, 5).map((recent: SearchResultDto) => (
               <SearchSuggestionItem key={`recent-${recent.id}`} suggestion={recent} isRecent={true} />
             ))}
           </CommandGroup>
@@ -137,7 +127,7 @@ export const SearchDialog = ({
         {/* Render grouped results */}
         {hasCrags && (
           <CommandGroup heading="Crags">
-            {grouped.crag.map((suggestion) => (
+            {grouped["Crag"].map((suggestion: SearchResultDto) => (
               <SearchSuggestionItem key={`crag-${suggestion.id}`} suggestion={suggestion} />
             ))}
           </CommandGroup>
@@ -145,7 +135,7 @@ export const SearchDialog = ({
 
         {hasSectors && (
           <CommandGroup heading="Sectors">
-            {grouped.sector.map((suggestion) => (
+            {grouped["Sector"].map((suggestion: SearchResultDto) => (
               <SearchSuggestionItem key={`sector-${suggestion.id}`} suggestion={suggestion} />
             ))}
           </CommandGroup>
@@ -153,7 +143,7 @@ export const SearchDialog = ({
 
         {hasRoutes && (
           <CommandGroup heading="Routes">
-            {grouped.route.map((suggestion) => (
+            {grouped["Route"].map((suggestion: SearchResultDto) => (
               <SearchSuggestionItem key={`route-${suggestion.id}`} suggestion={suggestion} />
             ))}
           </CommandGroup>
@@ -161,7 +151,7 @@ export const SearchDialog = ({
 
         {hasUsers && (
           <CommandGroup heading="Users">
-            {grouped.user.map((suggestion) => (
+            {grouped["UserProfile"].map((suggestion: SearchResultDto) => (
               <SearchSuggestionItem key={`user-${suggestion.id}`} suggestion={suggestion} />
             ))}
           </CommandGroup>

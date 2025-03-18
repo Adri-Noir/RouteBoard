@@ -1,6 +1,7 @@
 using Alpinity.Application.Interfaces;
 using Alpinity.Application.Interfaces.Repositories;
 using Alpinity.Application.UseCases.Users.Dtos;
+using Alpinity.Domain.Enums;
 using ApiExceptions.Exceptions;
 using AutoMapper;
 using MediatR;
@@ -22,6 +23,7 @@ public class GetUserProfileCommandHandler(
         {
             var searchHistory = new Domain.Entities.SearchHistory
             {
+                EntityType = SearchResultItemType.UserProfile,
                 ProfileUserId = profileUser.Id,
                 ProfileUser = profileUser,
                 SearchingUserId = searchingUserId.Value,
