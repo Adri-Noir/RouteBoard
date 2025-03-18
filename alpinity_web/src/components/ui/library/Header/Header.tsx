@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import HeaderLinks from "./HeaderLinks";
+import HeaderSearch from "./HeaderSearch";
 import UserProfileNavigation from "./UserProfileNavigation";
 
 const Header = () => {
@@ -10,7 +11,7 @@ const Header = () => {
         "border-grid border-b, border-black",
       ])}
     >
-      <div className="mx-4 flex items-center justify-between py-4 sm:px-6 lg:px-8">
+      <div className="flex items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-10">
           <Link href="/" className={cn("text-2xl font-bold")}>
             Alpinity
@@ -18,7 +19,10 @@ const Header = () => {
           <HeaderLinks />
         </div>
 
-        <UserProfileNavigation />
+        <div className="flex items-center gap-4">
+          <HeaderSearch />
+          <UserProfileNavigation />
+        </div>
       </div>
     </header>
   );
