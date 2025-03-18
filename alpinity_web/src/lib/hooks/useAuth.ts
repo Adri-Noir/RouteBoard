@@ -6,6 +6,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { postApiAuthenticationLoginMutation, postApiAuthenticationMeOptions } from "../api/@tanstack/react-query.gen";
 import { client } from "../api/client.gen";
 
+const PROTECTED_ROUTES = ["/crag", "/sector", "/route", "/user", "/explore", "/map"];
+
 const getToken = () => {
   return Cookies.get("token") ?? null;
 };
@@ -73,11 +75,19 @@ const useAuth = () => {
 
   const isAuthenticated = useMemo(() => !!user, [user]);
 
+  const isProtectedRoute = useMemo(() => PROTECTED_ROUTES.some((route) => pathname.includes(route)), [pathname]);
+
   useEffect(() => {
     if (user && pathname === "/login") {
       router.push("/");
     }
   }, [user, pathname, router]);
+
+  useEffect(() => {
+    if (!isAuthenticated && !isUserLoading && isProtectedRoute) {
+      router.push("/login");
+    }
+  }, [isAuthenticated, isUserLoading, isProtectedRoute, router]);
 
   return {
     token,
