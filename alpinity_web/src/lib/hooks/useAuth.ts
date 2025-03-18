@@ -2,7 +2,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { postApiAuthenticationLoginMutation, postApiAuthenticationMeOptions } from "../api/@tanstack/react-query.gen";
 import { client } from "../api/client.gen";
 
@@ -51,32 +51,33 @@ const useAuth = () => {
     },
   });
 
-  const login = ({ emailOrUsername, password }: { emailOrUsername: string; password: string }) => {
-    loginMutation({
-      body: {
-        emailOrUsername,
-        password,
-      },
-    });
-  };
+  const login = useCallback(
+    ({ emailOrUsername, password }: { emailOrUsername: string; password: string }) => {
+      loginMutation({
+        body: {
+          emailOrUsername,
+          password,
+        },
+      });
+    },
+    [loginMutation],
+  );
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setToken(null);
     Cookies.remove("token");
     queryClient.invalidateQueries();
     queryClient.clear();
     router.push("/login");
-  };
+  }, [queryClient, router]);
 
-  const isAuthenticated = !!user;
+  const isAuthenticated = useMemo(() => !!user, [user]);
 
   useEffect(() => {
     if (user && pathname === "/login") {
       router.push("/");
     }
   }, [user, pathname, router]);
-
-  console.log(isUserLoading);
 
   return {
     token,

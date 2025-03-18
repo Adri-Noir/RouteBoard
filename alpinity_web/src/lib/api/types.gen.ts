@@ -140,6 +140,26 @@ export type ExploreDto = {
   ascentsCount?: number | null;
 };
 
+export type GetGlobeCommand = {
+  northEast?: PointDto;
+  southWest?: PointDto;
+};
+
+export type GlobeResponseDto = {
+  id?: string;
+  name?: string | null;
+  imageUrl?: string | null;
+  location?: PointDto;
+};
+
+export type GlobeSectorResponseDto = {
+  id?: string;
+  cragId?: string;
+  name?: string | null;
+  imageUrl?: string | null;
+  location?: PointDto;
+};
+
 export type GradeCountDto = {
   climbingGrade?: ClimbingGrade;
   count?: number;
@@ -298,6 +318,8 @@ export type SearchResultDto = {
   routeCragName?: string | null;
   profileUserId?: string | null;
   profileUsername?: string | null;
+  profilePhotoUrl?: string | null;
+  ascentsCount?: number | null;
 };
 
 export type SearchResultItemType = "Crag" | "Sector" | "Route" | "UserProfile";
@@ -623,6 +645,72 @@ export type GetApiMapWeatherByCragIdResponses = {
 
 export type GetApiMapWeatherByCragIdResponse =
   GetApiMapWeatherByCragIdResponses[keyof GetApiMapWeatherByCragIdResponses];
+
+export type PostApiMapGlobeData = {
+  body?: GetGlobeCommand;
+  path?: never;
+  query?: never;
+  url: "/api/Map/globe";
+};
+
+export type PostApiMapGlobeErrors = {
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails;
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails;
+};
+
+export type PostApiMapGlobeError = PostApiMapGlobeErrors[keyof PostApiMapGlobeErrors];
+
+export type PostApiMapGlobeResponses = {
+  /**
+   * OK
+   */
+  200: Array<GlobeResponseDto>;
+};
+
+export type PostApiMapGlobeResponse = PostApiMapGlobeResponses[keyof PostApiMapGlobeResponses];
+
+export type GetApiMapGlobeSectorsByCragIdData = {
+  body?: never;
+  path: {
+    cragId: string;
+  };
+  query?: never;
+  url: "/api/Map/globe/sectors/{cragId}";
+};
+
+export type GetApiMapGlobeSectorsByCragIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails;
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails;
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type GetApiMapGlobeSectorsByCragIdError =
+  GetApiMapGlobeSectorsByCragIdErrors[keyof GetApiMapGlobeSectorsByCragIdErrors];
+
+export type GetApiMapGlobeSectorsByCragIdResponses = {
+  /**
+   * OK
+   */
+  200: Array<GlobeSectorResponseDto>;
+};
+
+export type GetApiMapGlobeSectorsByCragIdResponse =
+  GetApiMapGlobeSectorsByCragIdResponses[keyof GetApiMapGlobeSectorsByCragIdResponses];
 
 export type GetApiRouteByIdData = {
   body?: never;

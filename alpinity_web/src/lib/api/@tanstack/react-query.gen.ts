@@ -10,6 +10,8 @@ import {
   postApiCrag,
   getApiMapExplore,
   getApiMapWeatherByCragId,
+  postApiMapGlobe,
+  getApiMapGlobeSectorsByCragId,
   getApiRouteById,
   postApiRoute,
   postAddPhoto,
@@ -41,6 +43,10 @@ import type {
   PostApiCragResponse,
   GetApiMapExploreData,
   GetApiMapWeatherByCragIdData,
+  PostApiMapGlobeData,
+  PostApiMapGlobeError,
+  PostApiMapGlobeResponse,
+  GetApiMapGlobeSectorsByCragIdData,
   GetApiRouteByIdData,
   PostApiRouteData,
   PostApiRouteError,
@@ -329,6 +335,60 @@ export const getApiMapWeatherByCragIdOptions = (options: Options<GetApiMapWeathe
       return data;
     },
     queryKey: getApiMapWeatherByCragIdQueryKey(options),
+  });
+};
+
+export const postApiMapGlobeQueryKey = (options?: Options<PostApiMapGlobeData>) =>
+  createQueryKey("postApiMapGlobe", options);
+
+export const postApiMapGlobeOptions = (options?: Options<PostApiMapGlobeData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await postApiMapGlobe({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: postApiMapGlobeQueryKey(options),
+  });
+};
+
+export const postApiMapGlobeMutation = (options?: Partial<Options<PostApiMapGlobeData>>) => {
+  const mutationOptions: UseMutationOptions<
+    PostApiMapGlobeResponse,
+    PostApiMapGlobeError,
+    Options<PostApiMapGlobeData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await postApiMapGlobe({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const getApiMapGlobeSectorsByCragIdQueryKey = (options: Options<GetApiMapGlobeSectorsByCragIdData>) =>
+  createQueryKey("getApiMapGlobeSectorsByCragId", options);
+
+export const getApiMapGlobeSectorsByCragIdOptions = (options: Options<GetApiMapGlobeSectorsByCragIdData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getApiMapGlobeSectorsByCragId({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getApiMapGlobeSectorsByCragIdQueryKey(options),
   });
 };
 

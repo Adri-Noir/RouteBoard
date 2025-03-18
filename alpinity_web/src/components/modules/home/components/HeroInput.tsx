@@ -1,14 +1,23 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { postApiSearchOptions } from "@/lib/api/@tanstack/react-query.gen";
+import {
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from "@/components/ui/command";
+import { getApiUserSearchHistoryOptions, postApiSearchOptions } from "@/lib/api/@tanstack/react-query.gen";
 import { SearchResultDto, SearchResultItemType } from "@/lib/api/types.gen";
 import useAuth from "@/lib/hooks/useAuth";
-import { cn, debounce, formatClimbingGrade } from "@/lib/utils";
+import { useDebounce } from "@/lib/hooks/useDebounce";
+import { formatClimbingGrade } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
-import { MapPin, Route, User } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Clock, MapPin, Route, User } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 // Define the type first
 type Suggestion = {
@@ -64,98 +73,55 @@ const mapSearchResultToSuggestion = (result: SearchResultDto): Suggestion => {
 
 const HeroInput = () => {
   const { isAuthenticated } = useAuth();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [debouncedQuery, setDebouncedQuery] = useState("");
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
-  const [activeIndex, setActiveIndex] = useState(-1);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const suggestionsRef = useRef<HTMLDivElement>(null);
+  const [inputValue, setInputValue] = useState("");
+  const [open, setOpen] = useState(false);
+
+  // Debounce the search query to avoid excessive API calls
+  const searchQuery = useDebounce(inputValue, 300);
 
   // Skip the query if the search query is empty
-  const shouldFetch = debouncedQuery.trim().length > 0;
+  const shouldFetch = searchQuery.trim().length > 1;
 
   const { data: searchData, isLoading: isLoadingSearch } = useQuery({
     ...postApiSearchOptions({
       body: {
-        query: debouncedQuery,
+        query: searchQuery,
       },
     }),
-    enabled: shouldFetch,
+    enabled: shouldFetch && open && isAuthenticated,
   });
 
-  // Create debounced search handler
-  const debouncedSetQuery = useCallback(
-    debounce((value: string) => {
-      setDebouncedQuery(value);
-    }, 300),
-    [],
-  );
+  const { data: searchHistoryData } = useQuery({
+    ...getApiUserSearchHistoryOptions(),
+    enabled: isAuthenticated,
+  });
 
-  // Handle input change with debounce
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchQuery(value);
-    debouncedSetQuery(value);
-  };
+  // Process suggestions directly from the search data
+  const suggestions = useMemo(() => {
+    if (!searchData) return [];
+    return searchData.map(mapSearchResultToSuggestion);
+  }, [searchData]);
 
-  // Update suggestions based on API response
-  useEffect(() => {
-    if (!shouldFetch) {
-      setSuggestions([]);
-      return;
-    }
-
-    if (searchData) {
-      const mappedSuggestions = searchData.map(mapSearchResultToSuggestion);
-      setSuggestions(mappedSuggestions);
-      setShowSuggestions(mappedSuggestions.length > 0);
-      setActiveIndex(-1); // Reset active index when suggestions change
-    }
-  }, [searchData, shouldFetch]);
-
-  // Handle keyboard navigation
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!showSuggestions || suggestions.length === 0) return;
-
-    // Arrow down
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      setActiveIndex((prevIndex) => (prevIndex < suggestions.length - 1 ? prevIndex + 1 : 0));
-    }
-    // Arrow up
-    else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setActiveIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : suggestions.length - 1));
-    }
-    // Enter
-    else if (e.key === "Enter" && activeIndex >= 0) {
-      e.preventDefault();
-      handleSuggestionClick(suggestions[activeIndex]);
-    }
-    // Escape
-    else if (e.key === "Escape") {
-      setShowSuggestions(false);
-    }
-  };
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Searching for:", searchQuery);
-    setShowSuggestions(false);
-    // Implement search functionality here
-  };
+  // Process the search history
+  const recentSearches = useMemo(() => {
+    if (!searchHistoryData) return [];
+    return searchHistoryData.map(mapSearchResultToSuggestion);
+  }, [searchHistoryData]);
 
   const handleSuggestionClick = (suggestion: Suggestion) => {
-    setSearchQuery(suggestion.text);
-    setDebouncedQuery(suggestion.text);
-    setShowSuggestions(false);
+    setInputValue(suggestion.text);
+    setOpen(false);
     // Optionally trigger search immediately
     console.log("Selected suggestion:", suggestion);
   };
 
+  // Handle input change
+  const handleInputChange = useCallback((value: string) => {
+    setInputValue(value);
+  }, []);
+
   // Group suggestions by type
-  const groupedSuggestions = () => {
+  const grouped = useMemo(() => {
     const grouped: Record<string, Suggestion[]> = {
       crag: [],
       sector: [],
@@ -168,206 +134,181 @@ const HeroInput = () => {
     });
 
     return grouped;
-  };
+  }, [suggestions]);
+
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if ((e.key === "k" && (e.metaKey || e.ctrlKey)) || e.key === "/") {
+        e.preventDefault();
+        setOpen((open) => !open);
+      }
+    };
+
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+  }, []);
+
+  const hasCrags = grouped.crag.length > 0;
+  const hasSectors = grouped.sector.length > 0;
+  const hasRoutes = grouped.route.length > 0;
+  const hasUsers = grouped.user.length > 0;
+  const hasRecentSearches = recentSearches.length > 0;
+  const hasSearchResults = hasCrags || hasSectors || hasRoutes || hasUsers;
+  const showRecent = !inputValue.trim() && hasRecentSearches;
+  const showResults = shouldFetch && hasSearchResults;
 
   if (!isAuthenticated) {
     return null;
   }
 
-  const grouped = groupedSuggestions();
-  const hasCrags = grouped.crag.length > 0;
-  const hasSectors = grouped.sector.length > 0;
-  const hasRoutes = grouped.route.length > 0;
-  const hasUsers = grouped.user.length > 0;
-
   return (
     <div className="mt-10 w-full max-w-lg">
-      <form onSubmit={handleSearch} className="flex w-full flex-col items-center gap-2 sm:flex-row">
-        <div className="relative w-full">
-          <Input
-            ref={inputRef}
-            type="text"
-            value={searchQuery}
-            onChange={handleInputChange}
-            placeholder="Search for crags, sectors, routes or users..."
-            className="rounded-md bg-white/95 px-4 py-6"
-            onBlur={() => {
-              setShowSuggestions(false);
-            }}
-            onFocus={() => {
-              if (searchQuery.trim() !== "" && suggestions.length > 0) {
-                setShowSuggestions(true);
-              }
-            }}
-            onKeyDown={handleKeyDown}
-          />
+      <Button
+        onClick={() => setOpen(true)}
+        variant="outline"
+        className="text-muted-foreground w-full justify-between rounded-md bg-white/95 px-4 py-6 text-left"
+      >
+        <span>Search for crags, sectors, routes or users...</span>
+        <kbd
+          className="bg-muted text-muted-foreground pointer-events-none inline-flex h-5 items-center gap-1 rounded border px-1.5 font-mono
+            text-[10px] font-medium select-none"
+        >
+          <span className="text-xs">⌘</span>K
+        </kbd>
+      </Button>
 
-          {/* Loading indicator */}
-          {isLoadingSearch && debouncedQuery.trim() !== "" && (
-            <div className="absolute top-1/2 right-3 -translate-y-1/2">
+      <CommandDialog open={open} onOpenChange={setOpen}>
+        <CommandInput
+          placeholder="Search for crags, sectors, routes or users..."
+          value={inputValue}
+          onValueChange={handleInputChange}
+          autoFocus
+        />
+        <CommandList>
+          {isLoadingSearch && shouldFetch && (
+            <div className="flex items-center justify-center py-6">
               <div className="border-primary h-4 w-4 animate-spin rounded-full border-2 border-t-transparent"></div>
             </div>
           )}
 
-          {/* Suggestions dropdown */}
-          {showSuggestions && (
-            <div
-              ref={suggestionsRef}
-              className="bg-popover border-input absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md border shadow-md"
-            >
-              {suggestions.length > 0 ? (
-                <>
-                  {/* Crags */}
-                  {hasCrags && (
-                    <div className="py-1">
-                      <div className="text-muted-foreground px-4 py-1 text-xs font-medium">Crags</div>
-                      {grouped.crag.map((suggestion, index) => {
-                        const globalIndex = suggestions.findIndex(
-                          (s) => s.id === suggestion.id && s.type === suggestion.type,
-                        );
-                        return (
-                          <div
-                            key={`crag-${suggestion.id}`}
-                            className={cn(
-                              "flex cursor-pointer items-center gap-2 px-4 py-2 text-sm transition-colors",
-                              globalIndex === activeIndex
-                                ? "bg-accent text-accent-foreground"
-                                : "hover:bg-accent hover:text-accent-foreground",
-                            )}
-                            onClick={() => handleSuggestionClick(suggestion)}
-                            onMouseEnter={() => setActiveIndex(globalIndex)}
-                          >
-                            <MapPin className="text-muted-foreground h-4 w-4" />
-                            <span>{suggestion.text}</span>
-                            {suggestion.entityData.cragRoutesCount !== null && (
-                              <span className="text-muted-foreground ml-auto text-xs">
-                                {suggestion.entityData.cragRoutesCount} routes
-                              </span>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-
-                  {/* Sectors */}
-                  {hasSectors && (
-                    <div className="border-input border-t py-1">
-                      <div className="text-muted-foreground px-4 py-1 text-xs font-medium">Sectors</div>
-                      {grouped.sector.map((suggestion, index) => {
-                        const globalIndex = suggestions.findIndex(
-                          (s) => s.id === suggestion.id && s.type === suggestion.type,
-                        );
-                        return (
-                          <div
-                            key={`sector-${suggestion.id}`}
-                            className={cn(
-                              "flex cursor-pointer items-center gap-2 px-4 py-2 text-sm transition-colors",
-                              globalIndex === activeIndex
-                                ? "bg-accent text-accent-foreground"
-                                : "hover:bg-accent hover:text-accent-foreground",
-                            )}
-                            onClick={() => handleSuggestionClick(suggestion)}
-                            onMouseEnter={() => setActiveIndex(globalIndex)}
-                          >
-                            <MapPin className="text-muted-foreground h-4 w-4" />
-                            <div className="flex flex-col">
-                              <span>{suggestion.text}</span>
-                              {suggestion.entityData.sectorCragName && (
-                                <span className="text-muted-foreground text-xs">
-                                  {suggestion.entityData.sectorCragName}
-                                </span>
-                              )}
-                            </div>
-                            {suggestion.entityData.sectorRoutesCount !== null && (
-                              <span className="text-muted-foreground ml-auto text-xs">
-                                {suggestion.entityData.sectorRoutesCount} routes
-                              </span>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-
-                  {/* Routes */}
-                  {hasRoutes && (
-                    <div className="border-input border-t py-1">
-                      <div className="text-muted-foreground px-4 py-1 text-xs font-medium">Routes</div>
-                      {grouped.route.map((suggestion, index) => {
-                        const globalIndex = suggestions.findIndex(
-                          (s) => s.id === suggestion.id && s.type === suggestion.type,
-                        );
-                        return (
-                          <div
-                            key={`route-${suggestion.id}`}
-                            className={cn(
-                              "flex cursor-pointer items-center gap-2 px-4 py-2 text-sm transition-colors",
-                              globalIndex === activeIndex
-                                ? "bg-accent text-accent-foreground"
-                                : "hover:bg-accent hover:text-accent-foreground",
-                            )}
-                            onClick={() => handleSuggestionClick(suggestion)}
-                            onMouseEnter={() => setActiveIndex(globalIndex)}
-                          >
-                            <Route className="text-muted-foreground h-4 w-4" />
-                            <div className="flex flex-col">
-                              <span>{suggestion.text}</span>
-                              {suggestion.entityData.routeSectorName && suggestion.entityData.routeCragName && (
-                                <span className="text-muted-foreground text-xs">
-                                  {suggestion.entityData.routeSectorName}, {suggestion.entityData.routeCragName}
-                                </span>
-                              )}
-                            </div>
-                            {suggestion.entityData.routeDifficulty && (
-                              <span className="ml-auto text-xs font-medium">
-                                {formatClimbingGrade(suggestion.entityData.routeDifficulty)}
-                              </span>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-
-                  {/* Users */}
-                  {hasUsers && (
-                    <div className="border-input border-t py-1">
-                      <div className="text-muted-foreground px-4 py-1 text-xs font-medium">Users</div>
-                      {grouped.user.map((suggestion, index) => {
-                        const globalIndex = suggestions.findIndex(
-                          (s) => s.id === suggestion.id && s.type === suggestion.type,
-                        );
-                        return (
-                          <div
-                            key={`user-${suggestion.id}`}
-                            className={cn(
-                              "flex cursor-pointer items-center gap-2 px-4 py-2 text-sm transition-colors",
-                              globalIndex === activeIndex
-                                ? "bg-accent text-accent-foreground"
-                                : "hover:bg-accent hover:text-accent-foreground",
-                            )}
-                            onClick={() => handleSuggestionClick(suggestion)}
-                            onMouseEnter={() => setActiveIndex(globalIndex)}
-                          >
-                            <User className="text-muted-foreground h-4 w-4" />
-                            <span>{suggestion.text}</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </>
-              ) : (
-                <div className="text-muted-foreground px-4 py-3 text-center text-sm">No results found</div>
-              )}
-            </div>
+          {/* Show recent searches when no input */}
+          {showRecent && (
+            <CommandGroup heading="Recent Searches">
+              {recentSearches.slice(0, 5).map((recent) => (
+                <CommandItem
+                  key={`recent-${recent.id}`}
+                  value={`recent: ${recent.text}`}
+                  onSelect={() => handleSuggestionClick(recent)}
+                  className="flex items-center gap-2"
+                >
+                  <Clock className="text-muted-foreground h-4 w-4" />
+                  <div className="flex flex-col">
+                    <span>{recent.text}</span>
+                    <span className="text-muted-foreground text-xs capitalize">{recent.type}</span>
+                  </div>
+                </CommandItem>
+              ))}
+            </CommandGroup>
           )}
-        </div>
-        <Button type="submit" className="px-6 py-6">
-          Search
-        </Button>
-      </form>
+
+          {/* Show separator when both recent searches and results are visible */}
+          {showRecent && showResults && <CommandSeparator />}
+
+          {/* No results message */}
+          {shouldFetch && !isLoadingSearch && !hasSearchResults && <CommandEmpty>No results found</CommandEmpty>}
+
+          {hasCrags && (
+            <CommandGroup heading="Crags">
+              {grouped.crag.map((suggestion) => (
+                <CommandItem
+                  key={`crag-${suggestion.id}`}
+                  value={`crag: ${suggestion.text}`}
+                  onSelect={() => handleSuggestionClick(suggestion)}
+                  className="flex items-center gap-2"
+                >
+                  <MapPin className="text-muted-foreground h-4 w-4" />
+                  <span>{suggestion.text}</span>
+                  {suggestion.entityData.cragRoutesCount !== null && (
+                    <span className="text-muted-foreground ml-auto text-xs">
+                      {suggestion.entityData.cragRoutesCount} routes
+                    </span>
+                  )}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          )}
+
+          {hasSectors && (
+            <CommandGroup heading="Sectors">
+              {grouped.sector.map((suggestion) => (
+                <CommandItem
+                  key={`sector-${suggestion.id}`}
+                  value={`sector: ${suggestion.text}`}
+                  onSelect={() => handleSuggestionClick(suggestion)}
+                  className="flex items-center gap-2"
+                >
+                  <MapPin className="text-muted-foreground h-4 w-4" />
+                  <div className="flex flex-col">
+                    <span>{suggestion.text}</span>
+                    {suggestion.entityData.sectorCragName && (
+                      <span className="text-muted-foreground text-xs">{suggestion.entityData.sectorCragName}</span>
+                    )}
+                  </div>
+                  {suggestion.entityData.sectorRoutesCount !== null && (
+                    <span className="text-muted-foreground ml-auto text-xs">
+                      {suggestion.entityData.sectorRoutesCount} routes
+                    </span>
+                  )}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          )}
+
+          {hasRoutes && (
+            <CommandGroup heading="Routes">
+              {grouped.route.map((suggestion) => (
+                <CommandItem
+                  key={`route-${suggestion.id}`}
+                  value={`route: ${suggestion.text}`}
+                  onSelect={() => handleSuggestionClick(suggestion)}
+                  className="flex items-center gap-2"
+                >
+                  <Route className="text-muted-foreground h-4 w-4" />
+                  <div className="flex flex-col">
+                    <span>{suggestion.text}</span>
+                    {suggestion.entityData.routeSectorName && suggestion.entityData.routeCragName && (
+                      <span className="text-muted-foreground text-xs">
+                        {suggestion.entityData.routeSectorName}, {suggestion.entityData.routeCragName}
+                      </span>
+                    )}
+                  </div>
+                  {suggestion.entityData.routeDifficulty && (
+                    <span className="ml-auto text-xs font-medium">
+                      {formatClimbingGrade(suggestion.entityData.routeDifficulty)}
+                    </span>
+                  )}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          )}
+
+          {hasUsers && (
+            <CommandGroup heading="Users">
+              {grouped.user.map((suggestion) => (
+                <CommandItem
+                  key={`user-${suggestion.id}`}
+                  value={`user: ${suggestion.text}`}
+                  onSelect={() => handleSuggestionClick(suggestion)}
+                  className="flex items-center gap-2"
+                >
+                  <User className="text-muted-foreground h-4 w-4" />
+                  <span>{suggestion.text}</span>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          )}
+        </CommandList>
+      </CommandDialog>
     </div>
   );
 };

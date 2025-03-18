@@ -30,6 +30,12 @@ import type {
   GetApiMapWeatherByCragIdData,
   GetApiMapWeatherByCragIdResponse,
   GetApiMapWeatherByCragIdError,
+  PostApiMapGlobeData,
+  PostApiMapGlobeResponse,
+  PostApiMapGlobeError,
+  GetApiMapGlobeSectorsByCragIdData,
+  GetApiMapGlobeSectorsByCragIdResponse,
+  GetApiMapGlobeSectorsByCragIdError,
   GetApiRouteByIdData,
   GetApiRouteByIdResponse,
   GetApiRouteByIdError,
@@ -224,6 +230,44 @@ export const getApiMapWeatherByCragId = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/Map/weather/{cragId}",
+    ...options,
+  });
+};
+
+export const postApiMapGlobe = <ThrowOnError extends boolean = false>(
+  options?: Options<PostApiMapGlobeData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<PostApiMapGlobeResponse, PostApiMapGlobeError, ThrowOnError>({
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/Map/globe",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+export const getApiMapGlobeSectorsByCragId = <ThrowOnError extends boolean = false>(
+  options: Options<GetApiMapGlobeSectorsByCragIdData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiMapGlobeSectorsByCragIdResponse,
+    GetApiMapGlobeSectorsByCragIdError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/Map/globe/sectors/{cragId}",
     ...options,
   });
 };
