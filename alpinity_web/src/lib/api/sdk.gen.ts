@@ -44,6 +44,9 @@ import type {
   PostApiRouteError,
   PostAddPhotoData,
   PostAddPhotoError,
+  GetRouteAscentsByIdData,
+  GetRouteAscentsByIdResponse,
+  GetRouteAscentsByIdError,
   PostApiSearchData,
   PostApiSearchResponse,
   PostApiSearchError,
@@ -322,6 +325,21 @@ export const postAddPhoto = <ThrowOnError extends boolean = false>(
       "Content-Type": "application/json",
       ...options?.headers,
     },
+  });
+};
+
+export const getRouteAscentsById = <ThrowOnError extends boolean = false>(
+  options: Options<GetRouteAscentsByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<GetRouteAscentsByIdResponse, GetRouteAscentsByIdError, ThrowOnError>({
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/routeAscents/{id}",
+    ...options,
   });
 };
 

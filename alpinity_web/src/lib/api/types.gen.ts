@@ -816,6 +816,41 @@ export type PostAddPhotoResponses = {
   200: unknown;
 };
 
+export type GetRouteAscentsByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/routeAscents/{id}";
+};
+
+export type GetRouteAscentsByIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails;
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails;
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type GetRouteAscentsByIdError = GetRouteAscentsByIdErrors[keyof GetRouteAscentsByIdErrors];
+
+export type GetRouteAscentsByIdResponses = {
+  /**
+   * OK
+   */
+  200: Array<AscentDto>;
+};
+
+export type GetRouteAscentsByIdResponse = GetRouteAscentsByIdResponses[keyof GetRouteAscentsByIdResponses];
+
 export type PostApiSearchData = {
   body?: SearchQueryCommand;
   path?: never;
