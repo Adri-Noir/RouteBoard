@@ -27,6 +27,8 @@ const SectorRoutes = ({ sector }: SectorRoutesProps) => {
     setAscentDialogOpen(true);
   };
 
+  const routeName = sector.routes?.find((r) => r.id === selectedAscentRouteId)?.name ?? undefined;
+
   return (
     <>
       <Card>
@@ -50,7 +52,7 @@ const SectorRoutes = ({ sector }: SectorRoutesProps) => {
         open={ascentDialogOpen}
         onOpenChange={setAscentDialogOpen}
         routeId={selectedAscentRouteId}
-        routeName={sector.routes?.find((r) => r.id === selectedAscentRouteId)?.name}
+        routeName={routeName}
       />
     </>
   );

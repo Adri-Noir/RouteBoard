@@ -1,9 +1,6 @@
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { SectorRouteDto } from "@/lib/api/types.gen";
 import { formatClimbingGrade } from "@/lib/utils/formatters";
-import { ChevronRight } from "lucide-react";
-import Link from "next/link";
 
 interface RouteCardProps {
   route: SectorRouteDto;
@@ -39,7 +36,7 @@ const RouteCard = ({ route, isSelected, onSelect, onAscentClick }: RouteCardProp
 
       <div className="mt-2 flex items-center justify-between">
         <div className="text-muted-foreground text-xs">
-          {route.ascentsCount && route.ascentsCount > 0 && (
+          {route.ascentsCount && route.ascentsCount > 0 ? (
             <Label
               className="bg-primary/20 hover:bg-primary/30 cursor-pointer rounded-full p-2 text-xs"
               onClick={(e) => {
@@ -49,14 +46,8 @@ const RouteCard = ({ route, isSelected, onSelect, onAscentClick }: RouteCardProp
             >
               {route.ascentsCount} {route.ascentsCount === 1 ? "ascent" : "ascents"}
             </Label>
-          )}
+          ) : null}
         </div>
-        <Button asChild size="sm" variant="ghost" className="h-6 px-2 text-xs">
-          <Link href={`/route/${route.id}`}>
-            Details
-            <ChevronRight className="ml-1 h-3 w-3" />
-          </Link>
-        </Button>
       </div>
     </div>
   );
