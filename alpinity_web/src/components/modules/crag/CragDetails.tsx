@@ -13,6 +13,7 @@ import CragDetailsSkeleton from "./CragDetailsSkeleton";
 import CragHeader from "./CragHeader";
 import CragLocation from "./CragLocation";
 import CragPhotos from "./CragPhotos";
+import CragWeather from "./CragWeather";
 
 interface CragDetailsProps {
   cragId: string;
@@ -110,6 +111,13 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
         <section className="rounded-lg border p-4">
           <h2 className="mb-4 text-2xl font-semibold">Location</h2>
           <CragLocation location={crag.location} sectors={sectors} onSectorClick={handleSectorChange} />
+        </section>
+      )}
+
+      {cragId && (
+        <section className="rounded-lg border p-4">
+          <h2 className="mb-4 text-2xl font-semibold">Weather</h2>
+          <CragWeather cragId={cragId} />
         </section>
       )}
 
