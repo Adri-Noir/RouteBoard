@@ -7,7 +7,7 @@ import useAuth from "@/lib/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { AlertCircle } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import SectorDetails from "../sector/SectorDetails";
 import CragDetailsSkeleton from "./CragDetailsSkeleton";
 import CragHeader from "./CragHeader";
@@ -25,8 +25,8 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const initialSectorId = searchParams.get("sectorId") || "";
-  const [selectedSectorId, setSelectedSectorId] = useState(initialSectorId);
+  const initialSectorId = searchParams.get("sectorId") ?? undefined;
+  const [selectedSectorId, setSelectedSectorId] = useState<string | undefined>(initialSectorId);
 
   const {
     data: crag,
@@ -81,6 +81,12 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
         })),
     [crag?.sectors],
   );
+
+  useEffect(() => {
+    if (!initialSectorId) {
+      setSelectedSectorId(crag?.sectors?.[0]?.id);
+    }
+  }, [initialSectorId, crag?.sectors]);
 
   if (cragError) {
     return (
