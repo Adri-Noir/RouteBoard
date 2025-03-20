@@ -10,6 +10,13 @@ interface RouteCardProps {
 }
 
 const RouteCard = ({ route, isSelected, onSelect, onAscentClick }: RouteCardProps) => {
+  // Combine all types into a single array
+  const allTypes = [
+    ...(route.routeCategories?.climbTypes || []),
+    ...(route.routeCategories?.rockTypes || []),
+    ...(route.routeCategories?.holdTypes || []),
+  ].filter(Boolean);
+
   return (
     <div
       className={`hover:bg-accent/50 flex cursor-pointer flex-col p-3 transition-all ${isSelected ? "bg-accent/80" : ""}`}
@@ -24,10 +31,16 @@ const RouteCard = ({ route, isSelected, onSelect, onAscentClick }: RouteCardProp
         )}
       </div>
 
-      {(route.routeType && route.routeType.length > 0) || route.description ? (
+      {allTypes.length > 0 || route.description ? (
         <div className="mt-1 flex flex-col">
-          {route.routeType && route.routeType.length > 0 && (
-            <span className="text-muted-foreground text-xs">{route.routeType.join(", ")}</span>
+          {allTypes.length > 0 && (
+            <div className="text-muted-foreground flex gap-2 overflow-x-auto pb-1 text-xs whitespace-nowrap md:flex-wrap md:whitespace-normal">
+              {allTypes.map((type, index) => (
+                <span key={`${type}-${index}`} className="bg-muted inline-block rounded-full px-2 py-0.5 md:mb-1">
+                  {type}
+                </span>
+              ))}
+            </div>
           )}
 
           {route.description && <p className="text-muted-foreground mt-1 line-clamp-1 text-xs">{route.description}</p>}

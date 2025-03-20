@@ -47,7 +47,7 @@ struct CragMapView: View {
       for sector in sectors {
         if let location = sector.location, let name = sector.name {
           // Get the first photo URL if available
-          let photoUrl = sector.photos?.first?.url
+          let photoUrl = sector.photo?.url
 
           locations.append(
             MapLocation(

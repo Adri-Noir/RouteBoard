@@ -18,5 +18,6 @@ public class RouteDetailedDto
     public required Guid CragId { get; set; }
     public required string CragName { get; set; }
     public ICollection<RoutePhotoDto> RoutePhotos { get; set; }
+    public RouteCategoriesDto RouteCategories { get; set; }
     public ICollection<AscentDto>? Ascents { get; set; }
 }

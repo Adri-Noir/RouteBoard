@@ -1,8 +1,10 @@
 using Alpinity.Application.UseCases.Crags.Dtos;
 using Alpinity.Application.UseCases.Map.Dtos;
+using Alpinity.Application.UseCases.Routes.Dtos;
 using Alpinity.Application.UseCases.Sectors.Commands.Create;
 using Alpinity.Application.UseCases.Sectors.Dtos;
 using Alpinity.Domain.Entities;
+using Alpinity.Domain.Enums;
 using AutoMapper;
 
 namespace Alpinity.Application.Mappings;
@@ -15,18 +17,14 @@ public class SectorProfile : Profile
             .ForMember(t => t.Photo, opt => opt.MapFrom(s => s.Photos.FirstOrDefault().Url));
 
         CreateMap<Sector, SectorDetailedDto>()
-            .ForMember(t => t.Photos, opt => opt.MapFrom(s => s.Photos.Select(p => p.Url)))
             .ForMember(t => t.CragId, opt => opt.MapFrom(s => s.Crag.Id))
-            .ForMember(t => t.CragName, opt => opt.MapFrom(s => s.Crag.Name))
-            .ForMember(t => t.Location, opt => opt.MapFrom(s => s.Location));
+            .ForMember(t => t.CragName, opt => opt.MapFrom(s => s.Crag.Name));
 
-        CreateMap<CreateSectorCommand, Sector>()
-            .ForMember(t => t.Location, opt => opt.MapFrom(s => s.Location));
+        CreateMap<CreateSectorCommand, Sector>();
 
         CreateMap<Sector, CragSectorDto>()
-            .ForMember(t => t.Photos, opt => opt.MapFrom(s => s.Photos))
-            .ForMember(t => t.RoutesCount, opt => opt.MapFrom(s => s.Routes != null ? s.Routes.Count : 0))
-            .ForMember(t => t.Location, opt => opt.MapFrom(s => s.Location));
+            .ForMember(t => t.Photo, opt => opt.MapFrom(s => s.Photos.FirstOrDefault()))
+            .ForMember(t => t.RoutesCount, opt => opt.MapFrom(s => s.Routes != null ? s.Routes.Count : 0));
 
         CreateMap<Sector, GlobeSectorResponseDto>()
             .ForMember(t => t.ImageUrl, opt => opt.MapFrom(s => s.Photos != null && s.Photos.Any() ? s.Photos.First().Url : null));

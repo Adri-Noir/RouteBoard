@@ -1,5 +1,6 @@
 using System;
 using Alpinity.Application.UseCases.Photos.Dtos;
+using Alpinity.Application.UseCases.Routes.Dtos;
 using Alpinity.Domain.Enums;
 
 namespace Alpinity.Application.UseCases.Sectors.Dtos;
@@ -13,7 +14,7 @@ public class SectorRouteDto
     public string CreatedAt { get; set; }
     public ICollection<RouteType>? RouteType { get; set; }
     public int? Length { get; set; }
-    
+    public RouteCategoriesDto RouteCategories { get; set; }
     public ICollection<RoutePhotoDto> RoutePhotos { get; set; }
     public int? AscentsCount { get; set; }
 }

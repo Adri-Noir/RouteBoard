@@ -6,12 +6,12 @@ export type AscentCountDto = {
 };
 
 export type AscentDto = {
-  id?: string;
-  ascentDate?: string | null;
-  notes?: string | null;
   climbTypes?: Array<ClimbType> | null;
   rockTypes?: Array<RockType> | null;
   holdTypes?: Array<HoldType> | null;
+  id?: string;
+  ascentDate?: string | null;
+  notes?: string | null;
   ascentType?: AscentType;
   numberOfAttempts?: number | null;
   proposedGrade?: ClimbingGrade;
@@ -82,7 +82,7 @@ export type CragSectorDto = {
   name: string | null;
   description?: string | null;
   location?: PointDto;
-  photos?: Array<PhotoDto> | null;
+  photo?: PhotoDto;
   routesCount?: number;
 };
 
@@ -250,6 +250,12 @@ export type RecentlyAscendedRouteDto = {
 
 export type RockType = "Vertical" | "Overhang" | "Roof" | "Slab" | "Arete" | "Dihedral";
 
+export type RouteCategoriesDto = {
+  climbTypes?: Array<ClimbType> | null;
+  rockTypes?: Array<RockType> | null;
+  holdTypes?: Array<HoldType> | null;
+};
+
 export type RouteDetailedDto = {
   id: string;
   name: string | null;
@@ -263,6 +269,7 @@ export type RouteDetailedDto = {
   cragId: string;
   cragName: string | null;
   routePhotos?: Array<RoutePhotoDto> | null;
+  routeCategories?: RouteCategoriesDto;
   ascents?: Array<AscentDto> | null;
 };
 
@@ -343,6 +350,7 @@ export type SectorRouteDto = {
   createdAt?: string | null;
   routeType?: Array<RouteType> | null;
   length?: number | null;
+  routeCategories?: RouteCategoriesDto;
   routePhotos?: Array<RoutePhotoDto> | null;
   ascentsCount?: number | null;
 };

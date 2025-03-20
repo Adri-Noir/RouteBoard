@@ -13,7 +13,6 @@ public class SectorDetailedDto
     public PointDto? Location { get; set; }
     public ICollection<PhotoDto> Photos { get; set; } = null!;
     public ICollection<SectorRouteDto> Routes { get; set; } = null!;
-
     public Guid CragId { get; set; }
     public string CragName { get; set; } = null!;
 }

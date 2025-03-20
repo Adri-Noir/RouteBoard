@@ -418,21 +418,66 @@ struct RouteCardFullscreen: View {
             }
           }
 
-          // Photo indicators if multiple photos
-          if let photos = route.routePhotos, photos.count > 1 {
-            HStack(spacing: 4) {
-              ForEach(0..<min(photos.count, 5), id: \.self) { _ in
-                Circle()
-                  .fill(Color.white.opacity(0.6))
-                  .frame(width: 6, height: 6)
-              }
+          if let categories = route.routeCategories,
+            (categories.climbTypes != nil && !categories.climbTypes!.isEmpty)
+              || (categories.rockTypes != nil && !categories.rockTypes!.isEmpty)
+              || (categories.holdTypes != nil && !categories.holdTypes!.isEmpty)
+          {
+            ScrollView(.horizontal, showsIndicators: false) {
+              HStack(spacing: 8) {
+                if let climbTypes = categories.climbTypes {
+                  ForEach(climbTypes, id: \.self) { category in
+                    let climbingType =
+                      ClimbTypesConverter.convertComponentsClimbTypesToUserClimbingTypes(
+                        componentsClimbTypes: [category]
+                      ).first
 
-              if photos.count > 5 {
-                Text("+\(photos.count - 5)")
-                  .font(.caption2)
-                  .foregroundColor(.white.opacity(0.6))
+                    Text(climbingType?.rawValue ?? category.rawValue)
+                      .font(.caption)
+                      .foregroundColor(.white)
+                      .padding(.horizontal, 10)
+                      .padding(.vertical, 5)
+                      .background(Color.newPrimaryColor.opacity(0.7))
+                      .clipShape(RoundedRectangle(cornerRadius: 12))
+                  }
+                }
+
+                if let rockTypes = categories.rockTypes {
+                  ForEach(rockTypes, id: \.self) { category in
+                    let rockType =
+                      ClimbTypesConverter.convertComponentsRockTypesToUserClimbingTypes(
+                        componentsRockTypes: [category]
+                      ).first
+
+                    Text(rockType?.rawValue ?? category.rawValue)
+                      .font(.caption)
+                      .foregroundColor(.white)
+                      .padding(.horizontal, 10)
+                      .padding(.vertical, 5)
+                      .background(Color.newPrimaryColor.opacity(0.7))
+                      .clipShape(RoundedRectangle(cornerRadius: 12))
+                  }
+                }
+
+                if let holdTypes = categories.holdTypes {
+                  ForEach(holdTypes, id: \.self) { category in
+                    let holdType =
+                      ClimbTypesConverter.convertComponentsHoldTypesToUserClimbingTypes(
+                        componentsHoldTypes: [category]
+                      ).first
+
+                    Text(holdType?.rawValue ?? category.rawValue)
+                      .font(.caption)
+                      .foregroundColor(.white)
+                      .padding(.horizontal, 10)
+                      .padding(.vertical, 5)
+                      .background(Color.newPrimaryColor.opacity(0.7))
+                      .clipShape(RoundedRectangle(cornerRadius: 12))
+                  }
+                }
               }
             }
+            .padding(.top, -8)
           }
         }
         .padding(.horizontal, 20)

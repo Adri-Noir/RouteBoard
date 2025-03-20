@@ -74,18 +74,16 @@ struct RouteView: View {
   }
 
   var climbingTypes: [UserClimbingType] {
-    if let route = route {
-      return route.ascents?.flatMap { ascent in
-        ClimbTypesConverter.convertComponentsClimbTypesToUserClimbingTypes(
-          componentsClimbTypes: ascent.climbTypes ?? []
+    if let route = route, let categories = route.routeCategories {
+      return ClimbTypesConverter.convertComponentsClimbTypesToUserClimbingTypes(
+        componentsClimbTypes: categories.climbTypes ?? []
+      )
+        + ClimbTypesConverter.convertComponentsRockTypesToUserClimbingTypes(
+          componentsRockTypes: categories.rockTypes ?? []
         )
-          + ClimbTypesConverter.convertComponentsRockTypesToUserClimbingTypes(
-            componentsRockTypes: ascent.rockTypes ?? []
-          )
-          + ClimbTypesConverter.convertComponentsHoldTypesToUserClimbingTypes(
-            componentsHoldTypes: ascent.holdTypes ?? []
-          )
-      } ?? []
+        + ClimbTypesConverter.convertComponentsHoldTypesToUserClimbingTypes(
+          componentsHoldTypes: categories.holdTypes ?? []
+        )
     }
     return []
   }

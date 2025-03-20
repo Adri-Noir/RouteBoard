@@ -1410,18 +1410,6 @@
       "AscentDto": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "ascentDate": {
-            "type": "string",
-            "nullable": true
-          },
-          "notes": {
-            "type": "string",
-            "nullable": true
-          },
           "climbTypes": {
             "type": "array",
             "items": {
@@ -1441,6 +1429,18 @@
             "items": {
               "$ref": "#/components/schemas/HoldType"
             },
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "ascentDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
             "nullable": true
           },
           "ascentType": {
@@ -1608,12 +1608,8 @@
           "location": {
             "$ref": "#/components/schemas/PointDto"
           },
-          "photos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PhotoDto"
-            },
-            "nullable": true
+          "photo": {
+            "$ref": "#/components/schemas/PhotoDto"
           },
           "routesCount": {
             "type": "integer",
@@ -2198,6 +2194,33 @@
         ],
         "type": "string"
       },
+      "RouteCategoriesDto": {
+        "type": "object",
+        "properties": {
+          "climbTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClimbType"
+            },
+            "nullable": true
+          },
+          "rockTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RockType"
+            },
+            "nullable": true
+          },
+          "holdTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HoldType"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "RouteDetailedDto": {
         "required": [
           "cragId",
@@ -2262,6 +2285,9 @@
               "$ref": "#/components/schemas/RoutePhotoDto"
             },
             "nullable": true
+          },
+          "routeCategories": {
+            "$ref": "#/components/schemas/RouteCategoriesDto"
           },
           "ascents": {
             "type": "array",
@@ -2551,6 +2577,9 @@
             "type": "integer",
             "format": "int32",
             "nullable": true
+          },
+          "routeCategories": {
+            "$ref": "#/components/schemas/RouteCategoriesDto"
           },
           "routePhotos": {
             "type": "array",

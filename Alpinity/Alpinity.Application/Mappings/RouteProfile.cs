@@ -12,15 +12,27 @@ public class RouteProfile : Profile
     public RouteProfile()
     {
         CreateMap<Route, RouteSimpleDto>()
-            .ForMember(t => t.PhotoUrl, opt => opt.MapFrom(s => s.RoutePhotos.FirstOrDefault().Image.Url));
+            .ForMember(t => t.PhotoUrl, opt => opt.MapFrom(s => s.RoutePhotos.FirstOrDefault()!.Image.Url));
 
         CreateMap<Route, RouteDetailedDto>()
             .ForMember(t => t.SectorName, opt => opt.MapFrom(s => s.Sector!.Name))
             .ForMember(t => t.CragId, opt => opt.MapFrom(s => s.Sector!.Crag!.Id))
-            .ForMember(t => t.CragName, opt => opt.MapFrom(s => s.Sector!.Crag!.Name));
+            .ForMember(t => t.CragName, opt => opt.MapFrom(s => s.Sector!.Crag!.Name))
+            .ForMember(t => t.RouteCategories, opt => opt.MapFrom(s => new RouteCategoriesDto
+            {
+                ClimbTypes = s.Ascents != null ? s.Ascents.SelectMany(a => a.ClimbTypes ?? Enumerable.Empty<ClimbType>()).Distinct().ToList() : new List<ClimbType>(),
+                RockTypes = s.Ascents != null ? s.Ascents.SelectMany(a => a.RockTypes ?? Enumerable.Empty<RockType>()).Distinct().ToList() : new List<RockType>(),
+                HoldTypes = s.Ascents != null ? s.Ascents.SelectMany(a => a.HoldTypes ?? Enumerable.Empty<HoldType>()).Distinct().ToList() : new List<HoldType>()
+            }));
 
         CreateMap<Route, SectorRouteDto>()
-            .ForMember(t => t.AscentsCount, opt => opt.MapFrom(s => s.Ascents!.Count));
+            .ForMember(t => t.AscentsCount, opt => opt.MapFrom(s => s.Ascents != null ? s.Ascents.Count : 0))
+            .ForMember(t => t.RouteCategories, opt => opt.MapFrom(s => new RouteCategoriesDto
+            {
+                ClimbTypes = s.Ascents != null ? s.Ascents.SelectMany(a => a.ClimbTypes ?? Enumerable.Empty<ClimbType>()).Distinct().ToList() : new List<ClimbType>(),
+                RockTypes = s.Ascents != null ? s.Ascents.SelectMany(a => a.RockTypes ?? Enumerable.Empty<RockType>()).Distinct().ToList() : new List<RockType>(),
+                HoldTypes = s.Ascents != null ? s.Ascents.SelectMany(a => a.HoldTypes ?? Enumerable.Empty<HoldType>()).Distinct().ToList() : new List<HoldType>()
+            }));
 
         CreateMap<Route, RecentlyAscendedRouteDto>()
             .ForMember(t => t.SectorId, opt => opt.MapFrom(s => s.Sector!.Id))

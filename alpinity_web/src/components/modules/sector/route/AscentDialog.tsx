@@ -78,10 +78,14 @@ const AscentDialog = ({ open, onOpenChange, routeId, routeName }: AscentDialogPr
                       </div>
                     )}
 
-                    {ascent.rating && (
+                    {ascent.rating && ascent.rating > 0 && (
                       <div className="flex items-center gap-1 text-sm">
-                        <Star className="h-4 w-4 text-yellow-500" />
-                        <span>{ascent.rating}/5</span>
+                        {Array.from({ length: 5 }).map((_, index) => (
+                          <Star
+                            key={`star-${routeId}-${index}`}
+                            className={`h-4 w-4 ${index < (ascent.rating ?? 0) ? "fill-yellow-500 text-yellow-500" : "text-gray-300"}`}
+                          />
+                        ))}
                       </div>
                     )}
 
