@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SectorDetailedDto } from "@/lib/api/types.gen";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AscentDialog from "./AscentDialog";
 import RouteImage from "./RouteImage";
 import RouteList from "./RouteList";
@@ -17,6 +17,12 @@ const SectorRoutes = ({ sector }: SectorRoutesProps) => {
   const [selectedAscentRouteId, setSelectedAscentRouteId] = useState<string | null>(null);
 
   const selectedRoute = sector.routes?.find((route) => route.id === selectedRouteId);
+
+  useEffect(() => {
+    if (sector.routes && sector.routes.length > 0) {
+      setSelectedRouteId(sector.routes[0].id);
+    }
+  }, [sector.routes]);
 
   if (!sector.routes || sector.routes.length === 0) {
     return null;

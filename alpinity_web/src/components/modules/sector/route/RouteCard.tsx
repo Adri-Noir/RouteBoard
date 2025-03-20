@@ -31,6 +31,21 @@ const RouteCard = ({ route, isSelected, onSelect, onAscentClick }: RouteCardProp
         )}
       </div>
 
+      {route.routeType && route.routeType.length > 0 && (
+        <div className="mt-1 flex flex-col">
+          <div className="text-muted-foreground flex gap-2 overflow-x-auto pb-1 text-xs whitespace-nowrap md:flex-wrap md:whitespace-normal">
+            {route.routeType.map((type, index) => (
+              <span
+                key={`routeType-${type}-${index}`}
+                className="bg-primary/10 text-primary inline-block rounded-full px-2 py-0.5 font-medium md:mb-1"
+              >
+                {type}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
       {allTypes.length > 0 || route.description ? (
         <div className="mt-1 flex flex-col">
           {allTypes.length > 0 && (

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className="overscroll-none antialiased">
+      <body className="antialiased">
         <Providers>
           <Header />
           <main className="relative">{children}</main>
