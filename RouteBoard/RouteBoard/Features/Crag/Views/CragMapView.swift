@@ -25,6 +25,7 @@ struct CragMapView: View {
 
   @State private var mapPosition: MapCameraPosition = .automatic
   @State private var mapInitialized = false
+  @State private var isMapExpanded = false
 
   private var mapLocations: [MapLocation] {
     var locations: [MapLocation] = []
@@ -132,133 +133,163 @@ struct CragMapView: View {
   }
 
   var body: some View {
-    VStack(alignment: .leading, spacing: 10) {
-      if !mapLocations.isEmpty {
-        ZStack(alignment: .bottomTrailing) {
-          Map(position: $mapPosition) {
-            ForEach(mapLocations) { location in
-              if location.isCrag {
-                // Custom marker for crag
-                Annotation(
-                  location.name,
-                  coordinate: CLLocationCoordinate2D(
-                    latitude: location.latitude, longitude: location.longitude
-                  ),
-                  anchor: .bottom
-                ) {
-                  VStack(spacing: 0) {
-                    Image(systemName: "mountain.2.fill")
-                      .font(.system(size: 24))
-                      .foregroundColor(.white)
-                      .padding(8)
-                      .background(Color.orange)
-                      .clipShape(Circle())
-                      .overlay(
-                        Circle()
-                          .stroke(Color.white, lineWidth: 2)
-                      )
-                      .shadow(radius: 2)
+    VStack(alignment: .leading, spacing: 20) {
+      // Title and toggle button in the same row
+      Button(action: {
+        withAnimation(.spring(response: 0.3)) {
+          isMapExpanded.toggle()
+        }
+      }) {
+        HStack {
+          Text("Area Map")
+            .font(.headline)
+            .foregroundColor(Color.newTextColor)
 
-                    // Triangle pointer
-                    Image(systemName: "arrowtriangle.down.fill")
-                      .font(.system(size: 12))
-                      .foregroundColor(.orange)
-                      .offset(y: -5)
-                  }
-                }
-              } else {
-                // Marker for sector
-                Annotation(
-                  location.name,
-                  coordinate: CLLocationCoordinate2D(
-                    latitude: location.latitude, longitude: location.longitude
-                  ),
-                  anchor: .bottom
-                ) {
-                  Button {
-                    // Set the selectedSectorId directly from the location
-                    if let sectorId = location.sectorId {
-                      withAnimation {
-                        selectedSectorId = sectorId
-                      }
-                    }
-                  } label: {
+          Spacer()
+
+          Image(systemName: isMapExpanded ? "chevron.up" : "chevron.down")
+            .font(.title3)
+            .foregroundColor(Color.newTextColor)
+        }
+        .padding(.vertical, 5)
+        .contentShape(Rectangle())
+      }
+      .buttonStyle(PlainButtonStyle())
+      .padding(.horizontal, 20)
+
+      if isMapExpanded {
+        if !mapLocations.isEmpty {
+          ZStack(alignment: .bottomTrailing) {
+            Map(position: $mapPosition) {
+              ForEach(mapLocations) { location in
+                if location.isCrag {
+                  // Custom marker for crag
+                  Annotation(
+                    location.name,
+                    coordinate: CLLocationCoordinate2D(
+                      latitude: location.latitude, longitude: location.longitude
+                    ),
+                    anchor: .bottom
+                  ) {
                     VStack(spacing: 0) {
-                      // Change color if this sector is selected
-                      let isSelected = location.sectorId == selectedSectorId
-
-                      // Photo or placeholder
-                      if let photoUrl = location.photoUrl, let url = URL(string: photoUrl) {
-                        // Photo is available
-                        AsyncImage(url: url) { phase in
-                          switch phase {
-                          case .empty:
-                            placeholderImage(isSelected: isSelected)
-                          case .success(let image):
-                            image
-                              .resizable()
-                              .aspectRatio(contentMode: .fill)
-                              .frame(width: 40, height: 40)
-                              .clipShape(Circle())
-                              .overlay(
-                                Circle()
-                                  .stroke(Color.white, lineWidth: isSelected ? 2 : 1.5)
-                              )
-                              .shadow(radius: isSelected ? 3 : 1)
-                              .scaleEffect(isSelected ? 1.1 : 1.0)
-                              .animation(.spring(response: 0.3), value: isSelected)
-                          case .failure:
-                            placeholderImage(isSelected: isSelected)
-                          @unknown default:
-                            placeholderImage(isSelected: isSelected)
-                          }
-                        }
-                      } else {
-                        // No photo available
-                        placeholderImage(isSelected: isSelected)
-                      }
+                      Image(systemName: "mountain.2.fill")
+                        .font(.system(size: 24))
+                        .foregroundColor(.white)
+                        .padding(8)
+                        .background(Color.orange)
+                        .clipShape(Circle())
+                        .overlay(
+                          Circle()
+                            .stroke(Color.white, lineWidth: 2)
+                        )
+                        .shadow(radius: 2)
 
                       // Triangle pointer
                       Image(systemName: "arrowtriangle.down.fill")
-                        .font(.system(size: 10))
-                        .foregroundColor(isSelected ? Color.green : Color.blue)
+                        .font(.system(size: 12))
+                        .foregroundColor(.orange)
                         .offset(y: -5)
                     }
                   }
-                  .buttonStyle(ScaleButtonStyle())
+                } else {
+                  // Marker for sector
+                  Annotation(
+                    location.name,
+                    coordinate: CLLocationCoordinate2D(
+                      latitude: location.latitude, longitude: location.longitude
+                    ),
+                    anchor: .bottom
+                  ) {
+                    Button {
+                      // Set the selectedSectorId directly from the location
+                      if let sectorId = location.sectorId {
+                        withAnimation {
+                          selectedSectorId = sectorId
+                        }
+                      }
+                    } label: {
+                      VStack(spacing: 0) {
+                        // Change color if this sector is selected
+                        let isSelected = location.sectorId == selectedSectorId
+
+                        // Photo or placeholder
+                        if let photoUrl = location.photoUrl, let url = URL(string: photoUrl) {
+                          // Photo is available
+                          AsyncImage(url: url) { phase in
+                            switch phase {
+                            case .empty:
+                              placeholderImage(isSelected: isSelected)
+                            case .success(let image):
+                              image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 40, height: 40)
+                                .clipShape(Circle())
+                                .overlay(
+                                  Circle()
+                                    .stroke(Color.white, lineWidth: isSelected ? 2 : 1.5)
+                                )
+                                .shadow(radius: isSelected ? 3 : 1)
+                                .scaleEffect(isSelected ? 1.1 : 1.0)
+                                .animation(.spring(response: 0.3), value: isSelected)
+                            case .failure:
+                              placeholderImage(isSelected: isSelected)
+                            @unknown default:
+                              placeholderImage(isSelected: isSelected)
+                            }
+                          }
+                        } else {
+                          // No photo available
+                          placeholderImage(isSelected: isSelected)
+                        }
+
+                        // Triangle pointer
+                        Image(systemName: "arrowtriangle.down.fill")
+                          .font(.system(size: 10))
+                          .foregroundColor(isSelected ? Color.green : Color.blue)
+                          .offset(y: -5)
+                      }
+                    }
+                    .buttonStyle(ScaleButtonStyle())
+                  }
                 }
               }
             }
-          }
-          .mapControlVisibility(.hidden)
-          .onAppear {
-            if !mapInitialized {
-              if let region = mapRegion {
-                mapPosition = .region(region)
+            .mapControlVisibility(.hidden)
+            .onAppear {
+              if !mapInitialized {
+                if let region = mapRegion {
+                  mapPosition = .region(region)
+                }
+                mapInitialized = true
               }
-              mapInitialized = true
             }
-          }
 
-          // Re-center button
-          Button(action: recenterMap) {
-            Image(systemName: "dot.scope")
-              .font(.system(size: 16, weight: .bold))
-              .foregroundColor(.white)
-              .padding(12)
-              .background(Color.black.opacity(0.7))
-              .clipShape(Circle())
-              .shadow(radius: 2)
+            // Re-center button
+            Button(action: recenterMap) {
+              Image(systemName: "dot.scope")
+                .font(.system(size: 16, weight: .bold))
+                .foregroundColor(.white)
+                .padding(12)
+                .background(Color.black.opacity(0.7))
+                .clipShape(Circle())
+                .shadow(radius: 2)
+            }
+            .padding(16)
           }
-          .padding(16)
+          .frame(height: 350)
+          .cornerRadius(10)
+          .padding(.horizontal, 20)
+        } else {
+          Text("Location not available")
+            .foregroundColor(.gray)
+            .padding(.horizontal, 20)
         }
-        .frame(height: 350)
-        .cornerRadius(10)
-      } else {
-        Text("Location not available")
-          .foregroundColor(.gray)
       }
     }
+    .padding(.vertical, 20)
+    .background(Color.white)
+    .clipShape(RoundedRectangle(cornerRadius: 20))
   }
 }
 

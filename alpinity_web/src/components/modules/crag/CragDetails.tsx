@@ -106,10 +106,10 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
     <div className="space-y-8">
       <CragHeader name={crag.name || "Unnamed Crag"} description={crag.description} locationName={crag.locationName} />
 
-      {crag.photos && crag.photos.length > 0 && (
+      {cragId && (
         <section className="rounded-lg border p-4">
-          <h2 className="mb-4 text-2xl font-semibold">Photos</h2>
-          <CragPhotos photos={crag.photos} />
+          <h2 className="mb-4 text-2xl font-semibold">Weather</h2>
+          <CragWeather cragId={cragId} />
         </section>
       )}
 
@@ -125,10 +125,10 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
         </section>
       )}
 
-      {cragId && (
+      {crag.photos && crag.photos.length > 0 && (
         <section className="rounded-lg border p-4">
-          <h2 className="mb-4 text-2xl font-semibold">Weather</h2>
-          <CragWeather cragId={cragId} />
+          <h2 className="mb-4 text-2xl font-semibold">Photos</h2>
+          <CragPhotos photos={crag.photos} />
         </section>
       )}
 

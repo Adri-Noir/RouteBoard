@@ -51,9 +51,6 @@ struct ExploreView: View {
     .task {
       await fetchExploreData()
     }
-    .onDisappear {
-      exploreCacheClient.cancel()
-    }
   }
 
   private var exploreItemsScrollView: some View {

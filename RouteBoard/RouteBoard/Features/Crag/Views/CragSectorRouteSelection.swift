@@ -386,6 +386,7 @@ struct RouteCardFullscreen: View {
                   .font(.subheadline)
                   .foregroundColor(.white.opacity(0.8))
                   .lineLimit(2)
+                  .multilineTextAlignment(.leading)
               }
             }
 
@@ -423,60 +424,78 @@ struct RouteCardFullscreen: View {
               || (categories.rockTypes != nil && !categories.rockTypes!.isEmpty)
               || (categories.holdTypes != nil && !categories.holdTypes!.isEmpty)
           {
-            ScrollView(.horizontal, showsIndicators: false) {
-              HStack(spacing: 8) {
-                if let climbTypes = categories.climbTypes {
-                  ForEach(climbTypes, id: \.self) { category in
-                    let climbingType =
-                      ClimbTypesConverter.convertComponentsClimbTypesToUserClimbingTypes(
-                        componentsClimbTypes: [category]
-                      ).first
+            HStack(spacing: 8) {
+              if let climbTypes = categories.climbTypes {
+                ForEach(Array(climbTypes.prefix(1)), id: \.self) { category in
+                  let climbingType =
+                    ClimbTypesConverter.convertComponentsClimbTypesToUserClimbingTypes(
+                      componentsClimbTypes: [category]
+                    ).first
 
-                    Text(climbingType?.rawValue ?? category.rawValue)
-                      .font(.caption)
-                      .foregroundColor(.white)
-                      .padding(.horizontal, 10)
-                      .padding(.vertical, 5)
-                      .background(Color.newPrimaryColor.opacity(0.7))
-                      .clipShape(RoundedRectangle(cornerRadius: 12))
-                  }
-                }
-
-                if let rockTypes = categories.rockTypes {
-                  ForEach(rockTypes, id: \.self) { category in
-                    let rockType =
-                      ClimbTypesConverter.convertComponentsRockTypesToUserClimbingTypes(
-                        componentsRockTypes: [category]
-                      ).first
-
-                    Text(rockType?.rawValue ?? category.rawValue)
-                      .font(.caption)
-                      .foregroundColor(.white)
-                      .padding(.horizontal, 10)
-                      .padding(.vertical, 5)
-                      .background(Color.newPrimaryColor.opacity(0.7))
-                      .clipShape(RoundedRectangle(cornerRadius: 12))
-                  }
-                }
-
-                if let holdTypes = categories.holdTypes {
-                  ForEach(holdTypes, id: \.self) { category in
-                    let holdType =
-                      ClimbTypesConverter.convertComponentsHoldTypesToUserClimbingTypes(
-                        componentsHoldTypes: [category]
-                      ).first
-
-                    Text(holdType?.rawValue ?? category.rawValue)
-                      .font(.caption)
-                      .foregroundColor(.white)
-                      .padding(.horizontal, 10)
-                      .padding(.vertical, 5)
-                      .background(Color.newPrimaryColor.opacity(0.7))
-                      .clipShape(RoundedRectangle(cornerRadius: 12))
-                  }
+                  Text(climbingType?.rawValue ?? category.rawValue)
+                    .font(.caption)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(Color.newPrimaryColor.opacity(0.7))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
               }
+
+              if let rockTypes = categories.rockTypes {
+                ForEach(Array(rockTypes.prefix(1)), id: \.self) { category in
+                  let rockType =
+                    ClimbTypesConverter.convertComponentsRockTypesToUserClimbingTypes(
+                      componentsRockTypes: [category]
+                    ).first
+
+                  Text(rockType?.rawValue ?? category.rawValue)
+                    .font(.caption)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(Color.newPrimaryColor.opacity(0.7))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+              }
+
+              if let holdTypes = categories.holdTypes {
+                ForEach(Array(holdTypes.prefix(1)), id: \.self) { category in
+                  let holdType =
+                    ClimbTypesConverter.convertComponentsHoldTypesToUserClimbingTypes(
+                      componentsHoldTypes: [category]
+                    ).first
+
+                  Text(holdType?.rawValue ?? category.rawValue)
+                    .font(.caption)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(Color.newPrimaryColor.opacity(0.7))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+              }
+
+              let totalCount =
+                (categories.climbTypes?.count ?? 0) + (categories.rockTypes?.count ?? 0)
+                + (categories.holdTypes?.count ?? 0)
+              let displayedCount =
+                min(1, categories.climbTypes?.count ?? 0) + min(1, categories.rockTypes?.count ?? 0)
+                + min(1, categories.holdTypes?.count ?? 0)
+
+              if totalCount > displayedCount {
+                Text("+\(totalCount - displayedCount)")
+                  .font(.caption)
+                  .foregroundColor(.white)
+                  .padding(.horizontal, 10)
+                  .padding(.vertical, 5)
+                  .background(Color.gray.opacity(0.7))
+                  .clipShape(RoundedRectangle(cornerRadius: 12))
+              }
             }
+            .frame(height: 32)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .clipped()
             .padding(.top, -8)
           }
         }

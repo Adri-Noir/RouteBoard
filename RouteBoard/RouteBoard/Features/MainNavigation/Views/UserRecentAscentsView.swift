@@ -65,9 +65,6 @@ struct UserRecentAscentsView: View {
     .task {
       await fetchRecentAscents()
     }
-    .onDisappear {
-      userRecentAscentsClient.cancel()
-    }
     .alert(message: $errorMessage)
   }
 

@@ -1,5 +1,9 @@
 // Created with <3 on 12.03.2025.
 
+import GeneratedClient
+
+typealias RoutePhoto = Components.Schemas.RoutePhotoDto
+
 class PhotoDownloader {
   static func downloadPhoto(routePhotos: [RoutePhoto]) async -> [DetectSample] {
     var samples: [DetectSample] = []

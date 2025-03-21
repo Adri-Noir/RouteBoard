@@ -168,6 +168,7 @@ private struct DetailedCurrentWeatherView: View {
                 .padding(.vertical, 12)
                 .frame(width: 200)
               }
+              .frame(maxHeight: 200)
               .preferredColorScheme(.light)
               .presentationCompactAdaptation(.popover)
             }

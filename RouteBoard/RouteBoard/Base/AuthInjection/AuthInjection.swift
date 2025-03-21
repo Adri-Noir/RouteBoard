@@ -55,9 +55,6 @@ struct AuthInjection<Content: View>: View {
         contentOrLoginView
       }
     }
-    .onDisappear {
-      authViewModel.cancelRequests()
-    }
   }
 }
 

@@ -58,7 +58,7 @@ struct RouteLogAscent: View {
           }
 
           gradeView
-          SectorClimbTypeView(climbTypes: $selectedClimbType)
+          climbTypesView
           ratingView
           notesView
           submitButton
@@ -97,9 +97,6 @@ struct RouteLogAscent: View {
       .alert(message: $errorMessage)
     }
     .background(Color.newBackgroundGray)
-    .onDisappear {
-      logAscentClient.cancel()
-    }
   }
 
   // MARK: - Subviews
@@ -290,6 +287,67 @@ struct RouteLogAscent: View {
         .padding(.horizontal, 20)
       }
       .scrollPosition(id: $scrollPosition, anchor: .center)
+    }
+  }
+
+  private var climbTypesView: some View {
+    VStack(alignment: .leading, spacing: 10) {
+      Text("Climb Types")
+        .font(.headline)
+        .fontWeight(.semibold)
+        .foregroundColor(Color.newTextColor)
+        .padding(.horizontal)
+
+      VStack(spacing: 15) {
+        climbTypeSection(title: "Style", types: [.Endurance, .Powerful, .Technical])
+        climbTypeSection(
+          title: "Rock Type", types: [.Vertical, .Overhang, .Roof, .Slab, .Arete, .Dihedral])
+        climbTypeSection(
+          title: "Hold Type", types: [.Crack, .Crimps, .Slopers, .Pinches, .Jugs, .Pockets])
+      }
+    }
+  }
+
+  private func climbTypeSection(title: String, types: [UserClimbingType]) -> some View {
+    VStack(alignment: .leading, spacing: 8) {
+      Text(title)
+        .font(.subheadline)
+        .foregroundColor(Color.gray)
+        .padding(.horizontal)
+
+      ScrollView(.horizontal, showsIndicators: false) {
+        HStack(spacing: 10) {
+          ForEach(types, id: \.self) { climbType in
+            Button(action: {
+              withAnimation {
+                toggleClimbType(climbType)
+              }
+            }) {
+              Text(climbType.rawValue)
+                .font(.headline)
+                .padding(.vertical, 8)
+                .padding(.horizontal, 16)
+                .background(
+                  selectedClimbType.contains(climbType) ? Color.newPrimaryColor : Color.white
+                )
+                .foregroundColor(
+                  selectedClimbType.contains(climbType) ? .white : Color.newTextColor
+                )
+                .cornerRadius(10)
+                .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+            }
+          }
+        }
+        .padding(.horizontal)
+      }
+    }
+  }
+
+  private func toggleClimbType(_ type: UserClimbingType) {
+    if let index = selectedClimbType.firstIndex(where: { $0 == type }) {
+      selectedClimbType.remove(at: index)
+    } else {
+      selectedClimbType.append(type)
     }
   }
 

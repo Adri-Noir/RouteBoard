@@ -1,5 +1,6 @@
 // Created with <3 on 02.03.2025.
 
+import OpenAPIRuntime
 import OpenAPIURLSession
 
 public typealias SearchHistory = Components.Schemas.SearchResultDto

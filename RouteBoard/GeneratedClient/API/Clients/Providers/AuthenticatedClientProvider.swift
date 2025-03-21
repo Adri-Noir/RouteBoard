@@ -41,6 +41,10 @@ public class AuthenticationProvider {
 
   public init() {}
 
+  deinit {
+    cancelRequest()
+  }
+
   private func validateToken(_ token: String?) throws -> String {
     guard let token = token else {
       throw AuthClientProviderError.noTokenProvided
@@ -74,8 +78,7 @@ public class AuthenticationProvider {
     if let errorsContainer = error["errors"],
       let errorsArray = errorsContainer.value as? [[String: Any]],
       let firstError = errorsArray.first,
-      let firstErrorDict = firstError as? [String: Any],
-      let message = firstErrorDict["message"] as? String
+      let message = firstError["message"] as? String
     {
       return message
     }

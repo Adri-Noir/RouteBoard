@@ -82,9 +82,6 @@ struct UserView: View {
         await fetchUserProfile(userId: userId)
       }
     }
-    .onDisappear {
-      getUserProfileClient.cancel()
-    }
   }
 
   private func fetchUserProfile(userId: String) async {

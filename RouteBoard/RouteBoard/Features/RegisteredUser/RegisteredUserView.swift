@@ -82,9 +82,6 @@ struct RegisteredUserView: View {
         }
       }
     }
-    .onDisappear {
-      getUserProfileClient.cancel()
-    }
   }
 
   private func fetchUserProfile(userId: String, authData: AuthData) async {

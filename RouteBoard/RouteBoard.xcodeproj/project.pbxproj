@@ -7,15 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6911F238AC288B034145C1D5 /* MainNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6911F9D42AC10DD011DEF193 /* MainNavigationView.swift */; };
-		6911F3A7BA91E08FC4899967 /* NoSearchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6911F0D871407834575781BE /* NoSearchResults.swift */; };
-		6911F6332E2C522FD13518AC /* MainNavigationWithFloatingSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6911FF1EF059EB029243BF8B /* MainNavigationWithFloatingSearch.swift */; };
 		6911F6F222906945D23F3284 /* LoadingSearchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6911FB5412234CF26B197F5A /* LoadingSearchResults.swift */; };
 		6911F75652EFE19E90503597 /* SingleResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6911F51F855391514852E6F0 /* SingleResultView.swift */; };
-		6911F9151799F064BB5852C8 /* DetectRoutesWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6911FC25F10225FB40D28EB8 /* DetectRoutesWrapper.swift */; };
 		6911F969FF44336C6055B5F6 /* DetailsViewStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6911F4820D429661D9F37AD7 /* DetailsViewStateMachine.swift */; };
 		6911FD154165DD1FB3490BFC /* SectorLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6911FF5311C7DCE4BE3D4E04 /* SectorLink.swift */; };
-		6911FF8E122D5F4FF7E7BC52 /* MainNavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6911FE807174DDA6C9286DF9 /* MainNavigationButton.swift */; };
 		6911FFF19EC58C8CB29ACAE3 /* SlideupLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6911F33CA5627DDD3877F849 /* SlideupLayout.swift */; };
 		AF0243342D163FC70007748D /* ConfirmPhotoOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0243332D163FB70007748D /* ConfirmPhotoOverlayView.swift */; };
 		AF0243382D1640250007748D /* PhotoDrawingCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0243372D16401E0007748D /* PhotoDrawingCanvas.swift */; };
@@ -31,21 +26,17 @@
 		AF07624B2D82163C003BB9BA /* CragDetailsCacheClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07624A2D821636003BB9BA /* CragDetailsCacheClient.swift */; };
 		AF07624D2D821644003BB9BA /* SectorDetailsCacheClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07624C2D821640003BB9BA /* SectorDetailsCacheClient.swift */; };
 		AF07624F2D82164B003BB9BA /* RouteDetailsCacheClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07624E2D821646003BB9BA /* RouteDetailsCacheClient.swift */; };
-		AF0A110B2C3C86D000BFAEAC /* RoutesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0A110A2C3C86D000BFAEAC /* RoutesListView.swift */; };
-		AF0A110F2C3C8EEB00BFAEAC /* SimpleRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0A110E2C3C8EEB00BFAEAC /* SimpleRoute.swift */; };
 		AF1271022D875A970009D70F /* ClimbingGradesGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1271012D875A910009D70F /* ClimbingGradesGraphView.swift */; };
 		AF1271062D875C640009D70F /* AscentTypeStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1271052D875C5D0009D70F /* AscentTypeStatistics.swift */; };
 		AF1271082D875C6F0009D70F /* ClmbingGradeStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1271072D875C6B0009D70F /* ClmbingGradeStatistics.swift */; };
 		AF12710C2D8760600009D70F /* UserLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF12710B2D87605E0009D70F /* UserLink.swift */; };
 		AF191C6E2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF191C6D2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift */; };
-		AF191C702C34D953000EBB61 /* InformationRectanglesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF191C6F2C34D953000EBB61 /* InformationRectanglesView.swift */; };
 		AF1DC6C42D3489F200D8409D /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = AF1DC6C32D3489F200D8409D /* KeychainAccess */; };
 		AF1DC6C72D348A1D00D8409D /* OpenCV in Frameworks */ = {isa = PBXBuildFile; productRef = AF1DC6C62D348A1D00D8409D /* OpenCV */; };
 		AF21C0AF2D6E7AB6000BE26C /* RouteLogAscent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF21C0AD2D6E7AB3000BE26C /* RouteLogAscent.swift */; };
 		AF21C18D2D71107A000BE26C /* ClimbTypesConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF21C18B2D711073000BE26C /* ClimbTypesConverter.swift */; };
 		AF21C2D02D7378F1000BE26C /* DateTimeConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF21C2CF2D7378ED000BE26C /* DateTimeConverter.swift */; };
 		AF21C2DF2D737FD0000BE26C /* ScrollViewWithStickyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF21C2DD2D737FCB000BE26C /* ScrollViewWithStickyHeader.swift */; };
-		AF21C3192D73BD61000BE26C /* RouteHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF21C3172D73BD5E000BE26C /* RouteHeaderView.swift */; };
 		AF2991DE2D078CEE00BB7907 /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2991D92D078CEE00BB7907 /* MediaLibrary.swift */; };
 		AF2991E12D078CEE00BB7907 /* DataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2991D82D078CEE00BB7907 /* DataTypes.swift */; };
 		AF2991EA2D078CF200BB7907 /* PhotoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2991E32D078CF200BB7907 /* PhotoCapture.swift */; };
@@ -62,7 +53,6 @@
 		AF3D95D02D6BE0D9003FAF90 /* WavingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D95CE2D6BE0D7003FAF90 /* WavingText.swift */; };
 		AF62E0CB2D7679AD0039B67F /* AlertViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E0CA2D7679A20039B67F /* AlertViewExtension.swift */; };
 		AF62E0E02D777F4D0039B67F /* CragHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E0DE2D777F470039B67F /* CragHeaderView.swift */; };
-		AF62E0E22D777F580039B67F /* SectorHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E0E12D777F550039B67F /* SectorHeaderView.swift */; };
 		AF62E1002D779FDA0039B67F /* RegisteredUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E0FF2D779FD30039B67F /* RegisteredUserView.swift */; };
 		AF62E1A22D7A461A0039B67F /* APIClientInjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E1A12D7A45FF0039B67F /* APIClientInjection.swift */; };
 		AF62E1A52D7A46BC0039B67F /* ExploreCacheClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E1A42D7A46B90039B67F /* ExploreCacheClient.swift */; };
@@ -80,39 +70,31 @@
 		AF869CD22C307D870092E371 /* RouteImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF869CD12C307D870092E371 /* RouteImageModel.swift */; };
 		AF8A74E62D407E570029BE40 /* MarqueeText.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A74E52D407E540029BE40 /* MarqueeText.swift */; };
 		AF8A75B02D4312390029BE40 /* AsyncImageWithFallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A75AE2D4312330029BE40 /* AsyncImageWithFallback.swift */; };
-		AF8A75D32D4323B70029BE40 /* SectorTopGradesSummaryContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A75D12D4323AD0029BE40 /* SectorTopGradesSummaryContainer.swift */; };
-		AF8A75DC2D43241D0029BE40 /* SectorLocationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A75DA2D4324180029BE40 /* SectorLocationInfoView.swift */; };
-		AF8A75E12D43243A0029BE40 /* SectorClimbTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A75DF2D4324360029BE40 /* SectorClimbTypeView.swift */; };
-		AF8A75E62D43244C0029BE40 /* SectorTopContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A75E42D4324490029BE40 /* SectorTopContainerView.swift */; };
-		AF8A75EB2D43246D0029BE40 /* SectorRoutesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A75E92D4324670029BE40 /* SectorRoutesListView.swift */; };
-		AF8A75F32D4324A10029BE40 /* SectorGradesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A75F22D43249E0029BE40 /* SectorGradesView.swift */; };
 		AF8A760A2D4457710029BE40 /* UINavigationBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A76082D4457600029BE40 /* UINavigationBarExtension.swift */; };
-		AF8A76492D4468E30029BE40 /* RouteTopContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A76472D4468DD0029BE40 /* RouteTopContainerView.swift */; };
-		AF8A76552D4469C60029BE40 /* RouteTopInfoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A76532D4469C00029BE40 /* RouteTopInfoContainerView.swift */; };
-		AF8A76652D446C640029BE40 /* RouteLocationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A76632D446C5A0029BE40 /* RouteLocationInfoView.swift */; };
 		AF8A76852D45AFE70029BE40 /* RouteAscentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A76832D45AFCA0029BE40 /* RouteAscentsView.swift */; };
 		AF8A76D72D46BADA0029BE40 /* CragTopContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A76D52D46BAD40029BE40 /* CragTopContainerView.swift */; };
 		AF8A76ED2D46BDAF0029BE40 /* CragTopInfoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A76EB2D46BDA90029BE40 /* CragTopInfoContainerView.swift */; };
 		AF8A77442D46D8180029BE40 /* CragMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A77422D46D8150029BE40 /* CragMapView.swift */; };
-		AF8DA6372CD4465500751865 /* IndexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA6362CD4465200751865 /* IndexView.swift */; };
-		AF8DA63A2CD44C7E00751865 /* WelcomeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA6392CD44C7B00751865 /* WelcomeTextView.swift */; };
-		AF8DA63C2CD450CC00751865 /* RecentAscentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA63B2CD450C400751865 /* RecentAscentsView.swift */; };
-		AF8DA6402CD45DD400751865 /* RouteAscentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA63F2CD45DD000751865 /* RouteAscentView.swift */; };
 		AF8DA6462CD563DC00751865 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA6452CD563D400751865 /* ColorTheme.swift */; };
 		AF8DA6482CD5671E00751865 /* ApplyBackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA6472CD5671A00751865 /* ApplyBackgroundColor.swift */; };
 		AF8DA64B2CD56C1300751865 /* GeneralSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA64A2CD56C0F00751865 /* GeneralSearchView.swift */; };
 		AF8DA64E2CD56D8000751865 /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA64D2CD56D7C00751865 /* SearchResultView.swift */; };
-		AF9B624E2C348E4B003762B0 /* SectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B624D2C348E4B003762B0 /* SectorView.swift */; };
 		AF9B62512C349484003762B0 /* ImageCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B62502C349484003762B0 /* ImageCarouselView.swift */; };
 		AF9B62542C34A271003762B0 /* ExtendedDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B62532C34A271003762B0 /* ExtendedDivider.swift */; };
-		AF9E0C632C3741A900984C58 /* GradesGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9E0C622C3741A900984C58 /* GradesGraphView.swift */; };
-		AF9E0C652C37421900984C58 /* GradesGraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9E0C642C37421900984C58 /* GradesGraphModel.swift */; };
 		AF9E0C6C2C3747C500984C58 /* ClimbingGrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9E0C6B2C3747C500984C58 /* ClimbingGrades.swift */; };
 		AF9E0C6F2C3747FD00984C58 /* FrenchClimbingGrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9E0C6E2C3747FD00984C58 /* FrenchClimbingGrades.swift */; };
 		AF9E0C722C38AC0B00984C58 /* CreateRouteImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9E0C712C38AC0B00984C58 /* CreateRouteImageView.swift */; };
 		AF9E0C752C38ACC400984C58 /* CreateRouteImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9E0C742C38ACC400984C58 /* CreateRouteImageModel.swift */; };
 		AF9E0C782C38BE1800984C58 /* CreateRouteOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9E0C772C38BE1800984C58 /* CreateRouteOverlayView.swift */; };
 		AF9E0C7B2C39887F00984C58 /* RoutePoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9E0C7A2C39887F00984C58 /* RoutePoints.swift */; };
+		AFA0ECDE2D8CB11200437911 /* RouteAscentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA0ECDD2D8CB10D00437911 /* RouteAscentButton.swift */; };
+		AFA0ECE02D8CB11E00437911 /* RouteInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA0ECDF2D8CB11A00437911 /* RouteInfoView.swift */; };
+		AFA0ECE22D8CB12600437911 /* RouteDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA0ECE12D8CB12100437911 /* RouteDescriptionView.swift */; };
+		AFA0ECE42D8CB13700437911 /* RouteCharacteristicsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA0ECE32D8CB13000437911 /* RouteCharacteristicsView.swift */; };
+		AFA0ECE62D8CB14500437911 /* RouteLocationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA0ECE52D8CB14300437911 /* RouteLocationSection.swift */; };
+		AFA0ECE82D8CB15100437911 /* RouteNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA0ECE72D8CB15000437911 /* RouteNavigationBar.swift */; };
+		AFA0ECEA2D8CB15700437911 /* RouteBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA0ECE92D8CB15600437911 /* RouteBackgroundView.swift */; };
+		AFA0ECF42D8CBA8000437911 /* OnTapBackgroundExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA0ECF32D8CBA7900437911 /* OnTapBackgroundExtension.swift */; };
 		AFB321B52D85C810003A60F7 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB321B32D85C80E003A60F7 /* MapView.swift */; };
 		AFB321C52D85D1D9003A60F7 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB321C32D85D1D5003A60F7 /* MapViewModel.swift */; };
 		AFB322502D87368A003A60F7 /* MapContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB3224F2D873686003A60F7 /* MapContent.swift */; };
@@ -193,15 +175,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6911F0D871407834575781BE /* NoSearchResults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoSearchResults.swift; sourceTree = "<group>"; };
 		6911F33CA5627DDD3877F849 /* SlideupLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideupLayout.swift; sourceTree = "<group>"; };
 		6911F4820D429661D9F37AD7 /* DetailsViewStateMachine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewStateMachine.swift; sourceTree = "<group>"; };
 		6911F51F855391514852E6F0 /* SingleResultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleResultView.swift; sourceTree = "<group>"; };
-		6911F9D42AC10DD011DEF193 /* MainNavigationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationView.swift; sourceTree = "<group>"; };
 		6911FB5412234CF26B197F5A /* LoadingSearchResults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingSearchResults.swift; sourceTree = "<group>"; };
-		6911FC25F10225FB40D28EB8 /* DetectRoutesWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetectRoutesWrapper.swift; sourceTree = "<group>"; };
-		6911FE807174DDA6C9286DF9 /* MainNavigationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationButton.swift; sourceTree = "<group>"; };
-		6911FF1EF059EB029243BF8B /* MainNavigationWithFloatingSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationWithFloatingSearch.swift; sourceTree = "<group>"; };
 		6911FF5311C7DCE4BE3D4E04 /* SectorLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectorLink.swift; sourceTree = "<group>"; };
 		AF0243332D163FB70007748D /* ConfirmPhotoOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPhotoOverlayView.swift; sourceTree = "<group>"; };
 		AF0243372D16401E0007748D /* PhotoDrawingCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDrawingCanvas.swift; sourceTree = "<group>"; };
@@ -216,19 +193,15 @@
 		AF07624A2D821636003BB9BA /* CragDetailsCacheClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CragDetailsCacheClient.swift; sourceTree = "<group>"; };
 		AF07624C2D821640003BB9BA /* SectorDetailsCacheClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorDetailsCacheClient.swift; sourceTree = "<group>"; };
 		AF07624E2D821646003BB9BA /* RouteDetailsCacheClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteDetailsCacheClient.swift; sourceTree = "<group>"; };
-		AF0A110A2C3C86D000BFAEAC /* RoutesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesListView.swift; sourceTree = "<group>"; };
-		AF0A110E2C3C8EEB00BFAEAC /* SimpleRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleRoute.swift; sourceTree = "<group>"; };
 		AF1271012D875A910009D70F /* ClimbingGradesGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbingGradesGraphView.swift; sourceTree = "<group>"; };
 		AF1271052D875C5D0009D70F /* AscentTypeStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AscentTypeStatistics.swift; sourceTree = "<group>"; };
 		AF1271072D875C6B0009D70F /* ClmbingGradeStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClmbingGradeStatistics.swift; sourceTree = "<group>"; };
 		AF12710B2D87605E0009D70F /* UserLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLink.swift; sourceTree = "<group>"; };
 		AF191C6D2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteFinderBottomInfoView.swift; sourceTree = "<group>"; };
-		AF191C6F2C34D953000EBB61 /* InformationRectanglesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationRectanglesView.swift; sourceTree = "<group>"; };
 		AF21C0AD2D6E7AB3000BE26C /* RouteLogAscent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteLogAscent.swift; sourceTree = "<group>"; };
 		AF21C18B2D711073000BE26C /* ClimbTypesConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbTypesConverter.swift; sourceTree = "<group>"; };
 		AF21C2CF2D7378ED000BE26C /* DateTimeConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeConverter.swift; sourceTree = "<group>"; };
 		AF21C2DD2D737FCB000BE26C /* ScrollViewWithStickyHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewWithStickyHeader.swift; sourceTree = "<group>"; };
-		AF21C3172D73BD5E000BE26C /* RouteHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteHeaderView.swift; sourceTree = "<group>"; };
 		AF2991D82D078CEE00BB7907 /* DataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTypes.swift; sourceTree = "<group>"; };
 		AF2991D92D078CEE00BB7907 /* MediaLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibrary.swift; sourceTree = "<group>"; };
 		AF2991E32D078CF200BB7907 /* PhotoCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCapture.swift; sourceTree = "<group>"; };
@@ -246,7 +219,6 @@
 		AF3D95CE2D6BE0D7003FAF90 /* WavingText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WavingText.swift; sourceTree = "<group>"; };
 		AF62E0CA2D7679A20039B67F /* AlertViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewExtension.swift; sourceTree = "<group>"; };
 		AF62E0DE2D777F470039B67F /* CragHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CragHeaderView.swift; sourceTree = "<group>"; };
-		AF62E0E12D777F550039B67F /* SectorHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorHeaderView.swift; sourceTree = "<group>"; };
 		AF62E0FF2D779FD30039B67F /* RegisteredUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisteredUserView.swift; sourceTree = "<group>"; };
 		AF62E1A12D7A45FF0039B67F /* APIClientInjection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientInjection.swift; sourceTree = "<group>"; };
 		AF62E1A42D7A46B90039B67F /* ExploreCacheClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCacheClient.swift; sourceTree = "<group>"; };
@@ -266,39 +238,31 @@
 		AF869CD12C307D870092E371 /* RouteImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteImageModel.swift; sourceTree = "<group>"; };
 		AF8A74E52D407E540029BE40 /* MarqueeText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeText.swift; sourceTree = "<group>"; };
 		AF8A75AE2D4312330029BE40 /* AsyncImageWithFallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImageWithFallback.swift; sourceTree = "<group>"; };
-		AF8A75D12D4323AD0029BE40 /* SectorTopGradesSummaryContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorTopGradesSummaryContainer.swift; sourceTree = "<group>"; };
-		AF8A75DA2D4324180029BE40 /* SectorLocationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorLocationInfoView.swift; sourceTree = "<group>"; };
-		AF8A75DF2D4324360029BE40 /* SectorClimbTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorClimbTypeView.swift; sourceTree = "<group>"; };
-		AF8A75E42D4324490029BE40 /* SectorTopContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorTopContainerView.swift; sourceTree = "<group>"; };
-		AF8A75E92D4324670029BE40 /* SectorRoutesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorRoutesListView.swift; sourceTree = "<group>"; };
-		AF8A75F22D43249E0029BE40 /* SectorGradesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorGradesView.swift; sourceTree = "<group>"; };
 		AF8A76082D4457600029BE40 /* UINavigationBarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationBarExtension.swift; sourceTree = "<group>"; };
-		AF8A76472D4468DD0029BE40 /* RouteTopContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteTopContainerView.swift; sourceTree = "<group>"; };
-		AF8A76532D4469C00029BE40 /* RouteTopInfoContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteTopInfoContainerView.swift; sourceTree = "<group>"; };
-		AF8A76632D446C5A0029BE40 /* RouteLocationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteLocationInfoView.swift; sourceTree = "<group>"; };
 		AF8A76832D45AFCA0029BE40 /* RouteAscentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteAscentsView.swift; sourceTree = "<group>"; };
 		AF8A76D52D46BAD40029BE40 /* CragTopContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CragTopContainerView.swift; sourceTree = "<group>"; };
 		AF8A76EB2D46BDA90029BE40 /* CragTopInfoContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CragTopInfoContainerView.swift; sourceTree = "<group>"; };
 		AF8A77422D46D8150029BE40 /* CragMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CragMapView.swift; sourceTree = "<group>"; };
-		AF8DA6362CD4465200751865 /* IndexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexView.swift; sourceTree = "<group>"; };
-		AF8DA6392CD44C7B00751865 /* WelcomeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeTextView.swift; sourceTree = "<group>"; };
-		AF8DA63B2CD450C400751865 /* RecentAscentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentAscentsView.swift; sourceTree = "<group>"; };
-		AF8DA63F2CD45DD000751865 /* RouteAscentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteAscentView.swift; sourceTree = "<group>"; };
 		AF8DA6452CD563D400751865 /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
 		AF8DA6472CD5671A00751865 /* ApplyBackgroundColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyBackgroundColor.swift; sourceTree = "<group>"; };
 		AF8DA64A2CD56C0F00751865 /* GeneralSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSearchView.swift; sourceTree = "<group>"; };
 		AF8DA64D2CD56D7C00751865 /* SearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
-		AF9B624D2C348E4B003762B0 /* SectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorView.swift; sourceTree = "<group>"; };
 		AF9B62502C349484003762B0 /* ImageCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarouselView.swift; sourceTree = "<group>"; };
 		AF9B62532C34A271003762B0 /* ExtendedDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedDivider.swift; sourceTree = "<group>"; };
-		AF9E0C622C3741A900984C58 /* GradesGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradesGraphView.swift; sourceTree = "<group>"; };
-		AF9E0C642C37421900984C58 /* GradesGraphModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradesGraphModel.swift; sourceTree = "<group>"; };
 		AF9E0C6B2C3747C500984C58 /* ClimbingGrades.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbingGrades.swift; sourceTree = "<group>"; };
 		AF9E0C6E2C3747FD00984C58 /* FrenchClimbingGrades.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrenchClimbingGrades.swift; sourceTree = "<group>"; };
 		AF9E0C712C38AC0B00984C58 /* CreateRouteImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRouteImageView.swift; sourceTree = "<group>"; };
 		AF9E0C742C38ACC400984C58 /* CreateRouteImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRouteImageModel.swift; sourceTree = "<group>"; };
 		AF9E0C772C38BE1800984C58 /* CreateRouteOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRouteOverlayView.swift; sourceTree = "<group>"; };
 		AF9E0C7A2C39887F00984C58 /* RoutePoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePoints.swift; sourceTree = "<group>"; };
+		AFA0ECDD2D8CB10D00437911 /* RouteAscentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteAscentButton.swift; sourceTree = "<group>"; };
+		AFA0ECDF2D8CB11A00437911 /* RouteInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteInfoView.swift; sourceTree = "<group>"; };
+		AFA0ECE12D8CB12100437911 /* RouteDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteDescriptionView.swift; sourceTree = "<group>"; };
+		AFA0ECE32D8CB13000437911 /* RouteCharacteristicsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteCharacteristicsView.swift; sourceTree = "<group>"; };
+		AFA0ECE52D8CB14300437911 /* RouteLocationSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteLocationSection.swift; sourceTree = "<group>"; };
+		AFA0ECE72D8CB15000437911 /* RouteNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteNavigationBar.swift; sourceTree = "<group>"; };
+		AFA0ECE92D8CB15600437911 /* RouteBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteBackgroundView.swift; sourceTree = "<group>"; };
+		AFA0ECF32D8CBA7900437911 /* OnTapBackgroundExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnTapBackgroundExtension.swift; sourceTree = "<group>"; };
 		AFB321B32D85C80E003A60F7 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		AFB321C32D85D1D5003A60F7 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		AFB3224F2D873686003A60F7 /* MapContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContent.swift; sourceTree = "<group>"; };
@@ -414,9 +378,6 @@
 			children = (
 				AF3D94412D6A979C003FAF90 /* Views */,
 				AF3D932C2D67D62F003FAF90 /* NewMainNavigationView.swift */,
-				6911FE807174DDA6C9286DF9 /* MainNavigationButton.swift */,
-				6911FF1EF059EB029243BF8B /* MainNavigationWithFloatingSearch.swift */,
-				6911F9D42AC10DD011DEF193 /* MainNavigationView.swift */,
 			);
 			path = MainNavigation;
 			sourceTree = "<group>";
@@ -424,27 +385,10 @@
 		6911F7BDB922CCE1152A2984 /* Route */ = {
 			isa = PBXGroup;
 			children = (
-				AF8A76442D4468D50029BE40 /* NewViews */,
+				AFA0ECDC2D8CB06B00437911 /* Views */,
 				AFD9310D2D2386AE00B68D92 /* RouteView.swift */,
-				6911FBA15DB0FADEB1CE98E2 /* Views */,
-				6911F87CABD8DC6BD2F98EC9 /* View Model */,
 			);
 			path = Route;
-			sourceTree = "<group>";
-		};
-		6911F87CABD8DC6BD2F98EC9 /* View Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "View Model";
-			sourceTree = "<group>";
-		};
-		6911FBA15DB0FADEB1CE98E2 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				AFD931302D238C1F00B68D92 /* RouteLink.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		AF0762082D80F839003BB9BA /* PlaceholderImage */ = {
@@ -461,14 +405,6 @@
 				AF07623F2D820874003BB9BA /* PhotoDownloader.swift */,
 			);
 			path = PhotoDownloader;
-			sourceTree = "<group>";
-		};
-		AF0A110D2C3C8EC500BFAEAC /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				AF0A110E2C3C8EEB00BFAEAC /* SimpleRoute.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		AF1271042D875C090009D70F /* ClimbingStatistics */ = {
@@ -713,52 +649,6 @@
 			path = AsyncImageWithFallback;
 			sourceTree = "<group>";
 		};
-		AF8A75CE2D4323A70029BE40 /* NewViews */ = {
-			isa = PBXGroup;
-			children = (
-				AF62E0E12D777F550039B67F /* SectorHeaderView.swift */,
-				AF8A75F22D43249E0029BE40 /* SectorGradesView.swift */,
-				AF8A75E92D4324670029BE40 /* SectorRoutesListView.swift */,
-				AF8A75E42D4324490029BE40 /* SectorTopContainerView.swift */,
-				AF8A75DF2D4324360029BE40 /* SectorClimbTypeView.swift */,
-				AF8A75DA2D4324180029BE40 /* SectorLocationInfoView.swift */,
-				AF8A75D12D4323AD0029BE40 /* SectorTopGradesSummaryContainer.swift */,
-			);
-			path = NewViews;
-			sourceTree = "<group>";
-		};
-		AF8A76442D4468D50029BE40 /* NewViews */ = {
-			isa = PBXGroup;
-			children = (
-				AF21C3172D73BD5E000BE26C /* RouteHeaderView.swift */,
-				AF21C0AD2D6E7AB3000BE26C /* RouteLogAscent.swift */,
-				AF8A76832D45AFCA0029BE40 /* RouteAscentsView.swift */,
-				AF8A76632D446C5A0029BE40 /* RouteLocationInfoView.swift */,
-				AF8A76532D4469C00029BE40 /* RouteTopInfoContainerView.swift */,
-				AF8A76472D4468DD0029BE40 /* RouteTopContainerView.swift */,
-			);
-			path = NewViews;
-			sourceTree = "<group>";
-		};
-		AF8DA6352CD4461800751865 /* MainPage */ = {
-			isa = PBXGroup;
-			children = (
-				AF8DA6382CD44C7100751865 /* Views */,
-				AF8DA6362CD4465200751865 /* IndexView.swift */,
-			);
-			path = MainPage;
-			sourceTree = "<group>";
-		};
-		AF8DA6382CD44C7100751865 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				AF8DA63F2CD45DD000751865 /* RouteAscentView.swift */,
-				AF8DA63B2CD450C400751865 /* RecentAscentsView.swift */,
-				AF8DA6392CD44C7B00751865 /* WelcomeTextView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		AF8DA6492CD56B9D00751865 /* GeneralSearch */ = {
 			isa = PBXGroup;
 			children = (
@@ -773,7 +663,6 @@
 			children = (
 				AFD931282D2387DF00B68D92 /* ResultTypeLinkPicker.swift */,
 				AF8DA64D2CD56D7C00751865 /* SearchResultView.swift */,
-				6911F0D871407834575781BE /* NoSearchResults.swift */,
 				6911FB5412234CF26B197F5A /* LoadingSearchResults.swift */,
 				6911F51F855391514852E6F0 /* SingleResultView.swift */,
 			);
@@ -817,7 +706,6 @@
 				AFD931452D26080A00B68D92 /* Login */,
 				AFD931342D25DB8000B68D92 /* Crag */,
 				AF8DA6492CD56B9D00751865 /* GeneralSearch */,
-				AF8DA6352CD4461800751865 /* MainPage */,
 				AF9E0C702C38ABEB00984C58 /* CreateRouteImage */,
 				AF9B624B2C348D0F003762B0 /* Sector */,
 				AF869CC62C3065B20092E371 /* RouteFinder */,
@@ -857,25 +745,9 @@
 		AF9B624B2C348D0F003762B0 /* Sector */ = {
 			isa = PBXGroup;
 			children = (
-				AF8A75CE2D4323A70029BE40 /* NewViews */,
-				AF0A110D2C3C8EC500BFAEAC /* Model */,
-				AF9E0C662C37422100984C58 /* View Model */,
-				AF9B624C2C348D30003762B0 /* Views */,
-				AF9B624D2C348E4B003762B0 /* SectorView.swift */,
-			);
-			path = Sector;
-			sourceTree = "<group>";
-		};
-		AF9B624C2C348D30003762B0 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				AF191C6F2C34D953000EBB61 /* InformationRectanglesView.swift */,
-				AF9E0C622C3741A900984C58 /* GradesGraphView.swift */,
-				AF0A110A2C3C86D000BFAEAC /* RoutesListView.swift */,
-				6911FC25F10225FB40D28EB8 /* DetectRoutesWrapper.swift */,
 				6911FF5311C7DCE4BE3D4E04 /* SectorLink.swift */,
 			);
-			path = Views;
+			path = Sector;
 			sourceTree = "<group>";
 		};
 		AF9B624F2C349472003762B0 /* ImageCarousel */ = {
@@ -892,14 +764,6 @@
 				AF9B62532C34A271003762B0 /* ExtendedDivider.swift */,
 			);
 			path = ExtendedDivider;
-			sourceTree = "<group>";
-		};
-		AF9E0C662C37422100984C58 /* View Model */ = {
-			isa = PBXGroup;
-			children = (
-				AF9E0C642C37421900984C58 /* GradesGraphModel.swift */,
-			);
-			path = "View Model";
 			sourceTree = "<group>";
 		};
 		AF9E0C6A2C37476B00984C58 /* ClimbingGrades */ = {
@@ -966,6 +830,31 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AFA0ECDC2D8CB06B00437911 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AFA0ECEF2D8CB61C00437911 /* LogAscent */,
+				AFA0ECE92D8CB15600437911 /* RouteBackgroundView.swift */,
+				AFA0ECE72D8CB15000437911 /* RouteNavigationBar.swift */,
+				AFA0ECE52D8CB14300437911 /* RouteLocationSection.swift */,
+				AFA0ECE32D8CB13000437911 /* RouteCharacteristicsView.swift */,
+				AFA0ECE12D8CB12100437911 /* RouteDescriptionView.swift */,
+				AFA0ECDF2D8CB11A00437911 /* RouteInfoView.swift */,
+				AFA0ECDD2D8CB10D00437911 /* RouteAscentButton.swift */,
+				AF8A76832D45AFCA0029BE40 /* RouteAscentsView.swift */,
+				AFD931302D238C1F00B68D92 /* RouteLink.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		AFA0ECEF2D8CB61C00437911 /* LogAscent */ = {
+			isa = PBXGroup;
+			children = (
+				AF21C0AD2D6E7AB3000BE26C /* RouteLogAscent.swift */,
+			);
+			path = LogAscent;
+			sourceTree = "<group>";
+		};
 		AFB321B12D85C808003A60F7 /* Map */ = {
 			isa = PBXGroup;
 			children = (
@@ -1023,6 +912,7 @@
 		AFC7D2B42D3C825C0034DC05 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				AFA0ECF32D8CBA7900437911 /* OnTapBackgroundExtension.swift */,
 				AFD64A6D2D825CE500EE84F3 /* OnAppearOnceExtension.swift */,
 				AF62E0CA2D7679A20039B67F /* AlertViewExtension.swift */,
 				AF8A76082D4457600029BE40 /* UINavigationBarExtension.swift */,
@@ -1312,42 +1202,37 @@
 			files = (
 				AFD391912C319B82008CF2A7 /* ProcessedSamplesSwift.swift in Sources */,
 				AFC7D2B62D3C82700034DC05 /* UINavigationGestureOverwrite.swift in Sources */,
+				AFA0ECEA2D8CB15700437911 /* RouteBackgroundView.swift in Sources */,
+				AFA0ECDE2D8CB11200437911 /* RouteAscentButton.swift in Sources */,
 				AF3D945A2D6A9BA4003FAF90 /* RecentlyViewedView.swift in Sources */,
 				AF0760EF2D7E271A003BB9BA /* TemperatureConverter.swift in Sources */,
 				AF1271062D875C640009D70F /* AscentTypeStatistics.swift in Sources */,
-				AF8A76492D4468E30029BE40 /* RouteTopContainerView.swift in Sources */,
 				AFD64A6F2D825CED00EE84F3 /* OnAppearOnceExtension.swift in Sources */,
 				AF0760C72D7CEC7A003BB9BA /* AscentTypeConverter.swift in Sources */,
 				AFD931362D25DBA200B68D92 /* CragView.swift in Sources */,
 				AF8DA64B2CD56C1300751865 /* GeneralSearchView.swift in Sources */,
-				AF191C702C34D953000EBB61 /* InformationRectanglesView.swift in Sources */,
 				AF8DA6482CD5671E00751865 /* ApplyBackgroundColor.swift in Sources */,
-				AF9E0C632C3741A900984C58 /* GradesGraphView.swift in Sources */,
 				AFE4C4A52D8758CD00A09302 /* UserPhotosGridView.swift in Sources */,
 				AF0760C52D7CEC71003BB9BA /* RouteTypeConverter.swift in Sources */,
 				AF869CD22C307D870092E371 /* RouteImageModel.swift in Sources */,
 				AF0762402D820878003BB9BA /* PhotoDownloader.swift in Sources */,
 				AF62E1A52D7A46BC0039B67F /* ExploreCacheClient.swift in Sources */,
+				AFA0ECE82D8CB15100437911 /* RouteNavigationBar.swift in Sources */,
 				AF12710C2D8760600009D70F /* UserLink.swift in Sources */,
 				AFBED2962D16239B002CA393 /* PhotoEditingOverlayView.swift in Sources */,
 				AFB321C52D85D1D9003A60F7 /* MapViewModel.swift in Sources */,
 				AFBED2902D136D5B002CA393 /* CreateRouteImage.swift in Sources */,
-				AF8A75F32D4324A10029BE40 /* SectorGradesView.swift in Sources */,
+				AFA0ECE42D8CB13700437911 /* RouteCharacteristicsView.swift in Sources */,
 				AFE4C4A32D87586800A09302 /* ClimbingStatsGraphView.swift in Sources */,
 				AF62E0E02D777F4D0039B67F /* CragHeaderView.swift in Sources */,
 				AF0760E12D7E1F64003BB9BA /* CragWeatherCacheClient.swift in Sources */,
 				AFD931642D29EC7300B68D92 /* KeychainService.swift in Sources */,
-				AF0A110B2C3C86D000BFAEAC /* RoutesListView.swift in Sources */,
 				AF29920B2D07BEB300BB7907 /* CameraPreview.swift in Sources */,
 				AF07624D2D821644003BB9BA /* SectorDetailsCacheClient.swift in Sources */,
 				AF9E0C722C38AC0B00984C58 /* CreateRouteImageView.swift in Sources */,
 				AFD3916F2C30B977008CF2A7 /* OpenCVWrapper.mm in Sources */,
 				AF3D944D2D6A98AC003FAF90 /* UserHelloView.swift in Sources */,
 				AF9B62542C34A271003762B0 /* ExtendedDivider.swift in Sources */,
-				AF8A75E12D43243A0029BE40 /* SectorClimbTypeView.swift in Sources */,
-				AF8A75EB2D43246D0029BE40 /* SectorRoutesListView.swift in Sources */,
-				AF8DA63A2CD44C7E00751865 /* WelcomeTextView.swift in Sources */,
-				AF9E0C652C37421900984C58 /* GradesGraphModel.swift in Sources */,
 				AF191C6E2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift in Sources */,
 				AF8A76852D45AFE70029BE40 /* RouteAscentsView.swift in Sources */,
 				AF1271082D875C6F0009D70F /* ClmbingGradeStatistics.swift in Sources */,
@@ -1362,13 +1247,12 @@
 				AFE4C4972D8756DE00A09302 /* UserView.swift in Sources */,
 				AF9E0C6C2C3747C500984C58 /* ClimbingGrades.swift in Sources */,
 				AF21C2DF2D737FD0000BE26C /* ScrollViewWithStickyHeader.swift in Sources */,
-				AF8DA6402CD45DD400751865 /* RouteAscentView.swift in Sources */,
-				AF8DA63C2CD450CC00751865 /* RecentAscentsView.swift in Sources */,
 				AFBE85902D1229F70029217C /* PhotoCaptureButton.swift in Sources */,
 				AF9E0C6F2C3747FD00984C58 /* FrenchClimbingGrades.swift in Sources */,
 				AF3D934E2D680137003FAF90 /* UserLoginView.swift in Sources */,
 				AF8A77442D46D8180029BE40 /* CragMapView.swift in Sources */,
 				AF2991EA2D078CF200BB7907 /* PhotoCapture.swift in Sources */,
+				AFA0ECE02D8CB11E00437911 /* RouteInfoView.swift in Sources */,
 				AF2991F62D078D3400BB7907 /* CameraModel.swift in Sources */,
 				AF9E0C7B2C39887F00984C58 /* RoutePoints.swift in Sources */,
 				AF8DA6462CD563DC00751865 /* ColorTheme.swift in Sources */,
@@ -1387,19 +1271,14 @@
 				AF07620D2D80F843003BB9BA /* PlaceholderImage.swift in Sources */,
 				AF0243342D163FC70007748D /* ConfirmPhotoOverlayView.swift in Sources */,
 				AF62E1A22D7A461A0039B67F /* APIClientInjection.swift in Sources */,
-				AF8DA6372CD4465500751865 /* IndexView.swift in Sources */,
 				AF0243382D1640250007748D /* PhotoDrawingCanvas.swift in Sources */,
 				AF1271022D875A970009D70F /* ClimbingGradesGraphView.swift in Sources */,
-				AF9B624E2C348E4B003762B0 /* SectorView.swift in Sources */,
 				AF773D6C2C3DFBED00886C00 /* OverlayAndRouteId.swift in Sources */,
 				AF8DA64E2CD56D8000751865 /* SearchResultView.swift in Sources */,
 				AFD3918F2C3191A8008CF2A7 /* ImportSamplesSwift.swift in Sources */,
+				AFA0ECF42D8CBA8000437911 /* OnTapBackgroundExtension.swift in Sources */,
 				AFE4C49D2D8757F800A09302 /* UserStatsView.swift in Sources */,
-				AF8A76552D4469C60029BE40 /* RouteTopInfoContainerView.swift in Sources */,
-				AF21C3192D73BD61000BE26C /* RouteHeaderView.swift in Sources */,
 				AF2991DE2D078CEE00BB7907 /* MediaLibrary.swift in Sources */,
-				AF8A75E62D43244C0029BE40 /* SectorTopContainerView.swift in Sources */,
-				AF8A75DC2D43241D0029BE40 /* SectorLocationInfoView.swift in Sources */,
 				AF2991E12D078CEE00BB7907 /* DataTypes.swift in Sources */,
 				AFB322502D87368A003A60F7 /* MapContent.swift in Sources */,
 				AFD931392D25DC1900B68D92 /* CragLink.swift in Sources */,
@@ -1409,35 +1288,28 @@
 				AF3D951F2D6B962A003FAF90 /* ExploreView.swift in Sources */,
 				AF9B62512C349484003762B0 /* ImageCarouselView.swift in Sources */,
 				AFD931292D2387E500B68D92 /* ResultTypeLinkPicker.swift in Sources */,
-				AF8A76652D446C640029BE40 /* RouteLocationInfoView.swift in Sources */,
 				AFC7D1D32D387DE30034DC05 /* AuthInjectionMock.swift in Sources */,
 				AF3D932E2D67D633003FAF90 /* NewMainNavigationView.swift in Sources */,
 				AF8A75B02D4312390029BE40 /* AsyncImageWithFallback.swift in Sources */,
-				AF0A110F2C3C8EEB00BFAEAC /* SimpleRoute.swift in Sources */,
 				AF869C9D2C3064AA0092E371 /* RouteBoardApp.swift in Sources */,
-				6911F3A7BA91E08FC4899967 /* NoSearchResults.swift in Sources */,
 				6911F6F222906945D23F3284 /* LoadingSearchResults.swift in Sources */,
 				AF8A76D72D46BADA0029BE40 /* CragTopContainerView.swift in Sources */,
-				AF8A75D32D4323B70029BE40 /* SectorTopGradesSummaryContainer.swift in Sources */,
 				6911F75652EFE19E90503597 /* SingleResultView.swift in Sources */,
+				AFA0ECE22D8CB12600437911 /* RouteDescriptionView.swift in Sources */,
 				AFE4C4A12D87584300A09302 /* ClimbingStatsTableView.swift in Sources */,
-				6911FF8E122D5F4FF7E7BC52 /* MainNavigationButton.swift in Sources */,
+				AFA0ECE62D8CB14500437911 /* RouteLocationSection.swift in Sources */,
 				AFE4C49B2D8757BA00A09302 /* ProfileHeaderView.swift in Sources */,
 				AF3D94492D6A9833003FAF90 /* SearchBar.swift in Sources */,
 				AFB321B52D85C810003A60F7 /* MapView.swift in Sources */,
-				6911F6332E2C522FD13518AC /* MainNavigationWithFloatingSearch.swift in Sources */,
 				AFD931692D29EF5B00B68D92 /* AuthInjection.swift in Sources */,
-				6911F238AC288B034145C1D5 /* MainNavigationView.swift in Sources */,
 				AFE4C4A72D8758E400A09302 /* FriendsListView.swift in Sources */,
 				6911FFF19EC58C8CB29ACAE3 /* SlideupLayout.swift in Sources */,
 				AFD9310E2D2386AE00B68D92 /* RouteView.swift in Sources */,
-				6911F9151799F064BB5852C8 /* DetectRoutesWrapper.swift in Sources */,
 				6911FD154165DD1FB3490BFC /* SectorLink.swift in Sources */,
 				AF8A76ED2D46BDAF0029BE40 /* CragTopInfoContainerView.swift in Sources */,
 				AFC7D2922D3C759F0034DC05 /* DetailsTopView.swift in Sources */,
 				AFB322552D874062003A60F7 /* MapControls.swift in Sources */,
 				AF62E0CB2D7679AD0039B67F /* AlertViewExtension.swift in Sources */,
-				AF62E0E22D777F580039B67F /* SectorHeaderView.swift in Sources */,
 				6911F969FF44336C6055B5F6 /* DetailsViewStateMachine.swift in Sources */,
 				AF0761882D7F9E86003BB9BA /* CragSectorRouteSelection.swift in Sources */,
 				AF3D95222D6B96E2003FAF90 /* NavigationSearchResultsView.swift in Sources */,

@@ -121,9 +121,7 @@ struct CragView: View {
                 .fontWeight(.semibold)
                 .foregroundColor(Color.newTextColor)
 
-              if let sectors = crag?.sectors, !sectors.isEmpty {
-                CragSectorRouteSelection(crag: crag, selectedSectorId: $selectedSectorId)
-              }
+              CragSectorRouteSelection(crag: crag, selectedSectorId: $selectedSectorId)
 
               Spacer()
             }
@@ -152,9 +150,6 @@ struct CragView: View {
           await getCragFromSectorId(value: sectorId)
         }
       }
-    }
-    .onDisappear {
-      cragDetailsCacheClient.cancel()
     }
     .alert(
       message: $errorMessage,
