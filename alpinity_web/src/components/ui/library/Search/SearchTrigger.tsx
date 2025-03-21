@@ -26,7 +26,7 @@ export const SearchTrigger = ({
       className={cn("w-full justify-between px-4 py-6 text-left", className)}
       {...props}
     >
-      <span>{children ?? placeholder}</span>
+      <span className="block truncate sm:inline-block">{children ?? placeholder}</span>
       {showShortcut && (
         <kbd
           className="bg-muted text-muted-foreground pointer-events-none inline-flex h-5 items-center gap-1 rounded border px-1.5 font-mono

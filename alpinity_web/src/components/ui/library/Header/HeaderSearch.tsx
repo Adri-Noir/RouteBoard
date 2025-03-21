@@ -12,8 +12,12 @@ const HeaderSearch = () => {
   }
 
   return (
-    <div className="flex items-center gap-2">
-      <Search />
+    <div className="w-full max-w-[180px] sm:max-w-[240px] md:max-w-[320px] lg:max-w-[400px]">
+      <Search
+        triggerClassName="w-full"
+        triggerPlaceholder="Search for crags, sectors, routes..."
+        showShortcut={false}
+      />
     </div>
   );
 };

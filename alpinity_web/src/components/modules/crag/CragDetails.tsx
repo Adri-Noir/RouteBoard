@@ -103,7 +103,7 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 px-4 sm:px-6 lg:px-8">
       <CragHeader name={crag.name || "Unnamed Crag"} description={crag.description} locationName={crag.locationName} />
 
       {cragId && (

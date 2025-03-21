@@ -3,7 +3,7 @@
 import { PointDto } from "@/lib/api/types.gen";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // You need to replace this with your actual Mapbox access token
 // Get one from https://account.mapbox.com/
@@ -24,8 +24,10 @@ interface CragLocationProps {
 
 const CragLocation = ({ location, sectors = [], onSectorClick, selectedSectorId }: CragLocationProps) => {
   const mapContainer = useRef<HTMLDivElement>(null);
+  const mapWrapperRef = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const markersRef = useRef<{ [key: string]: mapboxgl.Marker }>({});
+  const [isInteractive, setIsInteractive] = useState(false);
 
   // Initialize map only once
   useEffect(() => {
@@ -42,6 +44,15 @@ const CragLocation = ({ location, sectors = [], onSectorClick, selectedSectorId 
 
     // Add navigation controls
     newMap.addControl(new mapboxgl.NavigationControl(), "top-right");
+
+    // Disable all interaction initially
+    newMap.dragPan.disable();
+    newMap.scrollZoom.disable();
+    newMap.boxZoom.disable();
+    newMap.dragRotate.disable();
+    newMap.keyboard.disable();
+    newMap.doubleClickZoom.disable();
+    newMap.touchZoomRotate.disable();
 
     // Create a marker element for the main location
     const el = document.createElement("div");
@@ -116,9 +127,86 @@ const CragLocation = ({ location, sectors = [], onSectorClick, selectedSectorId 
     });
   }, [selectedSectorId]);
 
+  // Toggle map interactivity when isInteractive changes
+  useEffect(() => {
+    if (!map.current) return;
+
+    if (isInteractive) {
+      map.current.dragPan.enable();
+      map.current.scrollZoom.enable();
+      map.current.boxZoom.enable();
+      map.current.dragRotate.enable();
+      map.current.keyboard.enable();
+      map.current.doubleClickZoom.enable();
+      map.current.touchZoomRotate.enable();
+    } else {
+      map.current.dragPan.disable();
+      map.current.scrollZoom.disable();
+      map.current.boxZoom.disable();
+      map.current.dragRotate.disable();
+      map.current.keyboard.disable();
+      map.current.doubleClickZoom.disable();
+      map.current.touchZoomRotate.disable();
+    }
+
+    // Re-enable controls when interactive, disable when not
+    const controls = document.querySelectorAll(".mapboxgl-ctrl");
+    controls.forEach((control) => {
+      if (isInteractive) {
+        control.classList.remove("pointer-events-none", "opacity-50");
+      } else {
+        control.classList.add("pointer-events-none", "opacity-50");
+      }
+    });
+  }, [isInteractive]);
+
+  // Add click outside handler
+  useEffect(() => {
+    if (!isInteractive) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (mapWrapperRef.current && !mapWrapperRef.current.contains(event.target as Node)) {
+        setIsInteractive(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isInteractive]);
+
+  const handleActivateMap = () => {
+    setIsInteractive(true);
+  };
+
+  const handleDeactivateMap = () => {
+    setIsInteractive(false);
+  };
+
   return (
-    <div className="space-y-4">
+    <div className="relative space-y-4" ref={mapWrapperRef}>
       <div ref={mapContainer} className="bg-muted h-[400px] overflow-hidden rounded-md border" />
+
+      {!isInteractive && (
+        <div
+          onClick={handleActivateMap}
+          className="absolute inset-0 flex cursor-pointer items-center justify-center rounded-md bg-black/40 transition-opacity"
+        >
+          <div className="bg-background/90 rounded-md px-4 py-2 shadow-md">
+            <p className="text-foreground font-medium">Click to activate map</p>
+          </div>
+        </div>
+      )}
+
+      {isInteractive && (
+        <button
+          onClick={handleDeactivateMap}
+          className="bg-background/90 absolute top-2 right-14 z-10 rounded-md px-2 py-1 text-xs"
+        >
+          Exit
+        </button>
+      )}
     </div>
   );
 };
