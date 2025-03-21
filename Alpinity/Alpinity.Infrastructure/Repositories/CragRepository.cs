@@ -33,7 +33,7 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
     public async Task<ICollection<Crag>> GetCragsByName(string query, SearchOptionsDto searchOptions, CancellationToken cancellationToken = default)
     {
         return await dbContext.Crags
-            .Where(crag => crag.Name.Contains(query))
+            .Where(crag => EF.Functions.ILike(crag.Name, $"%{query}%"))
             // TODO: Implement a better search algorithm method like indexing
             // .OrderByDescending(crag => EF.Functions.FreeText(crag.Name, query))
             .Skip(searchOptions.Page * searchOptions.PageSize)

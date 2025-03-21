@@ -20,14 +20,14 @@ public class UserRepository(
     {
         return await dbContext.Users
             .Include(u => u.ProfilePhoto)
-            .FirstOrDefaultAsync(user => user.Email == email, cancellationToken);
+            .FirstOrDefaultAsync(user => user.Email.ToLower() == email, cancellationToken);
     }
 
     public async Task<User?> GetByUsernameAsync(string username, CancellationToken cancellationToken = default)
     {
         return await dbContext.Users
             .Include(u => u.ProfilePhoto)
-            .FirstOrDefaultAsync(user => user.Username == username, cancellationToken);
+            .FirstOrDefaultAsync(user => user.Username.ToLower() == username, cancellationToken);
     }
 
     public async Task<ICollection<User>> GetUsersByUsernameAsync(string username, SearchOptionsDto searchOptions, CancellationToken cancellationToken = default)
@@ -35,7 +35,7 @@ public class UserRepository(
         return await dbContext.Users
             .Include(u => u.ProfilePhoto)
             .Include(u => u.Ascents!)
-            .Where(user => user.Username.Contains(username))
+            .Where(user => EF.Functions.ILike(user.Username, $"%{username}%"))
             .Skip(searchOptions.Page * searchOptions.PageSize)
             .Take(searchOptions.PageSize)
             .ToListAsync(cancellationToken);

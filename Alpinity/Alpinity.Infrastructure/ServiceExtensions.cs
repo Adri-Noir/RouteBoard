@@ -19,8 +19,8 @@ public static class ServiceExtensions
     {
         services.AddDbContext<ApplicationDbContext>(options =>
         {
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), sqlOption =>
-                sqlOption.UseNetTopologySuite());
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), npgsqlOptions =>
+                npgsqlOptions.UseNetTopologySuite());
             options.EnableSensitiveDataLogging();
         });
 
@@ -39,7 +39,7 @@ public static class ServiceExtensions
         services.AddTransient<ICragWeatherRepository, CragWeatherRepository>();
         services.AddTransient<ILocationInformationService, LocationInformationService>();
         services.AddTransient<IWeatherService, WeatherService>();
-        
+
         return services;
     }
 }

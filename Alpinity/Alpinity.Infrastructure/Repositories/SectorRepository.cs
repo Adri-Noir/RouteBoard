@@ -50,7 +50,7 @@ public class SectorRepository(ApplicationDbContext dbContext, ICragRepository cr
     public async Task<ICollection<Sector>> GetSectorsByName(string query, SearchOptionsDto searchOptions, CancellationToken cancellationToken = default)
     {
         return await dbContext.Sectors
-            .Where(sector => sector.Name.Contains(query))
+            .Where(sector => EF.Functions.ILike(sector.Name, $"%{query}%"))
             // TODO: Implement a better search algorithm method like indexing
             // .OrderByDescending(sector => EF.Functions.FreeText(sector.Name, query))
             .Skip(searchOptions.Page * searchOptions.PageSize)

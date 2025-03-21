@@ -1,14 +1,14 @@
 services:
   db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: postgis/postgis:17-3.5
     environment:
-      - ACCEPT_EULA=Y
-      - USER=SA
-      - MSSQL_SA_PASSWORD=Passw0rd_
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Passw0rd_
+      - POSTGRES_DB=alpinity
     volumes:
-      - /var/mssql-data:/var/opt/mssql
+      - pgdata:/var/lib/postgresql/data
     ports:
-      - "1433:1433"
+      - "5432:5432"
     container_name: alpinity-api-db
   
   azurite:
@@ -17,5 +17,9 @@ services:
     ports:
       - "10000:10000"
     volumes:
-      - /var/azurite-data:/data
+      - azuritedata:/data
     container_name: alpinity-api-azurite
+
+volumes:
+  pgdata:
+  azuritedata:
