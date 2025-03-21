@@ -45,7 +45,6 @@ public class GetSearchResultsClient: AuthenticatedClientProvider {
         return []
       }
     } catch {
-      print(error)
     }
 
     return []

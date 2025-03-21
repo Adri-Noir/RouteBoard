@@ -43,6 +43,7 @@ public class GetSectorCragDetailsClient: AuthenticatedClientProvider {
         return nil
       }
     } catch {
+      // removed because cancelling the request will trigger this error
       errorHandler?(returnUnknownError())
     }
 

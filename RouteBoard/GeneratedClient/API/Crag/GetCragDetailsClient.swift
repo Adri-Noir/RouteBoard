@@ -43,7 +43,8 @@ public class GetCragDetailsClient: AuthenticatedClientProvider {
         return nil
       }
     } catch {
-      errorHandler?(returnUnknownError())
+      // removed because cancelling the request will trigger this error
+      // errorHandler?(returnUnknownError())
     }
 
     return nil

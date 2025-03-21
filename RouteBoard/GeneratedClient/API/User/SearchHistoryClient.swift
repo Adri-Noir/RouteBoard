@@ -37,7 +37,8 @@ public class SearchHistoryClient: AuthenticatedClientProvider {
         return []
       }
     } catch {
-      errorHandler?(returnUnknownError())
+      // removed because cancelling the request will trigger this error
+      // errorHandler?(returnUnknownError())
     }
 
     return []
