@@ -12,7 +12,6 @@ const HeaderLinks = () => {
   return (
     <div className="flex items-center gap-10">
       <Link href="/explore">Explore</Link>
-      <Link href="/map">Map</Link>
     </div>
   );
 };

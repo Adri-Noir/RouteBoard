@@ -1,22 +1,13 @@
 "use client";
 
 import { calculateGradeDistribution, GradeDistributionCard } from "@/components/modules/charts/GradeDistributionChart";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { CragDetailedDto, RouteType, SectorDetailedDto, SectorRouteDto } from "@/lib/api/types.gen";
 import { formatClimbingGrade } from "@/lib/utils/formatters";
-import { MoreVertical, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import AscentDialog from "../sector/route/AscentDialog";
+import RouteFilters from "./RouteFilters";
+import RouteTable from "./RouteTable";
 
 interface CragAllRoutesProps {
   crag: CragDetailedDto;
@@ -174,6 +165,14 @@ const CragAllRoutes = ({ crag }: CragAllRoutesProps) => {
     return Array.from(sectors).sort();
   }, [crag.sectors]);
 
+  // Reset all filters
+  const resetFilters = () => {
+    setSearchTerm("");
+    setSelectedGrade(null);
+    setSelectedRouteType(null);
+    setSelectedSector(null);
+  };
+
   if (!allRoutes.length) {
     return <div className="text-muted-foreground py-4 text-center">No routes available in this crag.</div>;
   }
@@ -199,142 +198,26 @@ const CragAllRoutes = ({ crag }: CragAllRoutesProps) => {
         )}
 
         {/* Filter Controls */}
-        <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {/* Search */}
-          <div className="relative">
-            <Search className="text-muted-foreground absolute top-2.5 left-2.5 h-4 w-4" />
-            <Input
-              placeholder="Search routes..."
-              className="pl-8"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-
-          {/* Route Type Filter */}
-          <Select
-            value={selectedRouteType || "all_types"}
-            onValueChange={(value) => setSelectedRouteType(value === "all_types" ? null : (value as RouteType))}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Route Type" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all_types">All Types</SelectItem>
-              {uniqueRouteTypes.map((type) => (
-                <SelectItem key={type} value={type}>
-                  {type}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-
-          {/* Sector Filter */}
-          <Select
-            value={selectedSector || "all_sectors"}
-            onValueChange={(value) => setSelectedSector(value === "all_sectors" ? null : value)}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Sector" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all_sectors">All Sectors</SelectItem>
-              {uniqueSectors.map((sector) => (
-                <SelectItem key={sector} value={sector}>
-                  {sector}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-
-          {/* Reset Filters */}
-          <Button
-            variant="outline"
-            onClick={() => {
-              setSearchTerm("");
-              setSelectedGrade(null);
-              setSelectedRouteType(null);
-              setSelectedSector(null);
-            }}
-          >
-            Reset Filters
-          </Button>
-        </div>
+        <RouteFilters
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          selectedRouteType={selectedRouteType}
+          setSelectedRouteType={setSelectedRouteType}
+          selectedSector={selectedSector}
+          setSelectedSector={setSelectedSector}
+          uniqueRouteTypes={uniqueRouteTypes}
+          uniqueSectors={uniqueSectors}
+          resetFilters={resetFilters}
+        />
 
         {/* Routes Table */}
-        <div className="rounded-md border">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="cursor-pointer" onClick={() => handleSort("name")}>
-                  Name {sortBy === "name" && (sortDirection === "asc" ? "↑" : "↓")}
-                </TableHead>
-                <TableHead className="cursor-pointer" onClick={() => handleSort("grade")}>
-                  Grade {sortBy === "grade" && (sortDirection === "asc" ? "↑" : "↓")}
-                </TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead className="cursor-pointer" onClick={() => handleSort("sector")}>
-                  Sector {sortBy === "sector" && (sortDirection === "asc" ? "↑" : "↓")}
-                </TableHead>
-                <TableHead className="cursor-pointer text-right" onClick={() => handleSort("ascents")}>
-                  Ascents {sortBy === "ascents" && (sortDirection === "asc" ? "↑" : "↓")}
-                </TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredAndSortedRoutes.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={6} className="h-24 text-center">
-                    No routes found with the current filters
-                  </TableCell>
-                </TableRow>
-              ) : (
-                filteredAndSortedRoutes.map(({ route, sectorName }) => (
-                  <TableRow key={route.id}>
-                    <TableCell className="font-medium">{route.name || "Unnamed Route"}</TableCell>
-                    <TableCell>
-                      {route.grade ? (
-                        <span className="bg-primary/10 text-primary rounded-md px-2 py-1 text-xs font-semibold">
-                          {formatClimbingGrade(route.grade)}
-                        </span>
-                      ) : (
-                        "-"
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex flex-wrap gap-1">
-                        {route.routeType?.map((type, index) => (
-                          <span
-                            key={`${route.id}-type-${index}`}
-                            className="bg-primary/10 text-primary inline-block rounded-full px-2 py-0.5 text-xs font-medium"
-                          >
-                            {type}
-                          </span>
-                        ))}
-                      </div>
-                    </TableCell>
-                    <TableCell>{sectorName || "-"}</TableCell>
-                    <TableCell className="text-right">{route.ascentsCount || 0}</TableCell>
-                    <TableCell className="text-right">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon" className="h-8 w-8">
-                            <MoreVertical className="h-4 w-4" />
-                            <span className="sr-only">Open menu</span>
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => handleAscentClick(route.id)}>Log Ascent</DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </div>
+        <RouteTable
+          routes={filteredAndSortedRoutes}
+          sortBy={sortBy}
+          sortDirection={sortDirection}
+          handleSort={handleSort}
+          handleAscentClick={handleAscentClick}
+        />
       </CardContent>
 
       {/* Ascent Dialog */}

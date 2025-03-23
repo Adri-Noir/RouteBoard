@@ -1,6 +1,6 @@
 import { Label } from "@/components/ui/label";
 import { SectorRouteDto } from "@/lib/api/types.gen";
-import { formatClimbingGrade } from "@/lib/utils/formatters";
+import { formatClimbingCategoryType, formatClimbingGrade, formatRouteType } from "@/lib/utils/formatters";
 
 interface RouteCardProps {
   route: SectorRouteDto;
@@ -39,7 +39,7 @@ const RouteCard = ({ route, isSelected, onSelect, onAscentClick }: RouteCardProp
                 key={`routeType-${type}-${index}`}
                 className="bg-primary/10 text-primary inline-block rounded-full px-2 py-0.5 font-medium md:mb-1"
               >
-                {type}
+                {formatRouteType(type)}
               </span>
             ))}
           </div>
@@ -52,7 +52,7 @@ const RouteCard = ({ route, isSelected, onSelect, onAscentClick }: RouteCardProp
             <div className="text-muted-foreground flex gap-2 overflow-x-auto pb-1 text-xs whitespace-nowrap md:flex-wrap md:whitespace-normal">
               {allTypes.map((type, index) => (
                 <span key={`${type}-${index}`} className="bg-muted inline-block rounded-full px-2 py-0.5 md:mb-1">
-                  {type}
+                  {formatClimbingCategoryType(type)}
                 </span>
               ))}
             </div>

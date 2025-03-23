@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { getRouteAscentsByIdOptions } from "@/lib/api/@tanstack/react-query.gen";
 import { AscentDto } from "@/lib/api/types.gen";
-import { formatClimbingGrade } from "@/lib/utils/formatters";
+import { formatClimbingGrade, formatClimbType, formatHoldType, formatRockType } from "@/lib/utils/formatters";
 import { useQuery } from "@tanstack/react-query";
 import { CalendarIcon, Clock, Star } from "lucide-react";
 import Image from "next/image";
@@ -108,7 +108,7 @@ const AscentDialog = ({ open, onOpenChange, routeId, routeName }: AscentDialogPr
                       ascent.climbTypes.length > 0 &&
                       ascent.climbTypes.map((type) => (
                         <span key={type} className="bg-muted rounded-full px-2 py-1 text-xs">
-                          {type}
+                          {formatClimbType(type)}
                         </span>
                       ))}
 
@@ -116,7 +116,7 @@ const AscentDialog = ({ open, onOpenChange, routeId, routeName }: AscentDialogPr
                       ascent.rockTypes.length > 0 &&
                       ascent.rockTypes.map((type) => (
                         <span key={type} className="bg-muted rounded-full px-2 py-1 text-xs">
-                          {type}
+                          {formatRockType(type)}
                         </span>
                       ))}
 
@@ -124,7 +124,7 @@ const AscentDialog = ({ open, onOpenChange, routeId, routeName }: AscentDialogPr
                       ascent.holdTypes.length > 0 &&
                       ascent.holdTypes.map((type) => (
                         <span key={type} className="bg-muted rounded-full px-2 py-1 text-xs">
-                          {type}
+                          {formatHoldType(type)}
                         </span>
                       ))}
                   </div>

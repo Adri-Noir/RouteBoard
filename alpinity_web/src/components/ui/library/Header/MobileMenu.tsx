@@ -26,9 +26,6 @@ const MobileMenu = () => {
           <Link href="/explore" className="text-lg font-medium">
             Explore
           </Link>
-          <Link href="/map" className="text-lg font-medium">
-            Map
-          </Link>
         </div>
       </SheetContent>
     </Sheet>
