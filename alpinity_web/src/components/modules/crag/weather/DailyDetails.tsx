@@ -56,7 +56,7 @@ const DailyDetails = ({ day }: DailyDetailsProps) => {
           </div>
           <div className="space-y-1">
             <p className="text-muted-foreground text-sm">Sunrise/Sunset</p>
-            <p className="text-xs font-medium">
+            <p className="font-medium">
               {day.sunrise
                 ? new Date(day.sunrise).toLocaleTimeString([], {
                     hour: "2-digit",

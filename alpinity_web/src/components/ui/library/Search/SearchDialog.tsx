@@ -113,7 +113,12 @@ export const SearchDialog = ({
         {showRecent && (
           <CommandGroup heading="Recent Searches">
             {searchHistoryData.slice(0, 5).map((recent: SearchResultDto) => (
-              <SearchSuggestionItem key={`recent-${recent.id}`} suggestion={recent} isRecent={true} />
+              <SearchSuggestionItem
+                key={`recent-${recent.id}`}
+                suggestion={recent}
+                isRecent={true}
+                onClick={() => onOpenChange(false)}
+              />
             ))}
           </CommandGroup>
         )}
@@ -127,32 +132,48 @@ export const SearchDialog = ({
         {/* Render grouped results */}
         {hasCrags && (
           <CommandGroup heading="Crags">
-            {grouped["Crag"].map((suggestion: SearchResultDto) => (
-              <SearchSuggestionItem key={`crag-${suggestion.id}`} suggestion={suggestion} />
+            {grouped.Crag.map((suggestion: SearchResultDto) => (
+              <SearchSuggestionItem
+                key={`crag-${suggestion.id}`}
+                suggestion={suggestion}
+                onClick={() => onOpenChange(false)}
+              />
             ))}
           </CommandGroup>
         )}
 
         {hasSectors && (
           <CommandGroup heading="Sectors">
-            {grouped["Sector"].map((suggestion: SearchResultDto) => (
-              <SearchSuggestionItem key={`sector-${suggestion.id}`} suggestion={suggestion} />
+            {grouped.Sector.map((suggestion: SearchResultDto) => (
+              <SearchSuggestionItem
+                key={`sector-${suggestion.id}`}
+                suggestion={suggestion}
+                onClick={() => onOpenChange(false)}
+              />
             ))}
           </CommandGroup>
         )}
 
         {hasRoutes && (
           <CommandGroup heading="Routes">
-            {grouped["Route"].map((suggestion: SearchResultDto) => (
-              <SearchSuggestionItem key={`route-${suggestion.id}`} suggestion={suggestion} />
+            {grouped.Route.map((suggestion: SearchResultDto) => (
+              <SearchSuggestionItem
+                key={`route-${suggestion.id}`}
+                suggestion={suggestion}
+                onClick={() => onOpenChange(false)}
+              />
             ))}
           </CommandGroup>
         )}
 
         {hasUsers && (
           <CommandGroup heading="Users">
-            {grouped["UserProfile"].map((suggestion: SearchResultDto) => (
-              <SearchSuggestionItem key={`user-${suggestion.id}`} suggestion={suggestion} />
+            {grouped.UserProfile.map((suggestion: SearchResultDto) => (
+              <SearchSuggestionItem
+                key={`user-${suggestion.id}`}
+                suggestion={suggestion}
+                onClick={() => onOpenChange(false)}
+              />
             ))}
           </CommandGroup>
         )}

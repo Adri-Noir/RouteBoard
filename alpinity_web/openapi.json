@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.4",
   "info": {
     "title": "Alpinity.Api",
     "version": "1.0"
@@ -17,9 +17,7 @@
   "paths": {
     "/api/Authentication/login": {
       "post": {
-        "tags": [
-          "Authentication"
-        ],
+        "tags": ["Authentication"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -65,9 +63,7 @@
     },
     "/api/Authentication/register": {
       "post": {
-        "tags": [
-          "Authentication"
-        ],
+        "tags": ["Authentication"],
         "parameters": [
           {
             "name": "Email",
@@ -189,9 +185,7 @@
     },
     "/api/Authentication/authenticated": {
       "post": {
-        "tags": [
-          "Authentication"
-        ],
+        "tags": ["Authentication"],
         "responses": {
           "200": {
             "description": "OK"
@@ -221,9 +215,7 @@
     },
     "/api/Authentication/me": {
       "post": {
-        "tags": [
-          "Authentication"
-        ],
+        "tags": ["Authentication"],
         "responses": {
           "200": {
             "description": "OK",
@@ -260,9 +252,7 @@
     },
     "/api/Crag/{id}": {
       "get": {
-        "tags": [
-          "Crag"
-        ],
+        "tags": ["Crag"],
         "parameters": [
           {
             "name": "id",
@@ -320,9 +310,7 @@
     },
     "/api/Crag": {
       "post": {
-        "tags": [
-          "Crag"
-        ],
+        "tags": ["Crag"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -378,9 +366,7 @@
     },
     "/api/Map/explore": {
       "get": {
-        "tags": [
-          "Map"
-        ],
+        "tags": ["Map"],
         "parameters": [
           {
             "name": "latitude",
@@ -446,9 +432,7 @@
     },
     "/api/Map/weather/{cragId}": {
       "get": {
-        "tags": [
-          "Map"
-        ],
+        "tags": ["Map"],
         "parameters": [
           {
             "name": "cragId",
@@ -506,9 +490,7 @@
     },
     "/api/Map/globe": {
       "post": {
-        "tags": [
-          "Map"
-        ],
+        "tags": ["Map"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -567,9 +549,7 @@
     },
     "/api/Map/globe/sectors/{cragId}": {
       "get": {
-        "tags": [
-          "Map"
-        ],
+        "tags": ["Map"],
         "parameters": [
           {
             "name": "cragId",
@@ -630,9 +610,7 @@
     },
     "/api/Route/{id}": {
       "get": {
-        "tags": [
-          "Route"
-        ],
+        "tags": ["Route"],
         "parameters": [
           {
             "name": "id",
@@ -690,9 +668,7 @@
     },
     "/api/Route": {
       "post": {
-        "tags": [
-          "Route"
-        ],
+        "tags": ["Route"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -748,9 +724,7 @@
     },
     "/addPhoto": {
       "post": {
-        "tags": [
-          "Route"
-        ],
+        "tags": ["Route"],
         "parameters": [
           {
             "name": "RouteId",
@@ -828,9 +802,7 @@
     },
     "/routeAscents/{id}": {
       "get": {
-        "tags": [
-          "Route"
-        ],
+        "tags": ["Route"],
         "parameters": [
           {
             "name": "id",
@@ -891,9 +863,7 @@
     },
     "/api/Search": {
       "post": {
-        "tags": [
-          "Search"
-        ],
+        "tags": ["Search"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -952,9 +922,7 @@
     },
     "/api/Sector": {
       "post": {
-        "tags": [
-          "Sector"
-        ],
+        "tags": ["Sector"],
         "parameters": [
           {
             "name": "Name",
@@ -1067,9 +1035,7 @@
     },
     "/api/Sector/{id}": {
       "get": {
-        "tags": [
-          "Sector"
-        ],
+        "tags": ["Sector"],
         "parameters": [
           {
             "name": "id",
@@ -1127,9 +1093,7 @@
     },
     "/api/Sector/sectorCrag/{id}": {
       "get": {
-        "tags": [
-          "Sector"
-        ],
+        "tags": ["Sector"],
         "parameters": [
           {
             "name": "id",
@@ -1187,9 +1151,7 @@
     },
     "/api/User/logAscent": {
       "post": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1238,9 +1200,7 @@
     },
     "/api/User/searchHistory": {
       "get": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "parameters": [
           {
             "name": "count",
@@ -1291,9 +1251,7 @@
     },
     "/api/User/recentlyAscendedRoutes": {
       "get": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "responses": {
           "200": {
             "description": "OK",
@@ -1333,9 +1291,7 @@
     },
     "/api/User/user/{profileUserId}": {
       "get": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "parameters": [
           {
             "name": "profileUserId",
@@ -1475,20 +1431,11 @@
         "additionalProperties": false
       },
       "AscentType": {
-        "enum": [
-          "Onsight",
-          "Flash",
-          "Redpoint",
-          "Aid"
-        ],
+        "enum": ["Onsight", "Flash", "Redpoint", "Aid"],
         "type": "string"
       },
       "ClimbType": {
-        "enum": [
-          "Endurance",
-          "Powerful",
-          "Technical"
-        ],
+        "enum": ["Endurance", "Powerful", "Technical"],
         "type": "string"
       },
       "ClimbingGrade": {
@@ -1572,7 +1519,7 @@
           "sectors": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CragSectorDto"
+              "$ref": "#/components/schemas/SectorDetailedDto"
             },
             "nullable": true
           },
@@ -1586,42 +1533,8 @@
         },
         "additionalProperties": false
       },
-      "CragSectorDto": {
-        "required": [
-          "id",
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "location": {
-            "$ref": "#/components/schemas/PointDto"
-          },
-          "photo": {
-            "$ref": "#/components/schemas/PhotoDto"
-          },
-          "routesCount": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
       "CreateCragCommand": {
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "type": "object",
         "properties": {
           "name": {
@@ -1639,10 +1552,7 @@
         "additionalProperties": false
       },
       "CreateRouteCommand": {
-        "required": [
-          "name",
-          "sectorId"
-        ],
+        "required": ["name", "sectorId"],
         "type": "object",
         "properties": {
           "name": {
@@ -1768,9 +1678,7 @@
         "additionalProperties": false
       },
       "ExploreDto": {
-        "required": [
-          "id"
-        ],
+        "required": ["id"],
         "type": "object",
         "properties": {
           "id": {
@@ -1889,14 +1797,7 @@
         "additionalProperties": false
       },
       "HoldType": {
-        "enum": [
-          "Crack",
-          "Crimps",
-          "Slopers",
-          "Pinches",
-          "Jugs",
-          "Pockets"
-        ],
+        "enum": ["Crack", "Crimps", "Slopers", "Pinches", "Jugs", "Pockets"],
         "type": "string"
       },
       "HourlyWeatherDto": {
@@ -1938,9 +1839,7 @@
         "additionalProperties": false
       },
       "LogAscentCommand": {
-        "required": [
-          "routeId"
-        ],
+        "required": ["routeId"],
         "type": "object",
         "properties": {
           "routeId": {
@@ -1996,11 +1895,7 @@
         "additionalProperties": false
       },
       "LoggedInUserDto": {
-        "required": [
-          "email",
-          "id",
-          "username"
-        ],
+        "required": ["email", "id", "username"],
         "type": "object",
         "properties": {
           "id": {
@@ -2031,10 +1926,7 @@
         "additionalProperties": false
       },
       "LoginCommand": {
-        "required": [
-          "emailOrUsername",
-          "password"
-        ],
+        "required": ["emailOrUsername", "password"],
         "type": "object",
         "properties": {
           "emailOrUsername": {
@@ -2049,10 +1941,7 @@
         "additionalProperties": false
       },
       "PhotoDto": {
-        "required": [
-          "id",
-          "url"
-        ],
+        "required": ["id", "url"],
         "type": "object",
         "properties": {
           "id": {
@@ -2078,10 +1967,7 @@
         "additionalProperties": false
       },
       "PointDto": {
-        "required": [
-          "latitude",
-          "longitude"
-        ],
+        "required": ["latitude", "longitude"],
         "type": "object",
         "properties": {
           "latitude": {
@@ -2120,17 +2006,10 @@
             "nullable": true
           }
         },
-        "additionalProperties": { }
+        "additionalProperties": {}
       },
       "RecentlyAscendedRouteDto": {
-        "required": [
-          "cragId",
-          "cragName",
-          "id",
-          "name",
-          "sectorId",
-          "sectorName"
-        ],
+        "required": ["cragId", "cragName", "id", "name", "sectorId", "sectorName"],
         "type": "object",
         "properties": {
           "id": {
@@ -2184,14 +2063,7 @@
         "additionalProperties": false
       },
       "RockType": {
-        "enum": [
-          "Vertical",
-          "Overhang",
-          "Roof",
-          "Slab",
-          "Arete",
-          "Dihedral"
-        ],
+        "enum": ["Vertical", "Overhang", "Roof", "Slab", "Arete", "Dihedral"],
         "type": "string"
       },
       "RouteCategoriesDto": {
@@ -2222,14 +2094,7 @@
         "additionalProperties": false
       },
       "RouteDetailedDto": {
-        "required": [
-          "cragId",
-          "cragName",
-          "id",
-          "name",
-          "sectorId",
-          "sectorName"
-        ],
+        "required": ["cragId", "cragName", "id", "name", "sectorId", "sectorName"],
         "type": "object",
         "properties": {
           "id": {
@@ -2300,9 +2165,7 @@
         "additionalProperties": false
       },
       "RoutePhotoDto": {
-        "required": [
-          "id"
-        ],
+        "required": ["id"],
         "type": "object",
         "properties": {
           "id": {
@@ -2323,17 +2186,7 @@
         "additionalProperties": false
       },
       "RouteType": {
-        "enum": [
-          "Boulder",
-          "Sport",
-          "Trad",
-          "MultiPitch",
-          "Ice",
-          "BigWall",
-          "Mixed",
-          "Aid",
-          "ViaFerrata"
-        ],
+        "enum": ["Boulder", "Sport", "Trad", "MultiPitch", "Ice", "BigWall", "Mixed", "Aid", "ViaFerrata"],
         "type": "string"
       },
       "RouteTypeAscentCountDto": {
@@ -2353,9 +2206,7 @@
         "additionalProperties": false
       },
       "SearchQueryCommand": {
-        "required": [
-          "query"
-        ],
+        "required": ["query"],
         "type": "object",
         "properties": {
           "query": {
@@ -2485,19 +2336,11 @@
         "additionalProperties": false
       },
       "SearchResultItemType": {
-        "enum": [
-          "Crag",
-          "Sector",
-          "Route",
-          "UserProfile"
-        ],
+        "enum": ["Crag", "Sector", "Route", "UserProfile"],
         "type": "string"
       },
       "SectorDetailedDto": {
-        "required": [
-          "id",
-          "name"
-        ],
+        "required": ["id", "name"],
         "type": "object",
         "properties": {
           "id": {
@@ -2541,10 +2384,7 @@
         "additionalProperties": false
       },
       "SectorRouteDto": {
-        "required": [
-          "id",
-          "name"
-        ],
+        "required": ["id", "name"],
         "type": "object",
         "properties": {
           "id": {
@@ -2725,7 +2565,7 @@
   },
   "security": [
     {
-      "Bearer": [ ]
+      "Bearer": []
     }
   ]
 }

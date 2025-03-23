@@ -12,6 +12,7 @@ interface SearchSuggestionItemProps {
   suggestion: SearchResultDto;
   isRecent?: boolean;
   className?: string;
+  onClick?: () => void;
 }
 
 const getHref = (suggestion: SearchResultDto) => {
@@ -32,15 +33,24 @@ const getHref = (suggestion: SearchResultDto) => {
   }
 };
 
-const LinkWrapper = ({ href, children }: { href: string; children: ReactNode }) => {
+const LinkWrapper = ({ href, children, onClick }: { href: string; children: ReactNode; onClick?: () => void }) => {
   if (href === "#") {
     return children;
   }
 
-  return <Link href={href}>{children}</Link>;
+  return (
+    <Link href={href} onClick={onClick}>
+      {children}
+    </Link>
+  );
 };
 
-export const SearchSuggestionItem = ({ suggestion, isRecent = false, className }: SearchSuggestionItemProps) => {
+export const SearchSuggestionItem = ({
+  suggestion,
+  isRecent = false,
+  className,
+  onClick,
+}: SearchSuggestionItemProps) => {
   const { entityType, cragName, sectorName, routeName, profileUsername } = suggestion;
   const type = entityType ? mapEntityTypeToUiType(entityType) : "crag";
 
@@ -57,15 +67,14 @@ export const SearchSuggestionItem = ({ suggestion, isRecent = false, className }
             : "";
 
   const formattedData = getFormattedEntityData(suggestion);
-  const prefix = isRecent ? "recent: " : `${type}: `;
 
   const href = getHref(suggestion);
 
   const icon = isRecent ? <Clock className="text-muted-foreground h-4 w-4" /> : getIconForType(type);
 
   return (
-    <LinkWrapper href={href}>
-      <CommandItem value={`${prefix}${text}`} className={cn("flex items-center gap-2", className)}>
+    <LinkWrapper href={href} onClick={onClick}>
+      <CommandItem value={`${type}_${text}`} className={cn("flex items-center gap-2", className)}>
         {icon}
         <div className="flex flex-col">
           <span>{text}</span>

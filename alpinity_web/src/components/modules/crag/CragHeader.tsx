@@ -8,7 +8,7 @@ interface CragHeaderProps {
 
 const CragHeader = ({ name, description, locationName }: CragHeaderProps) => {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 p-4">
       <div>
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">{name}</h1>
         {locationName && (

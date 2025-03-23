@@ -73,17 +73,8 @@ export type CragDetailedDto = {
   description?: string | null;
   location?: PointDto;
   locationName?: string | null;
-  sectors?: Array<CragSectorDto> | null;
+  sectors?: Array<SectorDetailedDto> | null;
   photos?: Array<PhotoDto> | null;
-};
-
-export type CragSectorDto = {
-  id: string;
-  name: string | null;
-  description?: string | null;
-  location?: PointDto;
-  photo?: PhotoDto;
-  routesCount?: number;
 };
 
 export type CreateCragCommand = {

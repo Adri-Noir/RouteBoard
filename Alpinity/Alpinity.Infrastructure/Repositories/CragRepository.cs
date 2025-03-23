@@ -14,6 +14,10 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
         return await dbContext.Crags
             .Include(crag => crag.Sectors!)
             .ThenInclude(sector => sector.Routes!)
+            .ThenInclude(route => route.Ascents!)
+            .Include(crag => crag.Sectors!)
+            .ThenInclude(sector => sector.Routes!)
+            .ThenInclude(route => route.RoutePhotos!)
             .Include(crag => crag.Sectors!.OrderBy(sector => sector.Name))
             .ThenInclude(sector => sector.Photos)
             .FirstOrDefaultAsync(crag => crag.Id == cragId, cancellationToken);
@@ -54,5 +58,13 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
         return await dbContext.Crags
             .Where(crag => crag.Location != null && crag.Location.X >= southWest.X && crag.Location.X <= northEast.X && crag.Location.Y >= southWest.Y && crag.Location.Y <= northEast.Y)
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task<Point?> GetCragLocation(Guid cragId, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Crags
+            .Where(crag => crag.Id == cragId)
+            .Select(crag => crag.Location)
+            .FirstOrDefaultAsync(cancellationToken);
     }
 }

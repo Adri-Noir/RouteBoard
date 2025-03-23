@@ -1,14 +1,17 @@
 "use client";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { getApiCragByIdOptions, getApiSectorByIdOptions } from "@/lib/api/@tanstack/react-query.gen";
+import { getApiCragByIdOptions } from "@/lib/api/@tanstack/react-query.gen";
 import { CragDetailedDto } from "@/lib/api/types.gen";
 import useAuth from "@/lib/hooks/useAuth";
+import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { AlertCircle } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import SectorDetails from "../sector/SectorDetails";
+import SectorSelector from "../sector/SectorSelector";
+import CragAllRoutes from "./CragAllRoutes";
 import CragDetailsSkeleton from "./CragDetailsSkeleton";
 import CragHeader from "./CragHeader";
 import CragLocation from "./CragLocation";
@@ -42,18 +45,9 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
     enabled: isAuthenticated,
   });
 
-  const {
-    data: selectedSector,
-    error: sectorError,
-    isLoading: sectorIsLoading,
-  } = useQuery({
-    ...getApiSectorByIdOptions({
-      path: {
-        id: selectedSectorId || "",
-      },
-    }),
-    enabled: isAuthenticated && !!selectedSectorId,
-  });
+  const selectedSector = useMemo(() => {
+    return crag?.sectors?.find((sector) => sector.id === selectedSectorId);
+  }, [crag?.sectors, selectedSectorId]);
 
   const handleSectorChange = useMemo(
     () => (sectorId: string) => {
@@ -82,12 +76,6 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
     [crag?.sectors],
   );
 
-  useEffect(() => {
-    if (!initialSectorId) {
-      setSelectedSectorId(crag?.sectors?.[0]?.id);
-    }
-  }, [initialSectorId, crag?.sectors]);
-
   if (cragError) {
     return (
       <Alert variant="destructive">
@@ -103,18 +91,18 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
   }
 
   return (
-    <div className="space-y-8 px-4 sm:px-6 lg:px-8">
+    <div className="space-y-8 px-0 sm:px-6 lg:px-8">
       <CragHeader name={crag.name || "Unnamed Crag"} description={crag.description} locationName={crag.locationName} />
 
       {cragId && (
-        <section className="rounded-lg border p-4">
+        <section className="rounded-lg p-4 md:border">
           <h2 className="mb-4 text-2xl font-semibold">Weather</h2>
           <CragWeather cragId={cragId} />
         </section>
       )}
 
       {crag.location && (
-        <section className="rounded-lg border p-4">
+        <section className="rounded-lg p-4 md:border">
           <h2 className="mb-4 text-2xl font-semibold">Location</h2>
           <CragLocation
             location={crag.location}
@@ -126,54 +114,38 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
       )}
 
       {crag.photos && crag.photos.length > 0 && (
-        <section className="rounded-lg border p-4">
+        <section className="rounded-lg p-4 md:border">
           <h2 className="mb-4 text-2xl font-semibold">Photos</h2>
           <CragPhotos photos={crag.photos} />
         </section>
       )}
 
       {crag.sectors && crag.sectors.length > 0 && (
-        <section className="rounded-lg border p-4">
+        <section className="rounded-lg p-4 md:border">
           <h2 className="mb-4 text-2xl font-semibold">Sectors</h2>
 
-          <div className="space-y-8">
+          <div className={cn(selectedSectorId ? "space-y-0" : "space-y-8")}>
             {/* Sector Selection */}
-            <div className="flex flex-wrap gap-2">
-              {crag.sectors.map((sector) => (
-                <button
-                  key={sector.id}
-                  onClick={() => handleSectorChange(sector.id)}
-                  className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                  selectedSectorId === sector.id
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-secondary hover:bg-secondary/80 text-secondary-foreground"
-                  }`}
-                >
-                  {sector.name || "Unnamed Sector"}
-                  {sector.routesCount !== undefined && (
-                    <span className="ml-1 text-xs opacity-70">({sector.routesCount})</span>
-                  )}
-                </button>
-              ))}
+            <div>
+              <SectorSelector
+                sectors={crag.sectors}
+                currentSectorId={selectedSectorId}
+                onSectorChange={(sectorId) => {
+                  if (sectorId) {
+                    handleSectorChange(sectorId);
+                  } else {
+                    setSelectedSectorId(undefined);
+                    router.push(`/crag/${cragId}`, { scroll: false });
+                  }
+                }}
+              />
             </div>
 
-            {/* Selected Sector Details */}
-            {selectedSectorId && (
-              <>
-                {sectorError ? (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertTitle>Error</AlertTitle>
-                    <AlertDescription>Failed to load sector details. Please try again later.</AlertDescription>
-                  </Alert>
-                ) : sectorIsLoading ? (
-                  <div className="flex h-64 items-center justify-center">
-                    <div className="animate-pulse">Loading sector details...</div>
-                  </div>
-                ) : selectedSector ? (
-                  <SectorDetails sector={selectedSector} />
-                ) : null}
-              </>
+            {/* Selected Sector Details or All Routes Table */}
+            {selectedSectorId ? (
+              <>{selectedSector ? <SectorDetails sector={selectedSector} /> : null}</>
+            ) : (
+              <CragAllRoutes crag={crag} />
             )}
           </div>
         </section>

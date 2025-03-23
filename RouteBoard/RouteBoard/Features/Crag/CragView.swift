@@ -44,7 +44,6 @@ struct CragView: View {
     }
 
     self.crag = cragDetails
-    self.selectedSectorId = cragDetails.sectors?.first?.id
   }
 
   func getCragFromSectorId(value: String) async {
@@ -63,11 +62,11 @@ struct CragView: View {
     self.selectedSectorId = value
   }
 
-  var routesCount: Int32 {
+  var routesCount: Int {
     crag?.sectors?.reduce(
       0,
-      { (sum: Int32, sector: CragSectorDto) in
-        sum + (sector.routesCount ?? 0)
+      { (sum: Int, sector: SectorDetailedDto) in
+        sum + (sector.routes?.count ?? 0)
       }) ?? 0
   }
 
@@ -162,7 +161,7 @@ struct CragView: View {
 #Preview {
   APIClientInjection {
     AuthInjectionMock {
-      CragView(cragId: "7a1da5fe-a1f3-4d80-7115-08dd60e35697")
+      CragView(cragId: "0195b8a1-4b9f-7dfd-b12e-e65ee63a2b2a")
     }
   }
 }

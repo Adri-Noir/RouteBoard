@@ -15,8 +15,7 @@ public class GetCragWeatherCommandHandler(
 {
     public async Task<WeatherResponseDto> Handle(GetCragWeatherCommand request, CancellationToken cancellationToken)
     {
-        var crag = await cragRepository.GetCragById(request.CragId, cancellationToken) ?? throw new EntityNotFoundException("Crag not found");
-        var location = crag.Location ?? throw new EntityNotFoundException("Crag location not found");
+        var location = await cragRepository.GetCragLocation(request.CragId, cancellationToken) ?? throw new EntityNotFoundException("Crag location not found");
 
         var cachedWeather = await cragWeatherRepository.GetLatestWeatherForCragAsync(request.CragId, cancellationToken);
 

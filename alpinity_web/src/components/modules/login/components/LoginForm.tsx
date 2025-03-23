@@ -42,9 +42,8 @@ const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex flex-col gap-6">
-        <form.Field
-          name="emailOrUsername"
-          children={(field) => (
+        <form.Field name="emailOrUsername">
+          {(field) => (
             <div className="grid gap-2">
               <Label htmlFor={field.name}>Username or Email</Label>
               <Input
@@ -59,10 +58,9 @@ const LoginForm = () => {
               />
             </div>
           )}
-        />
-        <form.Field
-          name="password"
-          children={(field) => (
+        </form.Field>
+        <form.Field name="password">
+          {(field) => (
             <div className="grid gap-2">
               <div className="flex items-center">
                 <Label htmlFor={field.name}>Password</Label>
@@ -81,10 +79,9 @@ const LoginForm = () => {
               />
             </div>
           )}
-        />
-        <form.Subscribe
-          selector={(state) => [state.canSubmit, state.isSubmitting]}
-          children={([canSubmit, isSubmitting]) => (
+        </form.Field>
+        <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
+          {([canSubmit, isSubmitting]) => (
             <>
               <Button type="submit" className="w-full" variant="default" disabled={!canSubmit}>
                 {isSubmitting || isLoginLoading ? (
@@ -98,7 +95,7 @@ const LoginForm = () => {
               {isError ? <p className="text-center text-sm text-red-500">{error?.detail}</p> : null}
             </>
           )}
-        />
+        </form.Subscribe>
       </div>
       <div className="mt-4 text-center text-sm">
         Don&apos;t have an account?{" "}

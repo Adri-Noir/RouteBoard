@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.4",
   "info": {
     "title": "Alpinity.Api",
     "version": "1.0"
@@ -1572,7 +1572,7 @@
           "sectors": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CragSectorDto"
+              "$ref": "#/components/schemas/SectorDetailedDto"
             },
             "nullable": true
           },
@@ -1582,38 +1582,6 @@
               "$ref": "#/components/schemas/PhotoDto"
             },
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CragSectorDto": {
-        "required": [
-          "id",
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "location": {
-            "$ref": "#/components/schemas/PointDto"
-          },
-          "photo": {
-            "$ref": "#/components/schemas/PhotoDto"
-          },
-          "routesCount": {
-            "type": "integer",
-            "format": "int32"
           }
         },
         "additionalProperties": false

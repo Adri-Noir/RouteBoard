@@ -17,8 +17,8 @@ public class CreateSectorCommandHandler(
 {
     public async Task<SectorDetailedDto> Handle(CreateSectorCommand request, CancellationToken cancellationToken)
     {
-        var crag = await cragRepository.GetCragById(request.CragId, cancellationToken);
-        if (crag == null) throw new EntityNotFoundException("Crag not found.");
+        var cragExists = await cragRepository.CragExists(request.CragId, cancellationToken);
+        if (!cragExists) throw new EntityNotFoundException("Crag not found.");
 
         var sector = new Sector
         {

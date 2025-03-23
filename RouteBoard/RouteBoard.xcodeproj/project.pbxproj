@@ -51,6 +51,16 @@
 		AF3D951F2D6B962A003FAF90 /* ExploreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D951E2D6B9628003FAF90 /* ExploreView.swift */; };
 		AF3D95222D6B96E2003FAF90 /* NavigationSearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D95212D6B96DC003FAF90 /* NavigationSearchResultsView.swift */; };
 		AF3D95D02D6BE0D9003FAF90 /* WavingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D95CE2D6BE0D7003FAF90 /* WavingText.swift */; };
+		AF62D5B52D8F506700F6F122 /* SectorLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62D5B32D8F506100F6F122 /* SectorLoadingView.swift */; };
+		AF62D5B72D8F50AF00F6F122 /* EmptySectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62D5B62D8F50AA00F6F122 /* EmptySectorView.swift */; };
+		AF62D5B92D8F50DE00F6F122 /* NoRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62D5B82D8F50DB00F6F122 /* NoRouteView.swift */; };
+		AF62D5BB2D8F512F00F6F122 /* SectorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62D5BA2D8F512A00F6F122 /* SectorPickerView.swift */; };
+		AF62D5BD2D8F517600F6F122 /* SectorHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62D5BC2D8F517200F6F122 /* SectorHeaderView.swift */; };
+		AF62D5BF2D8F540900F6F122 /* RouteTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62D5BE2D8F540600F6F122 /* RouteTabView.swift */; };
+		AF62D5C12D8F542B00F6F122 /* AllSectorsRoutesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62D5C02D8F542600F6F122 /* AllSectorsRoutesView.swift */; };
+		AF62D5C42D8F56DD00F6F122 /* RouteInfoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62D5C32D8F56D800F6F122 /* RouteInfoItem.swift */; };
+		AF62D5C62D8F570600F6F122 /* GradeDistributionGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62D5C52D8F570100F6F122 /* GradeDistributionGraph.swift */; };
+		AF62D5C82D8F573700F6F122 /* RoutesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62D5C72D8F573300F6F122 /* RoutesTableView.swift */; };
 		AF62E0CB2D7679AD0039B67F /* AlertViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E0CA2D7679A20039B67F /* AlertViewExtension.swift */; };
 		AF62E0E02D777F4D0039B67F /* CragHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E0DE2D777F470039B67F /* CragHeaderView.swift */; };
 		AF62E1002D779FDA0039B67F /* RegisteredUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E0FF2D779FD30039B67F /* RegisteredUserView.swift */; };
@@ -217,6 +227,16 @@
 		AF3D951E2D6B9628003FAF90 /* ExploreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreView.swift; sourceTree = "<group>"; };
 		AF3D95212D6B96DC003FAF90 /* NavigationSearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSearchResultsView.swift; sourceTree = "<group>"; };
 		AF3D95CE2D6BE0D7003FAF90 /* WavingText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WavingText.swift; sourceTree = "<group>"; };
+		AF62D5B32D8F506100F6F122 /* SectorLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorLoadingView.swift; sourceTree = "<group>"; };
+		AF62D5B62D8F50AA00F6F122 /* EmptySectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySectorView.swift; sourceTree = "<group>"; };
+		AF62D5B82D8F50DB00F6F122 /* NoRouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoRouteView.swift; sourceTree = "<group>"; };
+		AF62D5BA2D8F512A00F6F122 /* SectorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorPickerView.swift; sourceTree = "<group>"; };
+		AF62D5BC2D8F517200F6F122 /* SectorHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorHeaderView.swift; sourceTree = "<group>"; };
+		AF62D5BE2D8F540600F6F122 /* RouteTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteTabView.swift; sourceTree = "<group>"; };
+		AF62D5C02D8F542600F6F122 /* AllSectorsRoutesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllSectorsRoutesView.swift; sourceTree = "<group>"; };
+		AF62D5C32D8F56D800F6F122 /* RouteInfoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteInfoItem.swift; sourceTree = "<group>"; };
+		AF62D5C52D8F570100F6F122 /* GradeDistributionGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradeDistributionGraph.swift; sourceTree = "<group>"; };
+		AF62D5C72D8F573300F6F122 /* RoutesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesTableView.swift; sourceTree = "<group>"; };
 		AF62E0CA2D7679A20039B67F /* AlertViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewExtension.swift; sourceTree = "<group>"; };
 		AF62E0DE2D777F470039B67F /* CragHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CragHeaderView.swift; sourceTree = "<group>"; };
 		AF62E0FF2D779FD30039B67F /* RegisteredUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisteredUserView.swift; sourceTree = "<group>"; };
@@ -515,6 +535,23 @@
 				AF3D95CE2D6BE0D7003FAF90 /* WavingText.swift */,
 			);
 			path = WavingText;
+			sourceTree = "<group>";
+		};
+		AF62D5B02D8F4F8000F6F122 /* SectorViews */ = {
+			isa = PBXGroup;
+			children = (
+				AF62D5C72D8F573300F6F122 /* RoutesTableView.swift */,
+				AF62D5C52D8F570100F6F122 /* GradeDistributionGraph.swift */,
+				AF62D5C32D8F56D800F6F122 /* RouteInfoItem.swift */,
+				AF62D5C02D8F542600F6F122 /* AllSectorsRoutesView.swift */,
+				AF62D5BE2D8F540600F6F122 /* RouteTabView.swift */,
+				AF62D5BC2D8F517200F6F122 /* SectorHeaderView.swift */,
+				AF62D5BA2D8F512A00F6F122 /* SectorPickerView.swift */,
+				AF62D5B82D8F50DB00F6F122 /* NoRouteView.swift */,
+				AF62D5B62D8F50AA00F6F122 /* EmptySectorView.swift */,
+				AF62D5B32D8F506100F6F122 /* SectorLoadingView.swift */,
+			);
+			path = SectorViews;
 			sourceTree = "<group>";
 		};
 		AF62E0FE2D779F1A0039B67F /* RegisteredUser */ = {
@@ -933,6 +970,7 @@
 		AFD931372D25DBBC00B68D92 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AF62D5B02D8F4F8000F6F122 /* SectorViews */,
 				AF0761862D7F9E7B003BB9BA /* CragSectorRouteSelection.swift */,
 				AF62E0DE2D777F470039B67F /* CragHeaderView.swift */,
 				AF8A77422D46D8150029BE40 /* CragMapView.swift */,
@@ -1228,6 +1266,7 @@
 				AF0760E12D7E1F64003BB9BA /* CragWeatherCacheClient.swift in Sources */,
 				AFD931642D29EC7300B68D92 /* KeychainService.swift in Sources */,
 				AF29920B2D07BEB300BB7907 /* CameraPreview.swift in Sources */,
+				AF62D5C12D8F542B00F6F122 /* AllSectorsRoutesView.swift in Sources */,
 				AF07624D2D821644003BB9BA /* SectorDetailsCacheClient.swift in Sources */,
 				AF9E0C722C38AC0B00984C58 /* CreateRouteImageView.swift in Sources */,
 				AFD3916F2C30B977008CF2A7 /* OpenCVWrapper.mm in Sources */,
@@ -1248,16 +1287,20 @@
 				AF9E0C6C2C3747C500984C58 /* ClimbingGrades.swift in Sources */,
 				AF21C2DF2D737FD0000BE26C /* ScrollViewWithStickyHeader.swift in Sources */,
 				AFBE85902D1229F70029217C /* PhotoCaptureButton.swift in Sources */,
+				AF62D5BD2D8F517600F6F122 /* SectorHeaderView.swift in Sources */,
 				AF9E0C6F2C3747FD00984C58 /* FrenchClimbingGrades.swift in Sources */,
 				AF3D934E2D680137003FAF90 /* UserLoginView.swift in Sources */,
 				AF8A77442D46D8180029BE40 /* CragMapView.swift in Sources */,
 				AF2991EA2D078CF200BB7907 /* PhotoCapture.swift in Sources */,
 				AFA0ECE02D8CB11E00437911 /* RouteInfoView.swift in Sources */,
+				AF62D5C62D8F570600F6F122 /* GradeDistributionGraph.swift in Sources */,
 				AF2991F62D078D3400BB7907 /* CameraModel.swift in Sources */,
+				AF62D5C82D8F573700F6F122 /* RoutesTableView.swift in Sources */,
 				AF9E0C7B2C39887F00984C58 /* RoutePoints.swift in Sources */,
 				AF8DA6462CD563DC00751865 /* ColorTheme.swift in Sources */,
 				AFD9314A2D26081B00B68D92 /* LoginView.swift in Sources */,
 				AF62E1002D779FDA0039B67F /* RegisteredUserView.swift in Sources */,
+				AF62D5C42D8F56DD00F6F122 /* RouteInfoItem.swift in Sources */,
 				AFBED2922D1370DC002CA393 /* ImageUtils.swift in Sources */,
 				AF21C18D2D71107A000BE26C /* ClimbTypesConverter.swift in Sources */,
 				AF869CCE2C307CC50092E371 /* RouteFinderView.swift in Sources */,
@@ -1274,14 +1317,17 @@
 				AF0243382D1640250007748D /* PhotoDrawingCanvas.swift in Sources */,
 				AF1271022D875A970009D70F /* ClimbingGradesGraphView.swift in Sources */,
 				AF773D6C2C3DFBED00886C00 /* OverlayAndRouteId.swift in Sources */,
+				AF62D5BB2D8F512F00F6F122 /* SectorPickerView.swift in Sources */,
 				AF8DA64E2CD56D8000751865 /* SearchResultView.swift in Sources */,
 				AFD3918F2C3191A8008CF2A7 /* ImportSamplesSwift.swift in Sources */,
 				AFA0ECF42D8CBA8000437911 /* OnTapBackgroundExtension.swift in Sources */,
 				AFE4C49D2D8757F800A09302 /* UserStatsView.swift in Sources */,
 				AF2991DE2D078CEE00BB7907 /* MediaLibrary.swift in Sources */,
+				AF62D5B92D8F50DE00F6F122 /* NoRouteView.swift in Sources */,
 				AF2991E12D078CEE00BB7907 /* DataTypes.swift in Sources */,
 				AFB322502D87368A003A60F7 /* MapContent.swift in Sources */,
 				AFD931392D25DC1900B68D92 /* CragLink.swift in Sources */,
+				AF62D5B52D8F506700F6F122 /* SectorLoadingView.swift in Sources */,
 				AF62E1B12D7A492C0039B67F /* APICache.swift in Sources */,
 				AF8A760A2D4457710029BE40 /* UINavigationBarExtension.swift in Sources */,
 				AF3D95D02D6BE0D9003FAF90 /* WavingText.swift in Sources */,
@@ -1293,6 +1339,7 @@
 				AF8A75B02D4312390029BE40 /* AsyncImageWithFallback.swift in Sources */,
 				AF869C9D2C3064AA0092E371 /* RouteBoardApp.swift in Sources */,
 				6911F6F222906945D23F3284 /* LoadingSearchResults.swift in Sources */,
+				AF62D5B72D8F50AF00F6F122 /* EmptySectorView.swift in Sources */,
 				AF8A76D72D46BADA0029BE40 /* CragTopContainerView.swift in Sources */,
 				6911F75652EFE19E90503597 /* SingleResultView.swift in Sources */,
 				AFA0ECE22D8CB12600437911 /* RouteDescriptionView.swift in Sources */,
@@ -1313,6 +1360,7 @@
 				6911F969FF44336C6055B5F6 /* DetailsViewStateMachine.swift in Sources */,
 				AF0761882D7F9E86003BB9BA /* CragSectorRouteSelection.swift in Sources */,
 				AF3D95222D6B96E2003FAF90 /* NavigationSearchResultsView.swift in Sources */,
+				AF62D5BF2D8F540900F6F122 /* RouteTabView.swift in Sources */,
 				AFB322572D87413B003A60F7 /* MapDetails.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

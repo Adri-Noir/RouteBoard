@@ -16,14 +16,8 @@ public class GetCragCommandHandler(
 {
     public async Task<CragDetailedDto> Handle(GetCragCommand request, CancellationToken cancellationToken)
     {
-        var crag = await cragRepository.GetCragById(request.CragId, cancellationToken);
+        var crag = await cragRepository.GetCragById(request.CragId, cancellationToken) ?? throw new EntityNotFoundException("Crag not found.");
 
-        if (crag == null)
-        {
-            throw new EntityNotFoundException("Crag not found.");
-        }
-
-        // Save search history if user is authenticated
         var userId = authenticationContext.GetUserId();
         if (userId.HasValue)
         {

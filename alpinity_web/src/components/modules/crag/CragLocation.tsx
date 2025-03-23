@@ -1,9 +1,10 @@
 "use client";
 
 import { PointDto } from "@/lib/api/types.gen";
+import { useInteractiveMap } from "@/lib/hooks/useInteractiveMap";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 // You need to replace this with your actual Mapbox access token
 // Get one from https://account.mapbox.com/
@@ -27,7 +28,11 @@ const CragLocation = ({ location, sectors = [], onSectorClick, selectedSectorId 
   const mapWrapperRef = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const markersRef = useRef<{ [key: string]: mapboxgl.Marker }>({});
-  const [isInteractive, setIsInteractive] = useState(false);
+
+  const { isInteractive, handleActivateMap, handleDeactivateMap } = useInteractiveMap({
+    mapRef: map,
+    wrapperRef: mapWrapperRef,
+  });
 
   // Initialize map only once
   useEffect(() => {
@@ -126,63 +131,6 @@ const CragLocation = ({ location, sectors = [], onSectorClick, selectedSectorId 
       el.style.backgroundImage = `url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='${markerColor}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E")`;
     });
   }, [selectedSectorId]);
-
-  // Toggle map interactivity when isInteractive changes
-  useEffect(() => {
-    if (!map.current) return;
-
-    if (isInteractive) {
-      map.current.dragPan.enable();
-      map.current.scrollZoom.enable();
-      map.current.boxZoom.enable();
-      map.current.dragRotate.enable();
-      map.current.keyboard.enable();
-      map.current.doubleClickZoom.enable();
-      map.current.touchZoomRotate.enable();
-    } else {
-      map.current.dragPan.disable();
-      map.current.scrollZoom.disable();
-      map.current.boxZoom.disable();
-      map.current.dragRotate.disable();
-      map.current.keyboard.disable();
-      map.current.doubleClickZoom.disable();
-      map.current.touchZoomRotate.disable();
-    }
-
-    // Re-enable controls when interactive, disable when not
-    const controls = document.querySelectorAll(".mapboxgl-ctrl");
-    controls.forEach((control) => {
-      if (isInteractive) {
-        control.classList.remove("pointer-events-none", "opacity-50");
-      } else {
-        control.classList.add("pointer-events-none", "opacity-50");
-      }
-    });
-  }, [isInteractive]);
-
-  // Add click outside handler
-  useEffect(() => {
-    if (!isInteractive) return;
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (mapWrapperRef.current && !mapWrapperRef.current.contains(event.target as Node)) {
-        setIsInteractive(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isInteractive]);
-
-  const handleActivateMap = () => {
-    setIsInteractive(true);
-  };
-
-  const handleDeactivateMap = () => {
-    setIsInteractive(false);
-  };
 
   return (
     <div className="relative space-y-4" ref={mapWrapperRef}>
