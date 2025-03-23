@@ -1,5 +1,5 @@
+import { GradeBadge } from "@/components/ui/library/Badge";
 import { SectorRouteDto } from "@/lib/api/types.gen";
-import { formatClimbingGrade } from "@/lib/utils/formatters";
 import Image from "next/image";
 
 interface RouteImageProps {
@@ -32,7 +32,7 @@ const RouteImage = ({ selectedRoute }: RouteImageProps) => {
         <div className="mt-4 text-center">
           <h4 className="text-xl font-semibold">{selectedRoute.name}</h4>
           {selectedRoute.grade && (
-            <span className="text-primary text-lg">{formatClimbingGrade(selectedRoute.grade)}</span>
+            <GradeBadge grade={selectedRoute.grade} className="mt-1 inline-block px-3 py-1 text-lg" />
           )}
         </div>
       )}

@@ -1,7 +1,8 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { GradeBadge, TypeBadge } from "@/components/ui/library/Badge";
 import { getRouteAscentsByIdOptions } from "@/lib/api/@tanstack/react-query.gen";
 import { AscentDto } from "@/lib/api/types.gen";
-import { formatClimbingGrade, formatClimbType, formatHoldType, formatRockType } from "@/lib/utils/formatters";
+import { formatClimbType, formatHoldType, formatRockType } from "@/lib/utils/formatters";
 import { useQuery } from "@tanstack/react-query";
 import { CalendarIcon, Clock, Star } from "lucide-react";
 import Image from "next/image";
@@ -74,7 +75,7 @@ const AscentDialog = ({ open, onOpenChange, routeId, routeName }: AscentDialogPr
                     {ascent.proposedGrade && (
                       <div className="text-muted-foreground flex items-center gap-2 text-sm">
                         <span>Proposed Grade:</span>
-                        <span className="text-primary font-medium">{formatClimbingGrade(ascent.proposedGrade)}</span>
+                        <GradeBadge grade={ascent.proposedGrade} className="text-xs" />
                       </div>
                     )}
 
@@ -106,27 +107,15 @@ const AscentDialog = ({ open, onOpenChange, routeId, routeName }: AscentDialogPr
                   <div className="mt-3 flex flex-wrap gap-1">
                     {ascent.climbTypes &&
                       ascent.climbTypes.length > 0 &&
-                      ascent.climbTypes.map((type) => (
-                        <span key={type} className="bg-muted rounded-full px-2 py-1 text-xs">
-                          {formatClimbType(type)}
-                        </span>
-                      ))}
+                      ascent.climbTypes.map((type) => <TypeBadge key={type} label={formatClimbType(type)} />)}
 
                     {ascent.rockTypes &&
                       ascent.rockTypes.length > 0 &&
-                      ascent.rockTypes.map((type) => (
-                        <span key={type} className="bg-muted rounded-full px-2 py-1 text-xs">
-                          {formatRockType(type)}
-                        </span>
-                      ))}
+                      ascent.rockTypes.map((type) => <TypeBadge key={type} label={formatRockType(type)} />)}
 
                     {ascent.holdTypes &&
                       ascent.holdTypes.length > 0 &&
-                      ascent.holdTypes.map((type) => (
-                        <span key={type} className="bg-muted rounded-full px-2 py-1 text-xs">
-                          {formatHoldType(type)}
-                        </span>
-                      ))}
+                      ascent.holdTypes.map((type) => <TypeBadge key={type} label={formatHoldType(type)} />)}
                   </div>
                 </div>
               ))}

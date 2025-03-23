@@ -7,9 +7,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { GradeBadge, TypeBadge } from "@/components/ui/library/Badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { SectorRouteDto } from "@/lib/api/types.gen";
-import { formatClimbingGrade, formatRouteType } from "@/lib/utils/formatters";
+import { formatRouteType } from "@/lib/utils/formatters";
 import { MoreVertical } from "lucide-react";
 
 interface RouteTableProps {
@@ -53,24 +54,11 @@ const RouteTable = ({ routes, sortBy, sortDirection, handleSort, handleAscentCli
             routes.map(({ route, sectorName }) => (
               <TableRow key={route.id}>
                 <TableCell className="font-medium">{route.name || "Unnamed Route"}</TableCell>
-                <TableCell>
-                  {route.grade ? (
-                    <span className="bg-primary/10 text-primary rounded-md px-2 py-1 text-xs font-semibold">
-                      {formatClimbingGrade(route.grade)}
-                    </span>
-                  ) : (
-                    "-"
-                  )}
-                </TableCell>
+                <TableCell>{route.grade ? <GradeBadge grade={route.grade} /> : "-"}</TableCell>
                 <TableCell>
                   <div className="flex flex-wrap gap-1">
                     {route.routeType?.map((type, index) => (
-                      <span
-                        key={`${route.id}-type-${index}`}
-                        className="bg-primary/10 text-primary inline-block rounded-full px-2 py-0.5 text-xs font-medium"
-                      >
-                        {formatRouteType(type)}
-                      </span>
+                      <TypeBadge key={`${route.id}-type-${index}`} label={formatRouteType(type)} variant="primary" />
                     ))}
                   </div>
                 </TableCell>
