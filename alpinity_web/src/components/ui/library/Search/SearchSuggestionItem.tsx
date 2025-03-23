@@ -16,7 +16,7 @@ interface SearchSuggestionItemProps {
 }
 
 const getHref = (suggestion: SearchResultDto) => {
-  const { entityType, cragId, sectorId, routeId, profileUserId, sectorCragId } = suggestion;
+  const { entityType, cragId, sectorId, routeId, profileUserId, sectorCragId, routeCragId, routeSectorId } = suggestion;
   const type = entityType ? mapEntityTypeToUiType(entityType) : "crag";
 
   switch (type) {
@@ -25,7 +25,7 @@ const getHref = (suggestion: SearchResultDto) => {
     case "sector":
       return `/crag/${sectorCragId}?sectorId=${sectorId}`;
     case "route":
-      return `/route/${routeId}`;
+      return `/crag/${routeCragId}?sectorId=${routeSectorId}&routeId=${routeId}`;
     case "user":
       return `/user/${profileUserId}`;
     default:
