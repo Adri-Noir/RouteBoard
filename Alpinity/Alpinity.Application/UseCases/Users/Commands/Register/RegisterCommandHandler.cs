@@ -33,7 +33,7 @@ public class RegisterCommandHandler(
         if (request.ProfilePhoto != null)
         {
             var photoFile = mapper.Map<FileRequest>(request.ProfilePhoto);
-            var photoUrl = await fileRepository.UploadPublicFileAsync(photoFile, cancellationToken);
+            var photoUrl = await fileRepository.UploadPrivateFileAsync(photoFile, cancellationToken);
             photo = await photoRepository.AddImage(new Photo
             {
                 Url = photoUrl

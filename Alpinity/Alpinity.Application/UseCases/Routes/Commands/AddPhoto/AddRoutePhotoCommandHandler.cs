@@ -21,8 +21,8 @@ public class AddRoutePhotoCommandHandler(
         var photoFile = mapper.Map<FileRequest>(request.Photo);
         var linePhotoFile = mapper.Map<FileRequest>(request.LinePhoto);
 
-        var photoUrl = await fileRepository.UploadPublicFileAsync(photoFile, cancellationToken);
-        var linePhotoUrl = await fileRepository.UploadPublicFileAsync(linePhotoFile, cancellationToken);
+        var photoUrl = await fileRepository.UploadPrivateFileAsync(photoFile, cancellationToken);
+        var linePhotoUrl = await fileRepository.UploadPrivateFileAsync(linePhotoFile, cancellationToken);
 
         var photo = await photoRepository.AddImage(new Photo
         {

@@ -34,7 +34,7 @@ public class CreateSectorCommandHandler(
         foreach (var photo in request.Photos)
         {
             var file = mapper.Map<FileRequest>(photo);
-            var url = await fileRepository.UploadPublicFileAsync(file, cancellationToken);
+            var url = await fileRepository.UploadPrivateFileAsync(file, cancellationToken);
 
             var photoEntity = new Photo
             {
