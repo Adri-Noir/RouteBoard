@@ -44,11 +44,12 @@ export const SearchDialog = ({
       },
     }),
     enabled: shouldFetch && open && isAuthenticated,
+    refetchOnWindowFocus: false,
   });
-
   const { data: searchHistoryData = [] } = useQuery({
     ...getApiUserSearchHistoryOptions(),
     enabled: open && isAuthenticated,
+    refetchOnWindowFocus: false,
   });
 
   // Handle input change

@@ -18,6 +18,11 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
             .Include(crag => crag.Sectors!)
             .ThenInclude(sector => sector.Routes!)
             .ThenInclude(route => route.RoutePhotos!)
+            .ThenInclude(photo => photo.PathLine)
+            .Include(crag => crag.Sectors!)
+            .ThenInclude(sector => sector.Routes!)
+            .ThenInclude(route => route.RoutePhotos!)
+            .ThenInclude(photo => photo.Image)
             .Include(crag => crag.Sectors!.OrderBy(sector => sector.Name))
             .ThenInclude(sector => sector.Photos)
             .FirstOrDefaultAsync(crag => crag.Id == cragId, cancellationToken);

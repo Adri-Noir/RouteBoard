@@ -22,6 +22,15 @@ client.interceptors.request.use((request) => {
   return request;
 });
 
+client.interceptors.response.use((response) => {
+  if (response.status === 401) {
+    Cookies.remove("token");
+    window.location.href = "/login";
+  }
+
+  return response;
+});
+
 const useAuth = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -32,7 +41,6 @@ const useAuth = () => {
   const { data: user, isLoading: isUserLoading } = useQuery({
     ...postApiAuthenticationMeOptions(),
     enabled: !!token,
-    retry: false,
   });
 
   const {

@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "**.mapbox.com",
       },
+      {
+        protocol: "https",
+        hostname: "alpinitydev.blob.core.windows.net",
+      },
     ],
   },
 };

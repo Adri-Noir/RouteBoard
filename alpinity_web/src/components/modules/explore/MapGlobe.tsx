@@ -48,6 +48,7 @@ export function MapGlobe() {
       path: { cragId: selectedCrag?.id || "" },
     }),
     enabled: !!selectedCrag?.id,
+    refetchOnWindowFocus: false,
   });
 
   // Initialize map

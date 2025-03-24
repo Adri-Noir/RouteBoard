@@ -20,6 +20,7 @@ const ExploreCardSkeleton = () => {
 export function ExploreList() {
   const { data: exploreData, isLoading } = useQuery({
     ...getApiMapExploreOptions(),
+    refetchOnWindowFocus: false,
   });
 
   if (isLoading) {

@@ -20,6 +20,7 @@ const AscentDialog = ({ open, onOpenChange, routeId, routeName }: AscentDialogPr
       path: { id: routeId || "" },
     }),
     enabled: !!routeId && open,
+    refetchOnWindowFocus: false,
   });
 
   const formatAscentDate = (dateStr: string | null | undefined) => {
