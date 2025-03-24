@@ -2,10 +2,11 @@ using System.Net.Mime;
 using Alpinity.Application.Interfaces;
 using Alpinity.Application.UseCases.Routes.Dtos;
 using Alpinity.Application.UseCases.SearchHistory.Commands.GetUserSearchHistory;
-using Alpinity.Application.UseCases.Search.Dtos;    
+using Alpinity.Application.UseCases.Search.Dtos;
 using Alpinity.Application.UseCases.Users.Commands.GetUserProfile;
 using Alpinity.Application.UseCases.Users.Commands.LogAscent;
 using Alpinity.Application.UseCases.Users.Commands.RecentlyAscendedRoutes;
+using Alpinity.Application.UseCases.Users.Commands.UpdatePhoto;
 using Alpinity.Application.UseCases.Users.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -30,14 +31,14 @@ public class UserController(
     public async Task<ActionResult> LogAscent(LogAscentCommand command, CancellationToken cancellationToken)
     {
         command.UserId = (Guid)authenticationContext.GetUserId()!;
-        
+
         await mediator.Send(command, cancellationToken);
         return Ok();
     }
-    
+
     [HttpGet("searchHistory")]
     [Authorize]
-    [Produces(MediaTypeNames.Application.Json)] 
+    [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(typeof(ICollection<SearchResultDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
@@ -48,7 +49,7 @@ public class UserController(
             SearchingUserId = (Guid)authenticationContext.GetUserId()!,
             Count = count
         };
-        
+
         var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }
@@ -65,7 +66,7 @@ public class UserController(
         {
             UserId = (Guid)authenticationContext.GetUserId()!
         };
-        
+
         var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }
@@ -82,8 +83,21 @@ public class UserController(
         {
             ProfileUserId = profileUserId
         };
-        
+
         var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
+    }
+
+    [HttpPut("photo")]
+    [Authorize]
+    [Consumes(MediaTypeNames.Multipart.FormData)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult> UpdateUserPhoto([FromForm] UpdateUserPhotoCommand command, CancellationToken cancellationToken)
+    {
+        command.UserId = (Guid)authenticationContext.GetUserId()!;
+        await mediator.Send(command, cancellationToken);
+        return Ok();
     }
 }

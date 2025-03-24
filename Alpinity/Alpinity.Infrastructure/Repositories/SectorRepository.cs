@@ -95,4 +95,10 @@ public class SectorRepository(ApplicationDbContext dbContext, ICragRepository cr
             .Include(sector => sector.Photos)
             .ToListAsync(cancellationToken);
     }
+
+    public async Task UpdateSector(Sector sector, CancellationToken cancellationToken = default)
+    {
+        dbContext.Sectors.Update(sector);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
 }

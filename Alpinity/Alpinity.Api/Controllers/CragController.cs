@@ -1,6 +1,7 @@
 using System.Net.Mime;
 using Alpinity.Application.UseCases.Crags.Commands.Create;
 using Alpinity.Application.UseCases.Crags.Commands.Get;
+using Alpinity.Application.UseCases.Crags.Commands.UploadPhoto;
 using Alpinity.Application.UseCases.Crags.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -40,5 +41,19 @@ public class CragController(IMediator mediator) : ControllerBase
         var result = await mediator.Send(cragCommand, cancellationToken);
 
         return Ok(result);
+    }
+
+    [HttpPost("{id:guid}/photo")]
+    [Authorize]
+    [Consumes(MediaTypeNames.Multipart.FormData)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> UploadCragPhoto(Guid id, [FromForm] UploadCragPhotoCommand command, CancellationToken cancellationToken)
+    {
+        command.CragId = id;
+        await mediator.Send(command, cancellationToken);
+        return Ok();
     }
 }

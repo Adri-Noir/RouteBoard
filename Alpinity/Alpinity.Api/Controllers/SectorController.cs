@@ -2,6 +2,7 @@ using System.Net.Mime;
 using Alpinity.Application.UseCases.Crags.Dtos;
 using Alpinity.Application.UseCases.Sectors.Commands.Create;
 using Alpinity.Application.UseCases.Sectors.Commands.GetCrag;
+using Alpinity.Application.UseCases.Sectors.Commands.UploadPhoto;
 using Alpinity.Application.UseCases.Sectors.Dtos;
 using Alpinity.Application.UseCases.Sectors.Get;
 using MediatR;
@@ -55,5 +56,19 @@ public class SectorController(IMediator mediator) : ControllerBase
         var result = await mediator.Send(new GetSectorCragCommand { SectorId = id }, cancellationToken);
 
         return Ok(result);
+    }
+
+    [HttpPost("{id:guid}/photo")]
+    [Authorize]
+    [Consumes(MediaTypeNames.Multipart.FormData)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> UploadSectorPhoto(Guid id, [FromForm] UploadSectorPhotoCommand command, CancellationToken cancellationToken)
+    {
+        command.SectorId = id;
+        await mediator.Send(command, cancellationToken);
+        return Ok();
     }
 }

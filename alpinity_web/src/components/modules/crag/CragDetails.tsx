@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { AlertCircle } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import SectorDetails from "../sector/SectorDetails";
 import SectorSelector from "../sector/SectorSelector";
 import CragAllRoutes from "./CragAllRoutes";
@@ -49,8 +49,8 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
     return crag?.sectors?.find((sector) => sector.id === selectedSectorId);
   }, [crag?.sectors, selectedSectorId]);
 
-  const handleSectorChange = useMemo(
-    () => (sectorId: string) => {
+  const handleSectorChange = useCallback(
+    (sectorId: string) => {
       setSelectedSectorId(sectorId);
       const params = new URLSearchParams();
       params.set("sectorId", sectorId);

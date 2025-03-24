@@ -21,4 +21,6 @@ public interface ISectorRepository
     Task<ICollection<Sector>> GetSectorsByBoundingBox(Point northEast, Point southWest, CancellationToken cancellationToken = default);
 
     Task<ICollection<Sector>> GetSectorsOnlyByCragId(Guid cragId, CancellationToken cancellationToken = default);
+
+    Task UpdateSector(Sector sector, CancellationToken cancellationToken = default);
 }

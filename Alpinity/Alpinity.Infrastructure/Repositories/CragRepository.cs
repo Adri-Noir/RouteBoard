@@ -72,4 +72,10 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
             .Select(crag => crag.Location)
             .FirstOrDefaultAsync(cancellationToken);
     }
+
+    public async Task UpdateCrag(Crag crag, CancellationToken cancellationToken = default)
+    {
+        dbContext.Crags.Update(crag);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
 }

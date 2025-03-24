@@ -48,9 +48,10 @@ public class UserRepository(
         return user;
     }
 
-    public Task<User> UpdateAsync(User user, CancellationToken cancellationToken = default)
+    public async Task UpdateUser(User user, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        dbContext.Users.Update(user);
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
     public Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
