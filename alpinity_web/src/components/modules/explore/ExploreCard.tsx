@@ -11,7 +11,7 @@ interface ExploreCardProps {
 export function ExploreCard({ data }: ExploreCardProps) {
   return (
     <Link href={`/crag/${data.cragId}`}>
-      <Card className="group overflow-hidden p-0 transition-all hover:shadow-md">
+      <Card className="group overflow-hidden p-0 transition-all hover:scale-102 hover:shadow-md">
         <div className="relative h-60 w-full">
           {data.photo?.url ? (
             <Image

@@ -3,13 +3,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { ClimbingGrade } from "@/lib/api/types.gen";
 import { formatClimbingGrade } from "@/lib/utils/formatters";
+import { getGradeColor, sortGradeDistributionItems } from "@/lib/utils/gradeUtils";
 import { TrendingUp } from "lucide-react";
 import { useMemo } from "react";
-import { Bar, BarChart, CartesianGrid, LabelList, Rectangle, XAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Cell, LabelList, Rectangle, XAxis } from "recharts";
 
 export interface GradeDistributionItem {
   grade: string;
   count: number;
+  fill?: string;
 }
 
 interface GradeChartProps {
@@ -24,6 +26,15 @@ const GradeChart = ({ distribution, chartWidth, chartConfig, selectedGrade, onSe
   // Find the index of the selected grade in the distribution array
   const activeGradeIndex = selectedGrade ? distribution.findIndex((item) => item.grade === selectedGrade) : -1;
 
+  // Sort and add color to distribution data
+  const coloredDistribution = useMemo(() => {
+    const sortedDistribution = sortGradeDistributionItems(distribution);
+    return sortedDistribution.map((item) => ({
+      ...item,
+      fill: getGradeColor(item.grade),
+    }));
+  }, [distribution]);
+
   return (
     <ChartContainer
       config={chartConfig}
@@ -34,7 +45,7 @@ const GradeChart = ({ distribution, chartWidth, chartConfig, selectedGrade, onSe
     >
       <BarChart
         accessibilityLayer
-        data={distribution}
+        data={coloredDistribution}
         barSize={30}
         margin={{
           top: 20,
@@ -44,7 +55,6 @@ const GradeChart = ({ distribution, chartWidth, chartConfig, selectedGrade, onSe
         <XAxis dataKey="grade" tickLine={false} tickMargin={10} axisLine={false} />
         <Bar
           dataKey="count"
-          fill="var(--color-count)"
           radius={20}
           cursor="pointer"
           onClick={(data) => {
@@ -58,14 +68,18 @@ const GradeChart = ({ distribution, chartWidth, chartConfig, selectedGrade, onSe
               <Rectangle
                 {...props}
                 fillOpacity={1}
-                stroke="var(--color-count)"
+                stroke={props.fill}
                 strokeWidth={2}
                 strokeDasharray={4}
                 strokeDashoffset={4}
               />
             );
           }}
+          fillOpacity={0.7}
         >
+          {coloredDistribution.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={entry.fill} />
+          ))}
           <LabelList dataKey="count" position="top" offset={12} className="fill-foreground" fontSize={12} />
         </Bar>
       </BarChart>
@@ -79,9 +93,16 @@ interface SelectedGradeBadgeProps {
 }
 
 const SelectedGradeBadge = ({ grade, onClear }: SelectedGradeBadgeProps) => {
+  const gradeColor = getGradeColor(grade);
+
   return (
     <div className="flex items-center gap-1">
-      <span className="bg-primary text-primary-foreground rounded-md px-2 py-1 text-xs font-semibold">{grade}</span>
+      <span
+        className="text-primary-foreground rounded-md px-2 py-1 text-xs font-semibold"
+        style={{ backgroundColor: gradeColor }}
+      >
+        {grade}
+      </span>
       <Button variant="ghost" size="sm" onClick={onClear} className="h-6 w-6 p-0">
         <span className="sr-only">Clear grade filter</span>
         <svg
@@ -255,27 +276,11 @@ export const calculateGradeDistribution = (routes: { grade?: ClimbingGrade }[]) 
     {} as Record<string, number>,
   );
 
-  // Sort grades
-  return Object.entries(distribution)
-    .sort((a, b) => {
-      // Extract numeric part and modifier for proper sorting
-      const [gradeANum, gradeAMod] = a[0].split(/(\d+)(.*)/).filter(Boolean);
-      const [gradeBNum, gradeBMod] = b[0].split(/(\d+)(.*)/).filter(Boolean);
+  // Convert to array format and sort
+  const distributionArray = Object.entries(distribution).map(([grade, count]) => ({
+    grade,
+    count,
+  }));
 
-      // Compare numeric values first
-      const numA = parseInt(gradeANum);
-      const numB = parseInt(gradeBNum);
-
-      if (numA !== numB) return numA - numB;
-
-      // If numeric values are equal, sort by modifier (+ comes after no modifier)
-      if (gradeAMod.includes("+") && !gradeBMod.includes("+")) return 1;
-      if (!gradeAMod.includes("+") && gradeBMod.includes("+")) return -1;
-
-      return 0;
-    })
-    .map(([grade, count]) => ({
-      grade,
-      count,
-    }));
+  return sortGradeDistributionItems(distributionArray);
 };
