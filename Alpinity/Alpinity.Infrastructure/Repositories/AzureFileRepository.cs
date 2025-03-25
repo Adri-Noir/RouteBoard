@@ -11,15 +11,9 @@ public class AzureFileRepository : IFileRepository
 {
     private readonly BlobContainerClient _publicContainerClient;
     private readonly BlobContainerClient _privateContainerClient;
-    private readonly string _accountName;
-    private readonly string _accountKey;
 
     public AzureFileRepository(string connectionString)
     {
-        // Extract account name and key from the connection string for SAS token generation
-        _accountName = ExtractValueFromConnectionString(connectionString, "AccountName");
-        _accountKey = ExtractValueFromConnectionString(connectionString, "AccountKey");
-
         // Public container setup
         _publicContainerClient = new BlobContainerClient(connectionString, "publicdata");
         _publicContainerClient.CreateIfNotExists();
@@ -77,24 +71,10 @@ public class AzureFileRepository : IFileRepository
         // Set permissions to read only
         sasBuilder.SetPermissions(BlobSasPermissions.Read);
 
-        // Generate the SAS token
-        var credential = new Azure.Storage.StorageSharedKeyCredential(_accountName, _accountKey);
-        var sasToken = sasBuilder.ToSasQueryParameters(credential).ToString();
+        // Generate the SAS URI
+        Uri sasUri = blobClient.GenerateSasUri(sasBuilder);
 
         // Return the full URL with SAS token
-        return $"{blobClient.Uri}?{sasToken}";
-    }
-
-    // Helper method to extract values from Azure connection string
-    private string ExtractValueFromConnectionString(string connectionString, string key)
-    {
-        var keyValuePair = connectionString
-            .Split(';')
-            .FirstOrDefault(p => p.StartsWith($"{key}="));
-
-        if (keyValuePair == null)
-            throw new ArgumentException($"{key} not found in connection string");
-
-        return keyValuePair.Substring($"{key}=".Length);
+        return sasUri.ToString();
     }
 }
