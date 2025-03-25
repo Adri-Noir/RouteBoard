@@ -39,6 +39,12 @@ public class ApplicationDbContext : DbContext
             .HasForeignKey<RoutePhoto>(rp => rp.PathLineId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        modelBuilder.Entity<RoutePhoto>()
+            .HasOne(rp => rp.CombinedPhoto)
+            .WithOne(p => p.RouteCombinedPhoto)
+            .HasForeignKey<RoutePhoto>(rp => rp.CombinedPhotoId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         modelBuilder.Entity<User>()
             .HasMany(u => u.TakenPhotos)
             .WithOne(p => p.TakenByUser)

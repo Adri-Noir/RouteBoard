@@ -45,11 +45,10 @@ public static class ImageValidationHelper
         {
             using var stream = file.OpenReadStream();
             using var image = Image.Load(stream);
-            return image.Width <= MaxPixelWidth && image.Height <= MaxPixelHeight;
+            return image.Width <= MaxPixelWidth && image.Height <= MaxPixelHeight && image.Width > 100 && image.Height > 100;
         }
-        catch (Exception ex)
+        catch
         {
-            Console.WriteLine($"Error validating image resolution: {ex.Message}");
             return false;
         }
     }
@@ -66,5 +65,27 @@ public static class ImageValidationHelper
             return false;
 
         return ValidateFileSize(file, maxSizeBytes) && ValidateImageResolution(file);
+    }
+
+    /// <summary>
+    /// Validates if two images have the same resolution
+    /// </summary>
+    /// <param name="file1">The first image file</param>
+    /// <param name="file2">The second image file</param>
+    /// <returns>True if both images have the same resolution, otherwise false</returns>
+    public static bool ValidateImagesHaveSameResolution(IFormFile file1, IFormFile file2)
+    {
+        try
+        {
+            using var stream1 = file1.OpenReadStream();
+            using var stream2 = file2.OpenReadStream();
+            using var image1 = Image.Load(stream1);
+            using var image2 = Image.Load(stream2);
+            return image1.Width == image2.Width && image1.Height == image2.Height;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }

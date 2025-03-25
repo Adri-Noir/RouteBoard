@@ -3,21 +3,18 @@ using System;
 using Alpinity.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Alpinity.Infrastructure.Persistence.Migrations
+namespace Alpinity.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250321120818_InitialPostgreSql")]
-    partial class InitialPostgreSql
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,6 +135,9 @@ namespace Alpinity.Infrastructure.Persistence.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
+                    b.Property<Guid?>("RouteCombinedPhotoId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid?>("RouteImageId")
                         .HasColumnType("uuid");
 
@@ -223,6 +223,9 @@ namespace Alpinity.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("CombinedPhotoId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("ImageId")
                         .HasColumnType("uuid");
 
@@ -233,6 +236,9 @@ namespace Alpinity.Infrastructure.Persistence.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CombinedPhotoId")
+                        .IsUnique();
 
                     b.HasIndex("ImageId")
                         .IsUnique();
@@ -440,6 +446,12 @@ namespace Alpinity.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Alpinity.Domain.Entities.RoutePhoto", b =>
                 {
+                    b.HasOne("Alpinity.Domain.Entities.Photo", "CombinedPhoto")
+                        .WithOne("RouteCombinedPhoto")
+                        .HasForeignKey("Alpinity.Domain.Entities.RoutePhoto", "CombinedPhotoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Alpinity.Domain.Entities.Photo", "Image")
                         .WithOne("RouteImage")
                         .HasForeignKey("Alpinity.Domain.Entities.RoutePhoto", "ImageId")
@@ -457,6 +469,8 @@ namespace Alpinity.Infrastructure.Persistence.Migrations
                         .HasForeignKey("RouteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("CombinedPhoto");
 
                     b.Navigation("Image");
 
@@ -524,6 +538,8 @@ namespace Alpinity.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Alpinity.Domain.Entities.Photo", b =>
                 {
+                    b.Navigation("RouteCombinedPhoto");
+
                     b.Navigation("RouteImage");
 
                     b.Navigation("RoutePathLine");

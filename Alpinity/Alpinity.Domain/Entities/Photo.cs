@@ -26,6 +26,9 @@ public class Photo
     public Guid? RoutePathLineId { get; set; }
     public RoutePhoto? RoutePathLine { get; set; }
 
+    public Guid? RouteCombinedPhotoId { get; set; }
+    public RoutePhoto? RouteCombinedPhoto { get; set; }
+
     public Guid? UserPhotoId { get; set; }
     public User? UserPhoto { get; set; }
     public Guid? UserPhotoGalleryId { get; set; }

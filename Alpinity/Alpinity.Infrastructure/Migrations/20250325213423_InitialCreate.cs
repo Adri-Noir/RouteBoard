@@ -4,10 +4,10 @@ using NetTopologySuite.Geometries;
 
 #nullable disable
 
-namespace Alpinity.Infrastructure.Persistence.Migrations
+namespace Alpinity.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialPostgreSql : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -102,6 +102,7 @@ namespace Alpinity.Infrastructure.Persistence.Migrations
                     SectorId = table.Column<Guid>(type: "uuid", nullable: true),
                     RouteImageId = table.Column<Guid>(type: "uuid", nullable: true),
                     RoutePathLineId = table.Column<Guid>(type: "uuid", nullable: true),
+                    RouteCombinedPhotoId = table.Column<Guid>(type: "uuid", nullable: true),
                     UserPhotoId = table.Column<Guid>(type: "uuid", nullable: true),
                     UserPhotoGalleryId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
@@ -203,11 +204,18 @@ namespace Alpinity.Infrastructure.Persistence.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     RouteId = table.Column<Guid>(type: "uuid", nullable: false),
                     ImageId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PathLineId = table.Column<Guid>(type: "uuid", nullable: false)
+                    PathLineId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CombinedPhotoId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RoutePhotos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RoutePhotos_Photos_CombinedPhotoId",
+                        column: x => x.CombinedPhotoId,
+                        principalTable: "Photos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_RoutePhotos_Photos_ImageId",
                         column: x => x.ImageId,
@@ -315,6 +323,12 @@ namespace Alpinity.Infrastructure.Persistence.Migrations
                 name: "IX_Photos_UserPhotoId",
                 table: "Photos",
                 column: "UserPhotoId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RoutePhotos_CombinedPhotoId",
+                table: "RoutePhotos",
+                column: "CombinedPhotoId",
                 unique: true);
 
             migrationBuilder.CreateIndex(

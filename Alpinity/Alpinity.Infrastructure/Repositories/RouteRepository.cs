@@ -23,6 +23,8 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
             .ThenInclude(photo => photo.Image)
             .Include(route => route.RoutePhotos!)
             .ThenInclude(photo => photo.PathLine)
+            .Include(route => route.RoutePhotos!)
+            .ThenInclude(photo => photo.CombinedPhoto)
             .Include(route => route.Ascents!.OrderByDescending(ascent => ascent.AscentDate))
             .ThenInclude(ascent => ascent.User)
             .FirstOrDefaultAsync(route => route.Id == routeId, cancellationToken);
@@ -61,6 +63,8 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
                 .ThenInclude(photo => photo.Image)
             .Include(ascent => ascent.Route!.RoutePhotos!)
                 .ThenInclude(photo => photo.PathLine)
+            .Include(ascent => ascent.Route!.RoutePhotos!)
+                .ThenInclude(photo => photo.CombinedPhoto)
             .Include(ascent => ascent.Route!.Ascents!)
             .Where(ascent => ascent.Route != null)
             .Select(ascent => ascent.Route!)

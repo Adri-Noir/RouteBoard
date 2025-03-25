@@ -8,4 +8,5 @@ public class AddRoutePhotoCommand : IRequest
     public required Guid RouteId { get; set; }
     public IFormFile Photo { get; set; }
     public IFormFile LinePhoto { get; set; }
+    public IFormFile CombinedPhoto { get; set; }
 }

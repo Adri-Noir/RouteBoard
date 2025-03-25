@@ -10,4 +10,6 @@ public class RoutePhoto
     public Photo? Image { get; set; }
     public Guid PathLineId { get; set; }
     public Photo? PathLine { get; set; }
+    public Guid CombinedPhotoId { get; set; }
+    public Photo? CombinedPhoto { get; set; }
 }
