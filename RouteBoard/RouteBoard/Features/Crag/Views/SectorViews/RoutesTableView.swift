@@ -1,7 +1,7 @@
 // Created with <3 on 22.03.2025.
 
-import SwiftUI
 import GeneratedClient
+import SwiftUI
 
 // MARK: - Table View for Routes
 struct RoutesTableView: View {
@@ -243,6 +243,8 @@ struct TableHeaderRow: View {
 
 // Route Table Row
 struct RouteTableRow: View {
+  @EnvironmentObject private var authViewModel: AuthViewModel
+
   let route: SectorRouteDto
   let sectorId: String
   let sectorName: String
@@ -279,7 +281,7 @@ struct RouteTableRow: View {
         // Grade
         tableDataCell(width: columnWidths[1]) {
           if let grade = route.grade {
-            Text(FrenchClimbingGrades().convertGradeToString(grade))
+            Text(authViewModel.getGradeSystem().convertGradeToString(grade))
               .font(.subheadline)
               .fontWeight(.medium)
               .foregroundColor(Color.newTextColor)
@@ -379,4 +381,3 @@ struct PaginationControls: View {
     .padding(.horizontal, 20)
   }
 }
-

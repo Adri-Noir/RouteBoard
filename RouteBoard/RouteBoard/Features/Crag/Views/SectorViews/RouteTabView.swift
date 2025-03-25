@@ -22,7 +22,6 @@ struct RouteTabView: View {
 
 struct RouteCardFullscreen: View {
   let route: SectorRouteDto
-  private let gradeConverter = FrenchClimbingGrades()
 
   var body: some View {
     RouteLink(routeId: route.id) {

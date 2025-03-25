@@ -100,7 +100,6 @@ struct SectorRoutesSection: View {
 
 struct RouteCardList: View {
   let route: SectorRouteDto
-  private let gradeConverter = FrenchClimbingGrades()
 
   var body: some View {
     RouteLink(routeId: route.id) {
