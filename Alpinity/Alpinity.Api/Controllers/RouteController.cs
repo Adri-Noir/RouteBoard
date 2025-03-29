@@ -3,8 +3,10 @@ using Alpinity.Application.UseCases.Routes.Commands.AddPhoto;
 using Alpinity.Application.UseCases.Routes.Commands.Create;
 using Alpinity.Application.UseCases.Routes.Commands.Get;
 using Alpinity.Application.UseCases.Routes.Commands.GetAscents;
+using Alpinity.Application.UseCases.Routes.Commands.GetPhotos;
 using Alpinity.Application.UseCases.Routes.Dtos;
 using Alpinity.Application.UseCases.Users.Dtos;
+using Alpinity.Application.UseCases.Photos.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -70,6 +72,20 @@ public class RouteController(IMediator mediator) : ControllerBase
     public async Task<ActionResult<List<AscentDto>>> GetRouteAscents(Guid id, CancellationToken cancellationToken)
     {
         var command = new GetRouteAscentsCommand { Id = id };
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("/routePhotos/{routeId:guid}")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status404NotFound)]
+    [Produces(MediaTypeNames.Application.Json)]
+    public async Task<ActionResult<ICollection<ExtendedRoutePhotoDto>>> GetRoutePhotos(Guid routeId, CancellationToken cancellationToken)
+    {
+        var command = new GetRoutePhotosCommand { RouteId = routeId };
         var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }

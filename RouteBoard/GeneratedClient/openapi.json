@@ -1002,6 +1002,69 @@
         }
       }
     },
+    "/routePhotos/{routeId}": {
+      "get": {
+        "tags": [
+          "Route"
+        ],
+        "parameters": [
+          {
+            "name": "routeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExtendedRoutePhotoDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Search": {
       "post": {
         "tags": [
@@ -2087,6 +2150,29 @@
         },
         "additionalProperties": false
       },
+      "ExtendedRoutePhotoDto": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "routeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "image": {
+            "$ref": "#/components/schemas/PhotoDto"
+          },
+          "pathLine": {
+            "$ref": "#/components/schemas/PhotoDto"
+          }
+        },
+        "additionalProperties": false
+      },
       "GetGlobeCommand": {
         "type": "object",
         "properties": {
@@ -2329,10 +2415,6 @@
             "type": "string",
             "format": "uuid"
           },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
           "url": {
             "type": "string",
             "nullable": true
@@ -2340,9 +2422,6 @@
           "takenAt": {
             "type": "string",
             "nullable": true
-          },
-          "takenByUser": {
-            "$ref": "#/components/schemas/UserDto"
           }
         },
         "additionalProperties": false
@@ -2582,12 +2661,6 @@
           "routeId": {
             "type": "string",
             "format": "uuid"
-          },
-          "image": {
-            "$ref": "#/components/schemas/PhotoDto"
-          },
-          "pathLine": {
-            "$ref": "#/components/schemas/PhotoDto"
           },
           "combinedPhoto": {
             "$ref": "#/components/schemas/PhotoDto"
@@ -2864,44 +2937,6 @@
           "ascentsCount": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "UserDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "username": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "firstName": {
-            "type": "string",
-            "nullable": true
-          },
-          "lastName": {
-            "type": "string",
-            "nullable": true
-          },
-          "dateOfBirth": {
-            "type": "string",
-            "nullable": true
-          },
-          "createdAt": {
-            "type": "string",
-            "nullable": true
-          },
-          "profilePhotoUrl": {
-            "type": "string",
             "nullable": true
           }
         },

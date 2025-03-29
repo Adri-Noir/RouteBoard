@@ -131,6 +131,13 @@ export type ExploreDto = {
   ascentsCount?: number | null;
 };
 
+export type ExtendedRoutePhotoDto = {
+  id: string;
+  routeId?: string;
+  image?: PhotoDto;
+  pathLine?: PhotoDto;
+};
+
 export type GetGlobeCommand = {
   northEast?: PointDto;
   southWest?: PointDto;
@@ -198,10 +205,8 @@ export type LoginCommand = {
 
 export type PhotoDto = {
   id: string;
-  description?: string | null;
   url: string | null;
   takenAt?: string | null;
-  takenByUser?: UserDto;
 };
 
 export type PointDto = {
@@ -267,8 +272,7 @@ export type RouteDetailedDto = {
 export type RoutePhotoDto = {
   id: string;
   routeId?: string;
-  image?: PhotoDto;
-  pathLine?: PhotoDto;
+  combinedPhoto?: PhotoDto;
 };
 
 export type RouteType =
@@ -344,17 +348,6 @@ export type SectorRouteDto = {
   routeCategories?: RouteCategoriesDto;
   routePhotos?: Array<RoutePhotoDto> | null;
   ascentsCount?: number | null;
-};
-
-export type UserDto = {
-  id?: string;
-  username?: string | null;
-  email?: string | null;
-  firstName?: string | null;
-  lastName?: string | null;
-  dateOfBirth?: string | null;
-  createdAt?: string | null;
-  profilePhotoUrl?: string | null;
 };
 
 export type UserProfileDto = {
@@ -576,6 +569,42 @@ export type PostApiCragResponses = {
 
 export type PostApiCragResponse = PostApiCragResponses[keyof PostApiCragResponses];
 
+export type PostApiCragByIdPhotoData = {
+  body?: {
+    CragId?: string;
+    Photo?: Blob | File;
+  };
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/api/Crag/{id}/photo";
+};
+
+export type PostApiCragByIdPhotoErrors = {
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails;
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails;
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type PostApiCragByIdPhotoError = PostApiCragByIdPhotoErrors[keyof PostApiCragByIdPhotoErrors];
+
+export type PostApiCragByIdPhotoResponses = {
+  /**
+   * OK
+   */
+  200: unknown;
+};
+
 export type GetApiMapExploreData = {
   body?: never;
   path?: never;
@@ -781,13 +810,13 @@ export type PostApiRouteResponse = PostApiRouteResponses[keyof PostApiRouteRespo
 
 export type PostAddPhotoData = {
   body?: {
+    RouteId?: string;
     Photo?: Blob | File;
     LinePhoto?: Blob | File;
+    CombinedPhoto?: Blob | File;
   };
   path?: never;
-  query: {
-    RouteId: string;
-  };
+  query?: never;
   url: "/addPhoto";
 };
 
@@ -849,6 +878,41 @@ export type GetRouteAscentsByIdResponses = {
 };
 
 export type GetRouteAscentsByIdResponse = GetRouteAscentsByIdResponses[keyof GetRouteAscentsByIdResponses];
+
+export type GetRoutePhotosByRouteIdData = {
+  body?: never;
+  path: {
+    routeId: string;
+  };
+  query?: never;
+  url: "/routePhotos/{routeId}";
+};
+
+export type GetRoutePhotosByRouteIdErrors = {
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails;
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails;
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type GetRoutePhotosByRouteIdError = GetRoutePhotosByRouteIdErrors[keyof GetRoutePhotosByRouteIdErrors];
+
+export type GetRoutePhotosByRouteIdResponses = {
+  /**
+   * OK
+   */
+  200: Array<ExtendedRoutePhotoDto>;
+};
+
+export type GetRoutePhotosByRouteIdResponse = GetRoutePhotosByRouteIdResponses[keyof GetRoutePhotosByRouteIdResponses];
 
 export type PostApiSearchData = {
   body?: SearchQueryCommand;
@@ -991,6 +1055,42 @@ export type GetApiSectorSectorCragByIdResponses = {
 export type GetApiSectorSectorCragByIdResponse =
   GetApiSectorSectorCragByIdResponses[keyof GetApiSectorSectorCragByIdResponses];
 
+export type PostApiSectorByIdPhotoData = {
+  body?: {
+    SectorId?: string;
+    Photo?: Blob | File;
+  };
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/api/Sector/{id}/photo";
+};
+
+export type PostApiSectorByIdPhotoErrors = {
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails;
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails;
+  /**
+   * Not Found
+   */
+  404: ProblemDetails;
+};
+
+export type PostApiSectorByIdPhotoError = PostApiSectorByIdPhotoErrors[keyof PostApiSectorByIdPhotoErrors];
+
+export type PostApiSectorByIdPhotoResponses = {
+  /**
+   * OK
+   */
+  200: unknown;
+};
+
 export type PostApiUserLogAscentData = {
   body?: LogAscentCommand;
   path?: never;
@@ -1120,6 +1220,36 @@ export type GetApiUserUserByProfileUserIdResponses = {
 
 export type GetApiUserUserByProfileUserIdResponse =
   GetApiUserUserByProfileUserIdResponses[keyof GetApiUserUserByProfileUserIdResponses];
+
+export type PutApiUserPhotoData = {
+  body?: {
+    UserId?: string;
+    Photo?: Blob | File;
+  };
+  path?: never;
+  query?: never;
+  url: "/api/User/photo";
+};
+
+export type PutApiUserPhotoErrors = {
+  /**
+   * Bad Request
+   */
+  400: ProblemDetails;
+  /**
+   * Unauthorized
+   */
+  401: ProblemDetails;
+};
+
+export type PutApiUserPhotoError = PutApiUserPhotoErrors[keyof PutApiUserPhotoErrors];
+
+export type PutApiUserPhotoResponses = {
+  /**
+   * OK
+   */
+  200: unknown;
+};
 
 export type ClientOptions = {
   baseUrl: "https://192.168.50.175:7244" | "https://localhost:7244" | (string & {});

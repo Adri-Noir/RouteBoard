@@ -8,6 +8,7 @@ import {
   postApiAuthenticationMe,
   getApiCragById,
   postApiCrag,
+  postApiCragByIdPhoto,
   getApiMapExplore,
   getApiMapWeatherByCragId,
   postApiMapGlobe,
@@ -16,14 +17,17 @@ import {
   postApiRoute,
   postAddPhoto,
   getRouteAscentsById,
+  getRoutePhotosByRouteId,
   postApiSearch,
   postApiSector,
   getApiSectorById,
   getApiSectorSectorCragById,
+  postApiSectorByIdPhoto,
   postApiUserLogAscent,
   getApiUserSearchHistory,
   getApiUserRecentlyAscendedRoutes,
   getApiUserUserByProfileUserId,
+  putApiUserPhoto,
 } from "../sdk.gen";
 import { queryOptions, type UseMutationOptions, infiniteQueryOptions, type InfiniteData } from "@tanstack/react-query";
 import type {
@@ -42,6 +46,8 @@ import type {
   PostApiCragData,
   PostApiCragError,
   PostApiCragResponse,
+  PostApiCragByIdPhotoData,
+  PostApiCragByIdPhotoError,
   GetApiMapExploreData,
   GetApiMapWeatherByCragIdData,
   PostApiMapGlobeData,
@@ -55,6 +61,7 @@ import type {
   PostAddPhotoData,
   PostAddPhotoError,
   GetRouteAscentsByIdData,
+  GetRoutePhotosByRouteIdData,
   PostApiSearchData,
   PostApiSearchError,
   PostApiSearchResponse,
@@ -63,11 +70,15 @@ import type {
   PostApiSectorResponse,
   GetApiSectorByIdData,
   GetApiSectorSectorCragByIdData,
+  PostApiSectorByIdPhotoData,
+  PostApiSectorByIdPhotoError,
   PostApiUserLogAscentData,
   PostApiUserLogAscentError,
   GetApiUserSearchHistoryData,
   GetApiUserRecentlyAscendedRoutesData,
   GetApiUserUserByProfileUserIdData,
+  PutApiUserPhotoData,
+  PutApiUserPhotoError,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -304,6 +315,38 @@ export const postApiCragMutation = (options?: Partial<Options<PostApiCragData>>)
   return mutationOptions;
 };
 
+export const postApiCragByIdPhotoQueryKey = (options: Options<PostApiCragByIdPhotoData>) =>
+  createQueryKey("postApiCragByIdPhoto", options);
+
+export const postApiCragByIdPhotoOptions = (options: Options<PostApiCragByIdPhotoData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await postApiCragByIdPhoto({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: postApiCragByIdPhotoQueryKey(options),
+  });
+};
+
+export const postApiCragByIdPhotoMutation = (options?: Partial<Options<PostApiCragByIdPhotoData>>) => {
+  const mutationOptions: UseMutationOptions<unknown, PostApiCragByIdPhotoError, Options<PostApiCragByIdPhotoData>> = {
+    mutationFn: async (localOptions) => {
+      const { data } = await postApiCragByIdPhoto({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
 export const getApiMapExploreQueryKey = (options?: Options<GetApiMapExploreData>) =>
   createQueryKey("getApiMapExplore", options);
 
@@ -443,9 +486,9 @@ export const postApiRouteMutation = (options?: Partial<Options<PostApiRouteData>
   return mutationOptions;
 };
 
-export const postAddPhotoQueryKey = (options: Options<PostAddPhotoData>) => createQueryKey("postAddPhoto", options);
+export const postAddPhotoQueryKey = (options?: Options<PostAddPhotoData>) => createQueryKey("postAddPhoto", options);
 
-export const postAddPhotoOptions = (options: Options<PostAddPhotoData>) => {
+export const postAddPhotoOptions = (options?: Options<PostAddPhotoData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
       const { data } = await postAddPhoto({
@@ -489,6 +532,24 @@ export const getRouteAscentsByIdOptions = (options: Options<GetRouteAscentsByIdD
       return data;
     },
     queryKey: getRouteAscentsByIdQueryKey(options),
+  });
+};
+
+export const getRoutePhotosByRouteIdQueryKey = (options: Options<GetRoutePhotosByRouteIdData>) =>
+  createQueryKey("getRoutePhotosByRouteId", options);
+
+export const getRoutePhotosByRouteIdOptions = (options: Options<GetRoutePhotosByRouteIdData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getRoutePhotosByRouteId({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getRoutePhotosByRouteIdQueryKey(options),
   });
 };
 
@@ -660,6 +721,42 @@ export const getApiSectorSectorCragByIdOptions = (options: Options<GetApiSectorS
   });
 };
 
+export const postApiSectorByIdPhotoQueryKey = (options: Options<PostApiSectorByIdPhotoData>) =>
+  createQueryKey("postApiSectorByIdPhoto", options);
+
+export const postApiSectorByIdPhotoOptions = (options: Options<PostApiSectorByIdPhotoData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await postApiSectorByIdPhoto({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: postApiSectorByIdPhotoQueryKey(options),
+  });
+};
+
+export const postApiSectorByIdPhotoMutation = (options?: Partial<Options<PostApiSectorByIdPhotoData>>) => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    PostApiSectorByIdPhotoError,
+    Options<PostApiSectorByIdPhotoData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await postApiSectorByIdPhoto({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
 export const postApiUserLogAscentQueryKey = (options?: Options<PostApiUserLogAscentData>) =>
   createQueryKey("postApiUserLogAscent", options);
 
@@ -744,4 +841,18 @@ export const getApiUserUserByProfileUserIdOptions = (options: Options<GetApiUser
     },
     queryKey: getApiUserUserByProfileUserIdQueryKey(options),
   });
+};
+
+export const putApiUserPhotoMutation = (options?: Partial<Options<PutApiUserPhotoData>>) => {
+  const mutationOptions: UseMutationOptions<unknown, PutApiUserPhotoError, Options<PutApiUserPhotoData>> = {
+    mutationFn: async (localOptions) => {
+      const { data } = await putApiUserPhoto({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };

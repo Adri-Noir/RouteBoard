@@ -11,8 +11,6 @@ public class PhotoProfile : Profile
     {
         CreateMap<RoutePhoto, RoutePhotoDto>()
             .ForMember(t => t.RouteId, opt => opt.MapFrom(s => s.RouteId))
-            .ForMember(t => t.Image, opt => opt.MapFrom(s => s.Image))
-            .ForMember(t => t.PathLine, opt => opt.MapFrom(s => s.PathLine))
             .ForMember(t => t.CombinedPhoto, opt => opt.MapFrom(s => s.CombinedPhoto));
 
         CreateMap<Photo, PhotoDto>()
@@ -21,6 +19,11 @@ public class PhotoProfile : Profile
                     s.TakenAt.ToString("s")))
             .ForMember(t => t.Url,
                 opt => opt.ConvertUsing<TemporaryUrlResolver, string>(s => s.Url));
+
+        CreateMap<RoutePhoto, ExtendedRoutePhotoDto>()
+            .ForMember(t => t.RouteId, opt => opt.MapFrom(s => s.RouteId))
+            .ForMember(t => t.Image, opt => opt.MapFrom(s => s.Image))
+            .ForMember(t => t.PathLine, opt => opt.MapFrom(s => s.PathLine));
     }
 }
 

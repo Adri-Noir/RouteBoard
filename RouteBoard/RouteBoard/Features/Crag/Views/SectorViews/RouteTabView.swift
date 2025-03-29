@@ -29,7 +29,7 @@ struct RouteCardFullscreen: View {
         // Background image
         GeometryReader { geometry in
           if let photos = route.routePhotos, !photos.isEmpty,
-            let imageUrl = photos.first?.image?.url,
+            let imageUrl = photos.first?.combinedPhoto?.url,
             let url = URL(string: imageUrl)
           {
             AsyncImage(url: url) { phase in

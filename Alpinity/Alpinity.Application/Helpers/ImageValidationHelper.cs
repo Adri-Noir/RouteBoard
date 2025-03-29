@@ -21,7 +21,7 @@ public static class ImageValidationHelper
     /// <summary>
     ///     Maximum file size in bytes (20MB)
     /// </summary>
-    public const int MaxFileSizeBytes = 100 * 1024 * 1024;
+    public const int MaxFileSizeBytes = 20 * 1024 * 1024;
 
     /// <summary>
     ///     Validates if the file size is within allowed limits

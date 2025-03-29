@@ -105,14 +105,14 @@ struct RouteCardList: View {
     RouteLink(routeId: route.id) {
       HStack(spacing: 12) {
         // Route thumbnail
-        if let photos = route.routePhotos, !photos.isEmpty, let imageUrl = photos.first?.image?.url,
+        if let photos = route.routePhotos, !photos.isEmpty,
+          let imageUrl = photos.first?.combinedPhoto?.url,
           let url = URL(string: imageUrl)
         {
           AsyncImage(url: url) { phase in
             switch phase {
             case .empty:
-              Rectangle()
-                .fill(Color.gray.opacity(0.2))
+              PlaceholderImage()
             case .success(let image):
               image
                 .resizable()

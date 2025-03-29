@@ -5,7 +5,6 @@ import SwiftUI
 
 struct RouteNavigationBar: View {
   let route: RouteDetails?
-  let routeSamples: [DetectSample]
   let onDismiss: () -> Void
   let onAscentsView: () -> Void
   let onCreateRouteImage: () -> Void
@@ -47,9 +46,11 @@ struct RouteNavigationBar: View {
           Label("Add Route Image", systemImage: "camera")
         }
 
-        if !routeSamples.isEmpty {
-          Button(action: onRouteARView) {
-            Label("Route AR", systemImage: "arkit")
+        if let route = route {
+          if route.routePhotos?.isEmpty == false {
+            Button(action: onRouteARView) {
+              Label("Route AR", systemImage: "arkit")
+            }
           }
         }
       } label: {

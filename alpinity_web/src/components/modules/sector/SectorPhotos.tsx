@@ -18,14 +18,13 @@ const SectorPhotos = ({ photos }: SectorPhotosProps) => {
               {photo.url && (
                 <Image
                   src={photo.url}
-                  alt={photo.description || "Sector photo"}
+                  alt={`Sector photo ${photo.id}`}
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               )}
             </div>
-            {photo.description && <p className="text-muted-foreground mt-2 text-sm">{photo.description}</p>}
           </CarouselItem>
         ))}
       </CarouselContent>

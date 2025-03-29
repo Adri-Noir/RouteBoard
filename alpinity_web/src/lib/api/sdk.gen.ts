@@ -24,6 +24,8 @@ import type {
   PostApiCragData,
   PostApiCragResponse,
   PostApiCragError,
+  PostApiCragByIdPhotoData,
+  PostApiCragByIdPhotoError,
   GetApiMapExploreData,
   GetApiMapExploreResponse,
   GetApiMapExploreError,
@@ -47,6 +49,9 @@ import type {
   GetRouteAscentsByIdData,
   GetRouteAscentsByIdResponse,
   GetRouteAscentsByIdError,
+  GetRoutePhotosByRouteIdData,
+  GetRoutePhotosByRouteIdResponse,
+  GetRoutePhotosByRouteIdError,
   PostApiSearchData,
   PostApiSearchResponse,
   PostApiSearchError,
@@ -59,6 +64,8 @@ import type {
   GetApiSectorSectorCragByIdData,
   GetApiSectorSectorCragByIdResponse,
   GetApiSectorSectorCragByIdError,
+  PostApiSectorByIdPhotoData,
+  PostApiSectorByIdPhotoError,
   PostApiUserLogAscentData,
   PostApiUserLogAscentError,
   GetApiUserSearchHistoryData,
@@ -70,6 +77,8 @@ import type {
   GetApiUserUserByProfileUserIdData,
   GetApiUserUserByProfileUserIdResponse,
   GetApiUserUserByProfileUserIdError,
+  PutApiUserPhotoData,
+  PutApiUserPhotoError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -203,6 +212,26 @@ export const postApiCrag = <ThrowOnError extends boolean = false>(options?: Opti
   });
 };
 
+export const postApiCragByIdPhoto = <ThrowOnError extends boolean = false>(
+  options: Options<PostApiCragByIdPhotoData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<unknown, PostApiCragByIdPhotoError, ThrowOnError>({
+    ...formDataBodySerializer,
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/Crag/{id}/photo",
+    ...options,
+    headers: {
+      "Content-Type": null,
+      ...options?.headers,
+    },
+  });
+};
+
 export const getApiMapExplore = <ThrowOnError extends boolean = false>(
   options?: Options<GetApiMapExploreData, ThrowOnError>,
 ) => {
@@ -310,9 +339,10 @@ export const postApiRoute = <ThrowOnError extends boolean = false>(
 };
 
 export const postAddPhoto = <ThrowOnError extends boolean = false>(
-  options: Options<PostAddPhotoData, ThrowOnError>,
+  options?: Options<PostAddPhotoData, ThrowOnError>,
 ) => {
-  return (options.client ?? _heyApiClient).post<unknown, PostAddPhotoError, ThrowOnError>({
+  return (options?.client ?? _heyApiClient).post<unknown, PostAddPhotoError, ThrowOnError>({
+    ...formDataBodySerializer,
     security: [
       {
         name: "Authorization",
@@ -322,7 +352,7 @@ export const postAddPhoto = <ThrowOnError extends boolean = false>(
     url: "/addPhoto",
     ...options,
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": null,
       ...options?.headers,
     },
   });
@@ -339,6 +369,25 @@ export const getRouteAscentsById = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/routeAscents/{id}",
+    ...options,
+  });
+};
+
+export const getRoutePhotosByRouteId = <ThrowOnError extends boolean = false>(
+  options: Options<GetRoutePhotosByRouteIdData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetRoutePhotosByRouteIdResponse,
+    GetRoutePhotosByRouteIdError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/routePhotos/{routeId}",
     ...options,
   });
 };
@@ -416,6 +465,26 @@ export const getApiSectorSectorCragById = <ThrowOnError extends boolean = false>
   });
 };
 
+export const postApiSectorByIdPhoto = <ThrowOnError extends boolean = false>(
+  options: Options<PostApiSectorByIdPhotoData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<unknown, PostApiSectorByIdPhotoError, ThrowOnError>({
+    ...formDataBodySerializer,
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/Sector/{id}/photo",
+    ...options,
+    headers: {
+      "Content-Type": null,
+      ...options?.headers,
+    },
+  });
+};
+
 export const postApiUserLogAscent = <ThrowOnError extends boolean = false>(
   options?: Options<PostApiUserLogAscentData, ThrowOnError>,
 ) => {
@@ -489,5 +558,25 @@ export const getApiUserUserByProfileUserId = <ThrowOnError extends boolean = fal
     ],
     url: "/api/User/user/{profileUserId}",
     ...options,
+  });
+};
+
+export const putApiUserPhoto = <ThrowOnError extends boolean = false>(
+  options?: Options<PutApiUserPhotoData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).put<unknown, PutApiUserPhotoError, ThrowOnError>({
+    ...formDataBodySerializer,
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/User/photo",
+    ...options,
+    headers: {
+      "Content-Type": null,
+      ...options?.headers,
+    },
   });
 };

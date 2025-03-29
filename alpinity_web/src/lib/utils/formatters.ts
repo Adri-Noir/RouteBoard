@@ -100,7 +100,7 @@ export function formatRouteType(type: RouteType): string {
  */
 export function formatClimbingCategoryType(type: ClimbType | RockType | HoldType): string {
   // Check if the type is a ClimbType
-  if (type === "Powerful" || type === "Technical") {
+  if (type === "Powerful" || type === "Technical" || type === "Endurance") {
     return formatClimbType(type as ClimbType);
   }
 

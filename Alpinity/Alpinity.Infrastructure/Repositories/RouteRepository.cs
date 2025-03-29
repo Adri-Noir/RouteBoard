@@ -30,6 +30,11 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
             .FirstOrDefaultAsync(route => route.Id == routeId, cancellationToken);
     }
 
+    public async Task<bool> RouteExists(Guid routeId, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Routes.AnyAsync(r => r.Id == routeId, cancellationToken);
+    }
+
     public async Task<ICollection<Route>> GetRoutesByName(string query, SearchOptionsDto searchOptions, CancellationToken cancellationToken = default)
     {
         return await dbContext.Routes
@@ -70,6 +75,16 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
             .Select(ascent => ascent.Route!)
             .Distinct()
             .Take(10)
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<ICollection<RoutePhoto>> GetRoutePhotos(Guid routeId, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.RoutePhotos
+            .Where(rp => rp.RouteId == routeId)
+            .Include(rp => rp.Image)
+            .Include(rp => rp.PathLine)
+            .Include(rp => rp.CombinedPhoto)
             .ToListAsync(cancellationToken);
     }
 }

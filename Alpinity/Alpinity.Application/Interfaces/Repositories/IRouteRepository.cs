@@ -9,9 +9,13 @@ public interface IRouteRepository
 
     Task<Route?> GetRouteById(Guid routeId, CancellationToken cancellationToken = default);
 
+    Task<bool> RouteExists(Guid routeId, CancellationToken cancellationToken = default);
+
     Task<ICollection<Route>> GetRoutesByName(string query, SearchOptionsDto searchOptions, CancellationToken cancellationToken = default);
 
     Task AddPhoto(Guid routeId, RoutePhoto routePhoto, CancellationToken cancellationToken = default);
 
     Task<ICollection<Route>> GetRecentlyAscendedRoutes(Guid userId, CancellationToken cancellationToken = default);
+
+    Task<ICollection<RoutePhoto>> GetRoutePhotos(Guid routeId, CancellationToken cancellationToken = default);
 }

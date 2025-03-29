@@ -60,7 +60,7 @@ const SectorRoutes = ({ sector }: SectorRoutesProps) => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-            <RouteImage selectedRoute={selectedRoute} />
+            <RouteImage selectedRoute={selectedRoute} key={selectedRoute?.id} />
             <RouteList
               routes={sector.routes}
               selectedRouteId={selectedRouteId}

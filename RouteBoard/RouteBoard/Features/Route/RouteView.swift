@@ -61,7 +61,6 @@ struct RouteView: View {
 
   @State private var hasAppeared = false
   @State private var route: RouteDetails?
-  @State private var routeSamples: [DetectSample] = []
 
   @State private var isLoading: Bool = false
   @State private var errorMessage: String? = nil
@@ -78,7 +77,7 @@ struct RouteView: View {
     self.routeId = routeId
   }
 
-  func getRoute(value: String, shouldDownloadSamples: Bool = true) async {
+  func getRoute(value: String) async {
     isLoading = true
     defer { isLoading = false }
 
@@ -90,10 +89,6 @@ struct RouteView: View {
     }
 
     self.route = routeDetails
-    if shouldDownloadSamples {
-      routeSamples = await PhotoDownloader.downloadPhoto(
-        routePhotos: routeDetails.routePhotos ?? [])
-    }
   }
 
   var userAscent: Components.Schemas.AscentDto? {
@@ -175,7 +170,6 @@ struct RouteView: View {
         VStack {
           RouteNavigationBar(
             route: route,
-            routeSamples: routeSamples,
             onDismiss: { dismiss() },
             onAscentsView: { isPresentingRouteAscentsView = true },
             onCreateRouteImage: { isPresentingCreateRouteImageView = true },
@@ -205,14 +199,14 @@ struct RouteView: View {
       AllAscentsView(route: route)
     }
     .fullScreenCover(isPresented: $isPresentingRouteARView) {
-      RouteFinderView(routeSamples: routeSamples)
+      RouteFinderView(routeId: routeId)
     }
     .sheet(isPresented: $isPresentingRouteLogAscent) {
       RouteLogAscent(
         route: route,
         onAscentLogged: {
           Task {
-            await getRoute(value: routeId, shouldDownloadSamples: false)
+            await getRoute(value: routeId)
           }
         })
     }

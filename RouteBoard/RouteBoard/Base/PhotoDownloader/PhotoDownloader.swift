@@ -2,9 +2,21 @@
 
 import GeneratedClient
 
-typealias RoutePhoto = Components.Schemas.RoutePhotoDto
+typealias RoutePhoto = Components.Schemas.ExtendedRoutePhotoDto
 
 class PhotoDownloader {
+  static func downloadRoutePhotos(routeId: String, authViewModel: AuthViewModel) async
+    -> [DetectSample]
+  {
+    let getRouteDetectionPhotosClient = GetRouteDetectionPhotosClient()
+    let routePhotos = await getRouteDetectionPhotosClient.call(
+      routeId, authViewModel.getAuthData())
+    guard let routePhotos = routePhotos else { return [] }
+
+    let samples = await downloadPhoto(routePhotos: routePhotos)
+    return samples
+  }
+
   static func downloadPhoto(routePhotos: [RoutePhoto]) async -> [DetectSample] {
     var samples: [DetectSample] = []
 
