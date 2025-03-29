@@ -4,27 +4,27 @@ using SixLabors.ImageSharp;
 namespace Alpinity.Application.Helpers;
 
 /// <summary>
-/// Helper class for validating images
+///     Helper class for validating images
 /// </summary>
 public static class ImageValidationHelper
 {
     /// <summary>
-    /// Maximum pixel height (4K)
+    ///     Maximum pixel height (4K)
     /// </summary>
     public const int MaxPixelHeight = 4096;
 
     /// <summary>
-    /// Maximum pixel width (4K)
+    ///     Maximum pixel width (4K)
     /// </summary>
     public const int MaxPixelWidth = 4096;
 
     /// <summary>
-    /// Maximum file size in bytes (20MB)
+    ///     Maximum file size in bytes (20MB)
     /// </summary>
-    public const int MaxFileSizeBytes = 20 * 1024 * 1024;
+    public const int MaxFileSizeBytes = 100 * 1024 * 1024;
 
     /// <summary>
-    /// Validates if the file size is within allowed limits
+    ///     Validates if the file size is within allowed limits
     /// </summary>
     /// <param name="file">The file to validate</param>
     /// <param name="maxSizeBytes">Maximum file size in bytes</param>
@@ -35,7 +35,7 @@ public static class ImageValidationHelper
     }
 
     /// <summary>
-    /// Validates if the image resolution is within allowed limits
+    ///     Validates if the image resolution is within allowed limits
     /// </summary>
     /// <param name="file">The image file to validate</param>
     /// <returns>True if resolution is valid, otherwise false</returns>
@@ -45,7 +45,8 @@ public static class ImageValidationHelper
         {
             using var stream = file.OpenReadStream();
             using var image = Image.Load(stream);
-            return image.Width <= MaxPixelWidth && image.Height <= MaxPixelHeight && image.Width > 100 && image.Height > 100;
+            return image.Width <= MaxPixelWidth && image.Height <= MaxPixelHeight && image.Width > 100 &&
+                   image.Height > 100;
         }
         catch
         {
@@ -54,7 +55,7 @@ public static class ImageValidationHelper
     }
 
     /// <summary>
-    /// Performs full image validation including file size and resolution
+    ///     Performs full image validation including file size and resolution
     /// </summary>
     /// <param name="file">The image file to validate</param>
     /// <param name="maxSizeBytes">Maximum file size in bytes</param>
@@ -68,7 +69,7 @@ public static class ImageValidationHelper
     }
 
     /// <summary>
-    /// Validates if two images have the same resolution
+    ///     Validates if two images have the same resolution
     /// </summary>
     /// <param name="file1">The first image file</param>
     /// <param name="file2">The second image file</param>

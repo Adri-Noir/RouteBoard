@@ -116,7 +116,6 @@
 		AFBED2902D136D5B002CA393 /* CreateRouteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBED28F2D136D4F002CA393 /* CreateRouteImage.swift */; };
 		AFBED2922D1370DC002CA393 /* ImageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBED2912D1370BD002CA393 /* ImageUtils.swift */; };
 		AFBED2942D162231002CA393 /* PhotoTakingOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBED2932D16221D002CA393 /* PhotoTakingOverlayView.swift */; };
-		AFBED2962D16239B002CA393 /* PhotoEditingOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBED2952D16237C002CA393 /* PhotoEditingOverlayView.swift */; };
 		AFC7D1D32D387DE30034DC05 /* AuthInjectionMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC7D1D12D387DDF0034DC05 /* AuthInjectionMock.swift */; };
 		AFC7D2922D3C759F0034DC05 /* DetailsTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC7D2902D3C759A0034DC05 /* DetailsTopView.swift */; };
 		AFC7D2B62D3C82700034DC05 /* UINavigationGestureOverwrite.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC7D2B52D3C82640034DC05 /* UINavigationGestureOverwrite.swift */; };
@@ -294,7 +293,6 @@
 		AFBED28F2D136D4F002CA393 /* CreateRouteImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRouteImage.swift; sourceTree = "<group>"; };
 		AFBED2912D1370BD002CA393 /* ImageUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUtils.swift; sourceTree = "<group>"; };
 		AFBED2932D16221D002CA393 /* PhotoTakingOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoTakingOverlayView.swift; sourceTree = "<group>"; };
-		AFBED2952D16237C002CA393 /* PhotoEditingOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditingOverlayView.swift; sourceTree = "<group>"; };
 		AFC7D1D12D387DDF0034DC05 /* AuthInjectionMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInjectionMock.swift; sourceTree = "<group>"; };
 		AFC7D2902D3C759A0034DC05 /* DetailsTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsTopView.swift; sourceTree = "<group>"; };
 		AFC7D2B52D3C82640034DC05 /* UINavigationGestureOverwrite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationGestureOverwrite.swift; sourceTree = "<group>"; };
@@ -844,7 +842,6 @@
 			children = (
 				AF0243372D16401E0007748D /* PhotoDrawingCanvas.swift */,
 				AF0243332D163FB70007748D /* ConfirmPhotoOverlayView.swift */,
-				AFBED2952D16237C002CA393 /* PhotoEditingOverlayView.swift */,
 				AFBED2932D16221D002CA393 /* PhotoTakingOverlayView.swift */,
 				AFBE858F2D1229F20029217C /* PhotoCaptureButton.swift */,
 				AF9E0C772C38BE1800984C58 /* CreateRouteOverlayView.swift */,
@@ -1257,7 +1254,6 @@
 				AF62E1A52D7A46BC0039B67F /* ExploreCacheClient.swift in Sources */,
 				AFA0ECE82D8CB15100437911 /* RouteNavigationBar.swift in Sources */,
 				AF12710C2D8760600009D70F /* UserLink.swift in Sources */,
-				AFBED2962D16239B002CA393 /* PhotoEditingOverlayView.swift in Sources */,
 				AFB321C52D85D1D9003A60F7 /* MapViewModel.swift in Sources */,
 				AFBED2902D136D5B002CA393 /* CreateRouteImage.swift in Sources */,
 				AFA0ECE42D8CB13700437911 /* RouteCharacteristicsView.swift in Sources */,

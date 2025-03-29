@@ -122,6 +122,15 @@ public class AuthenticationProvider {
     logBadRequest(className)
   }
 
+  public func handleBadRequestString(
+    _ error: String,
+    _ className: String,
+    _ errorHandler: ((_ message: String) -> Void)?
+  ) {
+    errorHandler?(error)
+    logBadRequest(className)
+  }
+
   /// Handle not found error case
   /// - Parameters:
   ///   - error: The error response with additional properties

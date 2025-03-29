@@ -4,13 +4,14 @@ import SwiftUI
 struct CameraPreview: UIViewRepresentable {
 
   private let source: PreviewSource
+  private let cornerRadius: CGFloat = 20
 
   init(source: PreviewSource) {
     self.source = source
   }
 
   func makeUIView(context: Context) -> PreviewView {
-    let preview = PreviewView()
+    let preview = PreviewView(cornerRadius: cornerRadius)
     source.connect(to: preview)
     return preview
   }
@@ -19,15 +20,21 @@ struct CameraPreview: UIViewRepresentable {
   }
 
   class PreviewView: UIView, PreviewTarget {
+    private let cornerRadius: CGFloat
 
-    init() {
+    init(cornerRadius: CGFloat = 20) {
+      self.cornerRadius = cornerRadius
       super.init(frame: .zero)
+      self.layer.cornerRadius = cornerRadius
+      self.clipsToBounds = true
+
       #if targetEnvironment(simulator)
-        let imageView = UIImageView(frame: UIScreen.main.bounds)
-        imageView.image = UIImage(named: "video_mode")
-        imageView.contentMode = .scaleAspectFill
-        imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        addSubview(imageView)
+        let blueView = UIView(frame: UIScreen.main.bounds)
+        blueView.backgroundColor = .blue
+        blueView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blueView.layer.cornerRadius = cornerRadius
+        blueView.clipsToBounds = true
+        addSubview(blueView)
       #endif
     }
 
@@ -46,7 +53,14 @@ struct CameraPreview: UIViewRepresentable {
     nonisolated func setSession(_ session: AVCaptureSession) {
       Task { @MainActor in
         previewLayer.session = session
+        previewLayer.videoGravity = .resizeAspectFill
+        previewLayer.cornerRadius = cornerRadius
       }
+    }
+
+    override func layoutSubviews() {
+      super.layoutSubviews()
+      previewLayer.frame = bounds
     }
   }
 }

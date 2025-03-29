@@ -52,6 +52,7 @@ public class RouteController(IMediator mediator) : ControllerBase
     [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status404NotFound)]
     [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Multipart.FormData)]
     public async Task<ActionResult> AddPhoto(AddRoutePhotoCommand command,
         CancellationToken cancellationToken)
     {

@@ -199,7 +199,7 @@ struct RouteView: View {
     }
     .ignoresSafeArea()
     .fullScreenCover(isPresented: $isPresentingCreateRouteImageView) {
-      CreateRouteImageView()
+      CreateRouteImageView(routeId: routeId)
     }
     .sheet(isPresented: $isPresentingRouteAscentsView) {
       AllAscentsView(route: route)

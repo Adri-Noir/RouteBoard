@@ -22,7 +22,7 @@ class CreateRouteImage {
       let point2 = Point(x: Int32(pt2.x), y: Int32(pt2.y))
 
       Imgproc.line(
-        img: lineMat, pt1: point1, pt2: point2, color: Scalar(100, 100, 0, 255), thickness: 25)
+        img: lineMat, pt1: point1, pt2: point2, color: Scalar(255, 255, 255, 255), thickness: 25)
     }
 
     return lineMat.toUIImage()
