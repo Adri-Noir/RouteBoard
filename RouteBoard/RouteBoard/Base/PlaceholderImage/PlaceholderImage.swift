@@ -4,14 +4,16 @@ import SwiftUI
 
 struct PlaceholderImage: View {
   var iconFont: Font = .title
+  var backgroundColor: Color = .gray.opacity(0.2)
+  var iconColor: Color = .gray
 
   var body: some View {
     Rectangle()
-      .fill(Color.gray.opacity(0.2))
+      .fill(backgroundColor)
       .overlay(
         Image(systemName: "photo")
           .font(iconFont)
-          .foregroundColor(.gray)
+          .foregroundColor(iconColor)
       )
   }
 }

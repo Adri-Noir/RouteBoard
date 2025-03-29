@@ -161,8 +161,7 @@ struct RecentlyViewedView: View {
   @ViewBuilder
   private func routeHistoryView(_ item: SearchHistory) -> some View {
     HStack {
-      Image("TestingSamples/limski/pikachu")  // Placeholder image
-        .resizable()
+      PlaceholderImage(iconFont: .body)
         .frame(width: 50, height: 50)
         .cornerRadius(10)
 
@@ -206,8 +205,7 @@ struct RecentlyViewedView: View {
   @ViewBuilder
   private func sectorHistoryView(_ item: SearchHistory) -> some View {
     HStack {
-      Image("TestingSamples/limski/pikachu")  // Placeholder image
-        .resizable()
+      PlaceholderImage(iconFont: .body)
         .frame(width: 50, height: 50)
         .cornerRadius(10)
 
@@ -251,8 +249,7 @@ struct RecentlyViewedView: View {
   @ViewBuilder
   private func cragHistoryView(_ item: SearchHistory) -> some View {
     HStack {
-      Image("TestingSamples/limski/pikachu")  // Placeholder image
-        .resizable()
+      PlaceholderImage(iconFont: .body)
         .frame(width: 50, height: 50)
         .cornerRadius(10)
 

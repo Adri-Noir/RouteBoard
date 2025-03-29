@@ -49,7 +49,7 @@ struct CreateRouteImageView: View {
       return
     }
 
-    let maxDimension: CGFloat = 2500
+    let maxDimension: CGFloat = 1200
 
     let photoAspect = photoUIImage.size.width / photoUIImage.size.height
 
@@ -110,108 +110,65 @@ struct CreateRouteImageView: View {
     }
   }
 
-  @ViewBuilder
-  func viewFromTwoImages(image1: Image, image2: Image) -> some View {
-    ZStack {
-      image1
-      image2
-    }
-    .frame(maxWidth: .infinity, maxHeight: .infinity)
-  }
-
-  var canvas: some View {
-    GeometryReader { geometry in
-      VStack {
-        PhotoDrawingCanvas(createRouteImageModel: createRouteImageModel)
-          .gesture(
-            DragGesture(minimumDistance: 1)
-              .onChanged { value in
-                createRouteImageModel.imageCreatingState = .isCurrentlyDrawing
-                createRouteImageModel.addPointToCanvas(value.location)
-
-                // Get dimensions from the actual photo UIImage
-                let photoWidth: CGFloat
-                let photoHeight: CGFloat
-
-                if let photoUIImage = createRouteImageModel.photoUIImage {
-                  photoWidth = photoUIImage.size.width
-                  photoHeight = photoUIImage.size.height
-                } else {
-                  photoWidth = geometry.size.width
-                  photoHeight = geometry.size.height
-                }
-
-                // Calculate ratios between view coordinates and actual image coordinates
-                let xCordRatio = Int(photoWidth) / Int(geometry.size.width)
-                let yCordRatio = Int(photoHeight) / Int(geometry.size.height)
-
-                // Convert view coordinates to image coordinates
-                let xCord = Int(value.location.x) * xCordRatio
-                let yCord = Int(value.location.y) * yCordRatio
-                createRouteImageModel.addPointToImage(CGPoint(x: xCord, y: yCord))
-              }
-              .onEnded { value in
-                createRouteImageModel.createRouteImage()
-                guard let photoImage = createRouteImageModel.photoImage,
-                  let routeImage = createRouteImageModel.routeImage
-                else {
-                  return
-                }
-                createRouteImageModel.createRouteImageFromView(
-                  fromView: viewFromTwoImages(image1: photoImage, image2: routeImage))
-                createRouteImageModel.imageCreatingState = .isShowingPhoto
-              }
-          )
-      }
-      .frame(width: geometry.size.width, height: geometry.size.height)
-    }
-  }
-
-  // Styled button view
-  func styledButton(_ text: String, action: @escaping () -> Void) -> some View {
-    Button(action: action) {
-      Text(text)
-        .font(.system(size: 16, weight: .medium))
-        .foregroundColor(.white)
-        .padding(.vertical, 10)
-        .padding(.horizontal, 16)
-        .background(Color.black.opacity(0.6))
-        .cornerRadius(20)
-        .overlay(
-          RoundedRectangle(cornerRadius: 20)
-            .stroke(Color.white.opacity(0.3), lineWidth: 1)
-        )
-    }
-    .padding(8)
-  }
-
   var content: some View {
     Group {
-      VStack {
-        // Show either camera preview or taken photo
-        if createRouteImageModel.isShowingPreview {
-          CameraPreview(source: createRouteImageModel.getPreviewSource())
-        } else {
+      if createRouteImageModel.isShowingPreview {
+        // Camera preview phase
+        PhotoTakingOverlayView(createRouteImageModel: createRouteImageModel)
+      } else if createRouteImageModel.isEditingPhoto {
+        // Drawing phase
+        ZStack {
+          // Background photo
           GeometryReader { geometry in
-            if createRouteImageModel.isEditingPhoto {
-              createRouteImageModel.photoImage?
-                .resizable()
-                .scaledToFill()
-                .frame(width: geometry.size.width, height: geometry.size.height)
-            }
+            createRouteImageModel.photoImage?
+              .resizable()
+              .scaledToFill()
+              .frame(width: geometry.size.width, height: geometry.size.height)
+          }
 
-            if createRouteImageModel.isShowingTakenPhoto {
-              createRouteImageModel.combinedUIImage?
-                .resizable()
-                .scaledToFill()
-                .frame(width: geometry.size.width, height: geometry.size.height)
+          // Drawing canvas overlay
+          CreateRouteOverlayView(createRouteImageModel: createRouteImageModel)
+
+          // Editing phase controls - only show Retake button during drawing
+          if createRouteImageModel.imageCreatingState != .isCurrentlyDrawing {
+            VStack {
+              Spacer()
+              HStack {
+                Button(action: {
+                  createRouteImageModel.resetToPreview()
+                }) {
+                  Text("Retake photo")
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(.white)
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, 16)
+                    .background(Color.black.opacity(0.6))
+                    .cornerRadius(20)
+                    .overlay(
+                      RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                    )
+                }
+                .padding(8)
+
+                Spacer()
+              }
+              .padding(.horizontal)
             }
           }
         }
-      }
-
-      if createRouteImageModel.isEditingPhoto {
-        canvas
+      } else {
+        // Photo preview/confirmation phase
+        ConfirmPhotoOverlayView(
+          createRouteImageModel: createRouteImageModel,
+          onRetake: { createRouteImageModel.resetToPreview() },
+          onRedraw: { createRouteImageModel.resetToEditing() },
+          onFinish: {
+            Task {
+              await uploadRouteImages()
+            }
+          }
+        )
       }
     }
   }
@@ -231,9 +188,8 @@ struct CreateRouteImageView: View {
         content
           .cornerRadius(20)
 
-        // Controls overlay
+        // Close button overlay
         VStack {
-          // Top controls
           HStack {
             Button(action: {
               dismiss()
@@ -248,74 +204,10 @@ struct CreateRouteImageView: View {
           }
 
           Spacer()
-
-          // Bottom controls
-          if createRouteImageModel.isShowingPreview {
-            // Photo capture button
-            HStack {
-              Spacer()
-
-              PhotoCaptureButton {
-                Task {
-                  await createRouteImageModel.takePhoto()
-                }
-              }
-              .frame(width: 70, height: 70)
-
-              Spacer()
-            }
-          } else {
-            // Post-capture buttons
-            if createRouteImageModel.isEditingPhoto
-              && createRouteImageModel.imageCreatingState != .isCurrentlyDrawing
-            {
-              // When in drawing mode, just show Retake
-              HStack {
-                styledButton("Retake photo") {
-                  createRouteImageModel.resetToPreview()
-                }
-                Spacer()
-              }
-            } else {
-              // Photo view mode buttons
-              HStack(spacing: 12) {
-                styledButton("Retake photo") {
-                  createRouteImageModel.resetToPreview()
-                }
-
-                Spacer()
-
-                styledButton("Redraw route") {
-                  createRouteImageModel.resetToEditing()
-                }
-              }
-            }
-          }
         }
         .padding()
       }
       .cornerRadius(20)
-
-      // Finish button - outside ZStack
-      if createRouteImageModel.isShowingTakenPhoto && !createRouteImageModel.isEditingPhoto {
-        Button(action: {
-          Task {
-            await uploadRouteImages()
-          }
-        }) {
-          Text(createRouteImageModel.isUploading ? "Uploading..." : "Finish")
-            .font(.system(size: 18, weight: .semibold))
-            .foregroundColor(.white)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 15)
-        }
-        .background(createRouteImageModel.isUploading ? Color.gray : Color.newPrimaryColor)
-        .disabled(createRouteImageModel.isUploading)
-        .cornerRadius(10)
-        .padding(.horizontal, 20)
-        .padding(.top, 15)
-        .padding(.bottom, 5)
-      }
     }
     .background(Color.black)
     .task {

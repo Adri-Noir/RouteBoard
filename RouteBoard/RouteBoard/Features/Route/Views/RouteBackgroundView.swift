@@ -12,7 +12,7 @@ struct RouteBackgroundView: View {
     GeometryReader { geometry in
       ZStack {
         // Route image
-        if let route = route, let firstPhoto = route.routePhotos?.first?.image?.url,
+        if let route = route, let firstPhoto = route.routePhotos?.first?.combinedPhoto?.url,
           !firstPhoto.isEmpty
         {
           AsyncImage(url: URL(string: firstPhoto)) { phase in
@@ -36,9 +36,7 @@ struct RouteBackgroundView: View {
           }
           .frame(width: geometry.size.width, height: geometry.size.height)
         } else {
-          Image("TestingSamples/limski/pikachu")
-            .resizable()
-            .aspectRatio(contentMode: .fill)
+          PlaceholderImage()
             .frame(width: geometry.size.width, height: geometry.size.height)
         }
 

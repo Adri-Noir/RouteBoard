@@ -212,23 +212,19 @@ struct UserRecentAscentsView: View {
 
   private func routeBackgroundImage(for route: UserRecentAscents) -> some View {
     Group {
-      if let firstPhoto = route.routePhotos?.first?.image?.url, !firstPhoto.isEmpty {
+      if let firstPhoto = route.routePhotos?.first?.combinedPhoto?.url, !firstPhoto.isEmpty {
         AsyncImage(url: URL(string: firstPhoto)) { phase in
           switch phase {
           case .empty:
-            Color.gray.opacity(0.3)
+            defaultRouteImage
           case .success(let image):
             image
               .resizable()
               .aspectRatio(contentMode: .fill)
           case .failure:
-            Image("TestingSamples/limski/pikachu")
-              .resizable()
-              .aspectRatio(contentMode: .fill)
+            defaultRouteImage
           @unknown default:
-            Image("TestingSamples/limski/pikachu")
-              .resizable()
-              .aspectRatio(contentMode: .fill)
+            defaultRouteImage
           }
         }
       } else {
@@ -239,8 +235,7 @@ struct UserRecentAscentsView: View {
   }
 
   private var defaultRouteImage: some View {
-    Image("TestingSamples/limski/pikachu")
-      .resizable()
-      .aspectRatio(contentMode: .fill)
+    PlaceholderImage(backgroundColor: Color.gray, iconColor: Color.white)
+      .frame(width: 280, height: 200)
   }
 }

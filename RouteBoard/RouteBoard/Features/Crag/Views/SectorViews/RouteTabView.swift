@@ -27,30 +27,34 @@ struct RouteCardFullscreen: View {
     RouteLink(routeId: route.id) {
       ZStack(alignment: .bottom) {
         // Background image
-        if let photos = route.routePhotos, !photos.isEmpty, let imageUrl = photos.first?.image?.url,
-          let url = URL(string: imageUrl)
-        {
-          AsyncImage(url: url) { phase in
-            switch phase {
-            case .empty:
-              Rectangle()
-                .fill(Color.gray.opacity(0.2))
-            case .success(let image):
-              image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-            case .failure:
-              PlaceholderImage()
-            @unknown default:
-              EmptyView()
+        GeometryReader { geometry in
+          if let photos = route.routePhotos, !photos.isEmpty,
+            let imageUrl = photos.first?.image?.url,
+            let url = URL(string: imageUrl)
+          {
+            AsyncImage(url: url) { phase in
+              switch phase {
+              case .empty:
+                Rectangle()
+                  .fill(Color.gray.opacity(0.2))
+              case .success(let image):
+                image
+                  .resizable()
+                  .aspectRatio(contentMode: .fill)
+                  .frame(width: geometry.size.width, height: geometry.size.height)
+              case .failure:
+                PlaceholderImage()
+              @unknown default:
+                EmptyView()
+              }
             }
-          }
-          .frame(maxWidth: .infinity, maxHeight: .infinity)
-          .clipped()
-        } else {
-          PlaceholderImage()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .clipped()
+          } else {
+            PlaceholderImage()
+              .frame(maxWidth: .infinity, maxHeight: .infinity)
+              .clipped()
+          }
         }
 
         // Gradient overlay
@@ -107,10 +111,6 @@ struct RouteCardFullscreen: View {
             }
 
             Spacer()
-
-            if let photos = route.routePhotos, photos.count > 1 {
-              RouteInfoItemLight(icon: "photo.on.rectangle", label: "\(photos.count) photos")
-            }
           }
 
           if let categories = route.routeCategories,

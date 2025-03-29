@@ -15,7 +15,27 @@ struct PhotoTakingOverlayView: View {
   }
 
   var body: some View {
-    // Empty view - the capture button has been moved to the main view
-    EmptyView()
+    VStack {
+      if createRouteImageModel.isShowingPreview {
+        CameraPreview(source: createRouteImageModel.getPreviewSource())
+
+        Spacer()
+
+        // Photo capture button
+        HStack {
+          Spacer()
+
+          PhotoCaptureButton {
+            Task {
+              await createRouteImageModel.takePhoto()
+            }
+          }
+          .frame(width: 70, height: 70)
+
+          Spacer()
+        }
+        .padding(.bottom)
+      }
+    }
   }
 }

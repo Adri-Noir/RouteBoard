@@ -9,11 +9,32 @@ struct SingleResultView: View {
 
   var body: some View {
     HStack(spacing: 12) {
-      Image("TestingSamples/limski/pikachu")
-        .resizable()
-        .scaledToFill()
-        .frame(width: 60, height: 60)
-        .cornerRadius(10)
+      ZStack {
+        if let photoUrl = result.profilePhotoUrl {
+          AsyncImage(url: URL(string: photoUrl)) { phase in
+            switch phase {
+            case .empty:
+              PlaceholderImage(backgroundColor: Color.gray, iconColor: Color.white)
+                .frame(width: 60, height: 60)
+            case .success(let image):
+              image
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 60, height: 60)
+            case .failure:
+              PlaceholderImage(backgroundColor: Color.gray, iconColor: Color.white)
+                .frame(width: 60, height: 60)
+            @unknown default:
+              PlaceholderImage(backgroundColor: Color.gray, iconColor: Color.white)
+                .frame(width: 60, height: 60)
+            }
+          }
+        } else {
+          PlaceholderImage(backgroundColor: Color.gray, iconColor: Color.white)
+            .frame(width: 60, height: 60)
+        }
+      }
+      .cornerRadius(10)
 
       VStack(alignment: .leading) {
         // Display name based on entity type

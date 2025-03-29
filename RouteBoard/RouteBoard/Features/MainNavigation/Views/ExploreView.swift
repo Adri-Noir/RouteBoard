@@ -171,6 +171,11 @@ struct ExploreItemCard: View {
   let item: ExploreDto
   let geometry: GeometryProxy
 
+  var defaultImage: some View {
+    PlaceholderImage(backgroundColor: Color.gray, iconColor: Color.white)
+      .frame(width: geometry.size.width, height: geometry.size.height)
+  }
+
   var body: some View {
     ZStack(alignment: .bottomLeading) {
       // Background image with overlay
@@ -179,29 +184,20 @@ struct ExploreItemCard: View {
           AsyncImage(url: URL(string: photoUrl)) { phase in
             switch phase {
             case .empty:
-              Color.gray.opacity(0.3)
+              defaultImage
             case .success(let image):
               image
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: geometry.size.width, height: geometry.size.height)
             case .failure:
-              Image("TestingSamples/limski/pikachu")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: geometry.size.width, height: geometry.size.height)
+              defaultImage
             @unknown default:
-              Image("TestingSamples/limski/pikachu")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: geometry.size.width, height: geometry.size.height)
+              defaultImage
             }
           }
         } else {
-          Image("TestingSamples/limski/pikachu")
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(width: geometry.size.width, height: geometry.size.height)
+          defaultImage
         }
 
         // Gradient overlay
