@@ -161,9 +161,33 @@ struct RecentlyViewedView: View {
   @ViewBuilder
   private func routeHistoryView(_ item: SearchHistory) -> some View {
     HStack {
-      PlaceholderImage(iconFont: .body)
-        .frame(width: 50, height: 50)
-        .cornerRadius(10)
+      let photoUrl = item.photo?.url
+      if let photoUrl = photoUrl {
+        AsyncImage(url: URL(string: photoUrl)) { phase in
+          switch phase {
+          case .empty:
+            PlaceholderImage(backgroundColor: Color.gray, iconColor: Color.white)
+              .frame(width: 50, height: 50)
+              .cornerRadius(10)
+          case .success(let image):
+            image
+              .resizable()
+              .aspectRatio(contentMode: .fill)
+              .frame(width: 50, height: 50)
+              .clipped()
+              .cornerRadius(10)
+          case .failure:
+            PlaceholderImage(backgroundColor: Color.gray, iconColor: Color.white)
+              .frame(width: 50, height: 50)
+          @unknown default:
+            PlaceholderImage(backgroundColor: Color.gray, iconColor: Color.white)
+              .frame(width: 50, height: 50)
+          }
+        }
+      } else {
+        PlaceholderImage(backgroundColor: Color.gray, iconColor: Color.white)
+          .frame(width: 50, height: 50)
+      }
 
       VStack(alignment: .leading) {
         HStack(spacing: 4) {

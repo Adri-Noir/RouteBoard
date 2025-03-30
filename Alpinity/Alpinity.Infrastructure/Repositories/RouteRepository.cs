@@ -38,6 +38,9 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
     public async Task<ICollection<Route>> GetRoutesByName(string query, SearchOptionsDto searchOptions, CancellationToken cancellationToken = default)
     {
         return await dbContext.Routes
+            .Include(route => route.RoutePhotos!.Take(1))
+            .ThenInclude(photo => photo.CombinedPhoto)
+            .Include(route => route.Ascents!)
             .Where(route => EF.Functions.ILike(route.Name, $"%{query}%"))
             // TODO: Implement a better search algorithm method like indexing
             // .OrderByDescending(route => EF.Functions.FreeText(route.Name, query))

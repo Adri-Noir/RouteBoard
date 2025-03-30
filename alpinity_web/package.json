@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "openapi-ts": "openapi-ts",
-    "format": "pre ttier --write ."
+    "format": "prettier --write .",
+    "tsc": "tsc --noEmit"
   },
   "dependencies": {
     "@hey-api/client-fetch": "^0.8.3",

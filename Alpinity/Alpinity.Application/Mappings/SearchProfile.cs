@@ -20,7 +20,8 @@ public class SearchProfile : Profile
             .ForMember(dest => dest.SectorCragName, opt => opt.MapFrom(src =>
                 src.Crag != null ? src.Crag.Name : null))
             .ForMember(dest => dest.SectorRoutesCount, opt => opt.MapFrom(src =>
-                src.Routes != null ? src.Routes.Count : 0));
+                src.Routes != null ? src.Routes.Count : 0))
+            .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => src.Photos != null && src.Photos.Any() ? src.Photos.First() : null));
 
         CreateMap<Crag, SearchResultDto>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
@@ -32,7 +33,8 @@ public class SearchProfile : Profile
             .ForMember(dest => dest.CragSectorsCount, opt => opt.MapFrom(src =>
                 src.Sectors != null ? src.Sectors.Count : 0))
             .ForMember(dest => dest.CragRoutesCount, opt => opt.MapFrom(src =>
-                src.Sectors != null ? src.Sectors.Sum(s => s.Routes != null ? s.Routes.Count : 0) : 0));
+                src.Sectors != null ? src.Sectors.Sum(s => s.Routes != null ? s.Routes.Count : 0) : 0))
+            .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => src.Photos != null && src.Photos.Any() ? src.Photos.First() : null));
 
         CreateMap<Route, SearchResultDto>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
@@ -51,14 +53,15 @@ public class SearchProfile : Profile
             .ForMember(dest => dest.RouteCragId, opt => opt.MapFrom(src =>
                 src.Sector != null && src.Sector.Crag != null ? src.Sector.Crag.Id : (Guid?)null))
             .ForMember(dest => dest.RouteCragName, opt => opt.MapFrom(src =>
-                src.Sector != null && src.Sector.Crag != null ? src.Sector.Crag.Name : null));
+                src.Sector != null && src.Sector.Crag != null ? src.Sector.Crag.Name : null))
+            .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => src.RoutePhotos != null && src.RoutePhotos.Any() ? src.RoutePhotos.First().CombinedPhoto : null));
 
         CreateMap<User, SearchResultDto>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.EntityType, opt => opt.MapFrom(src => SearchResultItemType.UserProfile))
             .ForMember(dest => dest.ProfileUsername, opt => opt.MapFrom(src => src.Username))
             .ForMember(dest => dest.ProfileUserId, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.ProfilePhotoUrl, opt => opt.MapFrom(src => src.ProfilePhoto != null ? src.ProfilePhoto.Url : null))
-            .ForMember(dest => dest.AscentsCount, opt => opt.MapFrom(src => src.Ascents!.Count()));
+            .ForMember(dest => dest.AscentsCount, opt => opt.MapFrom(src => src.Ascents!.Count()))
+            .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => src.ProfilePhoto ?? null));
     }
 }

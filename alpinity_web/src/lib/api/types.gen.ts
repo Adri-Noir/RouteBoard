@@ -300,6 +300,7 @@ export type SearchQueryCommand = {
 export type SearchResultDto = {
   id?: string;
   entityType?: SearchResultItemType;
+  photo?: PhotoDto;
   cragLocation?: PointDto;
   cragId?: string | null;
   cragName?: string | null;
@@ -318,10 +319,9 @@ export type SearchResultDto = {
   routeSectorName?: string | null;
   routeCragId?: string | null;
   routeCragName?: string | null;
+  ascentsCount?: number | null;
   profileUserId?: string | null;
   profileUsername?: string | null;
-  profilePhotoUrl?: string | null;
-  ascentsCount?: number | null;
 };
 
 export type SearchResultItemType = "Crag" | "Sector" | "Route" | "UserProfile";

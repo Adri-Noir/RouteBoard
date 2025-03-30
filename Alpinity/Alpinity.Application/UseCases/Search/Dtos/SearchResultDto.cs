@@ -1,6 +1,7 @@
 
 
 using Alpinity.Application.Dtos;
+using Alpinity.Application.UseCases.Photos.Dtos;
 using Alpinity.Domain.Enums;
 
 namespace Alpinity.Application.UseCases.Search.Dtos;
@@ -11,6 +12,8 @@ public class SearchResultDto
     public Guid Id { get; set; }
     // Entity information
     public SearchResultItemType EntityType { get; set; }
+
+    public PhotoDto? Photo { get; set; }
 
     // Additional information based on entity type
     // Crag information
@@ -36,10 +39,9 @@ public class SearchResultDto
     public string? RouteSectorName { get; set; }
     public Guid? RouteCragId { get; set; }
     public string? RouteCragName { get; set; }
+    public int? AscentsCount { get; set; }
 
     // User profile information if a profile was viewed
     public Guid? ProfileUserId { get; set; }
     public string? ProfileUsername { get; set; }
-    public string? ProfilePhotoUrl { get; set; }
-    public int? AscentsCount { get; set; }
 }

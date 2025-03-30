@@ -10,7 +10,7 @@ struct SingleResultView: View {
   var body: some View {
     HStack(spacing: 12) {
       ZStack {
-        if let photoUrl = result.profilePhotoUrl {
+        if let photoUrl = result.photo?.url {
           AsyncImage(url: URL(string: photoUrl)) { phase in
             switch phase {
             case .empty:

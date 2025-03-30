@@ -2729,6 +2729,9 @@
           "entityType": {
             "$ref": "#/components/schemas/SearchResultItemType"
           },
+          "photo": {
+            "$ref": "#/components/schemas/PhotoDto"
+          },
           "cragLocation": {
             "$ref": "#/components/schemas/PointDto"
           },
@@ -2809,6 +2812,11 @@
             "type": "string",
             "nullable": true
           },
+          "ascentsCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
           "profileUserId": {
             "type": "string",
             "format": "uuid",
@@ -2816,15 +2824,6 @@
           },
           "profileUsername": {
             "type": "string",
-            "nullable": true
-          },
-          "profilePhotoUrl": {
-            "type": "string",
-            "nullable": true
-          },
-          "ascentsCount": {
-            "type": "integer",
-            "format": "int32",
             "nullable": true
           }
         },

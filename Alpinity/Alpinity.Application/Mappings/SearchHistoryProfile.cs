@@ -78,6 +78,12 @@ public class SearchHistoryProfile : Profile
                 src.ProfileUserId))
 
             .ForMember(dest => dest.ProfileUsername, opt => opt.MapFrom(src =>
-                src.ProfileUser != null ? src.ProfileUser.Username : null));
+                src.ProfileUser != null ? src.ProfileUser.Username : null))
+
+            .ForMember(dest => dest.Photo, opt => opt.MapFrom(src =>
+                src.EntityType == SearchResultItemType.UserProfile && src.ProfileUser != null ? src.ProfileUser.ProfilePhoto :
+                src.EntityType == SearchResultItemType.Crag && src.Crag != null ? src.Crag.Photos.FirstOrDefault() :
+                src.EntityType == SearchResultItemType.Sector && src.Sector != null ? src.Sector.Photos.FirstOrDefault() :
+                src.EntityType == SearchResultItemType.Route && src.Route != null && src.Route.RoutePhotos.Any() ? src.Route.RoutePhotos.First().CombinedPhoto : null));
     }
 }

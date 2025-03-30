@@ -33,22 +33,29 @@ public class SearchHistoryRepository : ISearchHistoryRepository
             .Include(sh => sh.Crag)
             .ThenInclude(c => c.Sectors!)
             .ThenInclude(s => s.Routes!)
+            .ThenInclude(r => r.RoutePhotos!.Take(1))
+            .ThenInclude(p => p.CombinedPhoto)
 
             // Include Sector data with its Crag
             .Include(sh => sh.Sector)
             .ThenInclude(s => s.Crag)
             .ThenInclude(c => c.Sectors!)
+            .ThenInclude(s => s.Photos.Take(1))
 
             // Include Route data with its Sector and the Sector's Crag
             .Include(sh => sh.Route)
             .ThenInclude(r => r.Sector!)
             .ThenInclude(s => s.Crag)
+            .ThenInclude(c => c.Sectors!)
+            .ThenInclude(s => s.Routes!)
+            .ThenInclude(r => r.RoutePhotos!.Take(1))
+            .ThenInclude(p => p.CombinedPhoto)
             .Include(sh => sh.Route)
             .ThenInclude(r => r.Ascents!)
 
             // Include User profile data
             .Include(sh => sh.ProfileUser)
-
+            .ThenInclude(u => u.ProfilePhoto)
             // Filter by the searching user
             .Where(sh => sh.SearchingUserId == searchingUserId)
             .OrderByDescending(sh => sh.SearchedAt)
