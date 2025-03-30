@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @objc class CVMap: NSObject {
   @objc var rows: CInt

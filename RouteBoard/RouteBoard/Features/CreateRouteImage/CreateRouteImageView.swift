@@ -124,10 +124,13 @@ struct CreateRouteImageView: View {
               .resizable()
               .scaledToFill()
               .frame(width: geometry.size.width, height: geometry.size.height)
-          }
 
-          // Drawing canvas overlay
-          CreateRouteOverlayView(createRouteImageModel: createRouteImageModel)
+            // Drawing canvas overlay - Moved inside GeometryReader
+            CreateRouteOverlayView(
+              createRouteImageModel: createRouteImageModel,
+              viewSize: geometry.size  // Pass the size
+            )
+          }  // End GeometryReader
 
           // Editing phase controls - only show Retake button during drawing
           if createRouteImageModel.imageCreatingState != .isCurrentlyDrawing {
@@ -234,5 +237,7 @@ struct CreateRouteImageView: View {
 }
 
 #Preview {
-  CreateRouteImageView(routeId: "0195cf3b-2c3c-76cb-83d1-46b45b8e85df")
+  AuthInjectionMock {
+    CreateRouteImageView(routeId: "0195cf3b-2c3c-76cb-83d1-46b45b8e85df")
+  }
 }

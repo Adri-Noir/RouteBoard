@@ -10,6 +10,7 @@ import opencv2
 
 struct CreateRouteOverlayView: View {
   @ObservedObject var createRouteImageModel: CreateRouteImageModel
+  let viewSize: CGSize
 
   @ViewBuilder
   func viewFromTwoImages(image1: Image, image2: Image) -> some View {
@@ -28,28 +29,59 @@ struct CreateRouteOverlayView: View {
             DragGesture(minimumDistance: 1)
               .onChanged { value in
                 createRouteImageModel.imageCreatingState = .isCurrentlyDrawing
-                createRouteImageModel.addPointToCanvas(value.location)
+                let touchLocation = value.location
+                createRouteImageModel.addPointToCanvas(touchLocation)
 
-                // Get dimensions from the actual photo UIImage
-                let photoWidth: CGFloat
-                let photoHeight: CGFloat
+                // Ensure we have the original photo dimensions
+                guard let photoUIImage = createRouteImageModel.photoUIImage else {
+                  print("Error: Missing photoUIImage for coordinate calculation.")
+                  return
+                }
+                let imageSize = photoUIImage.size
 
-                if let photoUIImage = createRouteImageModel.photoUIImage {
-                  photoWidth = photoUIImage.size.width
-                  photoHeight = photoUIImage.size.height
+                // --- New Coordinate Mapping Logic for .scaledToFill() ---
+
+                print("imageSize: \(imageSize)")
+                print("viewSize: \(viewSize)")
+
+                let viewWidth = viewSize.width
+                let viewHeight = viewSize.height
+                let imageWidth = imageSize.width
+                let imageHeight = imageSize.height
+
+                let viewAspect = viewWidth / viewHeight
+                let imageAspect = imageWidth / imageHeight
+
+                var scale: CGFloat = 1.0
+                var scaledImageSize = imageSize
+                var offset = CGPoint.zero
+
+                if imageAspect > viewAspect {
+                  // Image is wider than the view; scaled to fill height, width cropped
+                  scale = viewHeight / imageHeight
+                  scaledImageSize = CGSize(width: imageWidth * scale, height: viewHeight)
+                  // Calculate the horizontal offset of the visible area within the scaled image
+                  offset.x = (scaledImageSize.width - viewWidth) / 2.0
                 } else {
-                  photoWidth = geometry.size.width
-                  photoHeight = geometry.size.height
+                  // Image is taller than or equal aspect to the view; scaled to fill width, height cropped
+                  scale = viewWidth / imageWidth
+                  scaledImageSize = CGSize(width: viewWidth, height: imageHeight * scale)
+                  // Calculate the vertical offset of the visible area within the scaled image
+                  offset.y = (scaledImageSize.height - viewHeight) / 2.0
                 }
 
-                // Calculate ratios between view coordinates and actual image coordinates
-                let xCordRatio = Int(photoWidth) / Int(geometry.size.width)
-                let yCordRatio = Int(photoHeight) / Int(geometry.size.height)
+                // Map touch location in view coordinates to image coordinates
+                // 1. Adjust touch location by the offset to find its position within the scaled (but potentially larger than view) image
+                let touchXOnScaledImage = touchLocation.x + offset.x
+                let touchYOnScaledImage = touchLocation.y + offset.y
 
-                // Convert view coordinates to image coordinates
-                let xCord = Int(value.location.x) * xCordRatio
-                let yCord = Int(value.location.y) * yCordRatio
-                createRouteImageModel.addPointToImage(CGPoint(x: xCord, y: yCord))
+                // 2. Convert the position on the scaled image back to the original image's coordinate system
+                let imageX = touchXOnScaledImage / scale
+                let imageY = touchYOnScaledImage / scale
+
+                // --- End of New Logic ---
+
+                createRouteImageModel.addPointToImage(CGPoint(x: imageX, y: imageY))
               }
               .onEnded { value in
                 createRouteImageModel.createRouteImage()
@@ -64,7 +96,7 @@ struct CreateRouteOverlayView: View {
               }
           )
       }
-      .frame(width: geometry.size.width, height: geometry.size.height)
+      .frame(width: viewSize.width, height: viewSize.height)
     }
   }
 }

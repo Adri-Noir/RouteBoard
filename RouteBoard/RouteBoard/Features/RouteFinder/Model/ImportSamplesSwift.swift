@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @objc class Sample: NSObject {
     @objc var route: UIImage;

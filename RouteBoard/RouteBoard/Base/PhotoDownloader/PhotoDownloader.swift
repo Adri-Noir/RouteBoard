@@ -1,5 +1,6 @@
 // Created with <3 on 12.03.2025.
 
+import SwiftUI
 import GeneratedClient
 
 typealias RoutePhoto = Components.Schemas.ExtendedRoutePhotoDto

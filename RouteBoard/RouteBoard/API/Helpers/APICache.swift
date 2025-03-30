@@ -1,5 +1,7 @@
 // Created with <3 on 06.03.2025.
 
+import Foundation
+
 class APICache<T: Hashable, R> {
   private var cache = [T: R]()
   private var cacheTimeMap = [T: Date]()

@@ -15,24 +15,25 @@ struct PhotoTakingOverlayView: View {
   }
 
   var body: some View {
-    VStack {
+    ZStack {
       if createRouteImageModel.isShowingPreview {
         CameraPreview(source: createRouteImageModel.getPreviewSource())
 
-        Spacer()
-
-        // Photo capture button
-        HStack {
+        VStack {
           Spacer()
 
-          PhotoCaptureButton {
-            Task {
-              await createRouteImageModel.takePhoto()
+          HStack {
+            Spacer()
+
+            PhotoCaptureButton {
+              Task {
+                await createRouteImageModel.takePhoto()
+              }
             }
-          }
-          .frame(width: 70, height: 70)
+            .frame(width: 70, height: 70)
 
-          Spacer()
+            Spacer()
+          }
         }
         .padding(.bottom)
       }

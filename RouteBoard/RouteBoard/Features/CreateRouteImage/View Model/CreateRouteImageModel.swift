@@ -35,9 +35,11 @@ final class CreateRouteImageModel: ObservableObject {
   @Published var isUploading: Bool = false
 
   init() {
-    Task {
-      await camera.start()
-    }
+    #if !targetEnvironment(simulator)
+      Task {
+        await camera.start()
+      }
+    #endif
   }
 
   // MARK: - Set route ID
@@ -54,6 +56,7 @@ final class CreateRouteImageModel: ObservableObject {
       // Use test image in simulator
       if let testImage = UIImage(named: "TestingSamples/limski/pikachu") {
         self.photoImage = Image(uiImage: testImage)
+        self.photoUIImage = testImage
         imageCreatingState = .isShowingEditing
         return
       }

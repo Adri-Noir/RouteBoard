@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @objc class OverlayAndRouteId: NSObject {
     @objc var overlayedImage: UIImage;

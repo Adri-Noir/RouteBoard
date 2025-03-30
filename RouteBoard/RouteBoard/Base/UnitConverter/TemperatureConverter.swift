@@ -1,5 +1,7 @@
 // Created with <3 on 09.03.2025.
 
+import Foundation
+
 public protocol TemperatureConverterProtocol {
   func convertCelsiusTemperature(temperature: Double) -> Double
 }

@@ -14,16 +14,27 @@ class CreateRouteImage {
     let pictureMat = Mat(uiImage: picture)
     let lineMat = Mat.zeros(pictureMat.rows(), cols: pictureMat.cols(), type: pictureMat.type())
 
-    for i in 0..<(points.count - 1) {
-      let pt1 = points[i]
-      let pt2 = points[i + 1]
-
-      let point1 = Point(x: Int32(pt1.x), y: Int32(pt1.y))
-      let point2 = Point(x: Int32(pt2.x), y: Int32(pt2.y))
-
-      Imgproc.line(
-        img: lineMat, pt1: point1, pt2: point2, color: Scalar(255, 255, 255, 255), thickness: 25)
+    if points.count < 2 {
+      return lineMat.toUIImage()
     }
+
+    let pointsVec = points.map { Point(x: Int32($0.x), y: Int32($0.y)) }
+
+    Imgproc.polylines(
+      img: lineMat,
+      pts: [pointsVec],
+      isClosed: false,
+      color: Scalar(0, 0, 0, 255),
+      thickness: 65
+    )
+
+    Imgproc.polylines(
+      img: lineMat,
+      pts: [pointsVec],
+      isClosed: false,
+      color: Scalar(255, 0, 0, 255),
+      thickness: 55
+    )
 
     return lineMat.toUIImage()
   }

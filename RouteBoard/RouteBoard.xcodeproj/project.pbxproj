@@ -32,7 +32,6 @@
 		AF12710C2D8760600009D70F /* UserLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF12710B2D87605E0009D70F /* UserLink.swift */; };
 		AF191C6E2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF191C6D2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift */; };
 		AF1DC6C42D3489F200D8409D /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = AF1DC6C32D3489F200D8409D /* KeychainAccess */; };
-		AF1DC6C72D348A1D00D8409D /* OpenCV in Frameworks */ = {isa = PBXBuildFile; productRef = AF1DC6C62D348A1D00D8409D /* OpenCV */; };
 		AF21C0AF2D6E7AB6000BE26C /* RouteLogAscent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF21C0AD2D6E7AB3000BE26C /* RouteLogAscent.swift */; };
 		AF21C18D2D71107A000BE26C /* ClimbTypesConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF21C18B2D711073000BE26C /* ClimbTypesConverter.swift */; };
 		AF21C2D02D7378F1000BE26C /* DateTimeConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF21C2CF2D7378ED000BE26C /* DateTimeConverter.swift */; };
@@ -119,7 +118,6 @@
 		AFC7D1D32D387DE30034DC05 /* AuthInjectionMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC7D1D12D387DDF0034DC05 /* AuthInjectionMock.swift */; };
 		AFC7D2922D3C759F0034DC05 /* DetailsTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC7D2902D3C759A0034DC05 /* DetailsTopView.swift */; };
 		AFC7D2B62D3C82700034DC05 /* UINavigationGestureOverwrite.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC7D2B52D3C82640034DC05 /* UINavigationGestureOverwrite.swift */; };
-		AFD3916F2C30B977008CF2A7 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = AFD3916E2C30B977008CF2A7 /* OpenCVWrapper.mm */; };
 		AFD3918F2C3191A8008CF2A7 /* ImportSamplesSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD3918E2C3191A8008CF2A7 /* ImportSamplesSwift.swift */; };
 		AFD391912C319B82008CF2A7 /* ProcessedSamplesSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD391902C319B82008CF2A7 /* ProcessedSamplesSwift.swift */; };
 		AFD64A6F2D825CED00EE84F3 /* OnAppearOnceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD64A6D2D825CE500EE84F3 /* OnAppearOnceExtension.swift */; };
@@ -143,6 +141,7 @@
 		AFE4C4A32D87586800A09302 /* ClimbingStatsGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE4C4A22D87586400A09302 /* ClimbingStatsGraphView.swift */; };
 		AFE4C4A52D8758CD00A09302 /* UserPhotosGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE4C4A42D8758C700A09302 /* UserPhotosGridView.swift */; };
 		AFE4C4A72D8758E400A09302 /* FriendsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE4C4A62D8758DF00A09302 /* FriendsListView.swift */; };
+		AFF32D3D2D99BF610028D0CE /* OpenCV in Frameworks */ = {isa = PBXBuildFile; productRef = AFF32D3C2D99BF610028D0CE /* OpenCV */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -296,10 +295,6 @@
 		AFC7D1D12D387DDF0034DC05 /* AuthInjectionMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInjectionMock.swift; sourceTree = "<group>"; };
 		AFC7D2902D3C759A0034DC05 /* DetailsTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsTopView.swift; sourceTree = "<group>"; };
 		AFC7D2B52D3C82640034DC05 /* UINavigationGestureOverwrite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationGestureOverwrite.swift; sourceTree = "<group>"; };
-		AFD3916D2C30B976008CF2A7 /* RouteBoard-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RouteBoard-Bridging-Header.h"; sourceTree = "<group>"; };
-		AFD3916E2C30B977008CF2A7 /* OpenCVWrapper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
-		AFD391702C30BA94008CF2A7 /* OpenCVWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
-		AFD391712C30C11B008CF2A7 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		AFD3918E2C3191A8008CF2A7 /* ImportSamplesSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportSamplesSwift.swift; sourceTree = "<group>"; };
 		AFD391902C319B82008CF2A7 /* ProcessedSamplesSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedSamplesSwift.swift; sourceTree = "<group>"; };
 		AFD64A6D2D825CE500EE84F3 /* OnAppearOnceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnAppearOnceExtension.swift; sourceTree = "<group>"; };
@@ -354,7 +349,7 @@
 			files = (
 				AF1DC6C42D3489F200D8409D /* KeychainAccess in Frameworks */,
 				AF0243702D1C7CDF0007748D /* GeneratedClient.framework in Frameworks */,
-				AF1DC6C72D348A1D00D8409D /* OpenCV in Frameworks */,
+				AFF32D3D2D99BF610028D0CE /* OpenCV in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,10 +619,6 @@
 				AF869CA02C3064AB0092E371 /* Assets.xcassets */,
 				AF35C6AD2CD80B5000FEBC40 /* Info.plist */,
 				AF869CA22C3064AB0092E371 /* Preview Content */,
-				AFD3916E2C30B977008CF2A7 /* OpenCVWrapper.mm */,
-				AFD3916D2C30B976008CF2A7 /* RouteBoard-Bridging-Header.h */,
-				AFD391702C30BA94008CF2A7 /* OpenCVWrapper.h */,
-				AFD391712C30C11B008CF2A7 /* PrefixHeader.pch */,
 			);
 			path = RouteBoard;
 			sourceTree = "<group>";
@@ -1176,7 +1167,7 @@
 				AFD92D882D1CCB1600B68D92 /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */,
 				AFD92D992D1CCDEE00B68D92 /* XCRemoteSwiftPackageReference "swift-http-types" */,
 				AF1DC6C22D3489F200D8409D /* XCRemoteSwiftPackageReference "KeychainAccess" */,
-				AF1DC6C52D348A1D00D8409D /* XCRemoteSwiftPackageReference "opencv-spm" */,
+				AFF32D3B2D99BF610028D0CE /* XCRemoteSwiftPackageReference "opencv-spm" */,
 			);
 			productRefGroup = AF869C9A2C3064AA0092E371 /* Products */;
 			projectDirPath = "";
@@ -1265,7 +1256,6 @@
 				AF62D5C12D8F542B00F6F122 /* AllSectorsRoutesView.swift in Sources */,
 				AF07624D2D821644003BB9BA /* SectorDetailsCacheClient.swift in Sources */,
 				AF9E0C722C38AC0B00984C58 /* CreateRouteImageView.swift in Sources */,
-				AFD3916F2C30B977008CF2A7 /* OpenCVWrapper.mm in Sources */,
 				AF3D944D2D6A98AC003FAF90 /* UserHelloView.swift in Sources */,
 				AF9B62542C34A271003762B0 /* ExtendedDivider.swift in Sources */,
 				AF191C6E2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift in Sources */,
@@ -1628,9 +1618,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = acvijanovic.RouteBoard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "RouteBoard/RouteBoard-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OBJC_INTEROP_MODE = objc;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1665,8 +1656,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = acvijanovic.RouteBoard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "RouteBoard/RouteBoard-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OBJC_INTEROP_MODE = objc;
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1803,14 +1795,6 @@
 				kind = branch;
 			};
 		};
-		AF1DC6C52D348A1D00D8409D /* XCRemoteSwiftPackageReference "opencv-spm" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/yeatse/opencv-spm.git";
-			requirement = {
-				kind = exactVersion;
-				version = 4.11.0;
-			};
-		};
 		AF78ECA72D1C8003009F3B79 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-openapi-generator";
@@ -1843,6 +1827,14 @@
 				minimumVersion = 1.3.1;
 			};
 		};
+		AFF32D3B2D99BF610028D0CE /* XCRemoteSwiftPackageReference "opencv-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/yeatse/opencv-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.11.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1850,11 +1842,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AF1DC6C22D3489F200D8409D /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
-		};
-		AF1DC6C62D348A1D00D8409D /* OpenCV */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = AF1DC6C52D348A1D00D8409D /* XCRemoteSwiftPackageReference "opencv-spm" */;
-			productName = OpenCV;
 		};
 		AF78ECA92D1C8019009F3B79 /* OpenAPIRuntime */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1880,6 +1867,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AFD92D992D1CCDEE00B68D92 /* XCRemoteSwiftPackageReference "swift-http-types" */;
 			productName = HTTPTypesFoundation;
+		};
+		AFF32D3C2D99BF610028D0CE /* OpenCV */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AFF32D3B2D99BF610028D0CE /* XCRemoteSwiftPackageReference "opencv-spm" */;
+			productName = OpenCV;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

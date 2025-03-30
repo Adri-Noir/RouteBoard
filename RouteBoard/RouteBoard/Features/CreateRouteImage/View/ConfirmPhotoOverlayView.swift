@@ -33,49 +33,52 @@ struct ConfirmPhotoOverlayView: View {
 
   var body: some View {
     VStack {
-      GeometryReader { geometry in
-        if createRouteImageModel.isShowingTakenPhoto {
-          createRouteImageModel.combinedUIImage?
-            .resizable()
-            .scaledToFill()
-            .frame(width: geometry.size.width, height: geometry.size.height)
+      ZStack {
+        GeometryReader { geometry in
+          if createRouteImageModel.isShowingTakenPhoto {
+            createRouteImageModel.combinedUIImage?
+              .resizable()
+              .scaledToFill()
+              .frame(width: geometry.size.width, height: geometry.size.height)
+              .cornerRadius(20)
+          }
         }
-      }
-
-      // Control buttons
-      VStack {
         // When in drawing mode, just show Retake
         if createRouteImageModel.imageCreatingState != .isCurrentlyDrawing {
-          HStack(spacing: 12) {
-            styledButton("Retake photo") {
-              onRetake()
-            }
-
+          VStack {
             Spacer()
 
-            styledButton("Redraw route") {
-              onRedraw()
+            HStack(spacing: 12) {
+              styledButton("Retake photo") {
+                onRetake()
+              }
+
+              Spacer()
+
+              styledButton("Redraw route") {
+                onRedraw()
+              }
             }
           }
           .padding(.horizontal)
-
-          // Finish button
-          if !createRouteImageModel.isEditingPhoto {
-            Button(action: onFinish) {
-              Text(createRouteImageModel.isUploading ? "Uploading..." : "Finish")
-                .font(.system(size: 18, weight: .semibold))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 15)
-            }
-            .background(createRouteImageModel.isUploading ? Color.gray : Color.newPrimaryColor)
-            .disabled(createRouteImageModel.isUploading)
-            .cornerRadius(10)
-            .padding(.horizontal, 20)
-            .padding(.top, 15)
-            .padding(.bottom, 5)
-          }
         }
+      }
+
+      // Finish button
+      if !createRouteImageModel.isEditingPhoto {
+        Button(action: onFinish) {
+          Text(createRouteImageModel.isUploading ? "Uploading..." : "Finish")
+            .font(.system(size: 18, weight: .semibold))
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 15)
+        }
+        .background(createRouteImageModel.isUploading ? Color.gray : Color.newPrimaryColor)
+        .disabled(createRouteImageModel.isUploading)
+        .cornerRadius(10)
+        .padding(.horizontal, 20)
+        .padding(.top, 15)
+        .padding(.bottom, 5)
       }
     }
   }
