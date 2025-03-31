@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Alpinity.Domain.Enums;
 
 namespace Alpinity.Domain.Entities;
 
@@ -18,6 +19,7 @@ public class User
     public string? LastName { get; set; }
     public DateTime? DateOfBirth { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public UserRole UserRole { get; set; } = UserRole.User;
 
     public ICollection<Photo>? TakenPhotos { get; set; }
     public Photo? ProfilePhoto { get; set; }

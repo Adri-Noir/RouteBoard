@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -23,6 +24,20 @@ public static class AuthorizationExtensions
                     ValidateLifetime = true,
                     ValidateAudience = false,
                     ValidateIssuer = false
+                };
+                options.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = async context =>
+                    {
+                        var claims = context.Principal.Claims;
+                        var roleClaim = claims.FirstOrDefault(c => c.Type == "role");
+
+                        if (roleClaim != null)
+                        {
+                            var claimsIdentity = context.Principal.Identity as ClaimsIdentity;
+                            claimsIdentity?.AddClaim(new Claim(ClaimTypes.Role, roleClaim.Value));
+                        }
+                    }
                 };
             });
         return services;

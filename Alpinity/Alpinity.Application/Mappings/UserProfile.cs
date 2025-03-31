@@ -14,7 +14,8 @@ public class UserProfile : Profile
             .ForMember(t => t.ProfilePhotoUrl, opt => opt.MapFrom(s => s.ProfilePhoto.Url));
 
         CreateMap<User, LoggedInUserDto>()
-            .ForMember(t => t.ProfilePhotoUrl, opt => opt.MapFrom(s => s.ProfilePhoto.Url));
+            .ForMember(t => t.ProfilePhotoUrl, opt => opt.MapFrom(s => s.ProfilePhoto.Url))
+            .ForMember(t => t.Role, opt => opt.MapFrom(s => s.UserRole));
 
         CreateMap<User, UserProfileDto>()
             .ForMember(dest => dest.ProfilePhotoUrl, opt => opt.MapFrom(src =>

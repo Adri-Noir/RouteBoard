@@ -24,7 +24,7 @@ public static class CragSectorRouteSeed
                 {
                     Name = "Test Crag 2",
                     Description = "This is a second seeded crag.",
-                    Location = new Point(15.966568, 45.815399) { SRID = 4326 },
+                    Location = new Point(16.373244, 46.554725) { SRID = 4326 },
                     LocationName = "Test Crag 2"
                 },
                 new Crag
@@ -81,13 +81,13 @@ public static class CragSectorRouteSeed
                 CragId = crags[0].Id,
                 Location = new Point(15.966768, 45.815599) { SRID = 4326 }
             });
-            
-            sectors.Add(new Sector    
+
+            sectors.Add(new Sector
             {
                 Name = "Test Sector 2",
                 Description = "This is a second seeded sector.",
                 CragId = crags[0].Id,
-                Location = new Point(15.966368, 45.815199) { SRID = 4326 }
+                Location = new Point(15.967368, 45.816199) { SRID = 4326 }
             });
 
             // For Paklenica
@@ -98,7 +98,7 @@ public static class CragSectorRouteSeed
                 CragId = crags.First(c => c.Name == "Paklenica").Id,
                 Location = new Point(15.488778, 44.294889) { SRID = 4326 }
             });
-            
+
             sectors.Add(new Sector
             {
                 Name = "Klanci",
@@ -115,7 +115,7 @@ public static class CragSectorRouteSeed
                 CragId = crags.First(c => c.Name == "Fontainebleau").Id,
                 Location = new Point(2.698444, 48.403722) { SRID = 4326 }
             });
-            
+
             sectors.Add(new Sector
             {
                 Name = "Franchard Isatis",
@@ -132,7 +132,7 @@ public static class CragSectorRouteSeed
                 CragId = crags.First(c => c.Name == "El Capitan").Id,
                 Location = new Point(-119.636778, 37.732333) { SRID = 4326 }
             });
-            
+
             sectors.Add(new Sector
             {
                 Name = "Freerider",
@@ -149,7 +149,7 @@ public static class CragSectorRouteSeed
                 CragId = crags.First(c => c.Name == "Kalymnos").Id,
                 Location = new Point(26.984333, 36.967667) { SRID = 4326 }
             });
-            
+
             sectors.Add(new Sector
             {
                 Name = "Odyssey",
@@ -166,7 +166,7 @@ public static class CragSectorRouteSeed
                 CragId = crags.First(c => c.Name == "Ceüse").Id,
                 Location = new Point(5.937576, 44.519188) { SRID = 4326 }
             });
-            
+
             sectors.Add(new Sector
             {
                 Name = "Berlin",
@@ -227,7 +227,7 @@ public static class CragSectorRouteSeed
                     SectorId = sectors.First(s => s.Name == "Anića Kuk").Id,
                     Length = 60
                 },
-                
+
                 new Route
                 {
                     Name = "Funkcija",
@@ -303,7 +303,7 @@ public static class CragSectorRouteSeed
                     SectorId = sectors.First(s => s.Name == "Grande Grotta").Id,
                     Length = 25
                 },
-                
+
                 new Route
                 {
                     Name = "DNA",
@@ -347,21 +347,22 @@ public static class CragSectorRouteSeed
                     Length = 28
                 }
             };
-            
+
             await context.Routes.AddRangeAsync(routes);
             await context.SaveChangesAsync();
         }
 
         if (!await context.Ascents.AnyAsync())
         {
-            var user = await context.Users.FirstOrDefaultAsync();
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Username == "seededUser");
+            var secondUser = await context.Users.FirstOrDefaultAsync(u => u.Username == "seededUser2");
             var routes = await context.Routes.ToListAsync();
 
-            if (user != null && routes.Any())
+            if (user != null && secondUser != null && routes.Any())
             {
                 var ascents = new List<Ascent>
                 {
-                    // Original ascent
+                    // Original ascent for John Doe
                     new Ascent
                     {
                         AscentDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-5)),
@@ -375,8 +376,8 @@ public static class CragSectorRouteSeed
                         UserId = user.Id,
                         RouteId = routes.First(r => r.Name == "Test Route").Id
                     },
-                    
-                    // Additional ascents
+
+                    // Additional ascents for John Doe
                     new Ascent
                     {
                         AscentDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-10)),
@@ -390,7 +391,7 @@ public static class CragSectorRouteSeed
                         UserId = user.Id,
                         RouteId = routes.First(r => r.Name == "Overhang Challenge").Id
                     },
-                    
+
                     new Ascent
                     {
                         AscentDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-15)),
@@ -404,7 +405,7 @@ public static class CragSectorRouteSeed
                         UserId = user.Id,
                         RouteId = routes.First(r => r.Name == "Crimpy Face").Id
                     },
-                    
+
                     new Ascent
                     {
                         AscentDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-30)),
@@ -418,7 +419,7 @@ public static class CragSectorRouteSeed
                         UserId = user.Id,
                         RouteId = routes.First(r => r.Name == "Mosoraški").Id
                     },
-                    
+
                     new Ascent
                     {
                         AscentDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-45)),
@@ -432,7 +433,7 @@ public static class CragSectorRouteSeed
                         UserId = user.Id,
                         RouteId = routes.First(r => r.Name == "La Marie Rose").Id
                     },
-                    
+
                     new Ascent
                     {
                         AscentDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-60)),
@@ -446,7 +447,7 @@ public static class CragSectorRouteSeed
                         UserId = user.Id,
                         RouteId = routes.First(r => r.Name == "Aegialis").Id
                     },
-                    
+
                     new Ascent
                     {
                         AscentDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-75)),
@@ -459,6 +460,34 @@ public static class CragSectorRouteSeed
                         AscentType = AscentType.Flash,
                         UserId = user.Id,
                         RouteId = routes.First(r => r.Name == "Priapos").Id
+                    },
+                    
+                    // Ascents for Jane Smith
+                    new Ascent
+                    {
+                        AscentDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-7)),
+                        Notes = "First ascent! Felt great on this route.",
+                        ClimbTypes = [ClimbType.Technical],
+                        RockTypes = [RockType.Vertical],
+                        HoldTypes = [HoldType.Crimps, HoldType.Jugs],
+                        ProposedGrade = ClimbingGrade.F_6a,
+                        Rating = 4,
+                        AscentType = AscentType.Onsight,
+                        UserId = secondUser.Id,
+                        RouteId = routes.First(r => r.Name == "Test Route").Id
+                    },
+                    new Ascent
+                    {
+                        AscentDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-12)),
+                        Notes = "Challenging overhang, but managed to send it!",
+                        ClimbTypes = [ClimbType.Powerful],
+                        RockTypes = [RockType.Overhang],
+                        HoldTypes = [HoldType.Pinches, HoldType.Slopers],
+                        ProposedGrade = ClimbingGrade.F_6b,
+                        Rating = 5,
+                        AscentType = AscentType.Redpoint,
+                        UserId = secondUser.Id,
+                        RouteId = routes.First(r => r.Name == "Crimpy Face").Id
                     }
                 };
 

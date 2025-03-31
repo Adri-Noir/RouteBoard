@@ -24,8 +24,8 @@ public class SignInService : ISignInService
         {
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),
-            new Claim("uid", user.Id.ToString())
-            // new Claim("role", user.UserType.ToString())
+            new Claim("uid", user.Id.ToString()),
+            new Claim("role", user.UserRole.ToString())
         };
 
         var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfiguration.Key));
