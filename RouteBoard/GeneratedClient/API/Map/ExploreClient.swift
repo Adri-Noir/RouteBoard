@@ -23,11 +23,13 @@ public class ExploreClient: AuthenticatedClientProvider {
         return try body.body.json
 
       case .unauthorized(let error):
-        await handleUnauthorize(try? error.body.json.additionalProperties, authData, errorHandler)
+        await handleUnauthorize(
+          try? error.body.application_problem_plus_json, authData, errorHandler)
         return nil
 
       case .badRequest(let error):
-        handleBadRequest(try? error.body.json.additionalProperties, "ExploreClient", errorHandler)
+        handleBadRequest(
+          try? error.body.application_problem_plus_json, "ExploreClient", errorHandler)
         return nil
 
       case .undocumented:

@@ -4,10 +4,8 @@ using MediatR;
 
 namespace Alpinity.Application.UseCases.Crags.Commands.Create;
 
-public class CreateCragCommand: IRequest<CragDetailedDto>
+public class CreateCragCommand : IRequest<CragDetailedDto>
 {
     public required string Name { get; set; }
     public string? Description { get; set; }
-    public PointDto Location { get; set; }
-    
 }

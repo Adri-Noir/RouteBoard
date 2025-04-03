@@ -24,12 +24,13 @@ public class SearchHistoryClient: AuthenticatedClientProvider {
         }
 
       case .unauthorized(let error):
-        await handleUnauthorize(try? error.body.json.additionalProperties, authData, errorHandler)
+        await handleUnauthorize(
+          try? error.body.application_problem_plus_json, authData, errorHandler)
         return []
 
       case .badRequest(let error):
         handleBadRequest(
-          try? error.body.json.additionalProperties, "SearchHistoryClient", errorHandler)
+          try? error.body.application_problem_plus_json, "SearchHistoryClient", errorHandler)
         return []
 
       case .undocumented:

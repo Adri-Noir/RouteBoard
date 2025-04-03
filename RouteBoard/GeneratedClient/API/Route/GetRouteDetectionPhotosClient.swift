@@ -23,16 +23,17 @@ public class GetRouteDetectionPhotosClient: AuthenticatedClientProvider {
         }
       case .unauthorized(let error):
         await handleUnauthorize(
-          try? error.body.json.additionalProperties, authData, errorHandler)
+          try? error.body.application_problem_plus_json, authData, errorHandler)
         return nil
 
       case .badRequest(let error):
         handleBadRequest(
-          try? error.body.json.additionalProperties, "GetRouteDetectionPhotosClient", errorHandler)
+          try? error.body.application_problem_plus_json, "GetRouteDetectionPhotosClient",
+          errorHandler)
         return nil
 
       case .notFound(let error):
-        handleNotFound(try? error.body.json.additionalProperties, errorHandler)
+        handleNotFound(try? error.body.application_problem_plus_json, errorHandler)
         return nil
 
       case .undocumented:

@@ -21,12 +21,14 @@ public class AuthenticationCheckerClient: AuthenticatedClientProvider {
         return true
 
       case .unauthorized(let error):
-        await handleUnauthorize(try? error.body.json.additionalProperties, authData, errorHandler)
+        await handleUnauthorize(
+          try? error.body.application_problem_plus_json, authData, errorHandler)
         return false
 
       case .badRequest(let error):
         handleBadRequest(
-          try? error.body.json.additionalProperties, "AuthenticationCheckerClient", errorHandler)
+          try? error.body.application_problem_plus_json, "AuthenticationCheckerClient", errorHandler
+        )
         return false
 
       case .undocumented:

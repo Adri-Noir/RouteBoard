@@ -29,14 +29,14 @@ public class GetCragDetailsClient: AuthenticatedClientProvider {
 
       case .unauthorized(let error):
         await handleUnauthorize(
-          try? error.body.json.additionalProperties, authData, errorHandler)
+          try? error.body.application_problem_plus_json, authData, errorHandler)
 
       case .badRequest(let error):
         handleBadRequest(
-          try? error.body.json.additionalProperties, "GetCragDetailsClient", errorHandler)
+          try? error.body.application_problem_plus_json, "GetCragDetailsClient", errorHandler)
 
       case .notFound(let error):
-        handleNotFound(try? error.body.json.additionalProperties, errorHandler)
+        handleNotFound(try? error.body.application_problem_plus_json, errorHandler)
 
       case .undocumented:
         handleUndocumented(errorHandler)

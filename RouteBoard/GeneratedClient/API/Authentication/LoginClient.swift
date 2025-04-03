@@ -7,6 +7,7 @@
 
 public typealias LoginInput = Components.Schemas.LoginCommand
 public typealias LoggedInUser = Components.Schemas.LoggedInUserDto
+public typealias UserRole = Components.Schemas.UserRole
 
 public class LoginClient: NonAuthenticatedClientProvider {
   public typealias T = LoginInput
@@ -30,14 +31,15 @@ public class LoginClient: NonAuthenticatedClientProvider {
 
       case .badRequest(let error):
         handleBadRequest(
-          try? error.body.json.additionalProperties, "LoginClient", errorHandler)
+          try? error.body.application_problem_plus_json.additionalProperties, "LoginClient",
+          errorHandler)
 
       case .undocumented:
         handleUndocumented(errorHandler)
 
       case .unauthorized(let error):
         handleUnauthorized(
-          try? error.body.json.additionalProperties, errorHandler)
+          try? error.body.application_problem_plus_json.additionalProperties, errorHandler)
       }
 
     } catch {

@@ -26,10 +26,10 @@ public class MeClient: AuthenticatedClientProvider {
 
       case .unauthorized(let error):
         await handleUnauthorize(
-          try? error.body.json.additionalProperties, authData, errorHandler)
+          try? error.body.application_problem_plus_json, authData, errorHandler)
 
       case .badRequest(let error):
-        handleBadRequest(try? error.body.json.additionalProperties, "MeClient", errorHandler)
+        handleBadRequest(try? error.body.application_problem_plus_json, "MeClient", errorHandler)
 
       case .undocumented:
         handleUndocumented(errorHandler)

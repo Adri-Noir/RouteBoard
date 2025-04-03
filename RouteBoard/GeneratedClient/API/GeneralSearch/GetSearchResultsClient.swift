@@ -33,11 +33,12 @@ public class GetSearchResultsClient: AuthenticatedClientProvider {
 
       case .badRequest(let error):
         handleBadRequest(
-          try? error.body.json.additionalProperties, "GetSearchResultsClient", errorHandler)
+          try? error.body.application_problem_plus_json, "GetSearchResultsClient", errorHandler)
         return []
 
       case .unauthorized(let error):
-        await handleUnauthorize(try? error.body.json.additionalProperties, authData, errorHandler)
+        await handleUnauthorize(
+          try? error.body.application_problem_plus_json, authData, errorHandler)
         return []
 
       case .undocumented:

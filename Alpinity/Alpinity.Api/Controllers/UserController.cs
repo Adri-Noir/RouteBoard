@@ -11,6 +11,8 @@ using Alpinity.Application.UseCases.Users.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using Alpinity.Api.ProblemDetails;
 
 namespace Alpinity.Api.Controllers;
 
@@ -23,11 +25,10 @@ public class UserController(
     [HttpPost("logAscent")]
     [Authorize]
     [Consumes(MediaTypeNames.Application.Json)]
-    [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status404NotFound)]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(UserProfileDto), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     public async Task<ActionResult> LogAscent(LogAscentCommand command, CancellationToken cancellationToken)
     {
         command.UserId = (Guid)authenticationContext.GetUserId()!;
@@ -38,10 +39,9 @@ public class UserController(
 
     [HttpGet("searchHistory")]
     [Authorize]
-    [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(ICollection<SearchResultDto>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ICollection<SearchResultDto>), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     public async Task<ActionResult<ICollection<SearchResultDto>>> GetSearchHistory([FromQuery] int count = 10, CancellationToken cancellationToken = default)
     {
         var command = new GetUserSearchHistoryCommand
@@ -56,10 +56,9 @@ public class UserController(
 
     [HttpGet("recentlyAscendedRoutes")]
     [Authorize]
-    [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ICollection<RecentlyAscendedRouteDto>), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     public async Task<ActionResult<ICollection<RecentlyAscendedRouteDto>>> GetRecentlyAscendedRoutes(CancellationToken cancellationToken = default)
     {
         var command = new RecentlyAscendedRoutesCommand
@@ -72,11 +71,10 @@ public class UserController(
     }
 
     [HttpGet("user/{profileUserId}")]
-    [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status404NotFound)]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(UserProfileDto), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     public async Task<ActionResult<UserProfileDto>> GetUserProfile(Guid profileUserId, CancellationToken cancellationToken = default)
     {
         var command = new GetUserProfileCommand
@@ -91,9 +89,9 @@ public class UserController(
     [HttpPut("photo")]
     [Authorize]
     [Consumes(MediaTypeNames.Multipart.FormData)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(UserProfileDto), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     public async Task<ActionResult> UpdateUserPhoto([FromForm] UpdateUserPhotoCommand command, CancellationToken cancellationToken)
     {
         command.UserId = (Guid)authenticationContext.GetUserId()!;

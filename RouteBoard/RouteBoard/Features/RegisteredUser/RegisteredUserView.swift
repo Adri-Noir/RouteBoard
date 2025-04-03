@@ -68,6 +68,10 @@ struct RegisteredUserView: View {
           )
           PhotosGridView(photos: userProfile?.photos)
           FriendsListView()
+
+          if authViewModel.isCreator {
+            AddNewCragButtonView()
+          }
         }
         .padding(.horizontal, 20)
         .padding(.bottom, 30)

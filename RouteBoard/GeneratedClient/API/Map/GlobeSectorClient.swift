@@ -29,16 +29,17 @@ public class GlobeSectorClient: AuthenticatedClientProvider {
         }
 
       case .unauthorized(let error):
-        await handleUnauthorize(try? error.body.json.additionalProperties, authData, errorHandler)
+        await handleUnauthorize(
+          try? error.body.application_problem_plus_json, authData, errorHandler)
         return nil
 
       case .badRequest(let error):
         handleBadRequest(
-          try? error.body.json.additionalProperties, "GlobeSectorClient", errorHandler)
+          try? error.body.application_problem_plus_json, "GlobeSectorClient", errorHandler)
         return nil
 
       case .notFound(let error):
-        handleNotFound(try? error.body.json.additionalProperties, errorHandler)
+        handleNotFound(try? error.body.application_problem_plus_json, errorHandler)
         return nil
 
       case .undocumented:

@@ -74,11 +74,10 @@ public class AuthenticationProvider {
     print("\(className): Bad request")
   }
 
-  public func getErrorMessage(_ error: [String: OpenAPIRuntime.OpenAPIValueContainer]) -> String {
-    if let errorsContainer = error["errors"],
-      let errorsArray = errorsContainer.value as? [[String: Any]],
-      let firstError = errorsArray.first,
-      let message = firstError["message"] as? String
+  public func getErrorMessage(_ error: Components.Schemas.CustomProblemDetailsResponse) -> String {
+    if let errorsContainer = error.errors,
+      let firstError = errorsContainer.first,
+      let message = firstError.message
     {
       return message
     }
@@ -92,7 +91,7 @@ public class AuthenticationProvider {
   ///   - authData: Authentication data containing token and unauthorized handler
   ///   - errorHandler: Optional error handler callback
   public func handleUnauthorize(
-    _ error: [String: OpenAPIRuntime.OpenAPIValueContainer]?,
+    _ error: Components.Schemas.CustomProblemDetailsResponse?,
     _ authData: AuthData,
     _ errorHandler: ((_ message: String) -> Void)?
   ) async {
@@ -110,7 +109,7 @@ public class AuthenticationProvider {
   ///   - className: The name of the client class for logging purposes
   ///   - errorHandler: Optional error handler callback
   public func handleBadRequest(
-    _ error: [String: OpenAPIRuntime.OpenAPIValueContainer]?,
+    _ error: Components.Schemas.CustomProblemDetailsResponse?,
     _ className: String,
     _ errorHandler: ((_ message: String) -> Void)?
   ) {
@@ -136,7 +135,7 @@ public class AuthenticationProvider {
   ///   - error: The error response with additional properties
   ///   - errorHandler: Optional error handler callback
   public func handleNotFound(
-    _ error: [String: OpenAPIRuntime.OpenAPIValueContainer]?,
+    _ error: Components.Schemas.CustomProblemDetailsResponse?,
     _ errorHandler: ((_ message: String) -> Void)?
   ) {
     if let error = error {

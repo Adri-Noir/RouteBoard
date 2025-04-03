@@ -1,33 +1,29 @@
-// Created with <3 on 27.03.2025.
+// Created with <3 on 02.04.2025.
 import Foundation
 import OpenAPIRuntime
 import OpenAPIURLSession
 
-public struct UploadRouteImageInput {
-  let routeId: String
+public struct UploadCragPhotosInput {
+  let cragId: String
   let photo: Data
-  let linePhoto: Data
-  let combinedPhoto: Data
 
-  public init(routeId: String, photo: Data, linePhoto: Data, combinedPhoto: Data) {
-    self.routeId = routeId
+  public init(cragId: String, photo: Data) {
+    self.cragId = cragId
     self.photo = photo
-    self.linePhoto = linePhoto
-    self.combinedPhoto = combinedPhoto
   }
 }
 
-public class UploadRouteImageClient: AuthenticatedClientProvider {
-  public typealias T = UploadRouteImageInput
+public class UploadCragPhotosClient: AuthenticatedClientProvider {
+  public typealias T = UploadCragPhotosInput
   public typealias R = Bool
 
-  private func createMultipartFormData(data: UploadRouteImageInput, boundary: String) -> Data {
+  private func createMultipartFormData(data: UploadCragPhotosInput, boundary: String) -> Data {
     var formData = Data()
 
-    // Add route ID
+    // Add crag ID
     formData.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
-    formData.append("Content-Disposition: form-data; name=\"RouteId\"\r\n\r\n".data(using: .utf8)!)
-    formData.append(data.routeId.data(using: .utf8)!)
+    formData.append("Content-Disposition: form-data; name=\"CragId\"\r\n\r\n".data(using: .utf8)!)
+    formData.append(data.cragId.data(using: .utf8)!)
 
     // Add photo
     formData.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
@@ -36,22 +32,6 @@ public class UploadRouteImageClient: AuthenticatedClientProvider {
         using: .utf8)!)
     formData.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
     formData.append(data.photo)
-
-    // Add line photo
-    formData.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
-    formData.append(
-      "Content-Disposition: form-data; name=\"LinePhoto\"; filename=\"linePhoto.png\"\r\n".data(
-        using: .utf8)!)
-    formData.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
-    formData.append(data.linePhoto)
-
-    // Add combined photo
-    formData.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
-    formData.append(
-      "Content-Disposition: form-data; name=\"CombinedPhoto\"; filename=\"combinedPhoto.jpeg\"\r\n"
-        .data(using: .utf8)!)
-    formData.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
-    formData.append(data.combinedPhoto)
 
     // Close the form
     formData.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
@@ -62,7 +42,7 @@ public class UploadRouteImageClient: AuthenticatedClientProvider {
   private var session: URLSession?
 
   public func call(
-    _ data: UploadRouteImageInput,
+    _ data: UploadCragPhotosInput,
     _ authData: AuthData,
     _ errorHandler: ((_ message: String) -> Void)? = nil
   ) async -> Bool {
@@ -77,7 +57,7 @@ public class UploadRouteImageClient: AuthenticatedClientProvider {
 
       // Create URL and request
       guard let baseURL = try? Servers.Server1.url(),
-        let url = URL(string: "/addPhoto", relativeTo: baseURL)
+        let url = URL(string: "/api/Crag/\(data.cragId)/photo", relativeTo: baseURL)
       else {
         errorHandler?("Failed to create URL")
         return false
@@ -123,9 +103,9 @@ public class UploadRouteImageClient: AuthenticatedClientProvider {
           let decoder = JSONDecoder()
           let problemDetails = try decoder.decode(
             Components.Schemas.CustomProblemDetailsResponse.self, from: responseData)
-          handleBadRequest(problemDetails, "UploadRouteImageClient", errorHandler)
+          handleBadRequest(problemDetails, "UploadCragPhotosClient", errorHandler)
         } catch {
-          handleBadRequestString("Bad request", "UploadRouteImageClient", errorHandler)
+          handleBadRequestString("Bad request", "UploadCragPhotosClient", errorHandler)
         }
         return false
 

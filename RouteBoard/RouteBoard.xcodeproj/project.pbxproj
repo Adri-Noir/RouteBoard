@@ -88,6 +88,12 @@
 		AF8DA6482CD5671E00751865 /* ApplyBackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA6472CD5671A00751865 /* ApplyBackgroundColor.swift */; };
 		AF8DA64B2CD56C1300751865 /* GeneralSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA64A2CD56C0F00751865 /* GeneralSearchView.swift */; };
 		AF8DA64E2CD56D8000751865 /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA64D2CD56D7C00751865 /* SearchResultView.swift */; };
+		AF9184EC2D9DC42500484F7D /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9184EB2D9DC42100484F7D /* InputField.swift */; };
+		AF9184F22D9DC42C00484F7D /* TextAreaField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9184EF2D9DC42700484F7D /* TextAreaField.swift */; };
+		AF9184F72D9DC43500484F7D /* PhotoPickerField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9184F42D9DC42E00484F7D /* PhotoPickerField.swift */; };
+		AF9184FB2D9DC5B500484F7D /* MapLocationPickerField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9184FA2D9DC5AE00484F7D /* MapLocationPickerField.swift */; };
+		AF998AB42D9B340400949E12 /* AddNewCragButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF998AB32D9B33F900949E12 /* AddNewCragButtonView.swift */; };
+		AF998AC22D9B35D100949E12 /* CreateCragView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF998AC02D9B35CE00949E12 /* CreateCragView.swift */; };
 		AF9B62512C349484003762B0 /* ImageCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B62502C349484003762B0 /* ImageCarouselView.swift */; };
 		AF9B62542C34A271003762B0 /* ExtendedDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B62532C34A271003762B0 /* ExtendedDivider.swift */; };
 		AF9E0C6C2C3747C500984C58 /* ClimbingGrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9E0C6B2C3747C500984C58 /* ClimbingGrades.swift */; };
@@ -265,6 +271,12 @@
 		AF8DA6472CD5671A00751865 /* ApplyBackgroundColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyBackgroundColor.swift; sourceTree = "<group>"; };
 		AF8DA64A2CD56C0F00751865 /* GeneralSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSearchView.swift; sourceTree = "<group>"; };
 		AF8DA64D2CD56D7C00751865 /* SearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
+		AF9184EB2D9DC42100484F7D /* InputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
+		AF9184EF2D9DC42700484F7D /* TextAreaField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAreaField.swift; sourceTree = "<group>"; };
+		AF9184F42D9DC42E00484F7D /* PhotoPickerField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerField.swift; sourceTree = "<group>"; };
+		AF9184FA2D9DC5AE00484F7D /* MapLocationPickerField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLocationPickerField.swift; sourceTree = "<group>"; };
+		AF998AB32D9B33F900949E12 /* AddNewCragButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCragButtonView.swift; sourceTree = "<group>"; };
+		AF998AC02D9B35CE00949E12 /* CreateCragView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCragView.swift; sourceTree = "<group>"; };
 		AF9B62502C349484003762B0 /* ImageCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarouselView.swift; sourceTree = "<group>"; };
 		AF9B62532C34A271003762B0 /* ExtendedDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedDivider.swift; sourceTree = "<group>"; };
 		AF9E0C6B2C3747C500984C58 /* ClimbingGrades.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbingGrades.swift; sourceTree = "<group>"; };
@@ -315,6 +327,7 @@
 		AFE4C4A22D87586400A09302 /* ClimbingStatsGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbingStatsGraphView.swift; sourceTree = "<group>"; };
 		AFE4C4A42D8758C700A09302 /* UserPhotosGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhotosGridView.swift; sourceTree = "<group>"; };
 		AFE4C4A62D8758DF00A09302 /* FriendsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListView.swift; sourceTree = "<group>"; };
+		AFFD29202D9C844700CEB438 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -695,9 +708,38 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		AF9184EA2D9DC41D00484F7D /* Form */ = {
+			isa = PBXGroup;
+			children = (
+				AF9184FA2D9DC5AE00484F7D /* MapLocationPickerField.swift */,
+				AF9184F42D9DC42E00484F7D /* PhotoPickerField.swift */,
+				AF9184EF2D9DC42700484F7D /* TextAreaField.swift */,
+				AF9184EB2D9DC42100484F7D /* InputField.swift */,
+			);
+			path = Form;
+			sourceTree = "<group>";
+		};
+		AF998ABD2D9B35C800949E12 /* CreateCrag */ = {
+			isa = PBXGroup;
+			children = (
+				AF998AC32D9B35D500949E12 /* Views */,
+				AF998AC02D9B35CE00949E12 /* CreateCragView.swift */,
+			);
+			path = CreateCrag;
+			sourceTree = "<group>";
+		};
+		AF998AC32D9B35D500949E12 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AF998AB32D9B33F900949E12 /* AddNewCragButtonView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		AF9B62462C346D47003762B0 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				AF9184EA2D9DC41D00484F7D /* Form */,
 				AF1271042D875C090009D70F /* ClimbingStatistics */,
 				AFBDC6042D8233AD0083F30D /* GalleryView */,
 				AF07623E2D8207DC003BB9BA /* PhotoDownloader */,
@@ -726,6 +768,7 @@
 		AF9B62472C346D52003762B0 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				AF998ABD2D9B35C800949E12 /* CreateCrag */,
 				AFE4C4952D8756D600A09302 /* User */,
 				AFB321B12D85C808003A60F7 /* Map */,
 				AF62E0FE2D779F1A0039B67F /* RegisteredUser */,
@@ -851,6 +894,7 @@
 		AFA0013F2D1CCAEF000A3E2C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AFFD29202D9C844700CEB438 /* Foundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1242,6 +1286,7 @@
 				AF0760C52D7CEC71003BB9BA /* RouteTypeConverter.swift in Sources */,
 				AF869CD22C307D870092E371 /* RouteImageModel.swift in Sources */,
 				AF0762402D820878003BB9BA /* PhotoDownloader.swift in Sources */,
+				AF9184FB2D9DC5B500484F7D /* MapLocationPickerField.swift in Sources */,
 				AF62E1A52D7A46BC0039B67F /* ExploreCacheClient.swift in Sources */,
 				AFA0ECE82D8CB15100437911 /* RouteNavigationBar.swift in Sources */,
 				AF12710C2D8760600009D70F /* UserLink.swift in Sources */,
@@ -1257,8 +1302,10 @@
 				AF07624D2D821644003BB9BA /* SectorDetailsCacheClient.swift in Sources */,
 				AF9E0C722C38AC0B00984C58 /* CreateRouteImageView.swift in Sources */,
 				AF3D944D2D6A98AC003FAF90 /* UserHelloView.swift in Sources */,
+				AF998AC22D9B35D100949E12 /* CreateCragView.swift in Sources */,
 				AF9B62542C34A271003762B0 /* ExtendedDivider.swift in Sources */,
 				AF191C6E2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift in Sources */,
+				AF9184F72D9DC43500484F7D /* PhotoPickerField.swift in Sources */,
 				AF8A76852D45AFE70029BE40 /* RouteAscentsView.swift in Sources */,
 				AF1271082D875C6F0009D70F /* ClmbingGradeStatistics.swift in Sources */,
 				AF869CD02C307CFA0092E371 /* ViewFinderView.swift in Sources */,
@@ -1302,6 +1349,7 @@
 				AF62E1A22D7A461A0039B67F /* APIClientInjection.swift in Sources */,
 				AF0243382D1640250007748D /* PhotoDrawingCanvas.swift in Sources */,
 				AF1271022D875A970009D70F /* ClimbingGradesGraphView.swift in Sources */,
+				AF998AB42D9B340400949E12 /* AddNewCragButtonView.swift in Sources */,
 				AF773D6C2C3DFBED00886C00 /* OverlayAndRouteId.swift in Sources */,
 				AF62D5BB2D8F512F00F6F122 /* SectorPickerView.swift in Sources */,
 				AF8DA64E2CD56D8000751865 /* SearchResultView.swift in Sources */,
@@ -1347,6 +1395,8 @@
 				AF0761882D7F9E86003BB9BA /* CragSectorRouteSelection.swift in Sources */,
 				AF3D95222D6B96E2003FAF90 /* NavigationSearchResultsView.swift in Sources */,
 				AF62D5BF2D8F540900F6F122 /* RouteTabView.swift in Sources */,
+				AF9184EC2D9DC42500484F7D /* InputField.swift in Sources */,
+				AF9184F22D9DC42C00484F7D /* TextAreaField.swift in Sources */,
 				AFB322572D87413B003A60F7 /* MapDetails.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1529,6 +1579,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 			};
 			name = Debug;
 		};
@@ -1585,6 +1636,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1799,23 +1851,23 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-openapi-generator";
 			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 1.6.0;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.7.1;
 			};
 		};
 		AF78ECA82D1C8019009F3B79 /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-openapi-runtime";
 			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 1.7.0;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.8.1;
 			};
 		};
 		AFD92D882D1CCB1600B68D92 /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-openapi-urlsession";
 			requirement = {
-				kind = upToNextMinorVersion;
+				kind = upToNextMajorVersion;
 				minimumVersion = 1.0.2;
 			};
 		};
@@ -1823,7 +1875,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-http-types";
 			requirement = {
-				kind = upToNextMinorVersion;
+				kind = upToNextMajorVersion;
 				minimumVersion = 1.3.1;
 			};
 		};

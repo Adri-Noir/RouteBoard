@@ -1,23 +1,21 @@
-// Created with <3 on 09.03.2025.
+// Created with <3 on 31.03.2025.
 
 import OpenAPIURLSession
 
-public typealias CragWeatherInput = Operations
-  .get_sol_api_sol_Map_sol_weather_sol__lcub_cragId_rcub_.Input.Path
-public typealias CragWeather = Components.Schemas.WeatherResponseDto
+public typealias CreateCragInput = Components.Schemas.CreateCragCommand
+public typealias CreateCragOutput = Components.Schemas.CragDetailedDto
 
-public class GetCragWeatherClient: AuthenticatedClientProvider {
-  public typealias T = CragWeatherInput
-  public typealias R = CragWeather?
+public class CreateCragClient: AuthenticatedClientProvider {
+  public typealias T = CreateCragInput
+  public typealias R = CreateCragOutput?
 
   public func call(
-    _ data: CragWeatherInput, _ authData: AuthData, _ errorHandler: ((_ message: String) -> Void)?
-  ) async -> CragWeather? {
+    _ data: CreateCragInput, _ authData: AuthData, _ errorHandler: ((_ message: String) -> Void)?
+  ) async -> CreateCragOutput? {
     do {
-      let result = try await getClient(authData).client
-        .get_sol_api_sol_Map_sol_weather_sol__lcub_cragId_rcub_(
-          Operations.get_sol_api_sol_Map_sol_weather_sol__lcub_cragId_rcub_.Input(
-            path: data))
+      let result = try await getClient(authData).client.post_sol_api_sol_Crag(
+        Operations.post_sol_api_sol_Crag.Input(
+          body: .json(data)))
 
       switch result {
       case let .ok(okResponse):
@@ -32,7 +30,7 @@ public class GetCragWeatherClient: AuthenticatedClientProvider {
 
       case .badRequest(let error):
         handleBadRequest(
-          try? error.body.application_problem_plus_json, "GetCragWeatherClient", errorHandler)
+          try? error.body.application_problem_plus_json, "CreateCragClient", errorHandler)
 
       case .notFound(let error):
         handleNotFound(try? error.body.application_problem_plus_json, errorHandler)
@@ -41,7 +39,8 @@ public class GetCragWeatherClient: AuthenticatedClientProvider {
         handleUndocumented(errorHandler)
         return nil
       }
-    } catch {
+    } catch (let error) {
+      print(error)
       // removed because cancelling the request will trigger this error
       // errorHandler?(returnUnknownError())
     }

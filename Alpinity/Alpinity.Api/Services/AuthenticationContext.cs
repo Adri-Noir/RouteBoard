@@ -15,10 +15,16 @@ public class AuthenticationContext(IHttpContextAccessor httpContextAccessor) : I
 
     public UserRole GetUserRole()
     {
-        return httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated == true
-            && Enum.TryParse(httpContextAccessor.HttpContext.User.FindFirstValue("role"), out UserRole role)
-                ? role
-                : UserRole.User;
+        if (httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated != true)
+            return UserRole.User;
+
+        var roleClaim = httpContextAccessor.HttpContext.User.Claims
+            .FirstOrDefault(c => c.Type == ClaimTypes.Role || c.Type == "role");
+
+        if (roleClaim != null && Enum.TryParse(roleClaim.Value, out UserRole role))
+            return role;
+
+        return UserRole.User;
     }
 
     public string? GetJwtToken()

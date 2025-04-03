@@ -12,6 +12,7 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
     public async Task<Crag?> GetCragById(Guid cragId, CancellationToken cancellationToken = default)
     {
         return await dbContext.Crags
+            .Include(crag => crag.Photos)
             .Include(crag => crag.Sectors!)
             .ThenInclude(sector => sector.Routes!)
             .ThenInclude(route => route.Ascents!)

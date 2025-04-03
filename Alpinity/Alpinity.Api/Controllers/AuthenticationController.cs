@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using Alpinity.Api.ProblemDetails;
 using Alpinity.Application.Interfaces;
 using Alpinity.Application.UseCases.Users.Commands.Login;
 using Alpinity.Application.UseCases.Users.Commands.Me;
@@ -7,6 +8,7 @@ using Alpinity.Application.UseCases.Users.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Alpinity.Api.Controllers;
 
@@ -18,10 +20,9 @@ public class AuthenticationController(
 {
     [HttpPost("login")]
     [Consumes(MediaTypeNames.Application.Json)]
-    [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(LoggedInUserDto), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     public async Task<ActionResult<LoggedInUserDto>> Login(LoginCommand command, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(command, cancellationToken);
@@ -30,11 +31,11 @@ public class AuthenticationController(
     }
 
     [HttpPost("register")]
-    [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status409Conflict)]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(LoggedInUserDto), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status409Conflict, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     public async Task<ActionResult<LoggedInUserDto>> Register(RegisterCommand command,
         CancellationToken cancellationToken)
     {
@@ -45,10 +46,10 @@ public class AuthenticationController(
 
     [HttpPost("authenticated")]
     [Authorize]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
-    [Produces(MediaTypeNames.Application.Json)]
+    [SwaggerResponse(StatusCodes.Status200OK, ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [Consumes(MediaTypeNames.Application.Json)]
     public ActionResult AuthCheck()
     {
         return Ok();
@@ -56,16 +57,16 @@ public class AuthenticationController(
 
     [HttpPost("me")]
     [Authorize]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
-    [Produces(MediaTypeNames.Application.Json)]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(LoggedInUserDto), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [Consumes(MediaTypeNames.Application.Json)]
     public async Task<ActionResult<LoggedInUserDto>> GetUserFromJwt(
         CancellationToken cancellationToken)
     {
         var results = await mediator.Send(
             new MeCommand
-                { UserId = (Guid)authenticationContext.GetUserId()!, Token = authenticationContext.GetJwtToken() },
+            { UserId = (Guid)authenticationContext.GetUserId()!, Token = authenticationContext.GetJwtToken() },
             cancellationToken);
 
         return Ok(results);

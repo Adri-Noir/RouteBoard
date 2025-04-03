@@ -33,8 +33,8 @@ public class SearchHistoryRepository : ISearchHistoryRepository
             .Include(sh => sh.Crag)
             .ThenInclude(c => c.Sectors!)
             .ThenInclude(s => s.Routes!)
-            .ThenInclude(r => r.RoutePhotos!.Take(1))
-            .ThenInclude(p => p.CombinedPhoto)
+            .Include(sh => sh.Crag)
+            .ThenInclude(c => c.Photos.Take(1))
 
             // Include Sector data with its Crag
             .Include(sh => sh.Sector)

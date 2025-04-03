@@ -299,9 +299,25 @@ struct CragMapView: View {
         .frame(height: 350)
         .cornerRadius(10)
       } else {
-        Text("Location not available")
-          .foregroundColor(.gray)
-          .padding(.horizontal, 20)
+        VStack(spacing: 12) {
+          Image(systemName: "location.slash.fill")
+            .font(.system(size: 40))
+            .foregroundColor(.gray)
+
+          Text("Location not available")
+            .font(.headline)
+            .foregroundColor(.gray)
+
+          Text("The crag location information is missing or incomplete")
+            .font(.subheadline)
+            .foregroundColor(.gray.opacity(0.8))
+            .multilineTextAlignment(.center)
+        }
+        .frame(height: 350)
+        .frame(maxWidth: .infinity)
+        .background(Color.newBackgroundGray.opacity(0.5))
+        .cornerRadius(10)
+        .padding(.horizontal, 20)
       }
     }
     .padding(.vertical, 0)

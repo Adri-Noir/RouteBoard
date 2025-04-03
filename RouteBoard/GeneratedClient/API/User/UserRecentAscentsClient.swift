@@ -20,10 +20,11 @@ public class UserRecentAscentsClient: AuthenticatedClientProvider {
         return try response.body.json
       case .badRequest(let error):
         handleBadRequest(
-          try? error.body.json.additionalProperties, "UserRecentAscentsClient", errorHandler)
+          try? error.body.application_problem_plus_json, "UserRecentAscentsClient", errorHandler)
         return []
       case .unauthorized(let error):
-        await handleUnauthorize(try? error.body.json.additionalProperties, authData, errorHandler)
+        await handleUnauthorize(
+          try? error.body.application_problem_plus_json, authData, errorHandler)
         return []
       case .undocumented:
         handleUndocumented(errorHandler)

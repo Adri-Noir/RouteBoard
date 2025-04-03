@@ -22,15 +22,17 @@ public class LogAscentClient: AuthenticatedClientProvider {
         return ""
 
       case .badRequest(let error):
-        handleBadRequest(try? error.body.json.additionalProperties, "LogAscentClient", errorHandler)
+        handleBadRequest(
+          try? error.body.application_problem_plus_json, "LogAscentClient", errorHandler)
         return ""
 
       case .unauthorized(let error):
-        await handleUnauthorize(try? error.body.json.additionalProperties, authData, errorHandler)
+        await handleUnauthorize(
+          try? error.body.application_problem_plus_json, authData, errorHandler)
         return ""
 
       case .notFound(let error):
-        handleNotFound(try? error.body.json.additionalProperties, errorHandler)
+        handleNotFound(try? error.body.application_problem_plus_json, errorHandler)
         return ""
 
       case .undocumented:

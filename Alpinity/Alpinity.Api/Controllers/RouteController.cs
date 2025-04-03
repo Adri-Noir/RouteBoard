@@ -10,6 +10,8 @@ using Alpinity.Application.UseCases.Photos.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using Alpinity.Api.ProblemDetails;
 
 namespace Alpinity.Api.Controllers;
 
@@ -19,11 +21,10 @@ public class RouteController(IMediator mediator) : ControllerBase
 {
     [HttpGet("{id:guid}")]
     [Authorize]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status404NotFound)]
-    [Produces(MediaTypeNames.Application.Json)]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(RouteDetailedDto), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     public async Task<ActionResult<RouteDetailedDto>> GetRoute(Guid id, CancellationToken cancellationToken)
     {
         var command = new GetRouteCommand { Id = id };
@@ -33,12 +34,11 @@ public class RouteController(IMediator mediator) : ControllerBase
 
     [HttpPost]
     [Authorize]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status404NotFound)]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(RouteDetailedDto), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     [Consumes(MediaTypeNames.Application.Json)]
-    [Produces(MediaTypeNames.Application.Json)]
     public async Task<ActionResult<RouteDetailedDto>> CreateRoute(CreateRouteCommand command,
         CancellationToken cancellationToken)
     {
@@ -49,11 +49,10 @@ public class RouteController(IMediator mediator) : ControllerBase
 
     [HttpPost("/addPhoto")]
     [Authorize]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status404NotFound)]
-    [Produces(MediaTypeNames.Application.Json)]
+    [SwaggerResponse(StatusCodes.Status200OK, ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     [Consumes(MediaTypeNames.Multipart.FormData)]
     public async Task<ActionResult> AddPhoto(AddRoutePhotoCommand command,
         CancellationToken cancellationToken)
@@ -64,12 +63,11 @@ public class RouteController(IMediator mediator) : ControllerBase
 
     [HttpGet("/routeAscents/{id:guid}")]
     [Authorize]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status404NotFound)]
-    [Produces(MediaTypeNames.Application.Json)]
-    public async Task<ActionResult<List<AscentDto>>> GetRouteAscents(Guid id, CancellationToken cancellationToken)
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ICollection<AscentDto>), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    public async Task<ActionResult<ICollection<AscentDto>>> GetRouteAscents(Guid id, CancellationToken cancellationToken)
     {
         var command = new GetRouteAscentsCommand { Id = id };
         var result = await mediator.Send(command, cancellationToken);
@@ -78,11 +76,10 @@ public class RouteController(IMediator mediator) : ControllerBase
 
     [HttpGet("/routePhotos/{routeId:guid}")]
     [Authorize]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ProblemDetails), StatusCodes.Status404NotFound)]
-    [Produces(MediaTypeNames.Application.Json)]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ICollection<ExtendedRoutePhotoDto>), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     public async Task<ActionResult<ICollection<ExtendedRoutePhotoDto>>> GetRoutePhotos(Guid routeId, CancellationToken cancellationToken)
     {
         var command = new GetRoutePhotosCommand { RouteId = routeId };

@@ -17,6 +17,7 @@ public struct UserModel: Codable {
   public let email: String
   public let username: String
   public let token: String
+  public let role: UserRole
 }
 
 public class AuthViewModel: ObservableObject {
@@ -52,10 +53,15 @@ public class AuthViewModel: ObservableObject {
       throw AuthError.loginFailed
     }
 
+    guard let role = loggedInUser.role else {
+      throw AuthError.loginFailed
+    }
+
     keychainService.saveJWTToken(token: token)
     await MainActor.run {
       withAnimation {
-        user = UserModel(id: loggedInUser.id, email: email, username: username, token: token)
+        user = UserModel(
+          id: loggedInUser.id, email: email, username: username, token: token, role: role)
       }
     }
   }
@@ -141,5 +147,13 @@ public class AuthViewModel: ObservableObject {
     loginClient.cancelRequest()
     meClient.cancelRequest()
     authenticationCheckerClient.cancelRequest()
+  }
+
+  var isCreator: Bool {
+    return user?.role == UserRole.Creator || user?.role == UserRole.Admin
+  }
+
+  var isAdmin: Bool {
+    return user?.role == UserRole.Admin
   }
 }

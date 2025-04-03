@@ -65,7 +65,7 @@ public partial class Program
     {
         services
             .AddControllers()
-            .AddJsonOptions(options => 
+            .AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
