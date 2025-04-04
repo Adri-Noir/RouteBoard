@@ -17,11 +17,12 @@ struct CragView: View {
   @State private var isLoading: Bool = false
   @State private var crag: CragDetails?
   @State private var errorMessage: String? = nil
+  @State private var viewMode: RouteViewMode = .tabs
 
   @EnvironmentObject private var authViewModel: AuthViewModel
-  @EnvironmentObject private var cragDetailsCacheClient: CragDetailsCacheClient
   @Environment(\.dismiss) private var dismiss
 
+  private let cragDetailsClient = GetCragDetailsClient()
   private let sectorCragDetailsClient = GetSectorCragDetailsClient()
 
   init(cragId: String) {
@@ -37,7 +38,7 @@ struct CragView: View {
     defer { isLoading = false }
 
     guard
-      let cragDetails = await cragDetailsCacheClient.call(
+      let cragDetails = await cragDetailsClient.call(
         CragDetailsInput(id: value), authViewModel.getAuthData(), { errorMessage = $0 })
     else {
       return
@@ -115,12 +116,21 @@ struct CragView: View {
             .background(Color.newPrimaryColor)
 
             VStack(spacing: 20) {
-              Text("Sectors")
-                .font(.title2)
-                .fontWeight(.semibold)
-                .foregroundColor(Color.newTextColor)
+              HStack {
+                Spacer()
 
-              CragSectorRouteSelection(crag: crag, selectedSectorId: $selectedSectorId)
+                Text("Sectors")
+                  .font(.title2)
+                  .fontWeight(.semibold)
+                  .foregroundColor(Color.newTextColor)
+
+                SectorViewModeSwitcher(viewMode: $viewMode)
+
+                Spacer()
+              }
+
+              CragSectorRouteSelection(
+                crag: crag, selectedSectorId: $selectedSectorId, viewMode: $viewMode)
 
               Spacer()
             }
@@ -141,7 +151,8 @@ struct CragView: View {
       }
     }
     .navigationBarBackButtonHidden()
-    .onAppearOnce {
+    .toolbar(.hidden, for: .navigationBar)
+    .task {
       Task {
         if let cragId = cragId {
           await getCrag(value: cragId)
@@ -159,9 +170,7 @@ struct CragView: View {
 }
 
 #Preview {
-  APIClientInjection {
-    AuthInjectionMock {
-      CragView(cragId: "0195b8a1-4b9f-7dfd-b12e-e65ee63a2b2a")
-    }
+  AuthInjectionMock {
+    CragView(cragId: "0195edd5-0b7c-7a9e-9326-8f309895c522")
   }
 }

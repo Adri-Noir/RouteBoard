@@ -41,6 +41,8 @@
 		AF2991EA2D078CF200BB7907 /* PhotoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2991E32D078CF200BB7907 /* PhotoCapture.swift */; };
 		AF2991F62D078D3400BB7907 /* CameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2991F32D078D3400BB7907 /* CameraModel.swift */; };
 		AF29920B2D07BEB300BB7907 /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF29920A2D07BEB300BB7907 /* CameraPreview.swift */; };
+		AF3829C42D9F35C600F3DAD0 /* CreateSectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3829C32D9F35C200F3DAD0 /* CreateSectorView.swift */; };
+		AF382A412DA07D4200F3DAD0 /* SectorViewModeSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF382A402DA07D3A00F3DAD0 /* SectorViewModeSwitcher.swift */; };
 		AF3D932E2D67D633003FAF90 /* NewMainNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D932C2D67D62F003FAF90 /* NewMainNavigationView.swift */; };
 		AF3D934E2D680137003FAF90 /* UserLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D934C2D680122003FAF90 /* UserLoginView.swift */; };
 		AF3D94452D6A97A7003FAF90 /* UserRecentAscentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D94442D6A97A2003FAF90 /* UserRecentAscentsView.swift */; };
@@ -222,6 +224,8 @@
 		AF2991F32D078D3400BB7907 /* CameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModel.swift; sourceTree = "<group>"; };
 		AF29920A2D07BEB300BB7907 /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
 		AF35C6AD2CD80B5000FEBC40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AF3829C32D9F35C200F3DAD0 /* CreateSectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSectorView.swift; sourceTree = "<group>"; };
+		AF382A402DA07D3A00F3DAD0 /* SectorViewModeSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorViewModeSwitcher.swift; sourceTree = "<group>"; };
 		AF3D932C2D67D62F003FAF90 /* NewMainNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMainNavigationView.swift; sourceTree = "<group>"; };
 		AF3D934C2D680122003FAF90 /* UserLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLoginView.swift; sourceTree = "<group>"; };
 		AF3D94442D6A97A2003FAF90 /* UserRecentAscentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRecentAscentsView.swift; sourceTree = "<group>"; };
@@ -514,6 +518,14 @@
 			path = Support;
 			sourceTree = "<group>";
 		};
+		AF3829C22D9F35AD00F3DAD0 /* CreateSector */ = {
+			isa = PBXGroup;
+			children = (
+				AF3829C32D9F35C200F3DAD0 /* CreateSectorView.swift */,
+			);
+			path = CreateSector;
+			sourceTree = "<group>";
+		};
 		AF3D93492D680118003FAF90 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -546,6 +558,7 @@
 		AF62D5B02D8F4F8000F6F122 /* SectorViews */ = {
 			isa = PBXGroup;
 			children = (
+				AF382A402DA07D3A00F3DAD0 /* SectorViewModeSwitcher.swift */,
 				AF62D5C72D8F573300F6F122 /* RoutesTableView.swift */,
 				AF62D5C52D8F570100F6F122 /* GradeDistributionGraph.swift */,
 				AF62D5C32D8F56D800F6F122 /* RouteInfoItem.swift */,
@@ -768,6 +781,7 @@
 		AF9B62472C346D52003762B0 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				AF3829C22D9F35AD00F3DAD0 /* CreateSector */,
 				AF998ABD2D9B35C800949E12 /* CreateCrag */,
 				AFE4C4952D8756D600A09302 /* User */,
 				AFB321B12D85C808003A60F7 /* Map */,
@@ -1280,6 +1294,7 @@
 				AFD64A6F2D825CED00EE84F3 /* OnAppearOnceExtension.swift in Sources */,
 				AF0760C72D7CEC7A003BB9BA /* AscentTypeConverter.swift in Sources */,
 				AFD931362D25DBA200B68D92 /* CragView.swift in Sources */,
+				AF382A412DA07D4200F3DAD0 /* SectorViewModeSwitcher.swift in Sources */,
 				AF8DA64B2CD56C1300751865 /* GeneralSearchView.swift in Sources */,
 				AF8DA6482CD5671E00751865 /* ApplyBackgroundColor.swift in Sources */,
 				AFE4C4A52D8758CD00A09302 /* UserPhotosGridView.swift in Sources */,
@@ -1318,6 +1333,7 @@
 				AF3D94452D6A97A7003FAF90 /* UserRecentAscentsView.swift in Sources */,
 				AFE4C4972D8756DE00A09302 /* UserView.swift in Sources */,
 				AF9E0C6C2C3747C500984C58 /* ClimbingGrades.swift in Sources */,
+				AF3829C42D9F35C600F3DAD0 /* CreateSectorView.swift in Sources */,
 				AF21C2DF2D737FD0000BE26C /* ScrollViewWithStickyHeader.swift in Sources */,
 				AFBE85902D1229F70029217C /* PhotoCaptureButton.swift in Sources */,
 				AF62D5BD2D8F517600F6F122 /* SectorHeaderView.swift in Sources */,

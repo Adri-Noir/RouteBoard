@@ -18,9 +18,9 @@ struct CragSectorRouteSelection: View {
 
   let crag: CragDetails?
   @Binding var selectedSectorId: String?
+  @Binding var viewMode: RouteViewMode
 
   @State private var selectedSector: SectorDetailedDto?
-  @State private var viewMode: RouteViewMode = .tabs
   @State private var isSectorSelectorOpen = false
   @State private var isLoading = true
   @State private var currentTablePage = 0
@@ -91,8 +91,7 @@ struct CragSectorRouteSelection: View {
         SectorHeaderView(
           title: "All Sectors",
           subtitle: "\(sectors.count) sectors with \(routes.count) routes",
-          sectorPicker: sectorPicker,
-          viewMode: $viewMode
+          sectorPicker: sectorPicker
         )
 
         // Show grade distribution for all routes combined
@@ -115,8 +114,7 @@ struct CragSectorRouteSelection: View {
         SectorHeaderView(
           title: sectorName,
           subtitle: sector.description,
-          sectorPicker: sectorPicker,
-          viewMode: $viewMode
+          sectorPicker: sectorPicker
         )
 
         GradeDistributionGraph(routes: sector.routes ?? [], selectedGrade: $selectedGrade)

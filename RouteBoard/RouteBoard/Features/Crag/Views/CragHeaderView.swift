@@ -18,6 +18,8 @@ struct CragHeaderView<Content: View>: View {
 
   @State private var headerVisibleRatio: CGFloat = 1
   @State private var isLocationDetailsPresented: Bool = false
+  @State private var isMenuOpen: Bool = false
+
   init(
     crag: CragDetails?,
     @ViewBuilder content: () -> Content
@@ -154,13 +156,11 @@ struct CragHeaderView<Content: View>: View {
 
       Spacer()
 
-      Button(action: {
-        // Menu action
-      }) {
-        Image(systemName: "ellipsis")
+      NavigationLink(destination: CreateSectorView(cragId: crag?.id ?? "")) {
+        Image(systemName: "plus")
           .foregroundColor(.white)
           .font(.system(size: 18, weight: .semibold))
-          .padding(10)
+          .padding(6)
           .background(Color.black.opacity(0.75))
           .clipShape(Circle())
       }
@@ -177,5 +177,11 @@ struct CragHeaderView<Content: View>: View {
     ) {
       content
     }
+  }
+}
+
+#Preview {
+  CragHeaderView(crag: CragDetails(id: "1", name: "Crag", locationName: "Location", photos: [])) {
+    Text("Content")
   }
 }

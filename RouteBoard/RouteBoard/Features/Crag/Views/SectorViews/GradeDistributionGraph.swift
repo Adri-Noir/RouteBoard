@@ -1,7 +1,7 @@
 // Created with <3 on 22.03.2025.
 
-import SwiftUI
 import GeneratedClient
+import SwiftUI
 
 struct GradeDistributionGraph: View {
   let routes: [SectorRouteDto]
@@ -54,6 +54,7 @@ struct GradeDistributionGraph: View {
       .font(.subheadline)
       .foregroundColor(Color.newTextColor.opacity(0.7))
       .padding(.top, 4)
+      .padding(.horizontal, 20)
   }
 
   // Grade bar view for each grade

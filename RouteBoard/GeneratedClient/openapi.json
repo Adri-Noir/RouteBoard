@@ -1101,68 +1101,11 @@
         "tags": [
           "Sector"
         ],
-        "parameters": [
-          {
-            "name": "Name",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Description",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Location.Latitude",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "number",
-              "format": "double"
-            }
-          },
-          {
-            "name": "Location.Longitude",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "number",
-              "format": "double"
-            }
-          },
-          {
-            "name": "CragId",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "photos": {
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "format": "binary"
-                    }
-                  }
-                }
-              },
-              "encoding": {
-                "photos": {
-                  "style": "form"
-                }
+                "$ref": "#/components/schemas/CreateSectorCommand"
               }
             }
           }
@@ -1906,9 +1849,6 @@
           "description": {
             "type": "string",
             "nullable": true
-          },
-          "location": {
-            "$ref": "#/components/schemas/PointDto"
           }
         },
         "additionalProperties": false
@@ -1944,6 +1884,30 @@
             "nullable": true
           },
           "sectorId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateSectorCommand": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "location": {
+            "$ref": "#/components/schemas/PointDto"
+          },
+          "cragId": {
             "type": "string",
             "format": "uuid"
           }
