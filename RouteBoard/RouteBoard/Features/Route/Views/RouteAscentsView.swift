@@ -106,15 +106,21 @@ private struct RouteAscentRowView: View {
     VStack(spacing: 0) {
       HStack(spacing: 15) {
         if let profilePhotoUrl = ascent.userProfilePhotoUrl, !profilePhotoUrl.isEmpty {
-          AsyncImage(url: URL(string: profilePhotoUrl)) { image in
-            image
-              .resizable()
-              .aspectRatio(contentMode: .fill)
-          } placeholder: {
-            Image(systemName: "person.circle")
-              .resizable()
-              .aspectRatio(contentMode: .fit)
-              .foregroundColor(Color.newTextColor)
+          AsyncImage(url: URL(string: profilePhotoUrl)) { phase in
+            switch phase {
+            case .success(let image):
+              image
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+            case .failure:
+              Image(systemName: "person.circle")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .foregroundColor(Color.newTextColor)
+            default:
+              ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: Color.newTextColor))
+            }
           }
           .frame(width: 50, height: 50)
           .clipShape(Circle())

@@ -1,7 +1,7 @@
 // Created with <3 on 16.03.2025.
 
-import SwiftUI
 import GeneratedClient
+import SwiftUI
 
 struct ProfileHeaderExpandedView: View {
   let userProfile: UserProfile?

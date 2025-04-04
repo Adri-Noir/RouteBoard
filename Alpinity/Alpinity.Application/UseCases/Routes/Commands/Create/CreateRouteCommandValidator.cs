@@ -15,7 +15,7 @@ public class CreateRouteCommandValidator : AbstractValidator<CreateRouteCommand>
             .IsInEnum().WithMessage("Invalid climbing grade");
         RuleFor(x => x.SectorId)
             .NotEmpty().WithMessage("Sector ID is required");
-            
+
         When(x => x.RouteType != null && x.RouteType.Any(), () =>
         {
             RuleForEach(x => x.RouteType)

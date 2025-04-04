@@ -43,6 +43,7 @@
 		AF29920B2D07BEB300BB7907 /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF29920A2D07BEB300BB7907 /* CameraPreview.swift */; };
 		AF3829C42D9F35C600F3DAD0 /* CreateSectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3829C32D9F35C200F3DAD0 /* CreateSectorView.swift */; };
 		AF382A412DA07D4200F3DAD0 /* SectorViewModeSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF382A402DA07D3A00F3DAD0 /* SectorViewModeSwitcher.swift */; };
+		AF382A462DA0817100F3DAD0 /* CreateRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF382A452DA0816D00F3DAD0 /* CreateRouteView.swift */; };
 		AF3D932E2D67D633003FAF90 /* NewMainNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D932C2D67D62F003FAF90 /* NewMainNavigationView.swift */; };
 		AF3D934E2D680137003FAF90 /* UserLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D934C2D680122003FAF90 /* UserLoginView.swift */; };
 		AF3D94452D6A97A7003FAF90 /* UserRecentAscentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D94442D6A97A2003FAF90 /* UserRecentAscentsView.swift */; };
@@ -226,6 +227,7 @@
 		AF35C6AD2CD80B5000FEBC40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF3829C32D9F35C200F3DAD0 /* CreateSectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSectorView.swift; sourceTree = "<group>"; };
 		AF382A402DA07D3A00F3DAD0 /* SectorViewModeSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorViewModeSwitcher.swift; sourceTree = "<group>"; };
+		AF382A452DA0816D00F3DAD0 /* CreateRouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRouteView.swift; sourceTree = "<group>"; };
 		AF3D932C2D67D62F003FAF90 /* NewMainNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMainNavigationView.swift; sourceTree = "<group>"; };
 		AF3D934C2D680122003FAF90 /* UserLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLoginView.swift; sourceTree = "<group>"; };
 		AF3D94442D6A97A2003FAF90 /* UserRecentAscentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRecentAscentsView.swift; sourceTree = "<group>"; };
@@ -526,6 +528,22 @@
 			path = CreateSector;
 			sourceTree = "<group>";
 		};
+		AF382A442DA0816600F3DAD0 /* CreateRoute */ = {
+			isa = PBXGroup;
+			children = (
+				AF382A482DA0817400F3DAD0 /* Views */,
+				AF382A452DA0816D00F3DAD0 /* CreateRouteView.swift */,
+			);
+			path = CreateRoute;
+			sourceTree = "<group>";
+		};
+		AF382A482DA0817400F3DAD0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		AF3D93492D680118003FAF90 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -781,6 +799,7 @@
 		AF9B62472C346D52003762B0 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				AF382A442DA0816600F3DAD0 /* CreateRoute */,
 				AF3829C22D9F35AD00F3DAD0 /* CreateSector */,
 				AF998ABD2D9B35C800949E12 /* CreateCrag */,
 				AFE4C4952D8756D600A09302 /* User */,
@@ -1284,6 +1303,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF382A462DA0817100F3DAD0 /* CreateRouteView.swift in Sources */,
 				AFD391912C319B82008CF2A7 /* ProcessedSamplesSwift.swift in Sources */,
 				AFC7D2B62D3C82700034DC05 /* UINavigationGestureOverwrite.swift in Sources */,
 				AFA0ECEA2D8CB15700437911 /* RouteBackgroundView.swift in Sources */,

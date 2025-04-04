@@ -183,8 +183,6 @@ struct ExploreItemCard: View {
         if let photoUrl = item.photo?.url {
           AsyncImage(url: URL(string: photoUrl)) { phase in
             switch phase {
-            case .empty:
-              defaultImage
             case .success(let image):
               image
                 .resizable()
@@ -192,8 +190,10 @@ struct ExploreItemCard: View {
                 .frame(width: geometry.size.width, height: geometry.size.height)
             case .failure:
               defaultImage
-            @unknown default:
-              defaultImage
+            default:
+              ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: Color.newTextColor))
+                .frame(width: geometry.size.width, height: geometry.size.height)
             }
           }
         } else {

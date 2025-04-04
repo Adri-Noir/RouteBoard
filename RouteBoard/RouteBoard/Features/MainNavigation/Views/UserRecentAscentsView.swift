@@ -215,16 +215,15 @@ struct UserRecentAscentsView: View {
       if let firstPhoto = route.routePhotos?.first?.combinedPhoto?.url, !firstPhoto.isEmpty {
         AsyncImage(url: URL(string: firstPhoto)) { phase in
           switch phase {
-          case .empty:
-            defaultRouteImage
           case .success(let image):
             image
               .resizable()
               .aspectRatio(contentMode: .fill)
           case .failure:
             defaultRouteImage
-          @unknown default:
-            defaultRouteImage
+          default:
+            ProgressView()
+              .progressViewStyle(CircularProgressViewStyle(tint: Color.newTextColor))
           }
         }
       } else {

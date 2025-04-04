@@ -113,8 +113,6 @@ public struct MapContent: View {
                     if let imageUrl = sector.imageUrl, let url = URL(string: imageUrl) {
                       AsyncImage(url: url) { phase in
                         switch phase {
-                        case .empty:
-                          placeholderImage(isSelected: isSelected)
                         case .success(let image):
                           image
                             .resizable()
@@ -130,8 +128,10 @@ public struct MapContent: View {
                             .animation(.spring(response: 0.3), value: isSelected)
                         case .failure:
                           placeholderImage(isSelected: isSelected)
-                        @unknown default:
-                          placeholderImage(isSelected: isSelected)
+                        default:
+                          ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: Color.newTextColor))
+                            .frame(width: 40, height: 40)
                         }
                       }
                     } else {

@@ -13,9 +13,6 @@ struct SingleResultView: View {
         if let photoUrl = result.photo?.url {
           AsyncImage(url: URL(string: photoUrl)) { phase in
             switch phase {
-            case .empty:
-              PlaceholderImage(backgroundColor: Color.gray, iconColor: Color.white)
-                .frame(width: 60, height: 60)
             case .success(let image):
               image
                 .resizable()
@@ -24,8 +21,9 @@ struct SingleResultView: View {
             case .failure:
               PlaceholderImage(backgroundColor: Color.gray, iconColor: Color.white)
                 .frame(width: 60, height: 60)
-            @unknown default:
-              PlaceholderImage(backgroundColor: Color.gray, iconColor: Color.white)
+            default:
+              ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: Color.newTextColor))
                 .frame(width: 60, height: 60)
             }
           }

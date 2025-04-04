@@ -6,6 +6,8 @@ struct InputField: View {
   let title: String
   @Binding var text: String
   var placeholder: String
+  var keyboardType: UIKeyboardType = .default
+
   @FocusState private var isFocused: Bool
 
   var body: some View {
@@ -21,6 +23,7 @@ struct InputField: View {
         prompt: Text(placeholder).font(.subheadline).foregroundColor(
           Color.newTextColor.opacity(0.5))
       )
+      .keyboardType(keyboardType)
       .padding()
       .background(Color.white)
       .foregroundColor(Color.newTextColor)

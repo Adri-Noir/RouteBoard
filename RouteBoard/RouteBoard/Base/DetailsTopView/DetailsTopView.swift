@@ -51,16 +51,22 @@ public struct DetailsTopView<Header: View, HeaderOverlay: View, Content: View>: 
               .background(Color.newBackgroundGray)
           } else {
             ForEach(photos, id: \.id) { photo in
-              AsyncImage(url: URL(string: photo.url ?? "")) { image in
-                image
-                  .resizable()
-                  .scaledToFill()
-                  .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
-              } placeholder: {
-                PlaceholderImage()
-                  .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
-                  .background(Color.newBackgroundGray)
+              AsyncImage(url: URL(string: photo.url ?? "")) { phase in
+                switch phase {
+                case .success(let image):
+                  image
+                    .resizable()
+                    .scaledToFill()
+                case .failure:
+                  PlaceholderImage()
+                    .background(Color.newBackgroundGray)
+                default:
+                  ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: Color.newTextColor))
+                    .background(Color.newBackgroundGray)
+                }
               }
+              .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
             }
           }
         }

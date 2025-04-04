@@ -117,7 +117,7 @@ struct RecentlyViewedView: View {
     switch item.entityType {
     case .Route:
       if let routeId = item.routeId {
-        RouteLink(routeId: .constant(routeId)) {
+        RouteLink(routeId: routeId) {
           routeHistoryView(item)
         }
       } else {
@@ -125,7 +125,7 @@ struct RecentlyViewedView: View {
       }
     case .Sector:
       if let sectorId = item.sectorId {
-        SectorLink(sectorId: .constant(sectorId)) {
+        SectorLink(sectorId: sectorId) {
           sectorHistoryView(item)
         }
       } else {
@@ -133,7 +133,7 @@ struct RecentlyViewedView: View {
       }
     case .Crag:
       if let cragId = item.cragId {
-        CragLink(cragId: .constant(cragId)) {
+        CragLink(cragId: cragId) {
           cragHistoryView(item)
         }
       } else {
@@ -161,33 +161,7 @@ struct RecentlyViewedView: View {
   @ViewBuilder
   private func routeHistoryView(_ item: SearchHistory) -> some View {
     HStack {
-      let photoUrl = item.photo?.url
-      if let photoUrl = photoUrl {
-        AsyncImage(url: URL(string: photoUrl)) { phase in
-          switch phase {
-          case .empty:
-            PlaceholderImage(backgroundColor: Color.gray, iconColor: Color.white)
-              .frame(width: 50, height: 50)
-              .cornerRadius(10)
-          case .success(let image):
-            image
-              .resizable()
-              .aspectRatio(contentMode: .fill)
-              .frame(width: 50, height: 50)
-              .clipped()
-              .cornerRadius(10)
-          case .failure:
-            PlaceholderImage(backgroundColor: Color.gray, iconColor: Color.white)
-              .frame(width: 50, height: 50)
-          @unknown default:
-            PlaceholderImage(backgroundColor: Color.gray, iconColor: Color.white)
-              .frame(width: 50, height: 50)
-          }
-        }
-      } else {
-        PlaceholderImage(backgroundColor: Color.gray, iconColor: Color.white)
-          .frame(width: 50, height: 50)
-      }
+      getPhoto(for: item)
 
       VStack(alignment: .leading) {
         HStack(spacing: 4) {
@@ -229,9 +203,7 @@ struct RecentlyViewedView: View {
   @ViewBuilder
   private func sectorHistoryView(_ item: SearchHistory) -> some View {
     HStack {
-      PlaceholderImage(iconFont: .body)
-        .frame(width: 50, height: 50)
-        .cornerRadius(10)
+      getPhoto(for: item)
 
       VStack(alignment: .leading) {
         HStack(spacing: 4) {
@@ -273,9 +245,7 @@ struct RecentlyViewedView: View {
   @ViewBuilder
   private func cragHistoryView(_ item: SearchHistory) -> some View {
     HStack {
-      PlaceholderImage(iconFont: .body)
-        .frame(width: 50, height: 50)
-        .cornerRadius(10)
+      getPhoto(for: item)
 
       VStack(alignment: .leading) {
         HStack(spacing: 4) {
@@ -308,6 +278,37 @@ struct RecentlyViewedView: View {
     .padding(.horizontal, 10)
     .padding(.vertical, 10)
     .background(Color.white)
+  }
+
+  @ViewBuilder
+  private func getPhoto(for item: SearchHistory) -> some View {
+    let photoUrl = item.photo?.url
+    if let photoUrl = photoUrl {
+      AsyncImage(url: URL(string: photoUrl)) { phase in
+        switch phase {
+        case .success(let image):
+          image
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: 50, height: 50)
+            .clipped()
+            .cornerRadius(10)
+        case .failure:
+          PlaceholderImage(iconFont: .body)
+            .frame(width: 50, height: 50)
+            .cornerRadius(10)
+        default:
+          ProgressView()
+            .progressViewStyle(CircularProgressViewStyle(tint: Color.newTextColor))
+            .frame(width: 50, height: 50)
+            .cornerRadius(10)
+        }
+      }
+    } else {
+      PlaceholderImage(iconFont: .body)
+        .frame(width: 50, height: 50)
+        .cornerRadius(10)
+    }
   }
 }
 

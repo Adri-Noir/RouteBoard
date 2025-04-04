@@ -17,21 +17,16 @@ struct RouteBackgroundView: View {
         {
           AsyncImage(url: URL(string: firstPhoto)) { phase in
             switch phase {
-            case .empty:
-              Color.gray
             case .success(let image):
               image
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             case .failure:
-              Image("TestingSamples/limski/pikachu")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-            @unknown default:
-              Image("TestingSamples/limski/pikachu")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
+              PlaceholderImage()
+            default:
+              ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
             }
           }
           .frame(width: geometry.size.width, height: geometry.size.height)

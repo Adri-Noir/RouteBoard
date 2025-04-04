@@ -111,16 +111,15 @@ struct RouteCardList: View {
         {
           AsyncImage(url: url) { phase in
             switch phase {
-            case .empty:
-              PlaceholderImage()
             case .success(let image):
               image
                 .resizable()
                 .aspectRatio(contentMode: .fill)
             case .failure:
               PlaceholderImage()
-            @unknown default:
-              EmptyView()
+            default:
+              ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: Color.newTextColor))
             }
           }
           .frame(width: 100, height: 150)

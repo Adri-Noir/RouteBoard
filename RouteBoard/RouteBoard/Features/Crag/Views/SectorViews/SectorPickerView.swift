@@ -16,33 +16,47 @@ struct SectorPickerView: View {
           .fontWeight(.bold)
           .foregroundColor(Color.newTextColor)
       } else {
-        Button {
-          isOpen.toggle()
-        } label: {
-          HStack(spacing: 4) {
-            Text(
-              selectedSectorId == nil ? "All Sectors" : (selectedSector?.name ?? "Select Sector")
-            )
-            .font(.title2)
-            .fontWeight(.bold)
-            .foregroundColor(Color.newTextColor)
-
-            Image(systemName: "chevron.down")
-              .font(.caption)
+        HStack {
+          Button {
+            isOpen.toggle()
+          } label: {
+            HStack(spacing: 4) {
+              Text(
+                selectedSectorId == nil ? "All Sectors" : (selectedSector?.name ?? "Select Sector")
+              )
+              .font(.title2)
+              .fontWeight(.bold)
               .foregroundColor(Color.newTextColor)
+
+              Image(systemName: "chevron.down")
+                .font(.caption)
+                .foregroundColor(Color.newTextColor)
+            }
+            .foregroundColor(Color.newTextColor)
           }
-          .foregroundColor(Color.newTextColor)
-        }
-        .popover(
-          isPresented: $isOpen,
-          attachmentAnchor: .point(.bottom),
-          arrowEdge: .top
-        ) {
-          SectorPickerPopoverContent(
-            sectors: sectors,
-            selectedSectorId: $selectedSectorId,
-            isOpen: $isOpen
-          )
+          .popover(
+            isPresented: $isOpen,
+            attachmentAnchor: .point(.bottom),
+            arrowEdge: .top
+          ) {
+            SectorPickerPopoverContent(
+              sectors: sectors,
+              selectedSectorId: $selectedSectorId,
+              isOpen: $isOpen
+            )
+          }
+
+          Spacer()
+
+          if let selectedSectorId = selectedSectorId {
+            NavigationLink(destination: CreateRouteView(sectorId: selectedSectorId)) {
+              Image(systemName: "plus")
+                .font(.title3)
+                .foregroundColor(Color.newPrimaryColor)
+                .frame(width: 44, height: 44)
+                .contentShape(Rectangle())
+            }
+          }
         }
       }
     }

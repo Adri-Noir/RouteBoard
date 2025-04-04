@@ -34,9 +34,6 @@ struct CragImage: View {
     if let imageUrl = imageUrl, let url = URL(string: imageUrl) {
       AsyncImage(url: url) { phase in
         switch phase {
-        case .empty:
-          Rectangle()
-            .fill(Color.gray.opacity(0.2))
         case .success(let image):
           image
             .resizable()
@@ -46,8 +43,9 @@ struct CragImage: View {
             .foregroundColor(.gray)
             .padding(4)
             .background(Color.gray.opacity(0.2))
-        @unknown default:
-          EmptyView()
+        default:
+          ProgressView()
+            .progressViewStyle(CircularProgressViewStyle(tint: Color.newTextColor))
         }
       }
       .frame(width: 60, height: 60)
@@ -94,9 +92,6 @@ struct SectorImage: View {
     if let imageUrl = imageUrl, let url = URL(string: imageUrl) {
       AsyncImage(url: url) { phase in
         switch phase {
-        case .empty:
-          Rectangle()
-            .fill(Color.gray.opacity(0.2))
         case .success(let image):
           image
             .resizable()
@@ -106,8 +101,9 @@ struct SectorImage: View {
             .foregroundColor(.gray)
             .padding(4)
             .background(Color.gray.opacity(0.2))
-        @unknown default:
-          EmptyView()
+        default:
+          ProgressView()
+            .progressViewStyle(CircularProgressViewStyle(tint: Color.newTextColor))
         }
       }
       .frame(width: 60, height: 60)

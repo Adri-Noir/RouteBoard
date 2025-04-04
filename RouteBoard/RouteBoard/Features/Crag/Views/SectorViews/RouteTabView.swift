@@ -34,9 +34,6 @@ struct RouteCardFullscreen: View {
           {
             AsyncImage(url: url) { phase in
               switch phase {
-              case .empty:
-                Rectangle()
-                  .fill(Color.gray.opacity(0.2))
               case .success(let image):
                 image
                   .resizable()
@@ -44,8 +41,9 @@ struct RouteCardFullscreen: View {
                   .frame(width: geometry.size.width, height: geometry.size.height)
               case .failure:
                 PlaceholderImage()
-              @unknown default:
-                EmptyView()
+              default:
+                ProgressView()
+                  .progressViewStyle(CircularProgressViewStyle(tint: Color.newTextColor))
               }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
