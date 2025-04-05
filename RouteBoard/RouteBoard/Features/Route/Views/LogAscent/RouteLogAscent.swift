@@ -7,10 +7,8 @@ struct RouteLogAscent: View {
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject private var authViewModel: AuthViewModel
 
-  let route: RouteDetails?
-  var onAscentLogged: (() -> Void)?
-
-  let logAscentClient = LogAscentClient()
+  let routeId: String
+  let routeGrade: Components.Schemas.ClimbingGrade?
 
   @State private var selectedGrade: String = "4a"
   @State private var selectedClimbType: [UserClimbingType] = []
@@ -23,7 +21,8 @@ struct RouteLogAscent: View {
   @State private var selectedAscentType: Components.Schemas.AscentType = .Redpoint
   @State private var attemptsCount: Int? = nil
   @FocusState private var isAttemptsCountFocused: Bool
-  @FocusState private var isNotesFocused: Bool
+
+  private let logAscentClient = LogAscentClient()
 
   private var grades: [String] {
     authViewModel.getGradeSystem().climbingGrades
@@ -40,13 +39,8 @@ struct RouteLogAscent: View {
     return window.safeAreaInsets
   }
 
-  init(route: RouteDetails?, onAscentLogged: (() -> Void)? = nil) {
-    self.route = route
-    self.onAscentLogged = onAscentLogged
-  }
-
   var body: some View {
-    SlideupLayout {
+    ApplyBackgroundColor(backgroundColor: Color.newBackgroundGray) {
       ScrollView {
         VStack(alignment: .leading, spacing: 20) {
           headerView
@@ -65,9 +59,11 @@ struct RouteLogAscent: View {
         }
         .padding(.top)
       }
+      .padding(.top, 1)
       .contentMargins(.bottom, safeAreaInsets.bottom, for: .scrollContent)
+      .scrollDismissesKeyboard(.interactively)
       .task {
-        selectedGrade = authViewModel.getGradeSystem().convertGradeToString(route?.grade)
+        selectedGrade = authViewModel.getGradeSystem().convertGradeToString(routeGrade)
         // Set the scroll position to the selected grade after a short delay
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
           withAnimation {
@@ -80,33 +76,33 @@ struct RouteLogAscent: View {
           scrollPosition = newGrade
         }
       }
-      .toolbar {
-        ToolbarItemGroup(placement: .keyboard) {
-          Spacer()
-          Button("Done") {
-            isAttemptsCountFocused = false
-            isNotesFocused = false
-          }
-          .foregroundColor(Color.newPrimaryColor)
-        }
-      }
       .onTapGesture {
         isAttemptsCountFocused = false
-        isNotesFocused = false
       }
       .alert(message: $errorMessage)
     }
-    .background(Color.newBackgroundGray)
+    .navigationBarHidden(true)
   }
 
   // MARK: - Subviews
 
   private var headerView: some View {
-    Text("Log Ascent")
-      .font(.largeTitle)
-      .fontWeight(.bold)
-      .foregroundColor(Color.newTextColor)
-      .padding(.horizontal)
+    HStack {
+      Button(action: {
+        dismiss()
+      }) {
+        Image(systemName: "chevron.left")
+          .foregroundColor(Color.newPrimaryColor)
+      }
+
+      Text("Log Ascent")
+        .font(.largeTitle)
+        .fontWeight(.bold)
+        .foregroundColor(Color.newTextColor)
+
+      Spacer()
+    }
+    .padding(.horizontal)
   }
 
   private var datePickerView: some View {
@@ -393,29 +389,12 @@ struct RouteLogAscent: View {
   }
 
   private var notesView: some View {
-    VStack(alignment: .leading, spacing: 10) {
-      Text("Notes")
-        .font(.headline)
-        .fontWeight(.semibold)
-        .foregroundColor(Color.newTextColor)
-
-      TextEditor(text: $notes)
-        .frame(minHeight: 120)
-        .padding(10)
-        .scrollContentBackground(.hidden)
-        .background(Color.white)
-        .foregroundColor(Color.newTextColor)
-        .cornerRadius(10)
-        .overlay(
-          RoundedRectangle(cornerRadius: 10)
-            .stroke(Color.gray.opacity(0.2), lineWidth: 1)
-        )
-        .focused($isNotesFocused)
-        .onTapBackground(enabled: isNotesFocused) {
-          isNotesFocused = false
-        }
-    }
-    .padding(.horizontal, 20)
+    TextAreaField(
+      title: "Notes",
+      text: $notes,
+      placeholder: "Enter notes here... (optional)",
+      padding: 20
+    )
   }
 
   private var submitButton: some View {
@@ -446,17 +425,12 @@ struct RouteLogAscent: View {
   }
 
   private func submitAscent() async {
-    guard let route = route else {
-      errorMessage = "Route information is missing"
-      return
-    }
-
     isSubmitting = true
     defer { isSubmitting = false }
 
     let result = await logAscentClient.call(
       LogAscentInput(
-        routeId: route.id,
+        routeId: routeId,
         ascentDate: ascentDate,
         notes: notes,
         climbTypes: ClimbTypesConverter.convertUserClimbingTypesToComponentsClimbTypes(
@@ -475,7 +449,6 @@ struct RouteLogAscent: View {
       ), authViewModel.getAuthData(), { errorMessage = $0 })
 
     if result == "" {
-      onAscentLogged?()
       dismiss()
     }
   }

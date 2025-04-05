@@ -35,49 +35,51 @@ struct CreateSectorView: View {
   }
 
   var body: some View {
-    ScrollView {
-      VStack(alignment: .leading, spacing: 20) {
-        headerView
+    ApplyBackgroundColor(backgroundColor: Color.newBackgroundGray) {
+      ScrollView {
+        VStack(alignment: .leading, spacing: 20) {
+          headerView
 
-        InputField(
-          title: "Sector Name",
-          text: $name,
-          placeholder: "Enter sector name here..."
-        )
+          InputField(
+            title: "Sector Name",
+            text: $name,
+            placeholder: "Enter sector name here..."
+          )
 
-        TextAreaField(
-          title: "Description",
-          text: $description,
-          placeholder: "Enter sector description here... (optional)"
-        )
+          TextAreaField(
+            title: "Description",
+            text: $description,
+            placeholder: "Enter sector description here... (optional)"
+          )
 
-        MapLocationPickerField(
-          title: "Location",
-          selectedCoordinate: $selectedCoordinate,
-          errorMessage: $errorMessage
-        )
+          MapLocationPickerField(
+            title: "Location",
+            selectedCoordinate: $selectedCoordinate,
+            errorMessage: $errorMessage
+          )
 
-        PhotoPickerField(
-          title: "Sector Images",
-          selectedImages: $selectedImages,
-          uploadStatus: createdSectorId != nil ? photoUploadStatus : nil
-        )
+          PhotoPickerField(
+            title: "Sector Images",
+            selectedImages: $selectedImages,
+            uploadStatus: createdSectorId != nil ? photoUploadStatus : nil
+          )
 
-        submitButton
+          submitButton
+        }
+        .padding(.top)
       }
-      .padding(.top)
-    }
-    .navigationBarBackButtonHidden()
-    .toolbar(.hidden, for: .navigationBar)
-    .padding(.top, 2)
-    .background(Color.newBackgroundGray)
-    .contentMargins(.bottom, safeAreaInsets.bottom, for: .scrollContent)
-    .scrollDismissesKeyboard(.interactively)
-    .alert(message: $errorMessage)
-    .onChange(of: photoUploadStatus) { _, newStatus in
-      // Automatically dismiss when all photos are uploaded successfully
-      if createdSectorId != nil && !selectedImages.isEmpty && allPhotosUploaded() {
-        navigateToSectorDetails()
+      .navigationBarBackButtonHidden()
+      .toolbar(.hidden, for: .navigationBar)
+      .padding(.top, 2)
+      .background(Color.newBackgroundGray)
+      .contentMargins(.bottom, safeAreaInsets.bottom, for: .scrollContent)
+      .scrollDismissesKeyboard(.interactively)
+      .alert(message: $errorMessage)
+      .onChange(of: photoUploadStatus) { _, newStatus in
+        // Automatically dismiss when all photos are uploaded successfully
+        if createdSectorId != nil && !selectedImages.isEmpty && allPhotosUploaded() {
+          navigateToSectorDetails()
+        }
       }
     }
   }

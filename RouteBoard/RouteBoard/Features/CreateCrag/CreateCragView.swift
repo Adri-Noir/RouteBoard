@@ -33,40 +33,42 @@ struct CreateCragView: View {
   }
 
   var body: some View {
-    ScrollView {
-      VStack(alignment: .leading, spacing: 20) {
-        headerView
+    ApplyBackgroundColor(backgroundColor: Color.newBackgroundGray) {
+      ScrollView {
+        VStack(alignment: .leading, spacing: 20) {
+          headerView
 
-        InputField(
-          title: "Crag Name",
-          text: $name,
-          placeholder: "Enter crag name here..."
-        )
+          InputField(
+            title: "Crag Name",
+            text: $name,
+            placeholder: "Enter crag name here..."
+          )
 
-        TextAreaField(
-          title: "Description",
-          text: $description,
-          placeholder: "Enter crag description here... (optional)"
-        )
+          TextAreaField(
+            title: "Description",
+            text: $description,
+            placeholder: "Enter crag description here... (optional)"
+          )
 
-        PhotoPickerField(
-          title: "Crag Images",
-          selectedImages: $selectedImages,
-          uploadStatus: createdCragId != nil ? photoUploadStatus : nil
-        )
+          PhotoPickerField(
+            title: "Crag Images",
+            selectedImages: $selectedImages,
+            uploadStatus: createdCragId != nil ? photoUploadStatus : nil
+          )
 
-        submitButton
+          submitButton
+        }
+        .padding(.top)
       }
-      .padding(.top)
-    }
-    .background(Color.newBackgroundGray)
-    .contentMargins(.bottom, safeAreaInsets.bottom, for: .scrollContent)
-    .scrollDismissesKeyboard(.interactively)
-    .alert(message: $errorMessage)
-    .onChange(of: photoUploadStatus) { _, newStatus in
-      // Automatically dismiss when all photos are uploaded successfully
-      if createdCragId != nil && !selectedImages.isEmpty && allPhotosUploaded() {
-        navigateToCragDetails()
+      .background(Color.newBackgroundGray)
+      .contentMargins(.bottom, safeAreaInsets.bottom, for: .scrollContent)
+      .scrollDismissesKeyboard(.interactively)
+      .alert(message: $errorMessage)
+      .onChange(of: photoUploadStatus) { _, newStatus in
+        // Automatically dismiss when all photos are uploaded successfully
+        if createdCragId != nil && !selectedImages.isEmpty && allPhotosUploaded() {
+          navigateToCragDetails()
+        }
       }
     }
   }

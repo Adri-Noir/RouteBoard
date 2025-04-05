@@ -15,6 +15,8 @@ struct MapLocationPickerField: View {
   @State private var searchCompleterDelegate: SearchCompleterDelegate!
   @State private var isSearching: Bool = false
 
+  @FocusState private var isFocused: Bool
+
   init(
     title: String,
     selectedCoordinate: Binding<CLLocationCoordinate2D?>,
@@ -54,6 +56,7 @@ struct MapLocationPickerField: View {
             prompt: Text("Search for a location...").font(.subheadline).foregroundColor(
               Color.newTextColor.opacity(0.5))
           )
+          .focused($isFocused)
           .foregroundColor(Color.newTextColor)
           .autocorrectionDisabled()
           .onChange(of: searchText) { _, newValue in
@@ -168,6 +171,9 @@ struct MapLocationPickerField: View {
         searchResults: $searchResults, isSearching: $isSearching)
       searchCompleter.delegate = searchCompleterDelegate
       searchCompleter.resultTypes = .pointOfInterest
+    }
+    .onTapBackground(enabled: isFocused) {
+      isFocused = false
     }
   }
 

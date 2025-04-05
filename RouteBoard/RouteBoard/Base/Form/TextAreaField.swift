@@ -7,6 +7,8 @@ struct TextAreaField: View {
   @Binding var text: String
   var placeholder: String
   var minHeight: CGFloat = 120
+  var padding: CGFloat?
+
   @FocusState private var isFocused: Bool
 
   var body: some View {
@@ -15,7 +17,7 @@ struct TextAreaField: View {
         .font(.headline)
         .fontWeight(.semibold)
         .foregroundColor(Color.newTextColor)
-        .padding(.horizontal)
+        .padding(.horizontal, padding)
 
       ZStack(alignment: .topLeading) {
         TextEditor(text: $text)
@@ -38,7 +40,10 @@ struct TextAreaField: View {
       .background(Color.white)
       .cornerRadius(10)
       .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
-      .padding(.horizontal)
+      .padding(.horizontal, padding)
+    }
+    .onTapBackground(enabled: isFocused) {
+      isFocused = false
     }
   }
 }

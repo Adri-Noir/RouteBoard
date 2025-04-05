@@ -38,55 +38,57 @@ struct CreateRouteView: View {
   }
 
   var body: some View {
-    ScrollView {
-      VStack(alignment: .leading, spacing: 20) {
-        headerView
+    ApplyBackgroundColor(backgroundColor: Color.newBackgroundGray) {
+      ScrollView {
+        VStack(alignment: .leading, spacing: 20) {
+          headerView
 
-        InputField(
-          title: "Route Name",
-          text: $name,
-          placeholder: "Enter route name here..."
-        )
+          InputField(
+            title: "Route Name",
+            text: $name,
+            placeholder: "Enter route name here..."
+          )
 
-        TextAreaField(
-          title: "Description",
-          text: $description,
-          placeholder: "Enter route description here... (optional)"
-        )
+          TextAreaField(
+            title: "Description",
+            text: $description,
+            placeholder: "Enter route description here... (optional)"
+          )
 
-        gradeView
+          gradeView
 
-        routeTypeView
+          routeTypeView
 
-        InputField(
-          title: "Length (meters)",
-          text: $length,
-          placeholder: "Enter route length... (optional)",
-          keyboardType: .numberPad
-        )
+          InputField(
+            title: "Length (meters)",
+            text: $length,
+            placeholder: "Enter route length... (optional)",
+            keyboardType: .numberPad
+          )
 
-        submitButton
+          submitButton
+        }
+        .padding(.top)
       }
-      .padding(.top)
-    }
-    .navigationBarBackButtonHidden()
-    .toolbar(.hidden, for: .navigationBar)
-    .padding(.top, 2)
-    .background(Color.newBackgroundGray)
-    .contentMargins(.bottom, safeAreaInsets.bottom, for: .scrollContent)
-    .scrollDismissesKeyboard(.interactively)
-    .alert(message: $errorMessage)
-    .task {
-      // Set the scroll position to the selected grade after a short delay
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-        withAnimation {
-          scrollPosition = selectedGrade ?? "?"
+      .navigationBarBackButtonHidden()
+      .toolbar(.hidden, for: .navigationBar)
+      .padding(.top, 2)
+      .background(Color.newBackgroundGray)
+      .contentMargins(.bottom, safeAreaInsets.bottom, for: .scrollContent)
+      .scrollDismissesKeyboard(.interactively)
+      .alert(message: $errorMessage)
+      .task {
+        // Set the scroll position to the selected grade after a short delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+          withAnimation {
+            scrollPosition = selectedGrade ?? "?"
+          }
         }
       }
-    }
-    .onChange(of: selectedGrade) { _, newGrade in
-      withAnimation {
-        scrollPosition = newGrade ?? "?"
+      .onChange(of: selectedGrade) { _, newGrade in
+        withAnimation {
+          scrollPosition = newGrade ?? "?"
+        }
       }
     }
   }

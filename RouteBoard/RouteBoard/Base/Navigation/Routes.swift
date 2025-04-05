@@ -1,5 +1,6 @@
 // Created with <3 on 05.04.2025.
 
+import GeneratedClient
 import SwiftUI
 
 enum NavigationPaths: Hashable {
@@ -15,6 +16,7 @@ enum NavigationPaths: Hashable {
   case map
   case userDetails(id: String)
   case createRouteImage(routeId: String)
+  case routeLogAscent(routeId: String, routeGrade: Components.Schemas.ClimbingGrade?)
 }
 
 enum Routes {
@@ -44,6 +46,8 @@ enum Routes {
       return AnyView(UserView(userId: id))
     case .createRouteImage(let routeId):
       return AnyView(CreateRouteImageView(routeId: routeId))
+    case .routeLogAscent(let routeId, let routeGrade):
+      return AnyView(RouteLogAscent(routeId: routeId, routeGrade: routeGrade))
     }
   }
 }

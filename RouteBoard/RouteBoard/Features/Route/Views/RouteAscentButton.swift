@@ -4,9 +4,11 @@ import GeneratedClient
 import SwiftUI
 
 struct RouteAscentButton: View {
+  let route: RouteDetails
   let userHasAscended: Bool
   let userAscentDate: Date?
-  let onLogAscent: () -> Void
+
+  @EnvironmentObject var navigationManager: NavigationManager
 
   var body: some View {
     HStack {
@@ -22,7 +24,9 @@ struct RouteAscentButton: View {
         .background(Color.black.opacity(0.75))
         .clipShape(RoundedRectangle(cornerRadius: 20))
       } else {
-        Button(action: onLogAscent) {
+        Button(action: {
+          navigationManager.pushView(.routeLogAscent(routeId: route.id, routeGrade: route.grade))
+        }) {
           HStack(spacing: 8) {
             Image(systemName: "plus")
               .foregroundColor(.white)

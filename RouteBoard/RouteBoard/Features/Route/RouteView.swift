@@ -66,7 +66,6 @@ struct RouteView: View {
   @State private var errorMessage: String? = nil
   @State private var isPresentingRouteARView = false
   @State private var isPresentingRouteAscentsView = false
-  @State private var isPresentingRouteLogAscent = false
   @State private var showMenu = false
   @State private var isFullscreenMode = false
 
@@ -153,11 +152,11 @@ struct RouteView: View {
           }
           .padding(.horizontal, 24)
 
-          if !isFullscreenMode {
+          if let route = route, !isFullscreenMode {
             RouteAscentButton(
+              route: route,
               userHasAscended: userHasAscended,
               userAscentDate: userAscentDate,
-              onLogAscent: { isPresentingRouteLogAscent = true }
             )
             .padding(.bottom, 20)
             .padding(.top, 10)
@@ -195,15 +194,6 @@ struct RouteView: View {
     }
     .fullScreenCover(isPresented: $isPresentingRouteARView) {
       RouteFinderView(routeId: routeId)
-    }
-    .sheet(isPresented: $isPresentingRouteLogAscent) {
-      RouteLogAscent(
-        route: route,
-        onAscentLogged: {
-          Task {
-            await getRoute(value: routeId)
-          }
-        })
     }
     .task {
       await getRoute(value: routeId)

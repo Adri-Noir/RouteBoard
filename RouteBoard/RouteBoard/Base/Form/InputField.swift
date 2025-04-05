@@ -32,6 +32,9 @@ struct InputField: View {
       .focused($isFocused)
       .padding(.horizontal)
     }
+    .onTapBackground(enabled: isFocused) {
+      isFocused = false
+    }
   }
 }
 
