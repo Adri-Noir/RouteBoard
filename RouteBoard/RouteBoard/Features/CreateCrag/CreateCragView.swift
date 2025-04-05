@@ -20,6 +20,7 @@ struct CreateCragView: View {
 
   @EnvironmentObject var authViewModel: AuthViewModel
   @Environment(\.dismiss) private var dismiss
+  @EnvironmentObject var navigationManager: NavigationManager
 
   private let createCragClient = CreateCragClient()
   // Remove the single uploadCragPhotoClient instance as we'll create one per upload
@@ -65,7 +66,7 @@ struct CreateCragView: View {
     .onChange(of: photoUploadStatus) { _, newStatus in
       // Automatically dismiss when all photos are uploaded successfully
       if createdCragId != nil && !selectedImages.isEmpty && allPhotosUploaded() {
-        dismiss()
+        navigateToCragDetails()
       }
     }
   }
@@ -138,6 +139,11 @@ struct CreateCragView: View {
     }
   }
 
+  private func navigateToCragDetails() {
+    navigationManager.pop()
+    navigationManager.pushView(.cragDetails(id: createdCragId ?? ""))
+  }
+
   private func submitCrag() async {
     // Form validation already handled by isFormValid and button disabled state
     isSubmitting = true
@@ -156,13 +162,13 @@ struct CreateCragView: View {
       }
     )
 
-    if selectedImages.isEmpty {
-      dismiss()
-      return
-    }
-
     if let cragId = result?.id {
       createdCragId = cragId
+
+      if selectedImages.isEmpty {
+        navigateToCragDetails()
+        return
+      }
 
       // Initialize photo upload statuses
       for index in selectedImages.indices {
@@ -176,7 +182,7 @@ struct CreateCragView: View {
 
   private func uploadRemainingPhotos() {
     if selectedImages.isEmpty {
-      dismiss()
+      navigateToCragDetails()
       return
     }
 
@@ -201,11 +207,6 @@ struct CreateCragView: View {
             // If this was the last active upload, update the uploading state
             if activeUploads == 0 {
               isUploadingPhotos = false
-
-              // Check if all photos are uploaded after all uploads complete
-              if allPhotosUploaded() {
-                dismiss()
-              }
             }
           }
         }
@@ -257,11 +258,6 @@ struct CreateCragView: View {
     Task { @MainActor in
       if success {
         photoUploadStatus[index] = .success
-
-        // Check if this was the last photo to upload
-        if allPhotosUploaded() {
-          dismiss()
-        }
       }
     }
   }

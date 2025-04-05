@@ -6,6 +6,7 @@ import SwiftUI
 struct ExploreView: View {
   @EnvironmentObject var authViewModel: AuthViewModel
   @EnvironmentObject var exploreCacheClient: ExploreCacheClient
+  @EnvironmentObject var navigationManager: NavigationManager
 
   @State private var currentTab: String?
   let timer = Timer.publish(every: 10, on: .main, in: .common).autoconnect()
@@ -25,7 +26,9 @@ struct ExploreView: View {
 
         Spacer()
 
-        NavigationLink(destination: MapView()) {
+        Button(action: {
+          navigationManager.pushView(.map)
+        }) {
           HStack {
             Image(systemName: "globe")
               .foregroundColor(Color.white)

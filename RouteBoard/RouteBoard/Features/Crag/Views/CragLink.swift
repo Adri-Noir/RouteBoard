@@ -11,6 +11,8 @@ struct CragLink<Content: View>: View {
   @Binding var cragId: String?
   @ViewBuilder var content: Content
 
+  @EnvironmentObject var navigationManager: NavigationManager
+
   init(cragId: Binding<String?>, @ViewBuilder content: @escaping () -> Content) {
     self._cragId = cragId
     self.content = content()
@@ -22,7 +24,9 @@ struct CragLink<Content: View>: View {
   }
 
   var body: some View {
-    NavigationLink(destination: CragView(cragId: cragId ?? "")) {
+    Button(action: {
+      navigationManager.pushView(.cragDetails(id: cragId ?? ""))
+    }) {
       content
     }
   }

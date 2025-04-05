@@ -11,6 +11,8 @@ struct RouteLink<Content: View>: View {
   @Binding var routeId: String?
   @ViewBuilder var content: Content
 
+  @EnvironmentObject var navigationManager: NavigationManager
+
   init(routeId: Binding<String?>, @ViewBuilder content: @escaping () -> Content) {
     self._routeId = routeId
     self.content = content()
@@ -22,7 +24,9 @@ struct RouteLink<Content: View>: View {
   }
 
   var body: some View {
-    NavigationLink(destination: RouteView(routeId: routeId ?? "")) {
+    Button(action: {
+      navigationManager.pushView(.routeDetails(id: routeId ?? ""))
+    }) {
       content
     }
   }

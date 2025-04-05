@@ -18,6 +18,7 @@ struct CreateRouteView: View {
 
   @EnvironmentObject var authViewModel: AuthViewModel
   @Environment(\.dismiss) private var dismiss
+  @EnvironmentObject var navigationManager: NavigationManager
 
   private let createRouteClient = CreateRouteClient()
 
@@ -260,7 +261,8 @@ struct CreateRouteView: View {
     )
 
     if result != nil {
-      dismiss()
+      navigationManager.pop()
+      navigationManager.pushView(.routeDetails(id: result?.id ?? ""))
     }
   }
 }

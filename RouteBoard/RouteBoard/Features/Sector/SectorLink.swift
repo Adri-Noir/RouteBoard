@@ -5,6 +5,8 @@ struct SectorLink<Content: View>: View {
   @Binding var sectorId: String?
   @ViewBuilder var content: Content
 
+  @EnvironmentObject var navigationManager: NavigationManager
+
   init(sectorId: Binding<String?>, @ViewBuilder content: @escaping () -> Content) {
     self._sectorId = sectorId
     self.content = content()
@@ -16,7 +18,9 @@ struct SectorLink<Content: View>: View {
   }
 
   var body: some View {
-    NavigationLink(destination: CragView(sectorId: sectorId ?? "")) {
+    Button(action: {
+      navigationManager.pushView(.sectorDetails(sectorId: sectorId ?? ""))
+    }) {
       content
     }
   }

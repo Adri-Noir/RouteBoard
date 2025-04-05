@@ -8,6 +8,8 @@ struct SectorPickerView: View {
   let selectedSector: SectorDetailedDto?
   @Binding var isOpen: Bool
 
+  @EnvironmentObject var navigationManager: NavigationManager
+
   var body: some View {
     Group {
       if sectors.count == 0 {
@@ -49,7 +51,9 @@ struct SectorPickerView: View {
           Spacer()
 
           if let selectedSectorId = selectedSectorId {
-            NavigationLink(destination: CreateRouteView(sectorId: selectedSectorId)) {
+            Button(action: {
+              navigationManager.pushView(.createRoute(sectorId: selectedSectorId))
+            }) {
               Image(systemName: "plus")
                 .font(.title3)
                 .foregroundColor(Color.newPrimaryColor)

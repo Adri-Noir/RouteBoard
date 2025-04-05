@@ -91,6 +91,9 @@
 		AF8DA6482CD5671E00751865 /* ApplyBackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA6472CD5671A00751865 /* ApplyBackgroundColor.swift */; };
 		AF8DA64B2CD56C1300751865 /* GeneralSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA64A2CD56C0F00751865 /* GeneralSearchView.swift */; };
 		AF8DA64E2CD56D8000751865 /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DA64D2CD56D7C00751865 /* SearchResultView.swift */; };
+		AF8DD2682DA1AC2E000CEEFC /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DD2672DA1AC2A000CEEFC /* Routes.swift */; };
+		AF8DD26C2DA1ACC6000CEEFC /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DD26B2DA1ACC0000CEEFC /* NavigationManager.swift */; };
+		AF8DD26F2DA1AF3F000CEEFC /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DD26E2DA1AF3A000CEEFC /* Navigator.swift */; };
 		AF9184EC2D9DC42500484F7D /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9184EB2D9DC42100484F7D /* InputField.swift */; };
 		AF9184F22D9DC42C00484F7D /* TextAreaField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9184EF2D9DC42700484F7D /* TextAreaField.swift */; };
 		AF9184F72D9DC43500484F7D /* PhotoPickerField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9184F42D9DC42E00484F7D /* PhotoPickerField.swift */; };
@@ -277,6 +280,9 @@
 		AF8DA6472CD5671A00751865 /* ApplyBackgroundColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyBackgroundColor.swift; sourceTree = "<group>"; };
 		AF8DA64A2CD56C0F00751865 /* GeneralSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSearchView.swift; sourceTree = "<group>"; };
 		AF8DA64D2CD56D7C00751865 /* SearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
+		AF8DD2672DA1AC2A000CEEFC /* Routes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routes.swift; sourceTree = "<group>"; };
+		AF8DD26B2DA1ACC0000CEEFC /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
+		AF8DD26E2DA1AF3A000CEEFC /* Navigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
 		AF9184EB2D9DC42100484F7D /* InputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
 		AF9184EF2D9DC42700484F7D /* TextAreaField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAreaField.swift; sourceTree = "<group>"; };
 		AF9184F42D9DC42E00484F7D /* PhotoPickerField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerField.swift; sourceTree = "<group>"; };
@@ -739,6 +745,16 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		AF8DD2662DA1AC05000CEEFC /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				AF8DD26E2DA1AF3A000CEEFC /* Navigator.swift */,
+				AF8DD26B2DA1ACC0000CEEFC /* NavigationManager.swift */,
+				AF8DD2672DA1AC2A000CEEFC /* Routes.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
 		AF9184EA2D9DC41D00484F7D /* Form */ = {
 			isa = PBXGroup;
 			children = (
@@ -770,6 +786,7 @@
 		AF9B62462C346D47003762B0 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				AF8DD2662DA1AC05000CEEFC /* Navigation */,
 				AF9184EA2D9DC41D00484F7D /* Form */,
 				AF1271042D875C090009D70F /* ClimbingStatistics */,
 				AFBDC6042D8233AD0083F30D /* GalleryView */,
@@ -1304,6 +1321,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF382A462DA0817100F3DAD0 /* CreateRouteView.swift in Sources */,
+				AF8DD26F2DA1AF3F000CEEFC /* Navigator.swift in Sources */,
 				AFD391912C319B82008CF2A7 /* ProcessedSamplesSwift.swift in Sources */,
 				AFC7D2B62D3C82700034DC05 /* UINavigationGestureOverwrite.swift in Sources */,
 				AFA0ECEA2D8CB15700437911 /* RouteBackgroundView.swift in Sources */,
@@ -1388,6 +1406,8 @@
 				AF998AB42D9B340400949E12 /* AddNewCragButtonView.swift in Sources */,
 				AF773D6C2C3DFBED00886C00 /* OverlayAndRouteId.swift in Sources */,
 				AF62D5BB2D8F512F00F6F122 /* SectorPickerView.swift in Sources */,
+				AF8DD2682DA1AC2E000CEEFC /* Routes.swift in Sources */,
+				AF8DD26C2DA1ACC6000CEEFC /* NavigationManager.swift in Sources */,
 				AF8DA64E2CD56D8000751865 /* SearchResultView.swift in Sources */,
 				AFD3918F2C3191A8008CF2A7 /* ImportSamplesSwift.swift in Sources */,
 				AFA0ECF42D8CBA8000437911 /* OnTapBackgroundExtension.swift in Sources */,

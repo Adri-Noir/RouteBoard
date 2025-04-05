@@ -5,6 +5,7 @@ import SwiftUI
 
 struct CragHeaderView<Content: View>: View {
   @Environment(\.dismiss) var dismiss
+  @EnvironmentObject var navigationManager: NavigationManager
 
   private var safeAreaInsets: UIEdgeInsets {
     guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
@@ -156,7 +157,9 @@ struct CragHeaderView<Content: View>: View {
 
       Spacer()
 
-      NavigationLink(destination: CreateSectorView(cragId: crag?.id ?? "")) {
+      Button(action: {
+        navigationManager.pushView(.createSector(cragId: crag?.id ?? ""))
+      }) {
         Image(systemName: "plus")
           .foregroundColor(.white)
           .font(.system(size: 18, weight: .semibold))

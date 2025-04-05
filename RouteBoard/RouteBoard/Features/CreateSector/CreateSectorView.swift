@@ -24,7 +24,7 @@ struct CreateSectorView: View {
 
   @EnvironmentObject var authViewModel: AuthViewModel
   @Environment(\.dismiss) private var dismiss
-
+  @EnvironmentObject var navigationManager: NavigationManager
   private let createSectorClient = CreateSectorClient()
 
   private var safeAreaInsets: UIEdgeInsets {
@@ -77,7 +77,7 @@ struct CreateSectorView: View {
     .onChange(of: photoUploadStatus) { _, newStatus in
       // Automatically dismiss when all photos are uploaded successfully
       if createdSectorId != nil && !selectedImages.isEmpty && allPhotosUploaded() {
-        dismiss()
+        navigateToSectorDetails()
       }
     }
   }
@@ -150,6 +150,12 @@ struct CreateSectorView: View {
     }
   }
 
+  private func navigateToSectorDetails() {
+    navigationManager.pop()
+    navigationManager.pop()
+    navigationManager.pushView(.sectorDetails(sectorId: createdSectorId ?? ""))
+  }
+
   private func submitSector() async {
     // Form validation already handled by isFormValid and button disabled state
     isSubmitting = true
@@ -178,13 +184,13 @@ struct CreateSectorView: View {
       }
     )
 
-    if selectedImages.isEmpty {
-      dismiss()
-      return
-    }
-
     if let sectorId = result?.id {
       createdSectorId = sectorId
+
+      if selectedImages.isEmpty {
+        navigateToSectorDetails()
+        return
+      }
 
       // Initialize photo upload statuses
       for index in selectedImages.indices {
@@ -198,7 +204,7 @@ struct CreateSectorView: View {
 
   private func uploadRemainingPhotos() {
     if selectedImages.isEmpty {
-      dismiss()
+      navigateToSectorDetails()
       return
     }
 
@@ -223,11 +229,6 @@ struct CreateSectorView: View {
             // If this was the last active upload, update the uploading state
             if activeUploads == 0 {
               isUploadingPhotos = false
-
-              // Check if all photos are uploaded after all uploads complete
-              if allPhotosUploaded() {
-                dismiss()
-              }
             }
           }
         }
@@ -279,11 +280,6 @@ struct CreateSectorView: View {
     Task { @MainActor in
       if success {
         photoUploadStatus[index] = .success
-
-        // Check if this was the last photo to upload
-        if allPhotosUploaded() {
-          dismiss()
-        }
       }
     }
   }

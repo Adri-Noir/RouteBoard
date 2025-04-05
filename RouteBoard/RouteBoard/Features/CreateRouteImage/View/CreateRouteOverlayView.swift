@@ -41,9 +41,6 @@ struct CreateRouteOverlayView: View {
 
                 // --- New Coordinate Mapping Logic for .scaledToFill() ---
 
-                print("imageSize: \(imageSize)")
-                print("viewSize: \(viewSize)")
-
                 let viewWidth = viewSize.width
                 let viewHeight = viewSize.height
                 let imageWidth = imageSize.width

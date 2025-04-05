@@ -7,6 +7,8 @@ struct UserLink<Content: View>: View {
   @Binding var userId: String?
   @ViewBuilder var content: Content
 
+  @EnvironmentObject var navigationManager: NavigationManager
+
   init(userId: Binding<String?>, @ViewBuilder content: @escaping () -> Content) {
     self._userId = userId
     self.content = content()
@@ -19,7 +21,9 @@ struct UserLink<Content: View>: View {
 
   var body: some View {
     if let userId = userId {
-      NavigationLink(destination: UserView(userId: userId)) {
+      Button(action: {
+        navigationManager.pushView(.userDetails(id: userId))
+      }) {
         content
       }
     }

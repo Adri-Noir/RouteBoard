@@ -3,8 +3,6 @@
 import SwiftUI
 
 struct UserLoginView: View {
-  @Binding var loginIsOpen: Bool
-
   @State private var email: String = ""
   @State private var password: String = ""
   @State private var isLoading: Bool = false
@@ -23,7 +21,6 @@ struct UserLoginView: View {
     do {
       try await authViewModel.login(emailOrUsername: email, password: password)
       isLoading = false
-      loginIsOpen = false
       dismiss()
     } catch {
       isLoading = false
@@ -38,7 +35,6 @@ struct UserLoginView: View {
         VStack(alignment: .leading, spacing: 20) {
           HStack {
             Button(action: {
-              loginIsOpen = false
               dismiss()
             }) {
               Image(systemName: "arrow.left")
@@ -132,6 +128,6 @@ struct UserLoginView: View {
 
 #Preview {
   AuthInjectionMock {
-    UserLoginView(loginIsOpen: .constant(true))
+    UserLoginView()
   }
 }

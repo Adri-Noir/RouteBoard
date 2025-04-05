@@ -233,6 +233,7 @@ struct CreateRouteImageView: View {
         Text("Route images uploaded successfully")
       }
     )
+    .navigationBarHidden(true)
   }
 }
 

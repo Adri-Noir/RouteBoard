@@ -7,8 +7,9 @@ struct RouteNavigationBar: View {
   let route: RouteDetails?
   let onDismiss: () -> Void
   let onAscentsView: () -> Void
-  let onCreateRouteImage: () -> Void
   let onRouteARView: () -> Void
+
+  @EnvironmentObject var navigationManager: NavigationManager
 
   var body: some View {
     HStack {
@@ -42,7 +43,9 @@ struct RouteNavigationBar: View {
 
       // Menu button
       Menu {
-        Button(action: onCreateRouteImage) {
+        Button(action: {
+          navigationManager.pushView(.createRouteImage(routeId: route?.id ?? ""))
+        }) {
           Label("Add Route Image", systemImage: "camera")
         }
 

@@ -6,6 +6,7 @@ struct UserHelloView: View {
   @Binding var showProfileView: Bool
 
   @EnvironmentObject var authViewModel: AuthViewModel
+  @EnvironmentObject var navigationManager: NavigationManager
 
   var body: some View {
     HStack {
@@ -23,7 +24,9 @@ struct UserHelloView: View {
 
       Spacer()
 
-      NavigationLink(destination: RegisteredUserView()) {
+      Button(action: {
+        navigationManager.pushView(.registeredUser)
+      }) {
         Image(systemName: "person.circle.fill")
           .font(.largeTitle)
           .foregroundColor(Color.white)

@@ -64,7 +64,6 @@ struct RouteView: View {
 
   @State private var isLoading: Bool = false
   @State private var errorMessage: String? = nil
-  @State private var isPresentingCreateRouteImageView = false
   @State private var isPresentingRouteARView = false
   @State private var isPresentingRouteAscentsView = false
   @State private var isPresentingRouteLogAscent = false
@@ -172,7 +171,6 @@ struct RouteView: View {
             route: route,
             onDismiss: { dismiss() },
             onAscentsView: { isPresentingRouteAscentsView = true },
-            onCreateRouteImage: { isPresentingCreateRouteImageView = true },
             onRouteARView: { isPresentingRouteARView = true }
           )
           Spacer()
@@ -192,9 +190,6 @@ struct RouteView: View {
       }
     }
     .ignoresSafeArea()
-    .fullScreenCover(isPresented: $isPresentingCreateRouteImageView) {
-      CreateRouteImageView(routeId: routeId)
-    }
     .sheet(isPresented: $isPresentingRouteAscentsView) {
       AllAscentsView(route: route)
     }
@@ -210,10 +205,8 @@ struct RouteView: View {
           }
         })
     }
-    .onAppearOnce {
-      Task {
-        await getRoute(value: routeId)
-      }
+    .task {
+      await getRoute(value: routeId)
     }
     .navigationBarHidden(true)
     .alert(

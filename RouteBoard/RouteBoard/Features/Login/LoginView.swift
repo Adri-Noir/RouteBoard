@@ -13,9 +13,9 @@ struct LoginView: View {
   @State private var password: String = ""
   @State private var isLoading: Bool = false
   @State private var loginIsOpen: Bool = false
-  
+
   var body: some View {
-    NavigationStack {
+    Navigator { manager in
       ApplyBackgroundColor(backgroundColor: Color.black) {
         ZStack(alignment: .bottom) {
           Image("TestingSamples/limski/pikachu")
@@ -31,7 +31,9 @@ struct LoginView: View {
               .foregroundColor(.white)
               .padding(.bottom, 30)
 
-            NavigationLink(destination: UserLoginView(loginIsOpen: $loginIsOpen)) {
+            Button(action: {
+              manager.pushView(.login)
+            }) {
               if loginIsOpen {
                 ProgressView()
                   .progressViewStyle(CircularProgressViewStyle(tint: .white))
@@ -55,7 +57,7 @@ struct LoginView: View {
             .padding(.bottom, 10)
 
             Button(action: {
-              loginIsOpen = true
+              manager.pushView(.login)
             }) {
               Text("Register")
                 .frame(width: UIScreen.main.bounds.width - 80, height: 30)
@@ -75,6 +77,7 @@ struct LoginView: View {
           .padding(.horizontal)
         }
       }
+      .routeIterator()
     }
   }
 }

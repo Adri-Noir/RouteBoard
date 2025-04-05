@@ -10,7 +10,7 @@ struct NewMainNavigationView: View {
   @State private var showProfileView = false
 
   var body: some View {
-    NavigationStack {
+    Navigator { manager in
       ApplyBackgroundColor(backgroundColor: Color.newPrimaryColor) {
         ScrollView {
           VStack(alignment: .leading, spacing: 30) {
@@ -34,8 +34,9 @@ struct NewMainNavigationView: View {
           }
         }
       }
+      .accentColor(Color.primaryColor)
+      .routeIterator()
     }
-    .accentColor(Color.primaryColor)
   }
 }
 
