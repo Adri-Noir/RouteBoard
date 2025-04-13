@@ -14,16 +14,23 @@ struct ProfileHeaderExpandedView: View {
       HStack(alignment: .center, spacing: 16) {
         Spacer()
 
-        if let profilePhotoUrl = userProfile?.profilePhotoUrl, !profilePhotoUrl.isEmpty {
-          AsyncImage(url: URL(string: profilePhotoUrl)) { image in
-            image
-              .resizable()
-              .aspectRatio(contentMode: .fill)
-          } placeholder: {
-            Image(systemName: "person.circle.fill")
-              .resizable()
-              .aspectRatio(contentMode: .fit)
-              .foregroundColor(.white)
+        if let profilePhotoUrl = userProfile?.profilePhoto?.url, !profilePhotoUrl.isEmpty {
+          AsyncImage(url: URL(string: profilePhotoUrl)) { phase in
+            switch phase {
+            case .success(let image):
+              image
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+            case .failure:
+              Image(systemName: "person.circle.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .foregroundColor(.white)
+            default:
+              ProgressView()
+                .progressViewStyle(CircularProgressViewStyle())
+                .foregroundColor(Color.newBackgroundGray)
+            }
           }
           .frame(width: 80, height: 80)
           .clipShape(Circle())
@@ -81,16 +88,23 @@ struct ProfileHeaderCollapsedView: View {
       Spacer()
 
       Group {
-        if let profilePhotoUrl = userProfile?.profilePhotoUrl, !profilePhotoUrl.isEmpty {
-          AsyncImage(url: URL(string: profilePhotoUrl)) { image in
-            image
-              .resizable()
-              .aspectRatio(contentMode: .fill)
-          } placeholder: {
-            Image(systemName: "person.circle.fill")
-              .resizable()
-              .aspectRatio(contentMode: .fit)
-              .foregroundColor(.white)
+        if let profilePhotoUrl = userProfile?.profilePhoto?.url, !profilePhotoUrl.isEmpty {
+          AsyncImage(url: URL(string: profilePhotoUrl)) { phase in
+            switch phase {
+            case .success(let image):
+              image
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+            case .failure:
+              Image(systemName: "person.circle.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .foregroundColor(.white)
+            default:
+              ProgressView()
+                .progressViewStyle(CircularProgressViewStyle())
+                .foregroundColor(Color.newBackgroundGray)
+            }
           }
           .frame(width: 40, height: 40)
           .clipShape(Circle())

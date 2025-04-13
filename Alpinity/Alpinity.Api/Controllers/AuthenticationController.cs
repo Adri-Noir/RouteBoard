@@ -31,12 +31,13 @@ public class AuthenticationController(
     }
 
     [HttpPost("register")]
-    [Consumes(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Multipart.FormData)]
     [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(LoggedInUserDto), ContentTypes = new[] { "application/json" })]
     [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     [SwaggerResponse(StatusCodes.Status409Conflict, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
-    public async Task<ActionResult<LoggedInUserDto>> Register(RegisterCommand command,
+    public async Task<ActionResult<LoggedInUserDto>> Register(
+        [FromForm] RegisterCommand command,
         CancellationToken cancellationToken)
     {
         var result = await mediator.Send(command, cancellationToken);

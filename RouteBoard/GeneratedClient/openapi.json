@@ -68,75 +68,68 @@
         "tags": [
           "Authentication"
         ],
-        "parameters": [
-          {
-            "name": "Email",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Username",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Password",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "FirstName",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "LastName",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "DateOfBirth",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "NormalizedEmail",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
+                "required": [
+                  "Email",
+                  "Password",
+                  "Username"
+                ],
                 "type": "object",
                 "properties": {
+                  "Email": {
+                    "type": "string"
+                  },
+                  "Username": {
+                    "type": "string"
+                  },
+                  "Password": {
+                    "type": "string"
+                  },
+                  "FirstName": {
+                    "type": "string"
+                  },
+                  "LastName": {
+                    "type": "string"
+                  },
+                  "DateOfBirth": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
                   "ProfilePhoto": {
                     "type": "string",
                     "format": "binary"
+                  },
+                  "NormalizedEmail": {
+                    "type": "string"
                   }
                 }
               },
               "encoding": {
+                "Email": {
+                  "style": "form"
+                },
+                "Username": {
+                  "style": "form"
+                },
+                "Password": {
+                  "style": "form"
+                },
+                "FirstName": {
+                  "style": "form"
+                },
+                "LastName": {
+                  "style": "form"
+                },
+                "DateOfBirth": {
+                  "style": "form"
+                },
                 "ProfilePhoto": {
+                  "style": "form"
+                },
+                "NormalizedEmail": {
                   "style": "form"
                 }
               }
@@ -2325,9 +2318,8 @@
             "type": "string",
             "nullable": true
           },
-          "profilePhotoUrl": {
-            "type": "string",
-            "nullable": true
+          "profilePhoto": {
+            "$ref": "#/components/schemas/PhotoDto"
           },
           "role": {
             "$ref": "#/components/schemas/UserRole"
@@ -2890,9 +2882,8 @@
             "type": "string",
             "nullable": true
           },
-          "profilePhotoUrl": {
-            "type": "string",
-            "nullable": true
+          "profilePhoto": {
+            "$ref": "#/components/schemas/PhotoDto"
           },
           "cragsVisited": {
             "type": "integer",

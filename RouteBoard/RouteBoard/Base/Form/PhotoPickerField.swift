@@ -82,6 +82,82 @@ private struct ImageItemView: View {
   }
 }
 
+// Single photo item view for single-selection mode
+private struct SingleImageItemView: View {
+  let image: UIImage
+  let onRemove: () -> Void
+  let status: PhotoUploadStatus?
+
+  var body: some View {
+    ZStack(alignment: .topTrailing) {
+      Image(uiImage: image)
+        .resizable()
+        .scaledToFill()
+        .frame(maxWidth: .infinity)
+        .frame(height: 200)
+        .clipped()
+        .cornerRadius(10)
+
+      // X button for removing image
+      Button(action: onRemove) {
+        Image(systemName: "xmark.circle.fill")
+          .font(.system(size: 22))
+          .foregroundColor(.white)
+          .background(Circle().fill(Color.black.opacity(0.7)))
+      }
+      .padding(5)
+
+      // Status indicator overlay - moved to top-left
+      if let status = status {
+        ZStack {
+          Circle()
+            .fill(statusColor(status))
+            .frame(width: 30, height: 30)
+
+          if case .uploading = status {
+            ProgressView()
+              .progressViewStyle(CircularProgressViewStyle(tint: .white))
+              .scaleEffect(0.7)
+          } else {
+            Image(systemName: statusIcon(status))
+              .foregroundColor(.white)
+              .font(.system(size: 14, weight: .bold))
+          }
+        }
+        .shadow(radius: 2)
+        .padding(10)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+      }
+    }
+  }
+
+  private func statusColor(_ status: PhotoUploadStatus) -> Color {
+    switch status {
+    case .success:
+      return .green
+    case .failure:
+      return .red
+    case .uploading:
+      return .blue
+    case .pending:
+      return .gray
+    }
+  }
+
+  private func statusIcon(_ status: PhotoUploadStatus) -> String {
+    switch status {
+    case .success:
+      return "checkmark"
+    case .failure:
+      return "exclamationmark"
+    case .uploading:
+      return "arrow.up"
+    case .pending:
+      return "circle"
+    }
+  }
+}
+
 // Add more button component
 private struct AddMoreButton: View {
   let binding: Binding<[PhotosPickerItem]>
@@ -110,15 +186,21 @@ private struct AddMoreButton: View {
 // Initial upload button component
 private struct UploadButton: View {
   let binding: Binding<[PhotosPickerItem]>
+  let isSingleMode: Bool
 
   var body: some View {
-    PhotosPicker(selection: binding, matching: .images, preferredItemEncoding: .automatic) {
+    PhotosPicker(
+      selection: binding,
+      maxSelectionCount: isSingleMode ? 1 : nil,
+      matching: .images,
+      preferredItemEncoding: .automatic
+    ) {
       VStack(spacing: 10) {
-        Image(systemName: "photo.stack.fill")
+        Image(systemName: "photo\(isSingleMode ? "" : ".stack").fill")
           .font(.system(size: 40))
           .foregroundColor(Color.newPrimaryColor)
 
-        Text("Upload images")
+        Text(isSingleMode ? "Upload photo" : "Upload images")
           .font(.subheadline)
           .foregroundColor(Color.gray)
           .multilineTextAlignment(.center)
@@ -136,10 +218,55 @@ private struct UploadButton: View {
   }
 }
 
+// Single mode upload button component
+private struct SingleUploadButton: View {
+  let binding: Binding<[PhotosPickerItem]>
+  let image: UIImage?
+  let status: PhotoUploadStatus?
+  let onRemove: () -> Void
+
+  var body: some View {
+    if let image = image {
+      SingleImageItemView(
+        image: image,
+        onRemove: onRemove,
+        status: status
+      )
+    } else {
+      PhotosPicker(
+        selection: binding,
+        maxSelectionCount: 1,
+        matching: .images,
+        preferredItemEncoding: .automatic
+      ) {
+        VStack(spacing: 10) {
+          Image(systemName: "photo.fill")
+            .font(.system(size: 40))
+            .foregroundColor(Color.newPrimaryColor)
+
+          Text("Upload photo")
+            .font(.subheadline)
+            .foregroundColor(Color.gray)
+            .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: 150)
+        .background(Color.white)
+        .cornerRadius(10)
+        .overlay(
+          RoundedRectangle(cornerRadius: 10)
+            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+        )
+      }
+    }
+  }
+}
+
 struct PhotoPickerField: View {
   let title: String
   @Binding var selectedImages: [UIImage]
   var uploadStatus: [Int: PhotoUploadStatus]? = nil
+  var singleMode: Bool = false
 
   @State private var photoItems: [PhotosPickerItem] = []
 
@@ -149,22 +276,41 @@ struct PhotoPickerField: View {
         .font(.headline)
         .fontWeight(.semibold)
         .foregroundColor(Color.newTextColor)
-        .padding(.horizontal)
 
-      imageContent
-        .onChange(of: photoItems) { _, newItems in
-          handlePhotoSelection(newItems)
-        }
+      if singleMode {
+        singleImageContent
+      } else {
+        multiImageContent
+      }
+    }
+    .onChange(of: photoItems) { _, newItems in
+      if singleMode && !newItems.isEmpty {
+        // Replace image in single mode
+        selectedImages = []
+      }
+      handlePhotoSelection(newItems)
     }
   }
 
-  // Extract image content to a computed property
-  private var imageContent: some View {
+  // Single image content view
+  private var singleImageContent: some View {
+    SingleUploadButton(
+      binding: $photoItems,
+      image: selectedImages.first,
+      status: uploadStatus?[0],
+      onRemove: {
+        selectedImages = []
+      }
+    )
+  }
+
+  // Extract multi-image content to a computed property
+  private var multiImageContent: some View {
     VStack(spacing: 15) {
       if !selectedImages.isEmpty {
         imagesGallery
       } else {
-        UploadButton(binding: $photoItems)
+        UploadButton(binding: $photoItems, isSingleMode: false)
       }
     }
   }
@@ -210,6 +356,20 @@ struct PhotoPickerField: View {
   }
 }
 
+// Add a view modifier to get a single image
+extension PhotoPickerField {
+  func singlePhotoMode() -> PhotoPickerField {
+    var field = self
+    field.singleMode = true
+    return field
+  }
+}
+
 #Preview {
-  PhotoPickerField(title: "Images", selectedImages: .constant([]))
+  VStack(spacing: 20) {
+    PhotoPickerField(title: "Multiple Images", selectedImages: .constant([]))
+
+    PhotoPickerField(title: "Single Image", selectedImages: .constant([]), singleMode: true)
+  }
+  .padding()
 }

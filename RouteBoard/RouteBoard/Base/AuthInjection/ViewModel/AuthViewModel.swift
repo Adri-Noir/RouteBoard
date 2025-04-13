@@ -42,7 +42,7 @@ public class AuthViewModel: ObservableObject {
     try? await self.saveUser(loggedInUser)
   }
 
-  private func saveUser(_ loggedInUser: LoggedInUser) async throws {
+  func saveUser(_ loggedInUser: LoggedInUser) async throws {
     guard let token = loggedInUser.token else {
       throw AuthError.loginFailed
     }

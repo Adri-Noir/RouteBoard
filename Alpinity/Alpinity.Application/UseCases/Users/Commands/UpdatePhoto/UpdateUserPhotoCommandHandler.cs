@@ -16,9 +16,7 @@ public class UpdateUserPhotoCommandHandler(
 {
     public async Task Handle(UpdateUserPhotoCommand request, CancellationToken cancellationToken)
     {
-        var user = await userRepository.GetByIdAsync(request.UserId, cancellationToken);
-        if (user == null) throw new EntityNotFoundException("User not found.");
-
+        var user = await userRepository.GetByIdAsync(request.UserId, cancellationToken) ?? throw new EntityNotFoundException("User not found.");
         var photoFile = mapper.Map<FileRequest>(request.Photo);
 
         var photoUrl = await fileRepository.UploadPrivateFileAsync(photoFile, cancellationToken);

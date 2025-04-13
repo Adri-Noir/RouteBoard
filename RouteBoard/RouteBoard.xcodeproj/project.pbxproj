@@ -130,6 +130,7 @@
 		AFC7D1D32D387DE30034DC05 /* AuthInjectionMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC7D1D12D387DDF0034DC05 /* AuthInjectionMock.swift */; };
 		AFC7D2922D3C759F0034DC05 /* DetailsTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC7D2902D3C759A0034DC05 /* DetailsTopView.swift */; };
 		AFC7D2B62D3C82700034DC05 /* UINavigationGestureOverwrite.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC7D2B52D3C82640034DC05 /* UINavigationGestureOverwrite.swift */; };
+		AFCCB8E32DA47B440049A86B /* UserRegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCCB8E22DA47B410049A86B /* UserRegisterView.swift */; };
 		AFD3918F2C3191A8008CF2A7 /* ImportSamplesSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD3918E2C3191A8008CF2A7 /* ImportSamplesSwift.swift */; };
 		AFD391912C319B82008CF2A7 /* ProcessedSamplesSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD391902C319B82008CF2A7 /* ProcessedSamplesSwift.swift */; };
 		AFD64A6F2D825CED00EE84F3 /* OnAppearOnceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD64A6D2D825CE500EE84F3 /* OnAppearOnceExtension.swift */; };
@@ -319,6 +320,7 @@
 		AFC7D1D12D387DDF0034DC05 /* AuthInjectionMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInjectionMock.swift; sourceTree = "<group>"; };
 		AFC7D2902D3C759A0034DC05 /* DetailsTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsTopView.swift; sourceTree = "<group>"; };
 		AFC7D2B52D3C82640034DC05 /* UINavigationGestureOverwrite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationGestureOverwrite.swift; sourceTree = "<group>"; };
+		AFCCB8E22DA47B410049A86B /* UserRegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRegisterView.swift; sourceTree = "<group>"; };
 		AFD3918E2C3191A8008CF2A7 /* ImportSamplesSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportSamplesSwift.swift; sourceTree = "<group>"; };
 		AFD391902C319B82008CF2A7 /* ProcessedSamplesSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedSamplesSwift.swift; sourceTree = "<group>"; };
 		AFD64A6D2D825CE500EE84F3 /* OnAppearOnceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnAppearOnceExtension.swift; sourceTree = "<group>"; };
@@ -553,6 +555,7 @@
 		AF3D93492D680118003FAF90 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AFCCB8E22DA47B410049A86B /* UserRegisterView.swift */,
 				AF3D934C2D680122003FAF90 /* UserLoginView.swift */,
 			);
 			path = Views;
@@ -1371,6 +1374,7 @@
 				AF3D94452D6A97A7003FAF90 /* UserRecentAscentsView.swift in Sources */,
 				AFE4C4972D8756DE00A09302 /* UserView.swift in Sources */,
 				AF9E0C6C2C3747C500984C58 /* ClimbingGrades.swift in Sources */,
+				AFCCB8E32DA47B440049A86B /* UserRegisterView.swift in Sources */,
 				AF3829C42D9F35C600F3DAD0 /* CreateSectorView.swift in Sources */,
 				AF21C2DF2D737FD0000BE26C /* ScrollViewWithStickyHeader.swift in Sources */,
 				AFBE85902D1229F70029217C /* PhotoCaptureButton.swift in Sources */,

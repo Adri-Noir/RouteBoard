@@ -34,11 +34,11 @@ public class UserProfileDto
     public string? Email { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
-    public string? ProfilePhotoUrl { get; set; }
+    public PhotoDto? ProfilePhoto { get; set; }
     public int? CragsVisited { get; set; }
     public ICollection<RouteTypeAscentCountDto> RouteTypeAscentCount { get; set; } = new List<RouteTypeAscentCountDto>();
     public ICollection<ClimbingGradeAscentCountDto> ClimbingGradeAscentCount { get; set; } = new List<ClimbingGradeAscentCountDto>();
     public ICollection<PhotoDto> Photos { get; set; } = new List<PhotoDto>();
 
     // TODO: Add friends support
-} 
+}

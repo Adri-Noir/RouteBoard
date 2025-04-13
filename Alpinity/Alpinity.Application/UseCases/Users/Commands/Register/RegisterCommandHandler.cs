@@ -5,6 +5,7 @@ using Alpinity.Application.UseCases.Users.Dtos;
 using Alpinity.Domain.Entities;
 using ApiExceptions.Exceptions;
 using AutoMapper;
+using FluentValidation;
 using MediatR;
 
 namespace Alpinity.Application.UseCases.Users.Commands.Register;
@@ -25,7 +26,7 @@ public class RegisterCommandHandler(
             throw new EntityAlreadyExistsException("User with this username already exists");
 
         if (!signInService.PasswordIsStrong(request.Password))
-            throw new BadRequestException("Password is not strong enough");
+            throw new ValidationException("Password is not strong enough");
 
         var passwordHash = signInService.HashPassword(request.Password);
 

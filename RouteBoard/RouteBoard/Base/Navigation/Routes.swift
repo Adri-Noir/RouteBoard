@@ -13,6 +13,7 @@ enum NavigationPaths: Hashable {
   case sectorDetails(sectorId: String)
   case routeDetails(id: String)
   case login
+  case register
   case map
   case userDetails(id: String)
   case createRouteImage(routeId: String)
@@ -40,6 +41,8 @@ enum Routes {
       return AnyView(CreateRouteView(sectorId: sectorId))
     case .login:
       return AnyView(UserLoginView())
+    case .register:
+      return AnyView(UserRegisterView())
     case .map:
       return AnyView(MapView())
     case .userDetails(let id):

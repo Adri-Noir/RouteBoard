@@ -10,16 +10,12 @@ public class UserProfile : Profile
 {
     public UserProfile()
     {
-        CreateMap<User, UserDto>()
-            .ForMember(t => t.ProfilePhotoUrl, opt => opt.MapFrom(s => s.ProfilePhoto.Url));
+        CreateMap<User, UserDto>();
 
         CreateMap<User, LoggedInUserDto>()
-            .ForMember(t => t.ProfilePhotoUrl, opt => opt.MapFrom(s => s.ProfilePhoto.Url))
             .ForMember(t => t.Role, opt => opt.MapFrom(s => s.UserRole));
 
         CreateMap<User, UserProfileDto>()
-            .ForMember(dest => dest.ProfilePhotoUrl, opt => opt.MapFrom(src =>
-                src.ProfilePhoto != null ? src.ProfilePhoto.Url : null))
             .ForMember(dest => dest.CragsVisited,
                 opt => opt.MapFrom(src => src.Ascents!.Select(a => a.Route!.Sector!.Crag!).Distinct().Count()))
             .ForMember(dest => dest.RouteTypeAscentCount, opt => opt.MapFrom(src => src.Ascents!

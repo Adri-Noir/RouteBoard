@@ -57,7 +57,7 @@ struct LoginView: View {
             .padding(.bottom, 10)
 
             Button(action: {
-              manager.pushView(.login)
+              manager.pushView(.register)
             }) {
               Text("Register")
                 .frame(width: UIScreen.main.bounds.width - 80, height: 30)
