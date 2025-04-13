@@ -17,13 +17,12 @@ struct AddNewCragButtonView: View {
             .foregroundColor(Color.newTextColor)
           Spacer()
         }
-        .padding(.vertical, 10)
+        .padding(.vertical)
         .background(Color.newBackgroundGray)
         .foregroundColor(Color.newTextColor)
         .cornerRadius(10)
       }
     )
-    .padding(.horizontal, 20)
     .fullScreenCover(isPresented: $isPresentingCreateCragView) {
       CreateCragView()
     }

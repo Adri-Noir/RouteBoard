@@ -1,3 +1,4 @@
+using Alpinity.Application.Interfaces;
 using Alpinity.Application.Interfaces.Repositories;
 using Alpinity.Application.Request;
 using Alpinity.Application.UseCases.Sectors.Dtos;
@@ -12,6 +13,8 @@ namespace Alpinity.Application.UseCases.Sectors.Commands.Create;
 public class CreateSectorCommandHandler(
     ISectorRepository sectorRepository,
     ICragRepository cragRepository,
+    IFileRepository fileRepository,
+    IPhotoRepository photoRepository,
     IMapper mapper) : IRequestHandler<CreateSectorCommand, SectorDetailedDto>
 {
     public async Task<SectorDetailedDto> Handle(CreateSectorCommand request, CancellationToken cancellationToken)
@@ -26,8 +29,20 @@ public class CreateSectorCommandHandler(
             Name = request.Name,
             Description = request.Description,
             CragId = request.CragId,
-            Location = point
+            Location = point,
+            Photos = new List<Photo>()
         };
+
+        if (request.Photos != null && request.Photos.Any())
+        {
+            foreach (var photoFile in request.Photos)
+            {
+                var fileRequest = mapper.Map<FileRequest>(photoFile);
+                var photoUrl = await fileRepository.UploadPrivateFileAsync(fileRequest, cancellationToken);
+                var photo = await photoRepository.AddImage(new Photo { Url = photoUrl }, cancellationToken);
+                sector.Photos.Add(photo);
+            }
+        }
 
         await sectorRepository.CreateSector(sector, cancellationToken);
 

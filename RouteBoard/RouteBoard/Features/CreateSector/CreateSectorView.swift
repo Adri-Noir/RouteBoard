@@ -75,12 +75,6 @@ struct CreateSectorView: View {
       .contentMargins(.bottom, safeAreaInsets.bottom, for: .scrollContent)
       .scrollDismissesKeyboard(.interactively)
       .alert(message: $errorMessage)
-      .onChange(of: photoUploadStatus) { _, newStatus in
-        // Automatically dismiss when all photos are uploaded successfully
-        if createdSectorId != nil && !selectedImages.isEmpty && allPhotosUploaded() {
-          navigateToSectorDetails()
-        }
-      }
     }
   }
 
@@ -107,11 +101,7 @@ struct CreateSectorView: View {
   private var submitButton: some View {
     Button(action: {
       Task {
-        if createdSectorId == nil {
-          await submitSector()
-        } else {
-          uploadRemainingPhotos()
-        }
+        await submitSector()
       }
     }) {
       HStack {
@@ -159,7 +149,6 @@ struct CreateSectorView: View {
   }
 
   private func submitSector() async {
-    // Form validation already handled by isFormValid and button disabled state
     isSubmitting = true
     defer { isSubmitting = false }
 
@@ -168,14 +157,13 @@ struct CreateSectorView: View {
       return
     }
 
-    let createSectorCommand = CreateSectorCommand(
+    let createSectorCommand = CreateSectorInput(
       name: name,
       description: description.isEmpty ? nil : description,
-      location: Components.Schemas.PointDto(
-        latitude: coordinate.latitude,
-        longitude: coordinate.longitude
-      ),
-      cragId: cragId
+      latitude: coordinate.latitude,
+      longitude: coordinate.longitude,
+      cragId: cragId,
+      photos: selectedImages.compactMap { $0.jpegData(compressionQuality: 0.8) }
     )
 
     let result = await createSectorClient.call(
@@ -188,109 +176,8 @@ struct CreateSectorView: View {
 
     if let sectorId = result?.id {
       createdSectorId = sectorId
-
-      if selectedImages.isEmpty {
-        navigateToSectorDetails()
-        return
-      }
-
-      // Initialize photo upload statuses
-      for index in selectedImages.indices {
-        photoUploadStatus[index] = .pending
-      }
-
-      // Start uploading photos in parallel
-      uploadRemainingPhotos()
-    }
-  }
-
-  private func uploadRemainingPhotos() {
-    if selectedImages.isEmpty {
       navigateToSectorDetails()
-      return
     }
-
-    isUploadingPhotos = true
-    activeUploads = 0
-
-    // Upload only pending or failed photos in parallel
-    for (index, _) in selectedImages.enumerated() {
-      let status = photoUploadStatus[index]
-
-      if status == nil || (status != nil && status != .success) {
-        activeUploads += 1
-
-        // Start a separate task for each photo
-        Task {
-          await uploadSinglePhoto(index: index)
-
-          // Decrement active uploads counter using MainActor
-          Task { @MainActor in
-            activeUploads -= 1
-
-            // If this was the last active upload, update the uploading state
-            if activeUploads == 0 {
-              isUploadingPhotos = false
-            }
-          }
-        }
-      }
-    }
-
-    // If no photos need to be uploaded, update state
-    if activeUploads == 0 {
-      isUploadingPhotos = false
-    }
-  }
-
-  private func uploadSinglePhoto(index: Int) async {
-    guard let sectorId = createdSectorId, index < selectedImages.count else { return }
-
-    // Create a new client instance for each upload
-    let uploadSectorPhotoClient = UploadSectorPhotosClient()
-
-    // Mark as uploading
-    Task { @MainActor in
-      photoUploadStatus[index] = .uploading
-    }
-
-    // Convert image to JPEG data
-    guard let imageData = selectedImages[index].jpegData(compressionQuality: 0.8) else {
-      Task { @MainActor in
-        photoUploadStatus[index] = .failure("Failed to process image")
-      }
-      return
-    }
-
-    // Create upload input
-    let uploadInput = UploadSectorPhotosInput(
-      sectorId: sectorId,
-      photo: imageData
-    )
-
-    // Upload the photo
-    let success = await uploadSectorPhotoClient.call(
-      uploadInput,
-      authViewModel.getAuthData(),
-      { message in
-        Task { @MainActor in
-          photoUploadStatus[index] = .failure(message)
-        }
-      }
-    )
-
-    Task { @MainActor in
-      if success {
-        photoUploadStatus[index] = .success
-      }
-    }
-  }
-
-  private func allPhotosUploaded() -> Bool {
-    return !selectedImages.isEmpty
-      && selectedImages.indices.allSatisfy { index in
-        photoUploadStatus[index] == .success
-      }
   }
 }
 

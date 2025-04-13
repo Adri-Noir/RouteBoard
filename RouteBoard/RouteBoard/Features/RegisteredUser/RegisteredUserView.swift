@@ -72,6 +72,9 @@ struct RegisteredUserView: View {
           if authViewModel.isCreator {
             AddNewCragButtonView()
           }
+
+          LogoutButton()
+
         }
         .padding(.horizontal, 20)
         .padding(.bottom, 30)

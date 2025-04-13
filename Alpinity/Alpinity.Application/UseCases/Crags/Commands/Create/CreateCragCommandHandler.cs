@@ -1,6 +1,7 @@
 using Alpinity.Application.Interfaces;
 using Alpinity.Application.Interfaces.Repositories;
 using Alpinity.Application.Interfaces.Services;
+using Alpinity.Application.Request;
 using Alpinity.Application.UseCases.Crags.Dtos;
 using Alpinity.Domain.Entities;
 using Alpinity.Domain.Enums;
@@ -10,7 +11,13 @@ using MediatR;
 
 namespace Alpinity.Application.UseCases.Crags.Commands.Create;
 
-public class CreateCragCommandHandler(ICragRepository repository, IMapper mapper, IAuthenticationContext authenticationContext) : IRequestHandler<CreateCragCommand, CragDetailedDto>
+public class CreateCragCommandHandler(
+    ICragRepository repository,
+    IMapper mapper,
+    IAuthenticationContext authenticationContext,
+    IFileRepository fileRepository,
+    IPhotoRepository photoRepository
+    ) : IRequestHandler<CreateCragCommand, CragDetailedDto>
 {
     public async Task<CragDetailedDto> Handle(CreateCragCommand request, CancellationToken cancellationToken)
     {
@@ -25,7 +32,19 @@ public class CreateCragCommandHandler(ICragRepository repository, IMapper mapper
         {
             Name = request.Name,
             Description = request.Description,
+            Photos = new List<Photo>()
         };
+
+        if (request.Photos != null && request.Photos.Any())
+        {
+            foreach (var photoFile in request.Photos)
+            {
+                var fileRequest = mapper.Map<FileRequest>(photoFile);
+                var photoUrl = await fileRepository.UploadPrivateFileAsync(fileRequest, cancellationToken);
+                var photo = await photoRepository.AddImage(new Photo { Url = photoUrl }, cancellationToken);
+                crag.Photos.Add(photo);
+            }
+        }
 
         await repository.CreateCrag(crag, cancellationToken);
 

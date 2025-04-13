@@ -23,8 +23,8 @@ public class SectorController(IMediator mediator) : ControllerBase
     [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
-    [Consumes(MediaTypeNames.Application.Json)]
-    public async Task<ActionResult<SectorDetailedDto>> CreateSector(CreateSectorCommand cragCommand,
+    [Consumes(MediaTypeNames.Multipart.FormData)]
+    public async Task<ActionResult<SectorDetailedDto>> CreateSector([FromForm] CreateSectorCommand cragCommand,
         CancellationToken cancellationToken)
     {
         var result = await mediator.Send(cragCommand, cancellationToken);

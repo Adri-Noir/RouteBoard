@@ -317,7 +317,6 @@ struct CragMapView: View {
         }
         .frame(height: 350)
         .frame(maxWidth: .infinity)
-        .background(Color.newBackgroundGray.opacity(0.5))
         .cornerRadius(10)
         .padding(.horizontal, 20)
       }

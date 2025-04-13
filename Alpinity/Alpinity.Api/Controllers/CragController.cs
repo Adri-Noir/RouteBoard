@@ -30,12 +30,12 @@ public class CragController(IMediator mediator) : ControllerBase
 
     [HttpPost]
     [Authorize]
-    [Consumes(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Multipart.FormData)]
     [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(CragDetailedDto), ContentTypes = new[] { "application/json" })]
     [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
-    public async Task<ActionResult<CragDetailedDto>> CreateCrag(CreateCragCommand cragCommand,
+    public async Task<ActionResult<CragDetailedDto>> CreateCrag([FromForm] CreateCragCommand cragCommand,
         CancellationToken cancellationToken)
     {
         var result = await mediator.Send(cragCommand, cancellationToken);

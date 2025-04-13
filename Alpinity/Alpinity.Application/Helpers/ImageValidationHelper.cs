@@ -19,9 +19,19 @@ public static class ImageValidationHelper
     public const int MaxPixelWidth = 4096;
 
     /// <summary>
-    ///     Maximum file size in bytes (20MB)
+    ///     Maximum file size in bytes (5MB - adjusted based on validator)
     /// </summary>
-    public const int MaxFileSizeBytes = 20 * 1024 * 1024;
+    public const int MaxFileSizeBytes = 15 * 1024 * 1024;
+
+    /// <summary>
+    /// Allowed image file extensions.
+    /// </summary>
+    public static readonly string[] AllowedImageExtensions = [".jpg", ".jpeg", ".png"];
+
+    /// <summary>
+    /// Allowed image content types.
+    /// </summary>
+    public static readonly string[] AllowedImageContentTypes = ["image/jpeg", "image/png"];
 
     /// <summary>
     ///     Validates if the file size is within allowed limits
@@ -31,7 +41,30 @@ public static class ImageValidationHelper
     /// <returns>True if file size is valid, otherwise false</returns>
     public static bool ValidateFileSize(IFormFile file, int maxSizeBytes = MaxFileSizeBytes)
     {
-        return file.Length <= maxSizeBytes;
+        return file != null && file.Length <= maxSizeBytes && file.Length > 0;
+    }
+
+    /// <summary>
+    /// Validates if the file has an allowed extension.
+    /// </summary>
+    /// <param name="fileName">The file name to validate.</param>
+    /// <returns>True if the extension is allowed, otherwise false.</returns>
+    public static bool HasAllowedExtension(string fileName)
+    {
+        if (string.IsNullOrEmpty(fileName))
+            return false;
+        var extension = Path.GetExtension(fileName)?.ToLowerInvariant();
+        return !string.IsNullOrEmpty(extension) && AllowedImageExtensions.Contains(extension);
+    }
+
+    /// <summary>
+    /// Validates if the file has an allowed content type.
+    /// </summary>
+    /// <param name="contentType">The content type to validate.</param>
+    /// <returns>True if the content type is allowed, otherwise false.</returns>
+    public static bool HasAllowedContentType(string contentType)
+    {
+        return !string.IsNullOrEmpty(contentType) && AllowedImageContentTypes.Contains(contentType.ToLowerInvariant());
     }
 
     /// <summary>
@@ -41,21 +74,25 @@ public static class ImageValidationHelper
     /// <returns>True if resolution is valid, otherwise false</returns>
     public static bool ValidateImageResolution(IFormFile file)
     {
+        if (file == null) return false;
         try
         {
+            // Ensure the stream is properly reset if needed by the image loading library
+            // Or ensure the check happens before other stream reads.
+            file.OpenReadStream().Position = 0; // Reset stream position
             using var stream = file.OpenReadStream();
             using var image = Image.Load(stream);
-            return image.Width <= MaxPixelWidth && image.Height <= MaxPixelHeight && image.Width > 100 &&
-                   image.Height > 100;
+            return image.Width <= MaxPixelWidth && image.Height <= MaxPixelHeight && image.Width > 0 && image.Height > 0;
         }
         catch
         {
+            // Log exception details here
             return false;
         }
     }
 
     /// <summary>
-    ///     Performs full image validation including file size and resolution
+    ///     Performs comprehensive image validation including file size, extension, content type, and resolution.
     /// </summary>
     /// <param name="file">The image file to validate</param>
     /// <param name="maxSizeBytes">Maximum file size in bytes</param>
@@ -65,7 +102,11 @@ public static class ImageValidationHelper
         if (file == null)
             return false;
 
-        return ValidateFileSize(file, maxSizeBytes) && ValidateImageResolution(file);
+        // Order checks from cheapest to most expensive
+        return ValidateFileSize(file, maxSizeBytes)
+               && HasAllowedExtension(file.FileName)
+               && HasAllowedContentType(file.ContentType)
+               && ValidateImageResolution(file);
     }
 
     /// <summary>
