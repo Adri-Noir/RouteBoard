@@ -4,23 +4,22 @@ import Foundation
 import SwiftUI
 
 struct Navigator<Content: View>: View {
-   let content: (NavigationManager) -> Content
-   @StateObject var manager = NavigationManager()
+  let content: (NavigationManager) -> Content
+  @StateObject var manager = NavigationManager()
 
-   var body: some View {
-      NavigationStack(path: $manager.routes) {
-         content(manager)
-      }
-      .environmentObject(manager)
-   }
+  var body: some View {
+    NavigationStack(path: $manager.routes) {
+      content(manager)
+        .routeIterator()
+    }
+    .environmentObject(manager)
+  }
 }
 
-
-
 extension View {
-   func routeIterator() -> some View {
-      self.navigationDestination(for: NavigationPaths.self) { path in
-         Routes.routerReturner(path: path)
-      }
-   }
+  func routeIterator() -> some View {
+    self.navigationDestination(for: NavigationPaths.self) { path in
+      Routes.routerReturner(path: path)
+    }
+  }
 }

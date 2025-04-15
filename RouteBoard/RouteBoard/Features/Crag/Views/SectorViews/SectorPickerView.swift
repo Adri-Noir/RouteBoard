@@ -3,62 +3,82 @@
 import SwiftUI
 
 struct SectorPickerView: View {
-  @Binding var selectedSectorId: String?
   let sectors: [SectorDetailedDto]
   let selectedSector: SectorDetailedDto?
+
+  @Binding var selectedSectorId: String?
   @Binding var isOpen: Bool
+
+  @State private var isOptionsOpen: Bool = false
 
   @EnvironmentObject var navigationManager: NavigationManager
 
   var body: some View {
-    Group {
-      if sectors.count == 0 {
-        Text(selectedSector?.name ?? "Select Sector")
-          .font(.title2)
-          .fontWeight(.bold)
-          .foregroundColor(Color.newTextColor)
-      } else {
-        HStack {
-          Button {
-            isOpen.toggle()
-          } label: {
-            HStack(spacing: 4) {
-              Text(
-                selectedSectorId == nil ? "All Sectors" : (selectedSector?.name ?? "Select Sector")
-              )
-              .font(.title2)
-              .fontWeight(.bold)
-              .foregroundColor(Color.newTextColor)
-
-              Image(systemName: "chevron.down")
-                .font(.caption)
-                .foregroundColor(Color.newTextColor)
-            }
+    if sectors.count == 0 {
+      Text(selectedSector?.name ?? "Select Sector")
+        .font(.title2)
+        .fontWeight(.bold)
+        .foregroundColor(Color.newTextColor)
+    } else {
+      HStack {
+        Button {
+          isOpen.toggle()
+        } label: {
+          HStack(spacing: 4) {
+            Text(
+              selectedSectorId == nil ? "All Sectors" : (selectedSector?.name ?? "Select Sector")
+            )
+            .font(.title2)
+            .fontWeight(.bold)
             .foregroundColor(Color.newTextColor)
+
+            Image(systemName: "chevron.down")
+              .font(.caption)
+              .foregroundColor(Color.newTextColor)
+          }
+          .foregroundColor(Color.newTextColor)
+        }
+        .popover(
+          isPresented: $isOpen,
+          attachmentAnchor: .point(.bottom),
+          arrowEdge: .top
+        ) {
+          SectorPickerPopoverContent(
+            sectors: sectors,
+            selectedSectorId: $selectedSectorId,
+            isOpen: $isOpen
+          )
+        }
+
+        Spacer()
+
+        if let selectedSectorId = selectedSectorId, let selectedSector = selectedSector {
+          Button {
+            isOptionsOpen.toggle()
+          } label: {
+            Image(systemName: "ellipsis.circle")
+              .font(.title3)
+              .foregroundColor(Color.newPrimaryColor)
+              .frame(width: 44, height: 44)
+              .contentShape(Rectangle())
           }
           .popover(
-            isPresented: $isOpen,
+            isPresented: $isOptionsOpen,
             attachmentAnchor: .point(.bottom),
             arrowEdge: .top
           ) {
-            SectorPickerPopoverContent(
-              sectors: sectors,
-              selectedSectorId: $selectedSectorId,
-              isOpen: $isOpen
-            )
-          }
+            VStack {
+              Button {
+                navigationManager.pushView(.createRoute(sectorId: selectedSectorId))
+              } label: {
+                Label("Add Route", systemImage: "plus")
+              }
 
-          Spacer()
-
-          if let selectedSectorId = selectedSectorId {
-            Button(action: {
-              navigationManager.pushView(.createRoute(sectorId: selectedSectorId))
-            }) {
-              Image(systemName: "plus")
-                .font(.title3)
-                .foregroundColor(Color.newPrimaryColor)
-                .frame(width: 44, height: 44)
-                .contentShape(Rectangle())
+              Button {
+                navigationManager.pushView(.editSector(sectorDetails: selectedSector))
+              } label: {
+                Label("Edit Sector", systemImage: "pencil")
+              }
             }
           }
         }

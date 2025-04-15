@@ -8,34 +8,41 @@ using ApiExceptions.Exceptions;
 using AutoMapper;
 using MediatR;
 
-namespace Alpinity.Application.UseCases.Crags.Commands.Create;
+namespace Alpinity.Application.UseCases.Crags.Commands.Edit;
 
-public class CreateCragCommandHandler(
+public class EditCragCommandHandler(
     ICragRepository repository,
     IMapper mapper,
     IAuthenticationContext authenticationContext,
     IFileRepository fileRepository,
     IPhotoRepository photoRepository
-    ) : IRequestHandler<CreateCragCommand, CragDetailedDto>
+    ) : IRequestHandler<EditCragCommand, CragDetailedDto>
 {
-    public async Task<CragDetailedDto> Handle(CreateCragCommand request, CancellationToken cancellationToken)
+    public async Task<CragDetailedDto> Handle(EditCragCommand request, CancellationToken cancellationToken)
     {
         var userRole = authenticationContext.GetUserRole();
-
         if (userRole != UserRole.Admin && userRole != UserRole.Creator)
         {
-            throw new UnAuthorizedAccessException("You are not authorized to create a crag.");
+            throw new UnAuthorizedAccessException("You are not authorized to edit a crag.");
         }
 
-        var crag = new Crag
+        var crag = await repository.GetCragById(request.Id, cancellationToken) ?? throw new EntityNotFoundException("Crag not found.");
+
+        if (request.Name != null)
+            crag.Name = request.Name;
+        if (request.Description != null)
+            crag.Description = request.Description;
+        if (request.LocationName != null)
+            crag.LocationName = request.LocationName;
+
+        if (request.PhotosToRemove != null && request.PhotosToRemove.Any() && crag.Photos != null)
         {
-            Name = request.Name,
-            Description = request.Description,
-            Photos = new List<Photo>()
-        };
+            crag.Photos = crag.Photos.Where(p => !request.PhotosToRemove.Contains(p.Id)).ToList();
+        }
 
         if (request.Photos != null && request.Photos.Any())
         {
+            crag.Photos = new List<Photo>();
             foreach (var photoFile in request.Photos)
             {
                 var fileRequest = mapper.Map<FileRequest>(photoFile);
@@ -45,8 +52,7 @@ public class CreateCragCommandHandler(
             }
         }
 
-        await repository.CreateCrag(crag, cancellationToken);
-
+        await repository.UpdateCrag(crag, cancellationToken);
         return mapper.Map<CragDetailedDto>(crag);
     }
 }

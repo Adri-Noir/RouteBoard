@@ -186,9 +186,9 @@ struct CragSectorRouteSelection: View {
 
   private var sectorPicker: some View {
     SectorPickerView(
-      selectedSectorId: $selectedSectorId,
       sectors: sectors,
       selectedSector: selectedSector,
+      selectedSectorId: $selectedSectorId,
       isOpen: $isSectorSelectorOpen
     )
   }

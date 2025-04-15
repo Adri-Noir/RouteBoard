@@ -1,3 +1,4 @@
+using Alpinity.Application.UseCases.Crags.Commands.Edit;
 using Alpinity.Application.UseCases.Crags.Dtos;
 using Alpinity.Application.UseCases.Map.Dtos;
 using Alpinity.Domain.Entities;
@@ -22,5 +23,8 @@ public class CragProfile : Profile
 
         CreateMap<Crag, GlobeResponseDto>()
         .ForMember(t => t.ImageUrl, opt => opt.MapFrom(s => s.Photos != null && s.Photos.Any() ? s.Photos.First().Url : null));
+
+        CreateMap<EditCragCommand, Crag>()
+            .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
     }
 }

@@ -6,26 +6,35 @@ import PhotosUI
 import SwiftUI
 
 struct CreateSectorView: View {
+  let cragId: String
+
   @State private var name: String = ""
   @State private var description: String = ""
   @State private var isSubmitting: Bool = false
   @State private var errorMessage: String? = nil
   @State private var selectedImages: [UIImage] = []
   @State private var selectedCoordinate: CLLocationCoordinate2D? = nil
-
-  // Sector-specific properties
-  let cragId: String
+  @State private var removedPhotoIds: Set<String> = []
 
   // Track the sector ID and photo upload status
   @State private var createdSectorId: String? = nil
-  @State private var photoUploadStatus: [Int: PhotoUploadStatus] = [:]
-  @State private var isUploadingPhotos: Bool = false
-  @State private var activeUploads: Int = 0
 
   @EnvironmentObject var authViewModel: AuthViewModel
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject var navigationManager: NavigationManager
+
+  private let editSectorClient = EditSectorClient()
   private let createSectorClient = CreateSectorClient()
+  private var sectorDetails: CreateSectorOutput? = nil
+
+  init(sectorDetails: CreateSectorOutput) {
+    self.cragId = sectorDetails.cragId ?? ""
+    self.sectorDetails = sectorDetails
+  }
+
+  init(cragId: String) {
+    self.cragId = cragId
+  }
 
   private var safeAreaInsets: UIEdgeInsets {
     guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
@@ -61,20 +70,35 @@ struct CreateSectorView: View {
           PhotoPickerField(
             title: "Sector Images",
             selectedImages: $selectedImages,
-            uploadStatus: createdSectorId != nil ? photoUploadStatus : nil
+            existingPhotos: (sectorDetails?.photos ?? []).filter { photo in
+              !removedPhotoIds.contains(photo.id)
+            },
+            onRemovePhoto: { photo in
+              removedPhotoIds.insert(photo.id)
+            }
           )
 
           submitButton
         }
         .padding(.top)
       }
-      .navigationBarBackButtonHidden()
-      .toolbar(.hidden, for: .navigationBar)
+      .navigationBarHidden(true)
       .padding(.top, 2)
       .background(Color.newBackgroundGray)
       .contentMargins(.bottom, safeAreaInsets.bottom, for: .scrollContent)
       .scrollDismissesKeyboard(.interactively)
       .alert(message: $errorMessage)
+      .task {
+        if let sectorDetails = sectorDetails {
+          name = sectorDetails.name ?? ""
+          description = sectorDetails.description ?? ""
+          if let latitude = sectorDetails.location?.latitude,
+            let longitude = sectorDetails.location?.longitude
+          {
+            selectedCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+          }
+        }
+      }
     }
   }
 
@@ -90,7 +114,7 @@ struct CreateSectorView: View {
   private var headerView: some View {
     HStack {
       backButtonView
-      Text(createdSectorId == nil ? "Create Sector" : "Upload Photos")
+      Text(sectorDetails == nil ? "Create Sector" : "Edit Sector")
         .font(.largeTitle)
         .fontWeight(.bold)
         .foregroundColor(Color.newTextColor)
@@ -106,11 +130,11 @@ struct CreateSectorView: View {
     }) {
       HStack {
         Spacer()
-        if isSubmitting || isUploadingPhotos {
+        if isSubmitting {
           ProgressView()
             .progressViewStyle(CircularProgressViewStyle(tint: .white))
         } else {
-          Text(createdSectorId == nil ? "Create Sector" : "Upload Remaining Photos")
+          Text(sectorDetails == nil ? "Create Sector" : "Edit Sector")
             .fontWeight(.bold)
         }
         Spacer()
@@ -130,16 +154,7 @@ struct CreateSectorView: View {
   }
 
   private var isButtonEnabled: Bool {
-    if createdSectorId == nil {
-      return !isSubmitting && isFormValid
-    } else {
-      // Enable upload button only if there are pending or failed uploads
-      return !isUploadingPhotos
-        && selectedImages.indices.contains { index in
-          let status = photoUploadStatus[index]
-          return status == nil || (status != nil && status != .success)
-        }
-    }
+    !isSubmitting && isFormValid
   }
 
   private func navigateToSectorDetails() {
@@ -157,26 +172,55 @@ struct CreateSectorView: View {
       return
     }
 
-    let createSectorCommand = CreateSectorInput(
-      name: name,
-      description: description.isEmpty ? nil : description,
-      latitude: coordinate.latitude,
-      longitude: coordinate.longitude,
-      cragId: cragId,
-      photos: selectedImages.compactMap { $0.jpegData(compressionQuality: 0.8) }
-    )
-
-    let result = await createSectorClient.call(
-      createSectorCommand,
-      authViewModel.getAuthData(),
-      { message in
-        errorMessage = message
+    if let sectorDetails = sectorDetails,
+      let oldLocation = sectorDetails.location
+    {
+      let oldCoordinate = CLLocationCoordinate2D(
+        latitude: oldLocation.latitude, longitude: oldLocation.longitude
+      )
+      // Edit mode
+      let editInput = EditSectorInput(
+        id: sectorDetails.id,
+        name: name == sectorDetails.name ? nil : name,
+        description: description == sectorDetails.description ? nil : description,
+        locationLatitude: oldCoordinate == coordinate ? nil : Double(coordinate.latitude),
+        locationLongitude: oldCoordinate == coordinate ? nil : Double(coordinate.longitude),
+        photos: selectedImages.isEmpty
+          ? nil : selectedImages.compactMap { $0.jpegData(compressionQuality: 0.8) },
+        photosToRemove: removedPhotoIds.isEmpty ? nil : Array(removedPhotoIds)
+      )
+      let result = await editSectorClient.call(
+        editInput,
+        authViewModel.getAuthData(),
+        { message in
+          errorMessage = message
+        }
+      )
+      if let sectorId = result?.id {
+        createdSectorId = sectorId
+        navigateToSectorDetails()
       }
-    )
-
-    if let sectorId = result?.id {
-      createdSectorId = sectorId
-      navigateToSectorDetails()
+    } else {
+      // Create mode
+      let createSectorCommand = CreateSectorInput(
+        name: name,
+        description: description.isEmpty ? nil : description,
+        latitude: coordinate.latitude,
+        longitude: coordinate.longitude,
+        cragId: cragId,
+        photos: selectedImages.compactMap { $0.jpegData(compressionQuality: 0.8) }
+      )
+      let result = await createSectorClient.call(
+        createSectorCommand,
+        authViewModel.getAuthData(),
+        { message in
+          errorMessage = message
+        }
+      )
+      if let sectorId = result?.id {
+        createdSectorId = sectorId
+        navigateToSectorDetails()
+      }
     }
   }
 }

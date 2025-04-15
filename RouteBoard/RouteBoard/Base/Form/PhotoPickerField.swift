@@ -1,5 +1,6 @@
 // Created with <3 on 02.04.2025.
 
+import GeneratedClient  // Needed for PhotoDto
 import PhotosUI
 import SwiftUI
 import UIKit
@@ -9,7 +10,6 @@ private struct ImageItemView: View {
   let image: UIImage
   let index: Int
   let onRemove: (Int) -> Void
-  let status: PhotoUploadStatus?
 
   var body: some View {
     ZStack(alignment: .topTrailing) {
@@ -30,54 +30,6 @@ private struct ImageItemView: View {
           .background(Circle().fill(Color.black.opacity(0.7)))
       }
       .padding(5)
-
-      // Status indicator overlay - moved to top-left
-      if let status = status {
-        ZStack {
-          Circle()
-            .fill(statusColor(status))
-            .frame(width: 30, height: 30)
-
-          if case .uploading = status {
-            ProgressView()
-              .progressViewStyle(CircularProgressViewStyle(tint: .white))
-              .scaleEffect(0.7)
-          } else {
-            Image(systemName: statusIcon(status))
-              .foregroundColor(.white)
-              .font(.system(size: 14, weight: .bold))
-          }
-        }
-        .shadow(radius: 2)
-        .padding(10)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-      }
-    }
-  }
-
-  private func statusColor(_ status: PhotoUploadStatus) -> Color {
-    switch status {
-    case .success:
-      return .green
-    case .failure:
-      return .red
-    case .uploading:
-      return .blue
-    case .pending:
-      return .gray
-    }
-  }
-
-  private func statusIcon(_ status: PhotoUploadStatus) -> String {
-    switch status {
-    case .success:
-      return "checkmark"
-    case .failure:
-      return "exclamationmark"
-    case .uploading:
-      return "arrow.up"
-    case .pending:
-      return "circle"
     }
   }
 }
@@ -86,7 +38,6 @@ private struct ImageItemView: View {
 private struct SingleImageItemView: View {
   let image: UIImage
   let onRemove: () -> Void
-  let status: PhotoUploadStatus?
 
   var body: some View {
     ZStack(alignment: .topTrailing) {
@@ -106,54 +57,6 @@ private struct SingleImageItemView: View {
           .background(Circle().fill(Color.black.opacity(0.7)))
       }
       .padding(5)
-
-      // Status indicator overlay - moved to top-left
-      if let status = status {
-        ZStack {
-          Circle()
-            .fill(statusColor(status))
-            .frame(width: 30, height: 30)
-
-          if case .uploading = status {
-            ProgressView()
-              .progressViewStyle(CircularProgressViewStyle(tint: .white))
-              .scaleEffect(0.7)
-          } else {
-            Image(systemName: statusIcon(status))
-              .foregroundColor(.white)
-              .font(.system(size: 14, weight: .bold))
-          }
-        }
-        .shadow(radius: 2)
-        .padding(10)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-      }
-    }
-  }
-
-  private func statusColor(_ status: PhotoUploadStatus) -> Color {
-    switch status {
-    case .success:
-      return .green
-    case .failure:
-      return .red
-    case .uploading:
-      return .blue
-    case .pending:
-      return .gray
-    }
-  }
-
-  private func statusIcon(_ status: PhotoUploadStatus) -> String {
-    switch status {
-    case .success:
-      return "checkmark"
-    case .failure:
-      return "exclamationmark"
-    case .uploading:
-      return "arrow.up"
-    case .pending:
-      return "circle"
     }
   }
 }
@@ -222,15 +125,13 @@ private struct UploadButton: View {
 private struct SingleUploadButton: View {
   let binding: Binding<[PhotosPickerItem]>
   let image: UIImage?
-  let status: PhotoUploadStatus?
   let onRemove: () -> Void
 
   var body: some View {
     if let image = image {
       SingleImageItemView(
         image: image,
-        onRemove: onRemove,
-        status: status
+        onRemove: onRemove
       )
     } else {
       PhotosPicker(
@@ -265,8 +166,9 @@ private struct SingleUploadButton: View {
 struct PhotoPickerField: View {
   let title: String
   @Binding var selectedImages: [UIImage]
-  var uploadStatus: [Int: PhotoUploadStatus]? = nil
   var singleMode: Bool = false
+  var existingPhotos: [PhotoDto] = []
+  var onRemovePhoto: ((PhotoDto) -> Void)? = nil
 
   @State private var photoItems: [PhotosPickerItem] = []
 
@@ -297,7 +199,6 @@ struct PhotoPickerField: View {
     SingleUploadButton(
       binding: $photoItems,
       image: selectedImages.first,
-      status: uploadStatus?[0],
       onRemove: {
         selectedImages = []
       }
@@ -307,7 +208,7 @@ struct PhotoPickerField: View {
   // Extract multi-image content to a computed property
   private var multiImageContent: some View {
     VStack(spacing: 15) {
-      if !selectedImages.isEmpty {
+      if !existingPhotos.isEmpty || !selectedImages.isEmpty {
         imagesGallery
       } else {
         UploadButton(binding: $photoItems, isSingleMode: false)
@@ -319,15 +220,54 @@ struct PhotoPickerField: View {
   private var imagesGallery: some View {
     ScrollView(.horizontal, showsIndicators: false) {
       HStack(spacing: 12) {
+        // Existing photos from server
+        ForEach(existingPhotos, id: \.id) { photo in
+          ZStack(alignment: .topTrailing) {
+            if let urlString = photo.url, let url = URL(string: urlString) {
+              AsyncImage(url: url) { phase in
+                switch phase {
+                case .success(let image):
+                  image
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 150, height: 150)
+                    .clipped()
+                    .cornerRadius(10)
+                case .failure(_):
+                  PlaceholderImage()
+                    .frame(width: 150, height: 150)
+                    .cornerRadius(10)
+                default:
+                  ProgressView()
+                    .frame(width: 150, height: 150)
+                }
+              }
+            } else {
+              Rectangle()
+                .fill(Color.gray.opacity(0.2))
+                .frame(width: 150, height: 150)
+                .cornerRadius(10)
+            }
+            // Remove button for existing photo
+            if let onRemovePhoto = onRemovePhoto {
+              Button(action: { onRemovePhoto(photo) }) {
+                Image(systemName: "xmark.circle.fill")
+                  .font(.system(size: 22))
+                  .foregroundColor(.white)
+                  .background(Circle().fill(Color.black.opacity(0.7)))
+              }
+              .padding(5)
+            }
+          }
+        }
+        // New images (not yet uploaded)
         ForEach(0..<selectedImages.count, id: \.self) { index in
           ImageItemView(
             image: selectedImages[index],
             index: index,
-            onRemove: removeImage,
-            status: uploadStatus?[index]
+            onRemove: removeImage
           )
         }
-
         AddMoreButton(binding: $photoItems)
       }
       .padding(.horizontal)

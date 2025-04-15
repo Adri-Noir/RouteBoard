@@ -20,6 +20,7 @@ struct CragHeaderView<Content: View>: View {
   @State private var headerVisibleRatio: CGFloat = 1
   @State private var isLocationDetailsPresented: Bool = false
   @State private var isMenuOpen: Bool = false
+  @State private var isCompactMenuPresented: Bool = false
 
   init(
     crag: CragDetails?,
@@ -157,15 +158,56 @@ struct CragHeaderView<Content: View>: View {
 
       Spacer()
 
-      Button(action: {
-        navigationManager.pushView(.createSector(cragId: crag?.id ?? ""))
-      }) {
-        Image(systemName: "plus")
+      Button {
+        isCompactMenuPresented.toggle()
+      } label: {
+        Image(systemName: "ellipsis")
           .foregroundColor(.white)
-          .font(.system(size: 18, weight: .semibold))
-          .padding(6)
+          .font(.system(size: 24))
+          .padding(12)
           .background(Color.black.opacity(0.75))
           .clipShape(Circle())
+      }
+      .disabled(crag == nil)
+      .popover(
+        isPresented: $isCompactMenuPresented,
+        attachmentAnchor: .point(.bottomTrailing),
+        arrowEdge: .top
+      ) {
+        VStack(alignment: .leading, spacing: 12) {
+          Button(action: {
+            isCompactMenuPresented = false  // Dismiss popover
+            navigationManager.pushView(.createSector(cragId: crag?.id ?? ""))
+          }) {
+            HStack {
+              Image(systemName: "plus.circle")
+                .foregroundColor(Color.newPrimaryColor)
+              Text("Create Sector")
+                .foregroundColor(Color.newTextColor)
+              Spacer()
+            }
+            .padding(.vertical, 6)
+          }
+
+          if let crag = crag {
+            Button(action: {
+              isCompactMenuPresented = false
+              navigationManager.pushView(.editCrag(cragDetails: crag))
+            }) {
+              HStack {
+                Image(systemName: "pencil")
+                  .foregroundColor(Color.newPrimaryColor)
+                Text("Edit Crag")
+                  .foregroundColor(Color.newTextColor)
+                Spacer()
+              }
+              .padding(.vertical, 6)
+            }
+          }
+        }
+        .padding()
+        .presentationCompactAdaptation(.popover)
+        .preferredColorScheme(.light)
       }
     }
   }
@@ -184,7 +226,9 @@ struct CragHeaderView<Content: View>: View {
 }
 
 #Preview {
-  CragHeaderView(crag: CragDetails(id: "1", name: "Crag", locationName: "Location", photos: [])) {
-    Text("Content")
+  Navigator { _ in
+    CragHeaderView(crag: CragDetails(id: "1", name: "Crag", locationName: "Location", photos: [])) {
+      Text("Content")
+    }
   }
 }

@@ -6,6 +6,7 @@ using Alpinity.Application.UseCases.Sectors.Commands.GetCrag;
 using Alpinity.Application.UseCases.Sectors.Commands.UploadPhoto;
 using Alpinity.Application.UseCases.Sectors.Dtos;
 using Alpinity.Application.UseCases.Sectors.Get;
+using Alpinity.Application.UseCases.Sectors.Commands.Edit;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -70,5 +71,19 @@ public class SectorController(IMediator mediator) : ControllerBase
         command.SectorId = id;
         await mediator.Send(command, cancellationToken);
         return Ok();
+    }
+
+    [HttpPut("{id:guid}")]
+    [Authorize]
+    [Consumes(MediaTypeNames.Multipart.FormData)]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(SectorDetailedDto), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    public async Task<ActionResult<SectorDetailedDto>> EditSector(Guid id, [FromForm] EditSectorCommand command, CancellationToken cancellationToken)
+    {
+        command.Id = id;
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
     }
 }

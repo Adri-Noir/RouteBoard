@@ -3,6 +3,7 @@ using Alpinity.Api.ProblemDetails;
 using Alpinity.Application.UseCases.Crags.Commands.Create;
 using Alpinity.Application.UseCases.Crags.Commands.Get;
 using Alpinity.Application.UseCases.Crags.Commands.UploadPhoto;
+using Alpinity.Application.UseCases.Crags.Commands.Edit;
 using Alpinity.Application.UseCases.Crags.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -55,5 +56,19 @@ public class CragController(IMediator mediator) : ControllerBase
         command.CragId = id;
         await mediator.Send(command, cancellationToken);
         return Ok();
+    }
+
+    [HttpPut("{id:guid}")]
+    [Authorize]
+    [Consumes(MediaTypeNames.Multipart.FormData)]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(CragDetailedDto), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    public async Task<ActionResult<CragDetailedDto>> EditCrag(Guid id, [FromForm] EditCragCommand command, CancellationToken cancellationToken)
+    {
+        command.Id = id;
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
     }
 }

@@ -18,6 +18,8 @@ enum NavigationPaths: Hashable {
   case userDetails(id: String)
   case createRouteImage(routeId: String)
   case routeLogAscent(routeId: String, routeGrade: Components.Schemas.ClimbingGrade?)
+  case editCrag(cragDetails: CreateCragOutput)
+  case editSector(sectorDetails: CreateSectorOutput)
 }
 
 enum Routes {
@@ -51,6 +53,10 @@ enum Routes {
       return AnyView(CreateRouteImageView(routeId: routeId))
     case .routeLogAscent(let routeId, let routeGrade):
       return AnyView(RouteLogAscent(routeId: routeId, routeGrade: routeGrade))
+    case .editCrag(let cragDetails):
+      return AnyView(CreateCragView(cragDetails: cragDetails))
+    case .editSector(let sectorDetails):
+      return AnyView(CreateSectorView(sectorDetails: sectorDetails))
     }
   }
 }

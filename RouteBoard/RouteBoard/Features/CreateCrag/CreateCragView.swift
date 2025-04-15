@@ -11,19 +11,19 @@ struct CreateCragView: View {
   @State private var isSubmitting: Bool = false
   @State private var errorMessage: String? = nil
   @State private var selectedImages: [UIImage] = []
+  @State private var removedPhotoIds: Set<String> = []
+  @State private var locationName: String = ""
 
   // Track the crag ID and photo upload status
   @State private var createdCragId: String? = nil
-  @State private var photoUploadStatus: [Int: PhotoUploadStatus] = [:]
-  @State private var isUploadingPhotos: Bool = false
-  @State private var activeUploads: Int = 0
 
   @EnvironmentObject var authViewModel: AuthViewModel
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject var navigationManager: NavigationManager
 
+  private let editCragClient = EditCragClient()
   private let createCragClient = CreateCragClient()
-  // Remove the single uploadCragPhotoClient instance as we'll create one per upload
+  private var cragDetails: CreateCragOutput? = nil
 
   private var safeAreaInsets: UIEdgeInsets {
     guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
@@ -31,6 +31,12 @@ struct CreateCragView: View {
     else { return .zero }
     return window.safeAreaInsets
   }
+
+  init(cragDetails: CreateCragOutput) {
+    self.cragDetails = cragDetails
+  }
+
+  init() {}
 
   var body: some View {
     ApplyBackgroundColor(backgroundColor: Color.newBackgroundGray) {
@@ -50,10 +56,21 @@ struct CreateCragView: View {
             placeholder: "Enter crag description here... (optional)"
           )
 
+          InputField(
+            title: "Location Name",
+            text: $locationName,
+            placeholder: "Enter location name here... (optional)"
+          )
+
           PhotoPickerField(
             title: "Crag Images",
             selectedImages: $selectedImages,
-            uploadStatus: createdCragId != nil ? photoUploadStatus : nil
+            existingPhotos: (cragDetails?.photos ?? []).filter { photo in
+              return !removedPhotoIds.contains(photo.id)
+            },
+            onRemovePhoto: { photo in
+              removedPhotoIds.insert(photo.id)
+            }
           )
 
           submitButton
@@ -65,6 +82,14 @@ struct CreateCragView: View {
       .scrollDismissesKeyboard(.interactively)
       .alert(message: $errorMessage)
     }
+    .task {
+      if let cragDetails = cragDetails {
+        name = cragDetails.name ?? ""
+        description = cragDetails.description ?? ""
+        locationName = cragDetails.locationName ?? ""
+      }
+    }
+    .navigationBarHidden(true)
   }
 
   private var backButtonView: some View {
@@ -79,7 +104,7 @@ struct CreateCragView: View {
   private var headerView: some View {
     HStack {
       backButtonView
-      Text(createdCragId == nil ? "Create Crag" : "Upload Photos")
+      Text(cragDetails == nil ? "Create Crag" : "Edit Crag")
         .font(.largeTitle)
         .fontWeight(.bold)
         .foregroundColor(Color.newTextColor)
@@ -95,11 +120,11 @@ struct CreateCragView: View {
     }) {
       HStack {
         Spacer()
-        if isSubmitting || isUploadingPhotos {
+        if isSubmitting {
           ProgressView()
             .progressViewStyle(CircularProgressViewStyle(tint: .white))
         } else {
-          Text(createdCragId == nil ? "Create Crag" : "Upload Remaining Photos")
+          Text(cragDetails == nil ? "Create Crag" : "Edit Crag")
             .fontWeight(.bold)
         }
         Spacer()
@@ -119,16 +144,7 @@ struct CreateCragView: View {
   }
 
   private var isButtonEnabled: Bool {
-    if createdCragId == nil {
-      return !isSubmitting && isFormValid
-    } else {
-      // Enable upload button only if there are pending or failed uploads
-      return !isUploadingPhotos
-        && selectedImages.indices.contains { index in
-          let status = photoUploadStatus[index]
-          return status == nil || (status != nil && status != .success)
-        }
-    }
+    !isSubmitting && isFormValid
   }
 
   private func navigateToCragDetails() {
@@ -141,23 +157,46 @@ struct CreateCragView: View {
     isSubmitting = true
     defer { isSubmitting = false }
 
-    let createCragCommand = CreateCragInput(
-      name: name,
-      description: description.isEmpty ? nil : description,
-      photos: selectedImages.compactMap { $0.jpegData(compressionQuality: 0.8) }
-    )
-
-    let result = await createCragClient.call(
-      createCragCommand,
-      authViewModel.getAuthData(),
-      { message in
-        errorMessage = message
+    if let cragDetails = cragDetails, let cragId = cragDetails.id {
+      // Edit mode
+      let editInput = EditCragInput(
+        id: cragId,
+        name: name == cragDetails.name ? nil : name,
+        description: description == cragDetails.description ? nil : description,
+        photos: selectedImages.isEmpty
+          ? nil : selectedImages.compactMap { $0.jpegData(compressionQuality: 0.8) },
+        locationName: locationName == cragDetails.locationName ? nil : locationName,
+        photosToRemove: removedPhotoIds.isEmpty ? nil : Array(removedPhotoIds)
+      )
+      let result = await editCragClient.call(
+        editInput,
+        authViewModel.getAuthData(),
+        { message in
+          errorMessage = message
+        }
+      )
+      if let cragId = result?.id {
+        createdCragId = cragId
+        navigateToCragDetails()
       }
-    )
-
-    if let cragId = result?.id {
-      createdCragId = cragId
-      navigateToCragDetails()
+    } else {
+      // Create mode
+      let createCragCommand = CreateCragInput(
+        name: name,
+        description: description.isEmpty ? nil : description,
+        photos: selectedImages.compactMap { $0.jpegData(compressionQuality: 0.8) }
+      )
+      let result = await createCragClient.call(
+        createCragCommand,
+        authViewModel.getAuthData(),
+        { message in
+          errorMessage = message
+        }
+      )
+      if let cragId = result?.id {
+        createdCragId = cragId
+        navigateToCragDetails()
+      }
     }
   }
 }
@@ -183,8 +222,10 @@ enum PhotoUploadStatus: Equatable {
 
 // MARK: - Preview
 #Preview {
-  AuthInjectionMock {
-    CreateCragView()
+  Navigator { _ in
+    AuthInjectionMock {
+      CreateCragView()
+    }
   }
 }
 

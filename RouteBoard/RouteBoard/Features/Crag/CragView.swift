@@ -150,8 +150,7 @@ struct CragView: View {
         }
       }
     }
-    .navigationBarBackButtonHidden()
-    .toolbar(.hidden, for: .navigationBar)
+    .navigationBarHidden(true)
     .task {
       Task {
         if let cragId = cragId {
@@ -170,7 +169,11 @@ struct CragView: View {
 }
 
 #Preview {
-  AuthInjectionMock {
-    CragView(cragId: "0195edd5-0b7c-7a9e-9326-8f309895c522")
+  Navigator { _ in
+    APIClientInjection {
+      AuthInjectionMock {
+        CragView(cragId: "0195fd82-69d0-73ab-9b92-04a2bc14caa2")
+      }
+    }
   }
 }
