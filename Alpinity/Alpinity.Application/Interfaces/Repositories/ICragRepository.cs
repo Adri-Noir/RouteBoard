@@ -7,6 +7,7 @@ namespace Alpinity.Application.Interfaces.Repositories;
 public interface ICragRepository
 {
     Task<Crag?> GetCragById(Guid cragId, CancellationToken cancellationToken = default);
+    Task<Crag?> GetCragWithSectors(Guid cragId, CancellationToken cancellationToken = default);
     Task<bool> CragExists(Guid cragId, CancellationToken cancellationToken = default);
     Task CreateCrag(Crag crag, CancellationToken cancellationToken = default);
     Task UpdateCrag(Crag crag, CancellationToken cancellationToken = default);

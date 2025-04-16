@@ -14,7 +14,6 @@ private struct MapLocation: Identifiable {
   let name: String
   let latitude: Double
   let longitude: Double
-  let isCrag: Bool
   let sectorId: String?
   let photoUrl: String?
 }
@@ -30,19 +29,6 @@ struct CragMapView: View {
   private var mapLocations: [MapLocation] {
     var locations: [MapLocation] = []
 
-    // Add crag location
-    if let location = crag?.location {
-      locations.append(
-        MapLocation(
-          name: crag?.name ?? "Crag",
-          latitude: location.latitude,
-          longitude: location.longitude,
-          isCrag: true,
-          sectorId: nil,
-          photoUrl: nil
-        ))
-    }
-
     // Add sector locations
     if let sectors = crag?.sectors {
       for sector in sectors {
@@ -55,7 +41,6 @@ struct CragMapView: View {
               name: name,
               latitude: location.latitude,
               longitude: location.longitude,
-              isCrag: false,
               sectorId: sector.id,
               photoUrl: photoUrl
             ))
@@ -138,98 +123,67 @@ struct CragMapView: View {
         ZStack(alignment: .bottomTrailing) {
           Map(position: $mapPosition) {
             ForEach(mapLocations) { location in
-              if location.isCrag {
-                // Custom marker for crag
-                Annotation(
-                  location.name,
-                  coordinate: CLLocationCoordinate2D(
-                    latitude: location.latitude, longitude: location.longitude
-                  ),
-                  anchor: .bottom
-                ) {
+              // Marker for sector
+              Annotation(
+                location.name,
+                coordinate: CLLocationCoordinate2D(
+                  latitude: location.latitude, longitude: location.longitude
+                ),
+                anchor: .bottom
+              ) {
+                Button {
+                  // Set the selectedSectorId directly from the location
+                  if let sectorId = location.sectorId {
+                    withAnimation {
+                      selectedSectorId = sectorId
+                    }
+                  }
+                } label: {
                   VStack(spacing: 0) {
-                    Image(systemName: "mountain.2.fill")
-                      .font(.system(size: 24))
-                      .foregroundColor(.white)
-                      .padding(8)
-                      .background(Color.orange)
-                      .clipShape(Circle())
-                      .overlay(
-                        Circle()
-                          .stroke(Color.white, lineWidth: 2)
-                      )
-                      .shadow(radius: 2)
+                    // Change color if this sector is selected
+                    let isSelected = location.sectorId == selectedSectorId
+
+                    // Photo or placeholder
+                    if let photoUrl = location.photoUrl, let url = URL(string: photoUrl) {
+                      // Photo is available
+                      AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .success(let image):
+                          image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 40, height: 40)
+                            .clipShape(Circle())
+                            .overlay(
+                              Circle()
+                                .stroke(Color.white, lineWidth: isSelected ? 2 : 1.5)
+                            )
+                            .shadow(radius: isSelected ? 3 : 1)
+                            .scaleEffect(isSelected ? 1.1 : 1.0)
+                            .animation(.spring(response: 0.3), value: isSelected)
+                        case .failure:
+                          placeholderImage(isSelected: isSelected)
+                        default:
+                          ProgressView()
+                            .progressViewStyle(
+                              CircularProgressViewStyle(tint: Color.newTextColor)
+                            )
+                            .frame(width: 40, height: 40)
+                        }
+                      }
+                    } else {
+                      // No photo available
+                      placeholderImage(isSelected: isSelected)
+                    }
 
                     // Triangle pointer
                     Image(systemName: "arrowtriangle.down.fill")
-                      .font(.system(size: 12))
-                      .foregroundColor(.orange)
+                      .font(.system(size: 10))
+                      .foregroundColor(isSelected ? Color.green : Color.blue)
                       .offset(y: -5)
                   }
                 }
-              } else {
-                // Marker for sector
-                Annotation(
-                  location.name,
-                  coordinate: CLLocationCoordinate2D(
-                    latitude: location.latitude, longitude: location.longitude
-                  ),
-                  anchor: .bottom
-                ) {
-                  Button {
-                    // Set the selectedSectorId directly from the location
-                    if let sectorId = location.sectorId {
-                      withAnimation {
-                        selectedSectorId = sectorId
-                      }
-                    }
-                  } label: {
-                    VStack(spacing: 0) {
-                      // Change color if this sector is selected
-                      let isSelected = location.sectorId == selectedSectorId
-
-                      // Photo or placeholder
-                      if let photoUrl = location.photoUrl, let url = URL(string: photoUrl) {
-                        // Photo is available
-                        AsyncImage(url: url) { phase in
-                          switch phase {
-                          case .success(let image):
-                            image
-                              .resizable()
-                              .aspectRatio(contentMode: .fill)
-                              .frame(width: 40, height: 40)
-                              .clipShape(Circle())
-                              .overlay(
-                                Circle()
-                                  .stroke(Color.white, lineWidth: isSelected ? 2 : 1.5)
-                              )
-                              .shadow(radius: isSelected ? 3 : 1)
-                              .scaleEffect(isSelected ? 1.1 : 1.0)
-                              .animation(.spring(response: 0.3), value: isSelected)
-                          case .failure:
-                            placeholderImage(isSelected: isSelected)
-                          default:
-                            ProgressView()
-                              .progressViewStyle(
-                                CircularProgressViewStyle(tint: Color.newTextColor)
-                              )
-                              .frame(width: 40, height: 40)
-                          }
-                        }
-                      } else {
-                        // No photo available
-                        placeholderImage(isSelected: isSelected)
-                      }
-
-                      // Triangle pointer
-                      Image(systemName: "arrowtriangle.down.fill")
-                        .font(.system(size: 10))
-                        .foregroundColor(isSelected ? Color.green : Color.blue)
-                        .offset(y: -5)
-                    }
-                  }
-                  .buttonStyle(ScaleButtonStyle())
-                }
+                .buttonStyle(ScaleButtonStyle())
               }
             }
           }

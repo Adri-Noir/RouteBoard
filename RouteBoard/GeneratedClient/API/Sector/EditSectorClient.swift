@@ -44,11 +44,23 @@ public class EditSectorClient: AuthenticatedClientProvider {
       formData.append(value.data(using: .utf8)!)
     }
 
-    if let locationLatitude = data.locationLatitude {
-      appendFormField(name: "Location.Latitude", value: String(locationLatitude))
+    // Use a formatter with a locale that uses '.' as the decimal separator
+    let numberFormatter = NumberFormatter()
+    // Use a locale that uses ',' as the decimal separator, e.g., Croatian
+    numberFormatter.locale = Locale(identifier: "hr_HR")
+    numberFormatter.numberStyle = .decimal
+    // Ensure sufficient decimal places if needed, adjust as necessary
+    numberFormatter.maximumFractionDigits = 15  // Or another appropriate precision
+
+    if let locationLatitude = data.locationLatitude,
+      let latString = numberFormatter.string(from: NSNumber(value: locationLatitude))
+    {
+      appendFormField(name: "Location.Latitude", value: latString)
     }
-    if let locationLongitude = data.locationLongitude {
-      appendFormField(name: "Location.Longitude", value: String(locationLongitude))
+    if let locationLongitude = data.locationLongitude,
+      let lonString = numberFormatter.string(from: NSNumber(value: locationLongitude))
+    {
+      appendFormField(name: "Location.Longitude", value: lonString)
     }
 
     // Optional fields

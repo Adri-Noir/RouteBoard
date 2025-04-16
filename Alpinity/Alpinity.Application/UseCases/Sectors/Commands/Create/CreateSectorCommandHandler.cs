@@ -46,6 +46,31 @@ public class CreateSectorCommandHandler(
 
         await sectorRepository.CreateSector(sector, cancellationToken);
 
+        // If the sector has a location, update the crag's location to the average of all sector locations
+        if (sector.Location != null)
+        {
+            var crag = await cragRepository.GetCragWithSectors(sector.CragId, cancellationToken) ?? throw new EntityNotFoundException("Crag not found.");
+
+            // Calculate average latitude and longitude of all sector locations
+            var sectorsWithLocations = crag.Sectors?
+                .Where(s => s.Location != null)
+                .ToList();
+
+            if (sectorsWithLocations != null && sectorsWithLocations.Any())
+            {
+                double avgLatitude = sectorsWithLocations.Average(s => s.Location!.Y);
+                double avgLongitude = sectorsWithLocations.Average(s => s.Location!.X);
+
+                crag.Location = new Point(avgLongitude, avgLatitude) { SRID = 4326 };
+            }
+            else
+            {
+                crag.Location = null;
+            }
+
+            await cragRepository.UpdateCrag(crag, cancellationToken);
+        }
+
         return mapper.Map<SectorDetailedDto>(sector);
     }
 }

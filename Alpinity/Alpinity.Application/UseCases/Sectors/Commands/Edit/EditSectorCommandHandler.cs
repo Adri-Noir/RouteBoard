@@ -10,6 +10,7 @@ using NetTopologySuite.Geometries;
 namespace Alpinity.Application.UseCases.Sectors.Commands.Edit;
 
 public class EditSectorCommandHandler(
+    ICragRepository cragRepository,
     ISectorRepository sectorRepository,
     IFileRepository fileRepository,
     IPhotoRepository photoRepository,
@@ -18,13 +19,17 @@ public class EditSectorCommandHandler(
     public async Task<SectorDetailedDto> Handle(EditSectorCommand request, CancellationToken cancellationToken)
     {
         var sector = await sectorRepository.GetSectorById(request.Id, cancellationToken) ?? throw new EntityNotFoundException("Sector not found.");
+        var locationIsChanged = false;
 
         if (request.Name != null)
             sector.Name = request.Name;
         if (request.Description != null)
             sector.Description = request.Description;
         if (request.Location != null)
+        {
             sector.Location = mapper.Map<Point>(request.Location);
+            locationIsChanged = true;
+        }
 
         if (request.PhotosToRemove != null && request.PhotosToRemove.Any() && sector.Photos != null)
         {
@@ -44,6 +49,31 @@ public class EditSectorCommandHandler(
         }
 
         await sectorRepository.UpdateSector(sector, cancellationToken);
+
+        if (locationIsChanged)
+        {
+            var crag = await cragRepository.GetCragWithSectors(sector.CragId, cancellationToken) ?? throw new EntityNotFoundException("Crag not found.");
+
+            // Calculate average latitude and longitude of all sector locations
+            var sectorsWithLocations = crag.Sectors?
+                .Where(s => s.Location != null)
+                .ToList();
+
+            if (sectorsWithLocations != null && sectorsWithLocations.Any())
+            {
+                double avgLatitude = sectorsWithLocations.Average(s => s.Location!.Y);
+                double avgLongitude = sectorsWithLocations.Average(s => s.Location!.X);
+
+                crag.Location = new Point(avgLongitude, avgLatitude) { SRID = 4326 };
+            }
+            else
+            {
+                crag.Location = null;
+            }
+
+            await cragRepository.UpdateCrag(crag, cancellationToken);
+        }
+
         return mapper.Map<SectorDetailedDto>(sector);
     }
 }

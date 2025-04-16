@@ -52,8 +52,19 @@ public class CreateSectorClient: AuthenticatedClientProvider {
 
     // Append required fields
     appendFormField(name: "Name", value: data.name)
-    appendFormField(name: "Location.Latitude", value: String(data.latitude))
-    appendFormField(name: "Location.Longitude", value: String(data.longitude))
+
+    // Use a formatter with a locale that uses ',' as the decimal separator
+    let numberFormatter = NumberFormatter()
+    numberFormatter.locale = Locale(identifier: "hr_HR")  // Croatian locale
+    numberFormatter.numberStyle = .decimal
+    numberFormatter.maximumFractionDigits = 15  // Or another appropriate precision
+
+    if let latString = numberFormatter.string(from: NSNumber(value: data.latitude)) {
+      appendFormField(name: "Location.Latitude", value: latString)
+    }
+    if let lonString = numberFormatter.string(from: NSNumber(value: data.longitude)) {
+      appendFormField(name: "Location.Longitude", value: lonString)
+    }
 
     // Append optional fields
     if let description = data.description {

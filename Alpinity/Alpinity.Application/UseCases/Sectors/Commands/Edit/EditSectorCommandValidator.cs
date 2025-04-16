@@ -27,6 +27,12 @@ public class EditSectorCommandValidator : AbstractValidator<EditSectorCommand>
         });
 
         // Location validation can be added here if needed
+        When(x => x.Location != null, () =>
+        {
+            RuleFor(x => x.Location)
+                .Must(LocationValidationHelper.ValidatePoint)
+                .WithMessage("Location coordinates are invalid.");
+        });
 
         When(x => x.Photos != null, () =>
         {

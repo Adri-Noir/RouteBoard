@@ -22,6 +22,9 @@ public class CreateSectorCommandValidator : AbstractValidator<CreateSectorComman
 
         // Validation for Location can be added here if needed, e.g., checking range
         // RuleFor(x => x.Location).NotNull().WithMessage("Location is required.");
+        RuleFor(x => x.Location)
+            .Must(LocationValidationHelper.ValidatePoint)
+            .WithMessage("Location coordinates are invalid.");
 
         RuleFor(x => x.Photos)
             .Must(photos => photos == null || photos.Count <= MaxPhotos)

@@ -25,6 +25,13 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
             .FirstOrDefaultAsync(crag => crag.Id == cragId, cancellationToken);
     }
 
+    public async Task<Crag?> GetCragWithSectors(Guid cragId, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Crags
+            .Include(crag => crag.Sectors!.OrderBy(sector => sector.Name))
+            .FirstOrDefaultAsync(crag => crag.Id == cragId, cancellationToken);
+    }
+
     public async Task<bool> CragExists(Guid cragId, CancellationToken cancellationToken = default)
     {
         return await dbContext.Crags.AnyAsync(crag => crag.Id == cragId, cancellationToken);

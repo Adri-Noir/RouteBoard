@@ -175,16 +175,14 @@ struct CreateSectorView: View {
     if let sectorDetails = sectorDetails,
       let oldLocation = sectorDetails.location
     {
-      let oldCoordinate = CLLocationCoordinate2D(
-        latitude: oldLocation.latitude, longitude: oldLocation.longitude
-      )
-      // Edit mode
+      let coordinatesChanged =
+        oldLocation.latitude != coordinate.latitude || oldLocation.longitude != coordinate.longitude
       let editInput = EditSectorInput(
         id: sectorDetails.id,
         name: name == sectorDetails.name ? nil : name,
         description: description == sectorDetails.description ? nil : description,
-        locationLatitude: oldCoordinate == coordinate ? nil : Double(coordinate.latitude),
-        locationLongitude: oldCoordinate == coordinate ? nil : Double(coordinate.longitude),
+        locationLatitude: coordinatesChanged ? coordinate.latitude : nil,
+        locationLongitude: coordinatesChanged ? coordinate.longitude : nil,
         photos: selectedImages.isEmpty
           ? nil : selectedImages.compactMap { $0.jpegData(compressionQuality: 0.8) },
         photosToRemove: removedPhotoIds.isEmpty ? nil : Array(removedPhotoIds)
