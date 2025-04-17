@@ -56,7 +56,7 @@ struct SectorPickerView: View {
           Button {
             isOptionsOpen.toggle()
           } label: {
-            Image(systemName: "ellipsis.circle")
+            Image(systemName: "ellipsis")
               .font(.title3)
               .foregroundColor(Color.newPrimaryColor)
               .frame(width: 44, height: 44)
@@ -67,19 +67,39 @@ struct SectorPickerView: View {
             attachmentAnchor: .point(.bottom),
             arrowEdge: .top
           ) {
-            VStack {
+            VStack(alignment: .leading, spacing: 12) {
               Button {
+                isOptionsOpen = false
                 navigationManager.pushView(.createRoute(sectorId: selectedSectorId))
               } label: {
-                Label("Add Route", systemImage: "plus")
+                HStack {
+                  Image(systemName: "plus")
+                  Text("Add Route")
+                  Spacer()
+                }
+                .padding(.horizontal, 12)
+                .foregroundColor(Color.newTextColor)
               }
 
+              Divider()
+
               Button {
+                isOptionsOpen = false
                 navigationManager.pushView(.editSector(sectorDetails: selectedSector))
               } label: {
-                Label("Edit Sector", systemImage: "pencil")
+                HStack {
+                  Image(systemName: "pencil")
+                  Text("Edit Sector")
+                  Spacer()
+                }
+                .padding(.horizontal, 12)
+                .foregroundColor(Color.newTextColor)
               }
             }
+            .padding(.vertical, 12)
+            .frame(width: 200)
+            .preferredColorScheme(.light)
+            .presentationCompactAdaptation(.popover)
           }
         }
       }

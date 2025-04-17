@@ -9,12 +9,19 @@ private struct ImageGalleryView: View {
   var body: some View {
     TabView {
       ForEach(images.indices, id: \.self) { index in
-        AsyncImage(url: URL(string: images[index])) { image in
-          image
-            .resizable()
-            .scaledToFit()
-        } placeholder: {
-          PlaceholderImage()
+        AsyncImage(url: URL(string: images[index])) { phase in
+          switch phase {
+          case .success(let image):
+            image
+              .resizable()
+              .scaledToFit()
+          case .failure(_):
+            PlaceholderImage()
+          default:
+            ProgressView()
+              .progressViewStyle(CircularProgressViewStyle())
+              .frame(maxWidth: .infinity, maxHeight: .infinity)
+          }
         }
       }
     }
@@ -73,14 +80,22 @@ struct GalleryView: View {
             Color.newBackgroundGray
               .aspectRatio(1, contentMode: .fill)
               .overlay(
-                AsyncImage(url: URL(string: images[index])) { image in
-                  image
-                    .resizable()
-                    .scaledToFill()
-                } placeholder: {
-                  PlaceholderImage()
+                AsyncImage(url: URL(string: images[index])) { phase in
+                  switch phase {
+                  case .success(let image):
+                    image
+                      .resizable()
+                      .scaledToFill()
+                  case .failure:
+                    PlaceholderImage()
+                      .background(Color.newBackgroundGray)
+                  default:
+                    ProgressView()
+                      .progressViewStyle(CircularProgressViewStyle(tint: Color.newTextColor))
+                      .background(Color.newBackgroundGray)
+                  }
                 }
-              ).clipped()
+              )
               .cornerRadius(10)
           }
         }
@@ -93,4 +108,24 @@ struct GalleryView: View {
       }
     }
   }
+}
+
+#Preview {
+  GalleryView(images: [
+    Components.Schemas.PhotoDto(
+      id: "1",
+      url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+      takenAt: nil
+    ),
+    Components.Schemas.PhotoDto(
+      id: "2",
+      url: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca",
+      takenAt: nil
+    ),
+    Components.Schemas.PhotoDto(
+      id: "3",
+      url: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308",
+      takenAt: nil
+    ),
+  ])
 }

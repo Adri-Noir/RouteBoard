@@ -194,7 +194,6 @@ struct UserRegisterView: View {
           .cornerRadius(10)
           .textInputAutocapitalization(.never)
           .autocorrectionDisabled()
-          .textContentType(.newPassword)
           .submitLabel(.done)
           .focused($isConfirmPasswordFocused)
           .onSubmit {
@@ -241,6 +240,7 @@ struct UserRegisterView: View {
         .padding(.horizontal, 32)
       }
       .background(Color.newBackgroundGray)
+      .padding(.top, 1)
       .alert("Registration Error", isPresented: $showErrorAlert) {
         Button("OK") {
           errorMessage = ""
