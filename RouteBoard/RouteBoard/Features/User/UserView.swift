@@ -71,7 +71,7 @@ struct UserView: View {
           PhotosGridView(photos: userProfile?.photos)
           FriendsListView()
         }
-        .padding(.horizontal, 20)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
         .padding(.bottom, 30)
       }
     }

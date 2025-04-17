@@ -191,11 +191,11 @@ struct RouteCardFullscreen: View {
             .padding(.top, -8)
           }
         }
-        .padding(.horizontal, 20)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
         .padding(.bottom, 30)
       }
       .cornerRadius(16)
-      .padding(.horizontal, 20)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
       .padding(.vertical, 10)
     }
   }

@@ -150,7 +150,6 @@ struct RouteView: View {
             RouteInfoView(route: route, climbingTypes: climbingTypes)
             Spacer()
           }
-          .padding(.horizontal, 24)
 
           if let route = route, !isFullscreenMode {
             RouteAscentButton(

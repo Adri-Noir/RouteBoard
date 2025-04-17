@@ -237,7 +237,7 @@ struct UserRegisterView: View {
           }
         }
         .padding(.top, 20)
-        .padding(.horizontal, 32)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
       }
       .background(Color.newBackgroundGray)
       .padding(.top, 1)

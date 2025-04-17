@@ -1,7 +1,7 @@
 // Created with <3 on 16.03.2025.
 
-import SwiftUI
 import GeneratedClient
+import SwiftUI
 
 struct AscentTypeSelectorView: View {
   @Binding var selectedAscentType: Components.Schemas.RouteType?
@@ -11,6 +11,7 @@ struct AscentTypeSelectorView: View {
       Text("Filter by Ascent Type")
         .font(.headline)
         .foregroundColor(Color.newTextColor)
+        .padding(.horizontal)
 
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 12) {
@@ -50,9 +51,10 @@ struct AscentTypeSelectorView: View {
             }
           }
         }
+        .padding(.horizontal)
       }
     }
-    .padding()
+    .padding(.vertical)
     .background(Color.white)
     .cornerRadius(12)
   }

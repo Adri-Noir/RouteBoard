@@ -41,7 +41,7 @@ struct ExploreView: View {
           .cornerRadius(8)
         }
       }
-      .padding(.horizontal, 20)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
 
       if isLoading {
         loadingView
@@ -65,7 +65,7 @@ struct ExploreView: View {
               ExploreItemCard(item: item, geometry: geometry)
             }
           }
-          .padding(.horizontal, 20)
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
           .containerRelativeFrame(.horizontal, count: 1, spacing: 0, alignment: .center)
           .padding(.vertical, 10)
           .id(item.id)
@@ -117,7 +117,7 @@ struct ExploreView: View {
         .fill(Color.white.opacity(0.08))
         .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
     )
-    .padding(.horizontal, 20)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
     .padding(.vertical, 10)
   }
 
@@ -150,7 +150,7 @@ struct ExploreView: View {
         .fill(Color.white.opacity(0.08))
         .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
     )
-    .padding(.horizontal, 20)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
     .padding(.vertical, 10)
   }
 

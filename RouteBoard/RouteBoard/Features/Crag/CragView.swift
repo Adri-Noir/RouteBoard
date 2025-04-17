@@ -111,7 +111,7 @@ struct CragView: View {
 
               CragMapView(crag: crag, selectedSectorId: $selectedSectorId)
             }
-            .padding(.horizontal, 20)
+            .padding(.horizontal, ThemeExtension.horizontalPadding)
             .padding(.vertical, 20)
             .background(Color.newPrimaryColor)
 

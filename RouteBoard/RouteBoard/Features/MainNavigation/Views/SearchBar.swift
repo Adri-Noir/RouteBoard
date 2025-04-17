@@ -63,7 +63,7 @@ struct SearchBar: View {
       color: Color.white.opacity(0.5), radius: 50, x: 0,
       y: 0
     )
-    .padding(.horizontal, 20)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
     .onChange(of: searchText) {
       internalSearchText = searchText
     }

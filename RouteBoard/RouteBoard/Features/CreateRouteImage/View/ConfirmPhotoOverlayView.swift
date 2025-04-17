@@ -76,7 +76,7 @@ struct ConfirmPhotoOverlayView: View {
         .background(createRouteImageModel.isUploading ? Color.gray : Color.newPrimaryColor)
         .disabled(createRouteImageModel.isUploading)
         .cornerRadius(10)
-        .padding(.horizontal, 20)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
         .padding(.top, 15)
         .padding(.bottom, 5)
       }

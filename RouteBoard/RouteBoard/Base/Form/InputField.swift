@@ -16,7 +16,7 @@ struct InputField: View {
         .font(.headline)
         .fontWeight(.semibold)
         .foregroundColor(Color.newTextColor)
-        .padding(.horizontal)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
 
       TextField(
         "", text: $text,
@@ -30,7 +30,7 @@ struct InputField: View {
       .cornerRadius(10)
       .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
       .focused($isFocused)
-      .padding(.horizontal)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
     }
     .onTapBackground(enabled: isFocused) {
       isFocused = false

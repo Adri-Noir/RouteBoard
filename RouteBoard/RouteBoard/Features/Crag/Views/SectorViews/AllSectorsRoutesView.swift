@@ -67,7 +67,7 @@ struct SectorRoutesSection: View {
           }
         }
       }
-      .padding(.horizontal, 20)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
 
       // Sector routes
       if filteredRoutes.isEmpty {
@@ -77,7 +77,7 @@ struct SectorRoutesSection: View {
         )
         .font(.subheadline)
         .foregroundColor(Color.newTextColor.opacity(0.7))
-        .padding(.horizontal, 20)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
         .padding(.bottom, 5)
       } else {
         // Routes section
@@ -163,7 +163,7 @@ struct RouteCardList: View {
       .padding()
       .background(Color.white)
       .cornerRadius(12)
-      .padding(.horizontal, 20)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
     }
   }
 }

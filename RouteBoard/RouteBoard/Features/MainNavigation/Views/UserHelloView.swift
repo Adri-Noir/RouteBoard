@@ -33,6 +33,6 @@ struct UserHelloView: View {
       }
     }
     .padding(.top, 20)
-    .padding(.horizontal, 20)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
   }
 }

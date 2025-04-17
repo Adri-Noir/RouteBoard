@@ -160,7 +160,7 @@ struct RouteLogAscent: View {
             }
           }
         }
-        .padding(.horizontal, 20)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
       }
     }
   }
@@ -245,7 +245,7 @@ struct RouteLogAscent: View {
             .foregroundColor(Color.newPrimaryColor)
         }
       }
-      .padding(.horizontal, 20)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
     }
     .transition(.opacity.combined(with: .move(edge: .top)))
     .animation(.easeInOut, value: ascentRequiresAttemptCount)
@@ -280,7 +280,7 @@ struct RouteLogAscent: View {
           }
         }
         .scrollTargetLayout()
-        .padding(.horizontal, 20)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
       }
       .scrollPosition(id: $scrollPosition, anchor: .center)
     }
@@ -292,7 +292,7 @@ struct RouteLogAscent: View {
         .font(.headline)
         .fontWeight(.semibold)
         .foregroundColor(Color.newTextColor)
-        .padding(.horizontal)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
 
       VStack(spacing: 15) {
         climbTypeSection(title: "Style", types: [.Endurance, .Powerful, .Technical])
@@ -309,7 +309,7 @@ struct RouteLogAscent: View {
       Text(title)
         .font(.subheadline)
         .foregroundColor(Color.gray)
-        .padding(.horizontal)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
 
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 10) {
@@ -334,7 +334,7 @@ struct RouteLogAscent: View {
             }
           }
         }
-        .padding(.horizontal)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
       }
     }
   }
@@ -385,7 +385,7 @@ struct RouteLogAscent: View {
         }
       }
     }
-    .padding(.horizontal, 20)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
   }
 
   private var notesView: some View {
@@ -393,7 +393,7 @@ struct RouteLogAscent: View {
       title: "Notes",
       text: $notes,
       placeholder: "Enter notes here... (optional)",
-      padding: 20
+      padding: ThemeExtension.horizontalPadding
     )
   }
 
@@ -418,7 +418,7 @@ struct RouteLogAscent: View {
       .background(Color.newPrimaryColor)
       .foregroundColor(.white)
       .cornerRadius(10)
-      .padding(.horizontal)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
     }
     .padding(.top, 10)
     .disabled(isSubmitting)

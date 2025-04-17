@@ -111,7 +111,7 @@ struct UserLoginView: View {
           }
         }
         .padding(.top, 20)
-        .padding(.horizontal, 32)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
       }
       .background(Color.newBackgroundGray)
       .alert("Login failed", isPresented: $showErrorAlert) {

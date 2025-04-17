@@ -45,7 +45,7 @@ struct GradeDistributionGraph: View {
           .padding(.trailing, 0)
       }
     }
-    .padding(.horizontal, 20)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
   }
 
   // Empty state view extracted
@@ -54,7 +54,7 @@ struct GradeDistributionGraph: View {
       .font(.subheadline)
       .foregroundColor(Color.newTextColor.opacity(0.7))
       .padding(.top, 4)
-      .padding(.horizontal, 20)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
   }
 
   // Grade bar view for each grade
@@ -106,7 +106,7 @@ struct GradeDistributionGraph: View {
         }
       }
       .padding(.vertical, 8)
-      .padding(.horizontal, 20)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
       .animation(.easeInOut, value: routes)
       .animation(.easeInOut, value: selectedGrade)
     }

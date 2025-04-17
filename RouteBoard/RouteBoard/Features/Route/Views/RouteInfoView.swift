@@ -14,15 +14,18 @@ struct RouteInfoView: View {
         .font(.title)
         .fontWeight(.bold)
         .foregroundColor(.white)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
 
       // Location info
       RouteLocationSection(route: route)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
 
       // Characteristics
       RouteCharacteristicsView(climbingTypes: climbingTypes)
 
       // Description
       RouteDescriptionView(route: route)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
     }
     .frame(maxWidth: .infinity, alignment: .leading)
     .padding(.bottom, 10)  // Reduced bottom padding since button is now below

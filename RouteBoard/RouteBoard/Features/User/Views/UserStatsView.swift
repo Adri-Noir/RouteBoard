@@ -1,6 +1,5 @@
 // Created with <3 on 16.03.2025.
 
-
 import SwiftUI
 
 struct UserStatsView: View {
@@ -15,12 +14,11 @@ struct UserStatsView: View {
       StatItem(value: "0", label: "Following")  // API doesn't provide following count yet
     }
     .padding(.vertical)
-    .padding(.horizontal, 30)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
     .background(Color.white)
     .cornerRadius(12)
   }
 }
-
 
 struct UserStats {
   let cragsVisited: Int

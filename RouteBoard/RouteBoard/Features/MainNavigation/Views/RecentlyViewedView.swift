@@ -22,7 +22,7 @@ struct RecentlyViewedView: View {
       headerView
       contentView
     }
-    .padding(.horizontal, 20)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
     .task {
       await fetchSearchHistory()
     }

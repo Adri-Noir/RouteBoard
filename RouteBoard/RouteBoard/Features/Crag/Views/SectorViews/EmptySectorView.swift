@@ -17,10 +17,9 @@ struct EmptySectorView: View {
         .font(.subheadline)
         .foregroundColor(Color.newTextColor)
         .multilineTextAlignment(.center)
-        .padding(.horizontal)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
     }
     .frame(maxWidth: .infinity, minHeight: 200)
     .padding()
   }
 }
-

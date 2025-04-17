@@ -34,7 +34,7 @@ struct NewMainNavigationView: View {
           }
         }
       }
-      .accentColor(Color.primaryColor)
+      .accentColor(Color.newPrimaryColor)
     }
   }
 }

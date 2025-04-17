@@ -74,7 +74,7 @@ struct LoginView: View {
             Spacer()
               .frame(height: 150)
           }
-          .padding(.horizontal)
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
         }
       }
       .routeIterator()

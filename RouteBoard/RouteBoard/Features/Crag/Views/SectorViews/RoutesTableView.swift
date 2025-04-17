@@ -211,7 +211,7 @@ struct TableHeaderRow: View {
     }
     .background(Color.gray.opacity(0.1))
     .cornerRadius(8)
-    .padding(.horizontal, 20)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
   }
 
   private func sortableHeaderCell(text: String, width: CGFloat, column: RoutesTableView.SortColumn)
@@ -378,6 +378,6 @@ struct PaginationControls: View {
       .disabled(currentPage >= totalPages - 1)
     }
     .padding(.vertical, 10)
-    .padding(.horizontal, 20)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
   }
 }

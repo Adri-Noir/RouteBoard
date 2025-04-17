@@ -58,7 +58,7 @@ struct ProfileHeaderExpandedView: View {
 
         Spacer()
       }
-      .padding(.horizontal, 20)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
 
       Spacer()
     }
@@ -127,7 +127,7 @@ struct ProfileHeaderCollapsedView: View {
 
       Spacer()
     }
-    .padding(.horizontal, 20)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
     .padding(.bottom, 5)
     .background(
       Color.newPrimaryColor.ignoresSafeArea().background(.ultraThinMaterial).opacity(

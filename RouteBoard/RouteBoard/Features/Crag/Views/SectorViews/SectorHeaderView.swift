@@ -22,7 +22,7 @@ struct SectorHeaderView: View {
       Spacer()
     }
     .frame(maxWidth: .infinity, alignment: .leading)
-    .padding(.horizontal, 20)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
     .padding(.vertical, 8)
   }
 }

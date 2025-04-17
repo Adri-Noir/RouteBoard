@@ -35,7 +35,7 @@ public struct MapControls: View {
             .shadow(radius: 2)
         }
       }
-      .padding(.horizontal, 20)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
 
       Spacer()
 
@@ -44,7 +44,7 @@ public struct MapControls: View {
 
         MapCompass(scope: mapScope)
       }
-      .padding(.horizontal, 20)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
     }
   }
 }

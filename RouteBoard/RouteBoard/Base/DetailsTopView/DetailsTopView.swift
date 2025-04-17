@@ -81,7 +81,7 @@ public struct DetailsTopView<Header: View, HeaderOverlay: View, Content: View>: 
 
   var compactNavigationBar: some View {
     overlay
-      .padding(.horizontal, 20)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
       .padding(.vertical, 8)
       .padding(.top, safeAreaInsets.top)
       .background(

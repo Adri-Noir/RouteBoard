@@ -49,7 +49,7 @@ struct UserRecentAscentsView: View {
             .clipShape(RoundedRectangle(cornerRadius: 8))
         }
       }
-      .padding(.horizontal, 20)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
 
       // Content
       Group {
@@ -84,7 +84,7 @@ struct UserRecentAscentsView: View {
         .fill(Color.white.opacity(0.08))
         .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
     )
-    .padding(.horizontal, 20)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
   }
 
   private var emptyStateView: some View {
@@ -109,7 +109,7 @@ struct UserRecentAscentsView: View {
         .fill(Color.white.opacity(0.08))
         .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
     )
-    .padding(.horizontal, 20)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
   }
 
   private var recentAscentsScrollView: some View {
@@ -127,7 +127,7 @@ struct UserRecentAscentsView: View {
         }
       }
       .scrollTargetLayout()
-      .padding(.horizontal, 20)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
       .padding(.bottom, 8)
     }
     .scrollTargetBehavior(.viewAligned)

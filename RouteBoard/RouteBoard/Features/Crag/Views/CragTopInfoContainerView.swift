@@ -605,7 +605,7 @@ struct CragTopInfoContainerView: View {
         Text("Current Weather")
           .font(.headline)
           .foregroundColor(Color.newTextColor)
-          .padding(.horizontal, 20)
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
 
         HStack {
           CragWeatherInfoView(
@@ -628,7 +628,7 @@ struct CragTopInfoContainerView: View {
             unit: "km/h",
             title: "Wind Speed")
         }
-        .padding(.horizontal, 20)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
       } else {
         HStack {
           Spacer()
@@ -643,7 +643,7 @@ struct CragTopInfoContainerView: View {
           .padding()
           Spacer()
         }
-        .padding(.horizontal, 20)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
       }
 
       if isExpanded, let weather = weather {
@@ -675,7 +675,7 @@ struct CragTopInfoContainerView: View {
               Spacer()
             }
           }
-          .padding(.horizontal, 20)
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
 
           // Combined forecast scrollview
           ScrollView(.horizontal, showsIndicators: false) {
@@ -701,7 +701,7 @@ struct CragTopInfoContainerView: View {
                 }
               }
             }
-            .padding(.horizontal, 20)
+            .padding(.horizontal, ThemeExtension.horizontalPadding)
           }
           .frame(height: 170)
         }
@@ -727,7 +727,7 @@ struct CragTopInfoContainerView: View {
           .cornerRadius(10)
           .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
         }
-        .padding(.horizontal, 20)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
         .background(Color.white)
       }
     }

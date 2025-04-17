@@ -117,7 +117,7 @@ private struct UploadButton: View {
           .stroke(Color.gray.opacity(0.3), lineWidth: 1)
       )
     }
-    .padding(.horizontal)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
   }
 }
 
@@ -270,7 +270,7 @@ struct PhotoPickerField: View {
         }
         AddMoreButton(binding: $photoItems)
       }
-      .padding(.horizontal)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
     }
   }
 

@@ -110,7 +110,7 @@ struct CreateRouteView: View {
         .fontWeight(.bold)
         .foregroundColor(Color.newTextColor)
     }
-    .padding(.horizontal)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
   }
 
   private var gradeView: some View {
@@ -119,7 +119,7 @@ struct CreateRouteView: View {
         .font(.headline)
         .fontWeight(.semibold)
         .foregroundColor(Color.newTextColor)
-        .padding(.horizontal)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
 
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 10) {
@@ -147,7 +147,7 @@ struct CreateRouteView: View {
           }
         }
         .scrollTargetLayout()
-        .padding(.horizontal, 20)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
       }
       .scrollPosition(id: $scrollPosition, anchor: .center)
     }
@@ -159,7 +159,7 @@ struct CreateRouteView: View {
         .font(.headline)
         .fontWeight(.semibold)
         .foregroundColor(Color.newTextColor)
-        .padding(.horizontal)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
 
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 10) {
@@ -184,7 +184,7 @@ struct CreateRouteView: View {
             }
           }
         }
-        .padding(.horizontal, 20)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
       }
     }
   }
@@ -218,7 +218,7 @@ struct CreateRouteView: View {
       .background(isFormValid ? Color.newPrimaryColor : Color.gray.opacity(0.5))
       .foregroundColor(.white)
       .cornerRadius(10)
-      .padding(.horizontal)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
     }
     .padding(.top, 10)
     .disabled(!isButtonEnabled)

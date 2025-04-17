@@ -38,12 +38,12 @@ struct MapLocationPickerField: View {
         .font(.headline)
         .fontWeight(.semibold)
         .foregroundColor(Color.newTextColor)
-        .padding(.horizontal)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
 
       Text("Tap on the map to set the location or search for a specific place.")
         .font(.caption)
         .foregroundColor(Color.gray)
-        .padding(.horizontal)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
 
       // Search bar
       ZStack(alignment: .top) {
@@ -80,7 +80,8 @@ struct MapLocationPickerField: View {
             }
           }
         }
-        .padding()
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
+        .padding(.vertical, 10)
         .background(Color.white)
         .cornerRadius(10)
         .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
@@ -132,7 +133,7 @@ struct MapLocationPickerField: View {
           .offset(y: 55)  // Position below the search bar
         }
       }
-      .padding(.horizontal)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
       .zIndex(1)  // Ensure dropdown appears above map
 
       MapReader { proxy in
@@ -164,7 +165,7 @@ struct MapLocationPickerField: View {
           }
         }
       }
-      .padding(.horizontal)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
     }
     .onAppear {
       searchCompleterDelegate = SearchCompleterDelegate(

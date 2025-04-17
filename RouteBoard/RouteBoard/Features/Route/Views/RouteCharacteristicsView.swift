@@ -12,6 +12,7 @@ struct RouteCharacteristicsView: View {
         Text("Climbing Characteristics:")
           .font(.headline)
           .foregroundColor(.white.opacity(0.9))
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
 
         ScrollView(.horizontal, showsIndicators: false) {
           HStack(spacing: 8) {
@@ -27,6 +28,7 @@ struct RouteCharacteristicsView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 12))
             }
           }
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
           .padding(.vertical, 4)
         }
       }

@@ -1,8 +1,8 @@
 // Created with <3 on 16.03.2025.
 
-import SwiftUI
-import GeneratedClient
 import Charts
+import GeneratedClient
+import SwiftUI
 
 struct ClimbingStatsGraphView: View {
   let climbingStats: [ClimbingStat]

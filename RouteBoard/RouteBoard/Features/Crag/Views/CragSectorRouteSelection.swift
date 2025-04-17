@@ -132,7 +132,7 @@ struct CragSectorRouteSelection: View {
         if let photos = sector.photos, !photos.isEmpty {
           GalleryView(images: photos)
             .padding(.top, 8)
-            .padding(.horizontal, 20)
+            .padding(.horizontal, ThemeExtension.horizontalPadding)
         }
       }
     }
@@ -271,7 +271,7 @@ struct GradeFilterIndicator: View {
         }
       }
     }
-    .padding(.horizontal, 20)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
     .padding(.top, 4)
     .padding(.bottom, 8)
   }

@@ -30,6 +30,6 @@ struct NoRoutesView: View {
     .frame(maxWidth: .infinity)
     .padding()
     .cornerRadius(12)
-    .padding(.horizontal, 20)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
   }
 }

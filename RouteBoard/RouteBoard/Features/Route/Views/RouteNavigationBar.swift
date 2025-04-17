@@ -65,7 +65,7 @@ struct RouteNavigationBar: View {
           .clipShape(Circle())
       }
     }
-    .padding(.horizontal, 20)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
     .padding(.top, 60)  // Account for safe area
   }
 }

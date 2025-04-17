@@ -76,7 +76,7 @@ struct RegisteredUserView: View {
           LogoutButton()
 
         }
-        .padding(.horizontal, 20)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
         .padding(.bottom, 30)
       }
     }

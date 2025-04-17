@@ -21,7 +21,7 @@ public struct GeneralSearchView: View {
           .autocapitalization(.none)
           .padding(.horizontal, 10)
           .padding(.vertical, 15)
-          .background(Color.backgroundGray)
+          .background(Color.newBackgroundGray)
           .foregroundStyle(.black)
           .clipShape(RoundedRectangle(cornerRadius: 10))
           .onChange(of: searchText, initial: false) {

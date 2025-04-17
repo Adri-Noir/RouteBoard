@@ -157,7 +157,7 @@ struct DetailCardContainer<Content: View>: View {
     .background(Color.white)
     .cornerRadius(12)
     .shadow(radius: 3)
-    .padding(.horizontal, 20)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
     .padding(.bottom, 20)
   }
 }

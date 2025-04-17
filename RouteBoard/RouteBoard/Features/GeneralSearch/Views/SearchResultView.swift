@@ -51,7 +51,7 @@ public struct SearchResultView: View {
           }
         }
       }
-      .padding(.horizontal, 20)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
     }
   }
 
@@ -90,7 +90,7 @@ struct NoSearchResultsView: View {
         .foregroundColor(.white)
         .multilineTextAlignment(.center)
         .padding(.top, 2)
-        .padding(.horizontal, 20)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
       Spacer()
     }
     .padding()

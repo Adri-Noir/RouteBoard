@@ -119,7 +119,7 @@ struct CreateSectorView: View {
         .fontWeight(.bold)
         .foregroundColor(Color.newTextColor)
     }
-    .padding(.horizontal)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
   }
 
   private var submitButton: some View {
@@ -143,7 +143,7 @@ struct CreateSectorView: View {
       .background(isButtonEnabled ? Color.newPrimaryColor : Color.gray.opacity(0.5))
       .foregroundColor(.white)
       .cornerRadius(10)
-      .padding(.horizontal)
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
     }
     .padding(.top, 10)
     .disabled(!isButtonEnabled)

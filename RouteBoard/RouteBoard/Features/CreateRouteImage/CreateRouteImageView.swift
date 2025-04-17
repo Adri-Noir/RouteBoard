@@ -156,7 +156,7 @@ struct CreateRouteImageView: View {
 
                 Spacer()
               }
-              .padding(.horizontal)
+              .padding(.horizontal, ThemeExtension.horizontalPadding)
             }
           }
         }

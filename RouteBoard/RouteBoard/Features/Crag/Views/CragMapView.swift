@@ -272,7 +272,7 @@ struct CragMapView: View {
         .frame(height: 350)
         .frame(maxWidth: .infinity)
         .cornerRadius(10)
-        .padding(.horizontal, 20)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
       }
     }
     .padding(.vertical, 0)

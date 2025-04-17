@@ -246,7 +246,7 @@ private struct RouteAscentRowView: View {
     .background(Color.white)
     .clipShape(RoundedRectangle(cornerRadius: 20))
     .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
-    .padding(.horizontal, 20)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
     .padding(.vertical, 5)
   }
 
