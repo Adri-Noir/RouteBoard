@@ -7,6 +7,7 @@ namespace Alpinity.Application.Interfaces.Repositories;
 public interface ISectorRepository
 {
     Task CreateSector(Sector sector, CancellationToken cancellationToken = default);
+    Task<bool> SectorExists(Guid sectorId, CancellationToken cancellationToken = default);
 
     Task<Sector?> GetSectorById(Guid sectorId, CancellationToken cancellationToken = default);
 
@@ -23,4 +24,6 @@ public interface ISectorRepository
     Task<ICollection<Sector>> GetSectorsOnlyByCragId(Guid cragId, CancellationToken cancellationToken = default);
 
     Task UpdateSector(Sector sector, CancellationToken cancellationToken = default);
+
+    Task DeleteSector(Guid sectorId, CancellationToken cancellationToken = default);
 }

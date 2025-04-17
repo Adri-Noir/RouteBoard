@@ -90,4 +90,14 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
             .Include(rp => rp.CombinedPhoto)
             .ToListAsync(cancellationToken);
     }
+
+    public async Task DeleteRoute(Guid routeId, CancellationToken cancellationToken = default)
+    {
+        var route = await dbContext.Routes.FindAsync(new object[] { routeId }, cancellationToken);
+        if (route != null)
+        {
+            dbContext.Routes.Remove(route);
+            await dbContext.SaveChangesAsync(cancellationToken);
+        }
+    }
 }

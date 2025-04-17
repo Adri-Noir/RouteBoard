@@ -16,6 +16,11 @@ public class SectorRepository(ApplicationDbContext dbContext, ICragRepository cr
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
+    public async Task<bool> SectorExists(Guid sectorId, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Sectors.AnyAsync(sector => sector.Id == sectorId, cancellationToken);
+    }
+
     public async Task<Sector?> GetSectorById(Guid sectorId, CancellationToken cancellationToken = default)
     {
         return await dbContext.Sectors
@@ -101,5 +106,15 @@ public class SectorRepository(ApplicationDbContext dbContext, ICragRepository cr
     {
         dbContext.Sectors.Update(sector);
         await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task DeleteSector(Guid sectorId, CancellationToken cancellationToken = default)
+    {
+        var sector = await dbContext.Sectors.FindAsync(new object[] { sectorId }, cancellationToken);
+        if (sector != null)
+        {
+            dbContext.Sectors.Remove(sector);
+            await dbContext.SaveChangesAsync(cancellationToken);
+        }
     }
 }

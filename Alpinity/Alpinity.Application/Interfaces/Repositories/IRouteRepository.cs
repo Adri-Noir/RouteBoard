@@ -18,4 +18,6 @@ public interface IRouteRepository
     Task<ICollection<Route>> GetRecentlyAscendedRoutes(Guid userId, CancellationToken cancellationToken = default);
 
     Task<ICollection<RoutePhoto>> GetRoutePhotos(Guid routeId, CancellationToken cancellationToken = default);
+
+    Task DeleteRoute(Guid routeId, CancellationToken cancellationToken = default);
 }

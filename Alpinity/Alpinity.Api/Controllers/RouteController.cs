@@ -86,4 +86,16 @@ public class RouteController(IMediator mediator) : ControllerBase
         var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }
+
+    [HttpDelete("{id:guid}")]
+    [Authorize]
+    [SwaggerResponse(StatusCodes.Status204NoContent)]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    public async Task<IActionResult> DeleteRoute(Guid id, CancellationToken cancellationToken)
+    {
+        await mediator.Send(new Alpinity.Application.UseCases.Routes.Commands.DeleteRouteCommand { RouteId = id }, cancellationToken);
+        return NoContent();
+    }
 }

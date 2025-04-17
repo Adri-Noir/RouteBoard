@@ -83,4 +83,14 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
         dbContext.Crags.Update(crag);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task DeleteCrag(Guid cragId, CancellationToken cancellationToken = default)
+    {
+        var crag = await dbContext.Crags.FindAsync(new object[] { cragId }, cancellationToken);
+        if (crag != null)
+        {
+            dbContext.Crags.Remove(crag);
+            await dbContext.SaveChangesAsync(cancellationToken);
+        }
+    }
 }

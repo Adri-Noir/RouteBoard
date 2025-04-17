@@ -9,6 +9,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Alpinity.Application.UseCases.Crags.Commands;
 
 namespace Alpinity.Api.Controllers;
 
@@ -70,5 +71,17 @@ public class CragController(IMediator mediator) : ControllerBase
         command.Id = id;
         var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
+    }
+
+    [HttpDelete("{id:guid}")]
+    [Authorize]
+    [SwaggerResponse(StatusCodes.Status204NoContent)]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    public async Task<IActionResult> DeleteCrag(Guid id, CancellationToken cancellationToken)
+    {
+        await mediator.Send(new DeleteCragCommand { CragId = id }, cancellationToken);
+        return Ok();
     }
 }
