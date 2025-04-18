@@ -167,7 +167,6 @@ struct RouteView: View {
         VStack {
           RouteNavigationBar(
             route: route,
-            onDismiss: { dismiss() },
             onAscentsView: { isPresentingRouteAscentsView = true },
             onRouteARView: { isPresentingRouteARView = true }
           )

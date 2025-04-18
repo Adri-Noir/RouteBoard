@@ -1,5 +1,6 @@
 // Created with <3 on 22.03.2025.
 
+import GeneratedClient
 import SwiftUI
 
 struct SectorPickerView: View {
@@ -10,8 +11,14 @@ struct SectorPickerView: View {
   @Binding var isOpen: Bool
 
   @State private var isOptionsOpen: Bool = false
+  @State private var isDeletingSector: Bool = false
+  @State private var showDeleteConfirmation: Bool = false
+  @State private var deleteError: String? = nil
 
   @EnvironmentObject var navigationManager: NavigationManager
+  @EnvironmentObject var authViewModel: AuthViewModel
+
+  private let deleteSectorClient = DeleteSectorClient()
 
   var body: some View {
     if sectors.count == 0 {
@@ -95,14 +102,80 @@ struct SectorPickerView: View {
                 .padding(.horizontal, 12)
                 .foregroundColor(Color.newTextColor)
               }
+
+              if authViewModel.isCreator {
+                Divider()
+
+                Button {
+                  isOptionsOpen = false
+                  showDeleteConfirmation = true
+                } label: {
+                  Text("Delete Sector")
+                }
+              }
             }
             .padding(.vertical, 12)
             .frame(width: 200)
             .preferredColorScheme(.light)
             .presentationCompactAdaptation(.popover)
           }
+          .alert(
+            isPresented: Binding<Bool>(
+              get: { showDeleteConfirmation || deleteError != nil },
+              set: { newValue in
+                if !newValue {
+                  showDeleteConfirmation = false
+                  deleteError = nil
+                }
+              })
+          ) {
+            if let error = deleteError {
+              return Alert(
+                title: Text("Delete Failed"),
+                message: Text(error),
+                dismissButton: .default(Text("OK")) {
+                  deleteError = nil
+                }
+              )
+            } else {
+              return Alert(
+                title: Text("Delete Sector"),
+                message: Text(
+                  "Are you sure you want to delete this sector? This action cannot be undone."),
+                primaryButton: .destructive(Text("Delete")) {
+                  Task {
+                    await deleteSector()
+                  }
+                },
+                secondaryButton: .cancel {
+                  showDeleteConfirmation = false
+                }
+              )
+            }
+          }
         }
       }
+    }
+  }
+
+  private func deleteSector() async {
+    guard let sectorId = selectedSector?.id else { return }
+    isDeletingSector = true
+    let success = await deleteSectorClient.call(
+      DeleteSectorInput(id: sectorId),
+      authViewModel.getAuthData()
+    ) { errorMsg in
+      DispatchQueue.main.async {
+        deleteError = errorMsg
+      }
+    }
+    isDeletingSector = false
+    if success {
+      selectedSectorId = nil
+      isOpen = false
+      navigationManager.pop()
+    } else if deleteError == nil {
+      deleteError = "Failed to delete sector. Please try again."
     }
   }
 }

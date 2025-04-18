@@ -6,6 +6,7 @@ import SwiftUI
 struct CragHeaderView<Content: View>: View {
   @Environment(\.dismiss) var dismiss
   @EnvironmentObject var navigationManager: NavigationManager
+  @EnvironmentObject var authViewModel: AuthViewModel
 
   private var safeAreaInsets: UIEdgeInsets {
     guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
@@ -21,6 +22,11 @@ struct CragHeaderView<Content: View>: View {
   @State private var isLocationDetailsPresented: Bool = false
   @State private var isMenuOpen: Bool = false
   @State private var isCompactMenuPresented: Bool = false
+  @State private var isDeletingCrag: Bool = false
+  @State private var showDeleteConfirmation: Bool = false
+  @State private var deleteError: String? = nil
+
+  private let deleteCragClient = DeleteCragClient()
 
   init(
     crag: CragDetails?,
@@ -203,11 +209,61 @@ struct CragHeaderView<Content: View>: View {
               }
               .padding(.vertical, 6)
             }
+
+            if authViewModel.isCreator {
+              Button(action: {
+                isCompactMenuPresented = false
+                showDeleteConfirmation = true
+              }) {
+                HStack {
+                  Image(systemName: "trash")
+                    .foregroundColor(Color.newPrimaryColor)
+                  Text("Delete Crag")
+                    .foregroundColor(Color.newTextColor)
+                  Spacer()
+                }
+                .padding(.vertical, 6)
+              }
+            }
           }
+
         }
         .padding()
         .presentationCompactAdaptation(.popover)
         .preferredColorScheme(.light)
+      }
+    }
+    .alert(
+      isPresented: Binding<Bool>(
+        get: { showDeleteConfirmation || deleteError != nil },
+        set: { newValue in
+          if !newValue {
+            showDeleteConfirmation = false
+            deleteError = nil
+          }
+        })
+    ) {
+      if let error = deleteError {
+        return Alert(
+          title: Text("Delete Failed"),
+          message: Text(error),
+          dismissButton: .default(Text("OK")) {
+            deleteError = nil
+          }
+        )
+      } else {
+        return Alert(
+          title: Text("Delete Crag"),
+          message: Text("Are you sure you want to delete this crag? This action cannot be undone."),
+          primaryButton: .destructive(Text("Delete")) {
+            Task {
+              await deleteCrag()
+            }
+          },
+          secondaryButton: .cancel {
+            showDeleteConfirmation = false
+          }
+        )
       }
     }
   }
@@ -223,12 +279,34 @@ struct CragHeaderView<Content: View>: View {
       content
     }
   }
+
+  private func deleteCrag() async {
+    guard let cragId = crag?.id else { return }
+    isDeletingCrag = true
+    let success = await deleteCragClient.call(
+      DeleteCragInput(id: cragId),
+      authViewModel.getAuthData()
+    ) { errorMsg in
+      DispatchQueue.main.async {
+        deleteError = errorMsg
+      }
+    }
+    isDeletingCrag = false
+    if success {
+      navigationManager.pop()
+    } else if deleteError == nil {
+      deleteError = "Failed to delete crag. Please try again."
+    }
+  }
 }
 
 #Preview {
   Navigator { _ in
-    CragHeaderView(crag: CragDetails(id: "1", name: "Crag", locationName: "Location", photos: [])) {
-      Text("Content")
+    AuthInjectionMock {
+      CragHeaderView(crag: CragDetails(id: "1", name: "Crag", locationName: "Location", photos: []))
+      {
+        Text("Content")
+      }
     }
   }
 }
