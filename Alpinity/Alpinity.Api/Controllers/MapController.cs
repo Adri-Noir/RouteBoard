@@ -39,6 +39,7 @@ public class MapController(IMediator mediator, IAuthenticationContext authentica
     [HttpGet("weather/{cragId}")]
     [Authorize]
     [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(WeatherResponseDto), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status204NoContent)]
     [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
@@ -49,6 +50,10 @@ public class MapController(IMediator mediator, IAuthenticationContext authentica
             CragId = cragId
         };
         var result = await mediator.Send(command, cancellationToken);
+        if (result == null)
+        {
+            return NoContent();
+        }
         return Ok(result);
     }
 

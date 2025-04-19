@@ -13,9 +13,13 @@ public class GetCragWeatherCommandHandler(
     ICragWeatherRepository cragWeatherRepository,
     IMapper mapper) : IRequestHandler<GetCragWeatherCommand, WeatherResponseDto>
 {
-    public async Task<WeatherResponseDto> Handle(GetCragWeatherCommand request, CancellationToken cancellationToken)
+    public async Task<WeatherResponseDto?> Handle(GetCragWeatherCommand request, CancellationToken cancellationToken)
     {
-        var location = await cragRepository.GetCragLocation(request.CragId, cancellationToken) ?? throw new EntityNotFoundException("Crag location not found");
+        var location = await cragRepository.GetCragLocation(request.CragId, cancellationToken);
+        if (location == null)
+        {
+            return null;
+        }
 
         var cachedWeather = await cragWeatherRepository.GetLatestWeatherForCragAsync(request.CragId, cancellationToken);
 

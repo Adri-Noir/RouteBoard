@@ -26,6 +26,9 @@ public class GetCragWeatherClient: AuthenticatedClientProvider {
           return value
         }
 
+      case .noContent:
+        return nil
+
       case .unauthorized(let error):
         await handleUnauthorize(
           try? error.body.application_problem_plus_json, authData, errorHandler)

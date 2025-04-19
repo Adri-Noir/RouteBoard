@@ -3,10 +3,11 @@ using Alpinity.Application.Interfaces.Repositories;
 using Alpinity.Domain.Enums;
 using ApiExceptions.Exceptions;
 using MediatR;
+using Alpinity.Application.Helpers;
 
 namespace Alpinity.Application.UseCases.Sectors.Commands;
 
-public class DeleteSectorCommandHandler(ISectorRepository sectorRepository, IAuthenticationContext authenticationContext) : IRequestHandler<DeleteSectorCommand>
+public class DeleteSectorCommandHandler(ISectorRepository sectorRepository, IAuthenticationContext authenticationContext, ICragRepository cragRepository) : IRequestHandler<DeleteSectorCommand>
 {
     public async Task Handle(DeleteSectorCommand request, CancellationToken cancellationToken)
     {
@@ -22,6 +23,15 @@ public class DeleteSectorCommandHandler(ISectorRepository sectorRepository, IAut
             throw new EntityNotFoundException("Sector not found.");
         }
 
+        var sector = await sectorRepository.GetSectorById(request.SectorId, cancellationToken)
+            ?? throw new EntityNotFoundException("Sector not found.");
+        var cragId = sector.CragId;
+
         await sectorRepository.DeleteSector(request.SectorId, cancellationToken);
+
+        var crag = await cragRepository.GetCragWithSectors(cragId, cancellationToken)
+            ?? throw new EntityNotFoundException("Crag not found.");
+        crag.Location = LocationCalculationHelper.CalculateAverageLocation(crag.Sectors);
+        await cragRepository.UpdateCrag(crag, cancellationToken);
     }
 }

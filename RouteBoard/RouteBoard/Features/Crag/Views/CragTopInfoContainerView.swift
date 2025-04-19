@@ -502,7 +502,6 @@ private struct ForecastItemView: View {
 }
 
 struct CragTopInfoContainerView: View {
-  @EnvironmentObject var cragWeatherCacheClient: CragWeatherCacheClient
   @EnvironmentObject var authViewModel: AuthViewModel
 
   var crag: CragDetails?
@@ -512,13 +511,15 @@ struct CragTopInfoContainerView: View {
   @State private var isLoading = true
   @State private var selectedDayIndex = 0
 
+  private let cragWeatherClient = GetCragWeatherClient()
+
   func getCragWeather() async {
     defer {
       isLoading = false
     }
 
     if let crag = crag, let cragId = crag.id {
-      weather = await cragWeatherCacheClient.call(
+      weather = await cragWeatherClient.call(
         CragWeatherInput(cragId: cragId), authViewModel.getAuthData(), nil)
     }
   }
