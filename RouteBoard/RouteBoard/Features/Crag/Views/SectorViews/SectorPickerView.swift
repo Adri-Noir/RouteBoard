@@ -6,10 +6,10 @@ import SwiftUI
 struct SectorPickerView: View {
   let sectors: [SectorDetailedDto]
   let selectedSector: SectorDetailedDto?
-
   @Binding var selectedSectorId: String?
-  @Binding var isOpen: Bool
+  let refetch: () -> Void
 
+  @State private var isOpen: Bool = false
   @State private var isOptionsOpen: Bool = false
   @State private var isDeletingSector: Bool = false
   @State private var showDeleteConfirmation: Bool = false
@@ -110,7 +110,13 @@ struct SectorPickerView: View {
                   isOptionsOpen = false
                   showDeleteConfirmation = true
                 } label: {
-                  Text("Delete Sector")
+                  HStack {
+                    Image(systemName: "trash")
+                    Text("Delete Sector")
+                    Spacer()
+                  }
+                  .padding(.horizontal, 12)
+                  .foregroundColor(Color.red)
                 }
               }
             }
@@ -173,7 +179,7 @@ struct SectorPickerView: View {
     if success {
       selectedSectorId = nil
       isOpen = false
-      navigationManager.pop()
+      refetch()
     } else if deleteError == nil {
       deleteError = "Failed to delete sector. Please try again."
     }

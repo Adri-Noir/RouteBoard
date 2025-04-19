@@ -37,6 +37,8 @@ struct CragView: View {
     isLoading = true
     defer { isLoading = false }
 
+    self.selectedSectorId = nil
+
     guard
       let cragDetails = await cragDetailsClient.call(
         CragDetailsInput(id: value), authViewModel.getAuthData(), { errorMessage = $0 })
@@ -130,7 +132,17 @@ struct CragView: View {
               }
 
               CragSectorRouteSelection(
-                crag: crag, selectedSectorId: $selectedSectorId, viewMode: $viewMode)
+                crag: crag,
+                selectedSectorId: $selectedSectorId,
+                viewMode: $viewMode,
+                refetch: {
+                  Task {
+                    if let cragId = crag?.id {
+                      await getCrag(value: cragId)
+                    }
+                  }
+                }
+              )
 
               Spacer()
             }

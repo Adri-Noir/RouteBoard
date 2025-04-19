@@ -18,7 +18,7 @@ public class DeleteSectorClient: AuthenticatedClientProvider {
           Operations.delete_sol_api_sol_Sector_sol__lcub_id_rcub_.Input(path: data))
 
       switch result {
-      case .noContent:
+      case .ok:
         return true
       case .unauthorized(let error):
         await handleUnauthorize(

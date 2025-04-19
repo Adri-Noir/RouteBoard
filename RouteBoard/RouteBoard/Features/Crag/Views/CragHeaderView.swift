@@ -182,55 +182,56 @@ struct CragHeaderView<Content: View>: View {
       ) {
         VStack(alignment: .leading, spacing: 12) {
           Button(action: {
-            isCompactMenuPresented = false  // Dismiss popover
+            isCompactMenuPresented = false
             navigationManager.pushView(.createSector(cragId: crag?.id ?? ""))
           }) {
             HStack {
               Image(systemName: "plus.circle")
-                .foregroundColor(Color.newPrimaryColor)
               Text("Create Sector")
-                .foregroundColor(Color.newTextColor)
               Spacer()
             }
-            .padding(.vertical, 6)
+            .padding(.horizontal, 12)
+            .foregroundColor(Color.newTextColor)
           }
 
           if let crag = crag {
+            Divider()
+
             Button(action: {
               isCompactMenuPresented = false
               navigationManager.pushView(.editCrag(cragDetails: crag))
             }) {
               HStack {
                 Image(systemName: "pencil")
-                  .foregroundColor(Color.newPrimaryColor)
                 Text("Edit Crag")
-                  .foregroundColor(Color.newTextColor)
                 Spacer()
               }
-              .padding(.vertical, 6)
+              .padding(.horizontal, 12)
+              .foregroundColor(Color.newTextColor)
             }
 
             if authViewModel.isCreator {
+              Divider()
+
               Button(action: {
                 isCompactMenuPresented = false
                 showDeleteConfirmation = true
               }) {
                 HStack {
                   Image(systemName: "trash")
-                    .foregroundColor(Color.newPrimaryColor)
                   Text("Delete Crag")
-                    .foregroundColor(Color.newTextColor)
                   Spacer()
                 }
-                .padding(.vertical, 6)
+                .padding(.horizontal, 12)
+                .foregroundColor(Color.red)
               }
             }
           }
-
         }
-        .padding()
-        .presentationCompactAdaptation(.popover)
+        .padding(.vertical, 12)
+        .frame(width: 200)
         .preferredColorScheme(.light)
+        .presentationCompactAdaptation(.popover)
       }
     }
     .alert(

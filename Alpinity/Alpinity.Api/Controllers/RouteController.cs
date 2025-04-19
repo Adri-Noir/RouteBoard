@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Alpinity.Api.ProblemDetails;
+using Alpinity.Application.UseCases.Routes.Commands;
 
 namespace Alpinity.Api.Controllers;
 
@@ -89,13 +90,13 @@ public class RouteController(IMediator mediator) : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [Authorize]
-    [SwaggerResponse(StatusCodes.Status204NoContent)]
+    [SwaggerResponse(StatusCodes.Status200OK)]
     [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     public async Task<IActionResult> DeleteRoute(Guid id, CancellationToken cancellationToken)
     {
-        await mediator.Send(new Alpinity.Application.UseCases.Routes.Commands.DeleteRouteCommand { RouteId = id }, cancellationToken);
-        return NoContent();
+        await mediator.Send(new DeleteRouteCommand { RouteId = id }, cancellationToken);
+        return Ok();
     }
 }

@@ -99,24 +99,57 @@ public class ApplicationDbContext : DbContext
             .HasOne(sh => sh.Crag)
             .WithMany()
             .HasForeignKey(sh => sh.CragId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<SearchHistory>()
             .HasOne(sh => sh.Sector)
             .WithMany()
             .HasForeignKey(sh => sh.SectorId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<SearchHistory>()
             .HasOne(sh => sh.Route)
             .WithMany()
             .HasForeignKey(sh => sh.RouteId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<CragWeather>()
             .HasOne(cw => cw.Crag)
             .WithMany()
             .HasForeignKey(cw => cw.CragId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Crag>()
+            .HasMany(c => c.Photos)
+            .WithOne(p => p.Crag)
+            .HasForeignKey(p => p.CragId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Sector>()
+            .HasMany(s => s.Photos)
+            .WithOne(p => p.Sector)
+            .HasForeignKey(p => p.SectorId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Cascade delete sectors when deleting a crag
+        modelBuilder.Entity<Crag>()
+            .HasMany(c => c.Sectors)
+            .WithOne(s => s.Crag)
+            .HasForeignKey(s => s.CragId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Cascade delete routes when deleting a sector
+        modelBuilder.Entity<Sector>()
+            .HasMany(s => s.Routes)
+            .WithOne(r => r.Sector)
+            .HasForeignKey(r => r.SectorId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Cascade delete route photos when deleting a route
+        modelBuilder.Entity<Route>()
+            .HasMany(r => r.RoutePhotos)
+            .WithOne(rp => rp.Route)
+            .HasForeignKey(rp => rp.RouteId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

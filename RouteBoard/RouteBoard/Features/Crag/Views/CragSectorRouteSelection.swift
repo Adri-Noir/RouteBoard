@@ -19,9 +19,9 @@ struct CragSectorRouteSelection: View {
   let crag: CragDetails?
   @Binding var selectedSectorId: String?
   @Binding var viewMode: RouteViewMode
+  let refetch: () -> Void
 
   @State private var selectedSector: SectorDetailedDto?
-  @State private var isSectorSelectorOpen = false
   @State private var isLoading = true
   @State private var currentTablePage = 0
   @State private var selectedGrade: Components.Schemas.ClimbingGrade? = nil
@@ -189,7 +189,7 @@ struct CragSectorRouteSelection: View {
       sectors: sectors,
       selectedSector: selectedSector,
       selectedSectorId: $selectedSectorId,
-      isOpen: $isSectorSelectorOpen
+      refetch: refetch
     )
   }
 
