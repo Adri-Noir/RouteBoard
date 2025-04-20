@@ -135,9 +135,6 @@ public struct ScrollViewWithStickyHeader<Header: View, HeaderOverlay: View, Cont
   public typealias ScrollAction = (_ offset: CGPoint, _ headerVisibleRatio: CGFloat) -> Void
 
   @State
-  private var navigationBarHeight: CGFloat = 0
-
-  @State
   private var scrollOffset: CGPoint = .zero
 
   private var headerVisibleRatio: CGFloat {
@@ -169,11 +166,6 @@ extension ScrollViewWithStickyHeader {
         VStack(spacing: 0) {
           scrollHeader
           content()
-        }
-      }
-      .onAppear {
-        DispatchQueue.main.async {
-          navigationBarHeight = proxy.safeAreaInsets.top
         }
       }
     }

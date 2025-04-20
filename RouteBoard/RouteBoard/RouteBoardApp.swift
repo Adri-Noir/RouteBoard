@@ -14,7 +14,7 @@ struct RouteBoardApp: App {
     WindowGroup {
       APIClientInjection {
         AuthInjection {
-          NewMainNavigationView()
+          MainNavigationView()
         }
       }
     }
@@ -25,6 +25,6 @@ let logger = Logger()
 
 #Preview {
   AuthInjection {
-    NewMainNavigationView()
+    MainNavigationView()
   }
 }

@@ -16,9 +16,7 @@ public struct GeneralSearchView: View {
   public var body: some View {
     ApplyBackgroundColor(backgroundColor: .newPrimaryColor) {
       ZStack(alignment: .top) {
-        // Header
         HStack(spacing: 0) {
-          // Back button
           Button(action: {
             navigationManager.pop()
           }) {

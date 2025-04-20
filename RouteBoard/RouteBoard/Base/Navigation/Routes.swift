@@ -28,7 +28,7 @@ enum Routes {
   static func routerReturner(path: NavigationPaths) -> some View {
     switch path {
     case .main:
-      return AnyView(NewMainNavigationView())
+      return AnyView(MainNavigationView())
     case .registeredUser:
       return AnyView(RegisteredUserView())
     case .cragDetails(let id):
