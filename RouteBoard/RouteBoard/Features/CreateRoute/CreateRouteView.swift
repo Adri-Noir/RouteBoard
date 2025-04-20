@@ -16,10 +16,20 @@ struct CreateRouteView: View {
 
   // Route-specific properties
   let sectorId: String
+  private var routeDetails: RouteDetails? = nil
 
   @EnvironmentObject var authViewModel: AuthViewModel
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject var navigationManager: NavigationManager
+
+  init(routeDetails: RouteDetails) {
+    self.routeDetails = routeDetails
+    self.sectorId = routeDetails.sectorId
+  }
+
+  init(sectorId: String) {
+    self.sectorId = sectorId
+  }
 
   private let createRouteClient = CreateRouteClient()
 

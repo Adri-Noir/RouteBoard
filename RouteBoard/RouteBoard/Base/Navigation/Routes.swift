@@ -20,6 +20,8 @@ enum NavigationPaths: Hashable {
   case routeLogAscent(routeId: String, routeGrade: Components.Schemas.ClimbingGrade?)
   case editCrag(cragDetails: CreateCragOutput)
   case editSector(sectorDetails: CreateSectorOutput)
+  case editRoute(routeDetails: RouteDetails)
+  case generalSearch
 }
 
 enum Routes {
@@ -57,6 +59,10 @@ enum Routes {
       return AnyView(CreateCragView(cragDetails: cragDetails))
     case .editSector(let sectorDetails):
       return AnyView(CreateSectorView(sectorDetails: sectorDetails))
+    case .editRoute(let routeDetails):
+      return AnyView(CreateRouteView(routeDetails: routeDetails))
+    case .generalSearch:
+      return AnyView(GeneralSearchView())
     }
   }
 }

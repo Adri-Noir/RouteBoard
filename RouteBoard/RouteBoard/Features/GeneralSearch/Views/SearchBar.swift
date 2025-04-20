@@ -5,12 +5,14 @@ import SwiftUI
 
 struct SearchBar: View {
   @Binding var searchText: String
-  @Binding var isSearching: Bool
+  var shouldNavigateToSearch: Bool = false
+  var shouldFocusOnShow: Bool = false
 
   @FocusState var isSearchFocused: Bool
-
   @State private var internalSearchText: String = ""
   @State private var searchTextPublisher = PassthroughSubject<String, Never>()
+
+  @EnvironmentObject var navigationManager: NavigationManager
 
   func searchTextChanged(_ oldSearchText: String, _ newSearchText: String) {
     searchTextPublisher.send(newSearchText)
@@ -32,20 +34,13 @@ struct SearchBar: View {
       .autocorrectionDisabled()
       .autocapitalization(.none)
       .onChange(of: internalSearchText, searchTextChanged)
-      .onChange(of: isSearchFocused) {
-        withAnimation {
-          if searchText.isEmpty {
-            isSearching = isSearchFocused
-          }
-        }
-      }
       .onReceive(
         searchTextPublisher.debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
       ) { newSearchText in
         searchText = newSearchText
       }
 
-      if isSearchFocused {
+      if !searchText.isEmpty {
         Button(action: {
           searchText = ""
           isSearchFocused = false
@@ -67,9 +62,13 @@ struct SearchBar: View {
     .onChange(of: searchText) {
       internalSearchText = searchText
     }
+    .onChange(of: isSearchFocused) {
+      if shouldNavigateToSearch && isSearchFocused {
+        navigationManager.pushView(.generalSearch)
+      }
+    }
     .task {
-      if !searchText.isEmpty {
-        isSearching = true
+      if shouldFocusOnShow {
         isSearchFocused = true
       }
     }

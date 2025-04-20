@@ -15,8 +15,11 @@ public struct SearchResultView: View {
   @State private var isLoading: Bool = false
   @State private var errorMessage: String? = nil
   @EnvironmentObject private var authViewModel: AuthViewModel
+  @State private var recentlyViewed: [SearchResultDto] = []
+  @State private var isLoadingRecentlyViewed: Bool = false
 
   private var client = GetSearchResultsClient()
+  private let searchHistoryClient = SearchHistoryClient()
 
   init(searchText: Binding<String>) {
     _searchText = searchText
@@ -29,7 +32,6 @@ public struct SearchResultView: View {
 
     results = []
     isLoading = true
-    // try? await Task.sleep(nanoseconds: 1_000_000_000)
     let searchResults = await client.call(
       GetSearchResultsInput(query: value), authViewModel.getAuthData(), { errorMessage = $0 })
 
@@ -39,25 +41,70 @@ public struct SearchResultView: View {
     }
   }
 
+  func fetchRecentlyViewed() async {
+    isLoadingRecentlyViewed = true
+    let history = await searchHistoryClient.call(
+      (), authViewModel.getAuthData(), { errorMessage = $0 })
+    Task { @MainActor in
+      self.recentlyViewed = history
+      self.isLoadingRecentlyViewed = false
+    }
+  }
+
+  @ViewBuilder
+  private var resultsHeader: some View {
+    if searchText.count < 2 {
+      Text("Recently Viewed")
+        .font(.headline)
+        .foregroundColor(.white)
+        .padding(.bottom, 8)
+        .padding(.leading, ThemeExtension.horizontalPadding)
+    } else if !searchText.isEmpty {
+      Text("Search Results")
+        .font(.headline)
+        .foregroundColor(.white)
+        .padding(.bottom, 8)
+        .padding(.leading, ThemeExtension.horizontalPadding)
+    }
+  }
+
   @ViewBuilder
   private var resultsContent: some View {
-    if results.isEmpty && !searchText.isEmpty && !isLoading {
-      NoSearchResultsView()
-    } else {
-      LazyVStack(alignment: .leading, spacing: 12) {
-        ForEach(results, id: \.id) { item in
-          ResultTypeLinkPicker(result: item) {
-            SingleResultView(result: item)
+    VStack(alignment: .leading, spacing: 0) {
+      resultsHeader
+      if searchText.count < 2 {
+        if isLoadingRecentlyViewed {
+          LoadingSearchResultsView()
+        } else if recentlyViewed.isEmpty {
+          NoSearchResultsView()
+        } else {
+          LazyVStack(alignment: .leading, spacing: 12) {
+            ForEach(recentlyViewed, id: \.id) { item in
+              ResultTypeLinkPicker(result: item) {
+                SingleResultView(result: item)
+              }
+            }
+          }
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
+        }
+      } else if results.isEmpty && !searchText.isEmpty && !isLoading {
+        NoSearchResultsView()
+      } else {
+        LazyVStack(alignment: .leading, spacing: 12) {
+          ForEach(results, id: \.id) { item in
+            ResultTypeLinkPicker(result: item) {
+              SingleResultView(result: item)
+            }
           }
         }
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
       }
-      .padding(.horizontal, ThemeExtension.horizontalPadding)
     }
   }
 
   public var body: some View {
     VStack(alignment: .leading) {
-      if isLoading && results.isEmpty {
+      if (isLoading && results.isEmpty) || (isLoadingRecentlyViewed && searchText.count < 2) {
         LoadingSearchResultsView()
       } else {
         resultsContent
@@ -65,7 +112,14 @@ public struct SearchResultView: View {
     }
     .onChange(of: searchText) {
       Task {
-        await search(value: searchText)
+        if searchText.count >= 3 {
+          await search(value: searchText)
+        }
+      }
+    }
+    .onAppear {
+      Task {
+        await fetchRecentlyViewed()
       }
     }
     .alert(message: $errorMessage)

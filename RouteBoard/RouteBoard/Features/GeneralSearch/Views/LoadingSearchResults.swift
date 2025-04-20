@@ -5,7 +5,8 @@ struct LoadingSearchResultsView: View {
   var body: some View {
     VStack {
       ProgressView("Loading...")
-        .progressViewStyle(CircularProgressViewStyle())
+        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+        .foregroundColor(.white)
         .padding()
       Text("Fetching search results, please wait.")
         .font(.subheadline)

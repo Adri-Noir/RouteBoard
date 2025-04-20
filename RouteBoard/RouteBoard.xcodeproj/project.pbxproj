@@ -574,7 +574,6 @@
 				AF3D951E2D6B9628003FAF90 /* ExploreView.swift */,
 				AF3D94582D6A9B9A003FAF90 /* RecentlyViewedView.swift */,
 				AF3D944B2D6A98A8003FAF90 /* UserHelloView.swift */,
-				AF3D94472D6A982F003FAF90 /* SearchBar.swift */,
 				AF3D94442D6A97A2003FAF90 /* UserRecentAscentsView.swift */,
 			);
 			path = Views;
@@ -748,6 +747,7 @@
 		AF8DA64C2CD56D7300751865 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AF3D94472D6A982F003FAF90 /* SearchBar.swift */,
 				AFD931282D2387DF00B68D92 /* ResultTypeLinkPicker.swift */,
 				AF8DA64D2CD56D7C00751865 /* SearchResultView.swift */,
 				6911FB5412234CF26B197F5A /* LoadingSearchResults.swift */,

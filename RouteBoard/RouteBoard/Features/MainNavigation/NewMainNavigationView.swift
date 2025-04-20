@@ -6,7 +6,6 @@ struct NewMainNavigationView: View {
   @EnvironmentObject var authViewModel: AuthViewModel
 
   @State private var searchText = ""
-  @State private var isSearching = false
   @State private var showProfileView = false
 
   var body: some View {
@@ -14,21 +13,11 @@ struct NewMainNavigationView: View {
       ApplyBackgroundColor(backgroundColor: Color.newPrimaryColor) {
         ScrollView {
           VStack(alignment: .leading, spacing: 30) {
-            if !isSearching {
-              UserHelloView(showProfileView: $showProfileView)
-            }
-
-            SearchBar(searchText: $searchText, isSearching: $isSearching)
-
-            if !isSearching {
-              RecentlyViewedView()
-              UserRecentAscentsView()
-              ExploreView()
-            }
-
-            if isSearching {
-              SearchResultView(searchText: $searchText)
-            }
+            UserHelloView(showProfileView: $showProfileView)
+            SearchBar(searchText: $searchText, shouldNavigateToSearch: true)
+            RecentlyViewedView()
+            UserRecentAscentsView()
+            ExploreView()
 
             Spacer()
           }
