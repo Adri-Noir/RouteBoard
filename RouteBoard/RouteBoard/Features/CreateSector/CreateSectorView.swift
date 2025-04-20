@@ -27,6 +27,8 @@ struct CreateSectorView: View {
   private let createSectorClient = CreateSectorClient()
   private var sectorDetails: CreateSectorOutput? = nil
 
+  @State private var headerVisibleRatio: CGFloat = 1
+
   init(sectorDetails: CreateSectorOutput) {
     self.cragId = sectorDetails.cragId ?? ""
     self.sectorDetails = sectorDetails
@@ -45,28 +47,50 @@ struct CreateSectorView: View {
 
   var body: some View {
     ApplyBackgroundColor(backgroundColor: Color.newBackgroundGray) {
-      ScrollView {
-        VStack(alignment: .leading, spacing: 20) {
+      ScrollViewWithStickyHeader(
+        header: {
           headerView
-
+            .padding(.bottom, 12)
+            .background(Color.newBackgroundGray)
+        },
+        headerOverlay: {
+          HStack {
+            backButtonView
+            Spacer()
+            Text(sectorDetails == nil ? "Create Sector" : "Edit Sector")
+              .font(.headline)
+              .fontWeight(.bold)
+              .foregroundColor(Color.newTextColor)
+            Spacer()
+          }
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
+          .padding(.top, safeAreaInsets.top)
+          .padding(.bottom, 12)
+          .background(Color.newBackgroundGray)
+          .opacity(headerVisibleRatio == 0 ? 1 : 0)
+          .animation(.easeInOut(duration: 0.2), value: headerVisibleRatio)
+        },
+        headerHeight: safeAreaInsets.top,
+        onScroll: { _, headerVisibleRatio in
+          self.headerVisibleRatio = headerVisibleRatio
+        }
+      ) {
+        VStack(alignment: .leading, spacing: 20) {
           InputField(
             title: "Sector Name",
             text: $name,
             placeholder: "Enter sector name here..."
           )
-
           TextAreaField(
             title: "Description",
             text: $description,
             placeholder: "Enter sector description here... (optional)"
           )
-
           MapLocationPickerField(
             title: "Location",
             selectedCoordinate: $selectedCoordinate,
             errorMessage: $errorMessage
           )
-
           PhotoPickerField(
             title: "Sector Images",
             selectedImages: $selectedImages,
@@ -77,15 +101,10 @@ struct CreateSectorView: View {
               removedPhotoIds.insert(photo.id)
             }
           )
-
           submitButton
         }
-        .padding(.top)
+        .padding(.bottom, safeAreaInsets.bottom)
       }
-      .navigationBarHidden(true)
-      .padding(.top, 2)
-      .background(Color.newBackgroundGray)
-      .contentMargins(.bottom, safeAreaInsets.bottom, for: .scrollContent)
       .scrollDismissesKeyboard(.interactively)
       .alert(message: $errorMessage)
       .task {
@@ -100,6 +119,8 @@ struct CreateSectorView: View {
         }
       }
     }
+    .navigationBarHidden(true)
+    .contentMargins(.bottom, safeAreaInsets.bottom, for: .scrollContent)
   }
 
   private var backButtonView: some View {
@@ -112,13 +133,18 @@ struct CreateSectorView: View {
   }
 
   private var headerView: some View {
-    HStack {
-      backButtonView
-      Text(sectorDetails == nil ? "Create Sector" : "Edit Sector")
-        .font(.largeTitle)
-        .fontWeight(.bold)
-        .foregroundColor(Color.newTextColor)
+    VStack {
+      Spacer()
+      HStack {
+        backButtonView
+        Text(sectorDetails == nil ? "Create Sector" : "Edit Sector")
+          .font(.largeTitle)
+          .fontWeight(.bold)
+          .foregroundColor(Color.newTextColor)
+        Spacer()
+      }
     }
+
     .padding(.horizontal, ThemeExtension.horizontalPadding)
   }
 

@@ -178,6 +178,7 @@ struct PhotoPickerField: View {
         .font(.headline)
         .fontWeight(.semibold)
         .foregroundColor(Color.newTextColor)
+        .padding(.horizontal, ThemeExtension.horizontalPadding)
 
       if singleMode {
         singleImageContent

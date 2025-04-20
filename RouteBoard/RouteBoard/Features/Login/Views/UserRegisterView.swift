@@ -16,6 +16,7 @@ struct UserRegisterView: View {
   @State private var errorMessage: String = ""
   @State private var showErrorAlert: Bool = false
   @State private var profilePhoto: [UIImage] = []
+  @State private var headerVisibleRatio: CGFloat = 1
 
   @FocusState private var isFirstNameFocused: Bool
   @FocusState private var isLastNameFocused: Bool
@@ -32,6 +33,13 @@ struct UserRegisterView: View {
   private var isFormValid: Bool {
     !firstName.isEmpty && !lastName.isEmpty && !username.isEmpty && !email.isEmpty
       && !password.isEmpty && password == confirmPassword
+  }
+
+  private var safeAreaInsets: UIEdgeInsets {
+    guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+      let window = windowScene.windows.first
+    else { return .zero }
+    return window.safeAreaInsets
   }
 
   func register() async {
@@ -82,25 +90,35 @@ struct UserRegisterView: View {
 
   var body: some View {
     ApplyBackgroundColor(backgroundColor: Color.newBackgroundGray) {
-      ScrollView {
-        VStack(alignment: .leading, spacing: 20) {
+      ScrollViewWithStickyHeader(
+        header: {
+          headerView
+            .padding(.bottom, 12)
+            .background(Color.newBackgroundGray)
+        },
+        headerOverlay: {
           HStack {
-            Button(action: {
-              dismiss()
-            }) {
-              Image(systemName: "arrow.left")
-                .foregroundColor(.newPrimaryColor)
-                .imageScale(.large)
-            }
+            backButtonView
+            Spacer()
+            Text("Register")
+              .font(.headline)
+              .fontWeight(.bold)
+              .foregroundColor(Color.newPrimaryColor)
             Spacer()
           }
-
-          Text("Register")
-            .font(.largeTitle)
-            .fontWeight(.bold)
-            .foregroundColor(.newPrimaryColor)
-            .padding(.bottom, 20)
-
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
+          .padding(.top, safeAreaInsets.top)
+          .padding(.bottom, 12)
+          .background(Color.newBackgroundGray)
+          .opacity(headerVisibleRatio == 0 ? 1 : 0)
+          .animation(.easeInOut(duration: 0.2), value: headerVisibleRatio)
+        },
+        headerHeight: safeAreaInsets.top,
+        onScroll: { _, headerVisibleRatio in
+          self.headerVisibleRatio = headerVisibleRatio
+        }
+      ) {
+        VStack(alignment: .leading, spacing: 20) {
           TextField("", text: $firstName, prompt: Text("First Name").foregroundColor(.gray))
             .foregroundColor(.black)
             .padding()
@@ -112,7 +130,6 @@ struct UserRegisterView: View {
             .onSubmit {
               isLastNameFocused = true
             }
-
           TextField("", text: $lastName, prompt: Text("Last Name").foregroundColor(.gray))
             .foregroundColor(.black)
             .padding()
@@ -124,7 +141,6 @@ struct UserRegisterView: View {
             .onSubmit {
               isUsernameFocused = true
             }
-
           TextField("", text: $username, prompt: Text("Username").foregroundColor(.gray))
             .foregroundColor(.black)
             .padding()
@@ -138,7 +154,6 @@ struct UserRegisterView: View {
             .onSubmit {
               isEmailFocused = true
             }
-
           DatePicker(
             selection: $dateOfBirth,
             displayedComponents: .date
@@ -155,7 +170,6 @@ struct UserRegisterView: View {
           .onSubmit {
             isEmailFocused = true
           }
-
           TextField("", text: $email, prompt: Text("Email").foregroundColor(.gray))
             .foregroundColor(.black)
             .padding()
@@ -170,7 +184,6 @@ struct UserRegisterView: View {
             .onSubmit {
               isPasswordFocused = true
             }
-
           SecureField("", text: $password, prompt: Text("Password").foregroundColor(.gray))
             .foregroundColor(.black)
             .padding()
@@ -184,7 +197,6 @@ struct UserRegisterView: View {
             .onSubmit {
               isConfirmPasswordFocused = true
             }
-
           SecureField(
             "", text: $confirmPassword, prompt: Text("Confirm Password").foregroundColor(.gray)
           )
@@ -201,9 +213,7 @@ struct UserRegisterView: View {
               await register()
             }
           }
-
           PhotoPickerField(title: "Profile Photo", selectedImages: $profilePhoto, singleMode: true)
-
           HStack {
             Spacer()
             Button(action: {
@@ -236,7 +246,7 @@ struct UserRegisterView: View {
             Spacer()
           }
         }
-        .padding(.top, 20)
+        .padding(.bottom, safeAreaInsets.bottom)
         .padding(.horizontal, ThemeExtension.horizontalPadding)
       }
       .background(Color.newBackgroundGray)
@@ -253,6 +263,30 @@ struct UserRegisterView: View {
     .onDisappear {
       registerClient.cancel()
     }
+  }
+
+  private var backButtonView: some View {
+    Button(action: {
+      dismiss()
+    }) {
+      Image(systemName: "arrow.left")
+        .foregroundColor(.newPrimaryColor)
+        .imageScale(.large)
+    }
+  }
+
+  private var headerView: some View {
+    HStack {
+      backButtonView
+      Text("Register")
+        .font(.largeTitle)
+        .fontWeight(.bold)
+        .foregroundColor(.newPrimaryColor)
+        .padding(.bottom, 20)
+      Spacer()
+    }
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
+    .padding(.top, 20)
   }
 }
 

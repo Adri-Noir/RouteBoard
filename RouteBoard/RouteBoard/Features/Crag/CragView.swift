@@ -184,7 +184,7 @@ struct CragView: View {
   Navigator { _ in
     APIClientInjection {
       AuthInjectionMock {
-        CragView(cragId: "01960775-9e8c-71ef-8816-cfe0fa53df11")
+        CragView(cragId: "01963122-3e11-78d2-ab9f-62d939d6b02b")
       }
     }
   }

@@ -13,6 +13,7 @@ struct CreateCragView: View {
   @State private var selectedImages: [UIImage] = []
   @State private var removedPhotoIds: Set<String> = []
   @State private var locationName: String = ""
+  @State private var headerVisibleRatio: CGFloat = 1
 
   // Track the crag ID and photo upload status
   @State private var createdCragId: String? = nil
@@ -40,10 +41,35 @@ struct CreateCragView: View {
 
   var body: some View {
     ApplyBackgroundColor(backgroundColor: Color.newBackgroundGray) {
-      ScrollView {
-        VStack(alignment: .leading, spacing: 20) {
+      ScrollViewWithStickyHeader(
+        header: {
           headerView
-
+            .padding(.bottom, 12)
+            .background(Color.newBackgroundGray)
+        },
+        headerOverlay: {
+          HStack {
+            backButtonView
+            Spacer()
+            Text(cragDetails == nil ? "Create Crag" : "Edit Crag")
+              .font(.headline)
+              .fontWeight(.bold)
+              .foregroundColor(Color.newTextColor)
+            Spacer()
+          }
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
+          .padding(.top, safeAreaInsets.top)
+          .padding(.bottom, 12)
+          .background(Color.newBackgroundGray)
+          .opacity(headerVisibleRatio == 0 ? 1 : 0)
+          .animation(.easeInOut(duration: 0.2), value: headerVisibleRatio)
+        },
+        headerHeight: safeAreaInsets.top,
+        onScroll: { _, headerVisibleRatio in
+          self.headerVisibleRatio = headerVisibleRatio
+        }
+      ) {
+        VStack(alignment: .leading, spacing: 20) {
           InputField(
             title: "Crag Name",
             text: $name,
@@ -75,10 +101,8 @@ struct CreateCragView: View {
 
           submitButton
         }
-        .padding(.top)
+        .padding(.bottom, safeAreaInsets.bottom)
       }
-      .background(Color.newBackgroundGray)
-      .contentMargins(.bottom, safeAreaInsets.bottom, for: .scrollContent)
       .scrollDismissesKeyboard(.interactively)
       .alert(message: $errorMessage)
     }
@@ -102,12 +126,17 @@ struct CreateCragView: View {
   }
 
   private var headerView: some View {
-    HStack {
-      backButtonView
-      Text(cragDetails == nil ? "Create Crag" : "Edit Crag")
-        .font(.largeTitle)
-        .fontWeight(.bold)
-        .foregroundColor(Color.newTextColor)
+    VStack {
+      Spacer()
+      HStack {
+        backButtonView
+        Text(cragDetails == nil ? "Create Crag" : "Edit Crag")
+          .font(.largeTitle)
+          .fontWeight(.bold)
+          .foregroundColor(Color.newTextColor)
+
+        Spacer()
+      }
     }
     .padding(.horizontal, ThemeExtension.horizontalPadding)
   }

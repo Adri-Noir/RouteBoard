@@ -8,12 +8,20 @@ struct UserLoginView: View {
   @State private var isLoading: Bool = false
   @State private var errorMessage: String = ""
   @State private var showErrorAlert: Bool = false
+  @State private var headerVisibleRatio: CGFloat = 1
 
   @FocusState private var isEmailFocused: Bool
   @FocusState private var isPasswordFocused: Bool
 
   @EnvironmentObject var authViewModel: AuthViewModel
   @Environment(\.dismiss) private var dismiss
+
+  private var safeAreaInsets: UIEdgeInsets {
+    guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+      let window = windowScene.windows.first
+    else { return .zero }
+    return window.safeAreaInsets
+  }
 
   func login() async {
     isLoading = true
@@ -31,25 +39,35 @@ struct UserLoginView: View {
 
   var body: some View {
     ApplyBackgroundColor(backgroundColor: Color.newBackgroundGray) {
-      ScrollView {
-        VStack(alignment: .leading, spacing: 20) {
+      ScrollViewWithStickyHeader(
+        header: {
+          headerView
+            .padding(.bottom, 12)
+            .background(Color.newBackgroundGray)
+        },
+        headerOverlay: {
           HStack {
-            Button(action: {
-              dismiss()
-            }) {
-              Image(systemName: "arrow.left")
-                .foregroundColor(.newPrimaryColor)
-                .imageScale(.large)
-            }
+            backButtonView
+            Spacer()
+            Text("Login")
+              .font(.headline)
+              .fontWeight(.bold)
+              .foregroundColor(Color.newPrimaryColor)
             Spacer()
           }
-
-          Text("Login")
-            .font(.largeTitle)
-            .fontWeight(.bold)
-            .foregroundColor(.newPrimaryColor)
-            .padding(.bottom, 20)
-
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
+          .padding(.top, safeAreaInsets.top)
+          .padding(.bottom, 12)
+          .background(Color.newBackgroundGray)
+          .opacity(headerVisibleRatio == 0 ? 1 : 0)
+          .animation(.easeInOut(duration: 0.2), value: headerVisibleRatio)
+        },
+        headerHeight: safeAreaInsets.top,
+        onScroll: { _, headerVisibleRatio in
+          self.headerVisibleRatio = headerVisibleRatio
+        }
+      ) {
+        VStack(alignment: .leading, spacing: 20) {
           TextField("", text: $email, prompt: Text("Username or Email").foregroundColor(.gray))
             .foregroundColor(.black)
             .padding()
@@ -63,7 +81,6 @@ struct UserLoginView: View {
             .onSubmit {
               isPasswordFocused = true
             }
-
           SecureField("", text: $password, prompt: Text("Password").foregroundColor(.gray))
             .foregroundColor(.black)
             .padding()
@@ -79,7 +96,6 @@ struct UserLoginView: View {
                 await login()
               }
             }
-
           HStack {
             Spacer()
             Button(action: {
@@ -110,7 +126,7 @@ struct UserLoginView: View {
             Spacer()
           }
         }
-        .padding(.top, 20)
+        .padding(.bottom, safeAreaInsets.bottom)
         .padding(.horizontal, ThemeExtension.horizontalPadding)
       }
       .background(Color.newBackgroundGray)
@@ -123,6 +139,30 @@ struct UserLoginView: View {
       }
     }
     .navigationBarBackButtonHidden(true)
+  }
+
+  private var backButtonView: some View {
+    Button(action: {
+      dismiss()
+    }) {
+      Image(systemName: "arrow.left")
+        .foregroundColor(.newPrimaryColor)
+        .imageScale(.large)
+    }
+  }
+
+  private var headerView: some View {
+    HStack {
+      backButtonView
+      Text("Login")
+        .font(.largeTitle)
+        .fontWeight(.bold)
+        .foregroundColor(.newPrimaryColor)
+        .padding(.bottom, 20)
+      Spacer()
+    }
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
+    .padding(.top, 20)
   }
 }
 

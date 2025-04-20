@@ -12,6 +12,7 @@ struct CreateRouteView: View {
   @State private var isSubmitting: Bool = false
   @State private var errorMessage: String? = nil
   @State private var scrollPosition: String?
+  @State private var headerVisibleRatio: CGFloat = 1
 
   // Route-specific properties
   let sectorId: String
@@ -39,42 +40,57 @@ struct CreateRouteView: View {
 
   var body: some View {
     ApplyBackgroundColor(backgroundColor: Color.newBackgroundGray) {
-      ScrollView {
-        VStack(alignment: .leading, spacing: 20) {
+      ScrollViewWithStickyHeader(
+        header: {
           headerView
-
+            .padding(.bottom, 12)
+            .background(Color.newBackgroundGray)
+        },
+        headerOverlay: {
+          HStack {
+            backButtonView
+            Spacer()
+            Text("Create Route")
+              .font(.headline)
+              .fontWeight(.bold)
+              .foregroundColor(Color.newTextColor)
+            Spacer()
+          }
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
+          .padding(.top, safeAreaInsets.top)
+          .padding(.bottom, 12)
+          .background(Color.newBackgroundGray)
+          .opacity(headerVisibleRatio == 0 ? 1 : 0)
+          .animation(.easeInOut(duration: 0.2), value: headerVisibleRatio)
+        },
+        headerHeight: safeAreaInsets.top,
+        onScroll: { _, headerVisibleRatio in
+          self.headerVisibleRatio = headerVisibleRatio
+        }
+      ) {
+        VStack(alignment: .leading, spacing: 20) {
           InputField(
             title: "Route Name",
             text: $name,
             placeholder: "Enter route name here..."
           )
-
           TextAreaField(
             title: "Description",
             text: $description,
             placeholder: "Enter route description here... (optional)"
           )
-
           gradeView
-
           routeTypeView
-
           InputField(
             title: "Length (meters)",
             text: $length,
             placeholder: "Enter route length... (optional)",
             keyboardType: .numberPad
           )
-
           submitButton
         }
-        .padding(.top)
+        .padding(.bottom, safeAreaInsets.bottom)
       }
-      .navigationBarBackButtonHidden()
-      .toolbar(.hidden, for: .navigationBar)
-      .padding(.top, 2)
-      .background(Color.newBackgroundGray)
-      .contentMargins(.bottom, safeAreaInsets.bottom, for: .scrollContent)
       .scrollDismissesKeyboard(.interactively)
       .alert(message: $errorMessage)
       .task {
@@ -91,6 +107,10 @@ struct CreateRouteView: View {
         }
       }
     }
+    .navigationBarBackButtonHidden()
+    .toolbar(.hidden, for: .navigationBar)
+    .background(Color.newBackgroundGray)
+    .contentMargins(.bottom, safeAreaInsets.bottom, for: .scrollContent)
   }
 
   private var backButtonView: some View {
@@ -103,12 +123,16 @@ struct CreateRouteView: View {
   }
 
   private var headerView: some View {
-    HStack {
-      backButtonView
-      Text("Create Route")
-        .font(.largeTitle)
-        .fontWeight(.bold)
-        .foregroundColor(Color.newTextColor)
+    VStack {
+      Spacer()
+      HStack {
+        backButtonView
+        Text("Create Route")
+          .font(.largeTitle)
+          .fontWeight(.bold)
+          .foregroundColor(Color.newTextColor)
+        Spacer()
+      }
     }
     .padding(.horizontal, ThemeExtension.horizontalPadding)
   }

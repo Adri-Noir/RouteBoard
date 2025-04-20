@@ -21,6 +21,7 @@ struct RouteLogAscent: View {
   @State private var selectedAscentType: Components.Schemas.AscentType = .Redpoint
   @State private var attemptsCount: Int? = nil
   @FocusState private var isAttemptsCountFocused: Bool
+  @State private var headerVisibleRatio: CGFloat = 1
 
   private let logAscentClient = LogAscentClient()
 
@@ -41,25 +42,48 @@ struct RouteLogAscent: View {
 
   var body: some View {
     ApplyBackgroundColor(backgroundColor: Color.newBackgroundGray) {
-      ScrollView {
-        VStack(alignment: .leading, spacing: 20) {
+      ScrollViewWithStickyHeader(
+        header: {
           headerView
+            .padding(.bottom, 12)
+            .background(Color.newBackgroundGray)
+        },
+        headerOverlay: {
+          HStack {
+            backButtonView
+            Spacer()
+            Text("Log Ascent")
+              .font(.headline)
+              .fontWeight(.bold)
+              .foregroundColor(Color.newTextColor)
+            Spacer()
+          }
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
+          .padding(.top, safeAreaInsets.top)
+          .padding(.bottom, 12)
+          .background(Color.newBackgroundGray)
+          .opacity(headerVisibleRatio == 0 ? 1 : 0)
+          .animation(.easeInOut(duration: 0.2), value: headerVisibleRatio)
+        },
+        headerHeight: safeAreaInsets.top,
+        onScroll: { _, headerVisibleRatio in
+          self.headerVisibleRatio = headerVisibleRatio
+        }
+      ) {
+        VStack(alignment: .leading, spacing: 20) {
           datePickerView
           ascentTypeView
-
           if ascentRequiresAttemptCount {
             attemptsCountView
           }
-
           gradeView
           climbTypesView
           ratingView
           notesView
           submitButton
         }
-        .padding(.top)
+        .padding(.bottom, safeAreaInsets.bottom)
       }
-      .padding(.top, 1)
       .contentMargins(.bottom, safeAreaInsets.bottom, for: .scrollContent)
       .scrollDismissesKeyboard(.interactively)
       .task {
@@ -87,22 +111,18 @@ struct RouteLogAscent: View {
   // MARK: - Subviews
 
   private var headerView: some View {
-    HStack {
-      Button(action: {
-        dismiss()
-      }) {
-        Image(systemName: "chevron.left")
-          .foregroundColor(Color.newPrimaryColor)
-      }
-
-      Text("Log Ascent")
-        .font(.largeTitle)
-        .fontWeight(.bold)
-        .foregroundColor(Color.newTextColor)
-
+    VStack {
       Spacer()
+      HStack {
+        backButtonView
+        Text("Log Ascent")
+          .font(.largeTitle)
+          .fontWeight(.bold)
+          .foregroundColor(Color.newTextColor)
+        Spacer()
+      }
     }
-    .padding(.horizontal)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
   }
 
   private var datePickerView: some View {
@@ -450,6 +470,23 @@ struct RouteLogAscent: View {
 
     if result == "" {
       dismiss()
+    }
+  }
+
+  private var backButtonView: some View {
+    Button(action: {
+      dismiss()
+    }) {
+      Image(systemName: "chevron.left")
+        .foregroundColor(Color.newPrimaryColor)
+    }
+  }
+}
+
+#Preview {
+  Navigator { _ in
+    AuthInjectionMock {
+      RouteLogAscent(routeId: "123", routeGrade: .F_6a)
     }
   }
 }
