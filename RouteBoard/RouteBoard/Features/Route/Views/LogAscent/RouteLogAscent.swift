@@ -49,14 +49,15 @@ struct RouteLogAscent: View {
             .background(Color.newBackgroundGray)
         },
         headerOverlay: {
-          HStack {
-            backButtonView
-            Spacer()
+          ZStack {
+            HStack {
+              backButtonView
+              Spacer()
+            }
             Text("Log Ascent")
               .font(.headline)
               .fontWeight(.bold)
-              .foregroundColor(Color.newTextColor)
-            Spacer()
+              .foregroundColor(Color.newPrimaryColor)
           }
           .padding(.horizontal, ThemeExtension.horizontalPadding)
           .padding(.top, safeAreaInsets.top)
@@ -70,18 +71,62 @@ struct RouteLogAscent: View {
           self.headerVisibleRatio = headerVisibleRatio
         }
       ) {
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(spacing: 20) {
           datePickerView
-          ascentTypeView
-          if ascentRequiresAttemptCount {
-            attemptsCountView
+
+          Group {
+            ascentTypeView
           }
-          gradeView
-          climbTypesView
-          ratingView
-          notesView
+          .padding(16)
+          .background(Color.white)
+          .cornerRadius(10)
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
+
+          if ascentRequiresAttemptCount {
+            Group {
+              attemptsCountView
+            }
+            .padding(16)
+            .background(Color.white)
+            .cornerRadius(10)
+            .padding(.horizontal, ThemeExtension.horizontalPadding)
+          }
+
+          Group {
+            gradeView
+          }
+          .padding(16)
+          .background(Color.white)
+          .cornerRadius(10)
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
+
+          Group {
+            climbTypesView
+          }
+          .padding(16)
+          .background(Color.white)
+          .cornerRadius(10)
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
+
+          Group {
+            ratingView
+          }
+          .padding(16)
+          .background(Color.white)
+          .cornerRadius(10)
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
+
+          Group {
+            notesView
+          }
+          .padding(16)
+          .background(Color.white)
+          .cornerRadius(10)
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
+
           submitButton
         }
+        .padding(.top, 20)
         .padding(.bottom, safeAreaInsets.bottom)
       }
       .contentMargins(.bottom, safeAreaInsets.bottom, for: .scrollContent)
@@ -118,7 +163,7 @@ struct RouteLogAscent: View {
         Text("Log Ascent")
           .font(.largeTitle)
           .fontWeight(.bold)
-          .foregroundColor(Color.newTextColor)
+          .foregroundColor(Color.newPrimaryColor)
         Spacer()
       }
     }
@@ -126,24 +171,20 @@ struct RouteLogAscent: View {
   }
 
   private var datePickerView: some View {
-    VStack(alignment: .leading, spacing: 10) {
-      Text("Ascent Date")
-        .font(.headline)
-        .fontWeight(.semibold)
-        .foregroundColor(Color.newTextColor)
-        .padding(.horizontal)
-
-      DatePicker("", selection: $ascentDate, displayedComponents: [.date])
-        .datePickerStyle(.compact)
-        .labelsHidden()
-        .colorScheme(.light)
-        .foregroundStyle(Color.newTextColor)
-        .accentColor(Color.newPrimaryColor)
-        .padding(.vertical, 8)
-        .cornerRadius(10)
-        .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
-        .padding(.horizontal)
-    }
+    DatePicker(
+      "Ascent Date",
+      selection: $ascentDate,
+      displayedComponents: .date
+    )
+    .font(.headline)
+    .fontWeight(.semibold)
+    .colorScheme(.light)
+    .foregroundStyle(Color.newTextColor)
+    .accentColor(Color.newPrimaryColor)
+    .padding()
+    .background(Color.white)
+    .cornerRadius(10)
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
   }
 
   private var ascentTypeView: some View {
@@ -152,7 +193,6 @@ struct RouteLogAscent: View {
         .font(.headline)
         .fontWeight(.semibold)
         .foregroundColor(Color.newTextColor)
-        .padding(.horizontal)
 
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 10) {
@@ -170,7 +210,7 @@ struct RouteLogAscent: View {
                 .padding(.vertical, 8)
                 .padding(.horizontal, 16)
                 .background(
-                  selectedAscentType == ascentType ? Color.newPrimaryColor : Color.white
+                  selectedAscentType == ascentType ? Color.newPrimaryColor : Color.newBackgroundGray
                 )
                 .foregroundColor(
                   selectedAscentType == ascentType ? .white : Color.newTextColor
@@ -178,9 +218,14 @@ struct RouteLogAscent: View {
                 .cornerRadius(10)
                 .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
             }
+            .scrollTransition { content, phase in
+              content
+                .opacity(phase.isIdentity ? 1 : 0)
+                .scaleEffect(phase.isIdentity ? 1 : 0)
+            }
           }
         }
-        .padding(.horizontal, ThemeExtension.horizontalPadding)
+        .scrollTargetLayout()
       }
     }
   }
@@ -191,7 +236,6 @@ struct RouteLogAscent: View {
         .font(.headline)
         .fontWeight(.semibold)
         .foregroundColor(Color.newTextColor)
-        .padding(.horizontal)
 
       HStack(spacing: 15) {
         // Decrement button
@@ -213,14 +257,14 @@ struct RouteLogAscent: View {
         // Text field for attempts count
         ZStack {
           RoundedRectangle(cornerRadius: 10)
-            .fill(Color.white)
+            .fill(Color.newBackgroundGray)
             .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
             .frame(width: 80, height: 40)
 
           if attemptsCount == nil {
             Text("None")
               .font(.headline)
-              .foregroundColor(Color.gray.opacity(0.5))
+              .foregroundColor(Color.newTextColor.opacity(0.5))
           }
 
           TextField(
@@ -264,8 +308,9 @@ struct RouteLogAscent: View {
             .font(.title2)
             .foregroundColor(Color.newPrimaryColor)
         }
+
+        Spacer()
       }
-      .padding(.horizontal, ThemeExtension.horizontalPadding)
     }
     .transition(.opacity.combined(with: .move(edge: .top)))
     .animation(.easeInOut, value: ascentRequiresAttemptCount)
@@ -277,7 +322,6 @@ struct RouteLogAscent: View {
         .font(.headline)
         .fontWeight(.semibold)
         .foregroundColor(Color.newTextColor)
-        .padding(.horizontal)
 
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 10) {
@@ -291,16 +335,22 @@ struct RouteLogAscent: View {
                 .font(.headline)
                 .padding(.vertical, 8)
                 .padding(.horizontal, 16)
-                .background(selectedGrade == grade ? Color.newPrimaryColor : Color.white)
+                .background(
+                  selectedGrade == grade ? Color.newPrimaryColor : Color.newBackgroundGray
+                )
                 .foregroundColor(selectedGrade == grade ? .white : Color.newTextColor)
                 .cornerRadius(10)
                 .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+            }
+            .scrollTransition { content, phase in
+              content
+                .opacity(phase.isIdentity ? 1 : 0)
+                .scaleEffect(phase.isIdentity ? 1 : 0)
             }
             .id(grade)
           }
         }
         .scrollTargetLayout()
-        .padding(.horizontal, ThemeExtension.horizontalPadding)
       }
       .scrollPosition(id: $scrollPosition, anchor: .center)
     }
@@ -312,7 +362,6 @@ struct RouteLogAscent: View {
         .font(.headline)
         .fontWeight(.semibold)
         .foregroundColor(Color.newTextColor)
-        .padding(.horizontal, ThemeExtension.horizontalPadding)
 
       VStack(spacing: 15) {
         climbTypeSection(title: "Style", types: [.Endurance, .Powerful, .Technical])
@@ -329,7 +378,6 @@ struct RouteLogAscent: View {
       Text(title)
         .font(.subheadline)
         .foregroundColor(Color.gray)
-        .padding(.horizontal, ThemeExtension.horizontalPadding)
 
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 10) {
@@ -344,7 +392,8 @@ struct RouteLogAscent: View {
                 .padding(.vertical, 8)
                 .padding(.horizontal, 16)
                 .background(
-                  selectedClimbType.contains(climbType) ? Color.newPrimaryColor : Color.white
+                  selectedClimbType.contains(climbType)
+                    ? Color.newPrimaryColor : Color.newBackgroundGray
                 )
                 .foregroundColor(
                   selectedClimbType.contains(climbType) ? .white : Color.newTextColor
@@ -352,9 +401,14 @@ struct RouteLogAscent: View {
                 .cornerRadius(10)
                 .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
             }
+            .scrollTransition { content, phase in
+              content
+                .opacity(phase.isIdentity ? 1 : 0)
+                .scaleEffect(phase.isIdentity ? 1 : 0)
+            }
           }
         }
-        .padding(.horizontal, ThemeExtension.horizontalPadding)
+        .scrollTargetLayout()
       }
     }
   }
@@ -405,7 +459,6 @@ struct RouteLogAscent: View {
         }
       }
     }
-    .padding(.horizontal, ThemeExtension.horizontalPadding)
   }
 
   private var notesView: some View {
@@ -413,7 +466,8 @@ struct RouteLogAscent: View {
       title: "Notes",
       text: $notes,
       placeholder: "Enter notes here... (optional)",
-      padding: ThemeExtension.horizontalPadding
+      padding: 0,
+      backgroundColor: Color.newBackgroundGray
     )
   }
 

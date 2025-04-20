@@ -117,7 +117,6 @@ private struct UploadButton: View {
           .stroke(Color.gray.opacity(0.3), lineWidth: 1)
       )
     }
-    .padding(.horizontal, ThemeExtension.horizontalPadding)
   }
 }
 
@@ -204,6 +203,7 @@ struct PhotoPickerField: View {
         selectedImages = []
       }
     )
+    .padding(.horizontal, ThemeExtension.horizontalPadding)
   }
 
   // Extract multi-image content to a computed property
@@ -213,6 +213,7 @@ struct PhotoPickerField: View {
         imagesGallery
       } else {
         UploadButton(binding: $photoItems, isSingleMode: false)
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
       }
     }
   }
@@ -260,6 +261,12 @@ struct PhotoPickerField: View {
               .padding(5)
             }
           }
+          .scrollTransition { content, phase in
+            content
+              .opacity(phase.isIdentity ? 1 : 0)
+              .scaleEffect(phase.isIdentity ? 1 : 0)
+          }
+          .id(photo.id)
         }
         // New images (not yet uploaded)
         ForEach(0..<selectedImages.count, id: \.self) { index in
@@ -268,10 +275,23 @@ struct PhotoPickerField: View {
             index: index,
             onRemove: removeImage
           )
+          .scrollTransition { content, phase in
+            content
+              .opacity(phase.isIdentity ? 1 : 0)
+              .scaleEffect(phase.isIdentity ? 1 : 0)
+          }
+          .id("selected-\(index)")
         }
         AddMoreButton(binding: $photoItems)
+          .scrollTransition { content, phase in
+            content
+              .opacity(phase.isIdentity ? 1 : 0)
+              .scaleEffect(phase.isIdentity ? 1 : 0)
+          }
+          .id("add-more")
       }
       .padding(.horizontal, ThemeExtension.horizontalPadding)
+      .scrollTargetLayout()
     }
   }
 

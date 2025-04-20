@@ -8,6 +8,7 @@ struct TextAreaField: View {
   var placeholder: String
   var minHeight: CGFloat = 120
   var padding: CGFloat?
+  var backgroundColor: Color = Color.white
 
   @FocusState private var isFocused: Bool
 
@@ -37,7 +38,7 @@ struct TextAreaField: View {
             alignment: .topLeading
           )
       }
-      .background(Color.white)
+      .background(backgroundColor)
       .cornerRadius(10)
       .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
       .padding(.horizontal, padding)

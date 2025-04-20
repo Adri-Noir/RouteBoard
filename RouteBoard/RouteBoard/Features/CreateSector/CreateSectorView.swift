@@ -54,14 +54,15 @@ struct CreateSectorView: View {
             .background(Color.newBackgroundGray)
         },
         headerOverlay: {
-          HStack {
-            backButtonView
-            Spacer()
+          ZStack {
+            HStack {
+              backButtonView
+              Spacer()
+            }
             Text(sectorDetails == nil ? "Create Sector" : "Edit Sector")
               .font(.headline)
               .fontWeight(.bold)
-              .foregroundColor(Color.newTextColor)
-            Spacer()
+              .foregroundColor(Color.newPrimaryColor)
           }
           .padding(.horizontal, ThemeExtension.horizontalPadding)
           .padding(.top, safeAreaInsets.top)
@@ -101,6 +102,7 @@ struct CreateSectorView: View {
               removedPhotoIds.insert(photo.id)
             }
           )
+
           submitButton
         }
         .padding(.bottom, safeAreaInsets.bottom)
@@ -140,7 +142,7 @@ struct CreateSectorView: View {
         Text(sectorDetails == nil ? "Create Sector" : "Edit Sector")
           .font(.largeTitle)
           .fontWeight(.bold)
-          .foregroundColor(Color.newTextColor)
+          .foregroundColor(Color.newPrimaryColor)
         Spacer()
       }
     }

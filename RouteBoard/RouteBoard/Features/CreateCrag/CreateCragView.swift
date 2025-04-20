@@ -48,14 +48,15 @@ struct CreateCragView: View {
             .background(Color.newBackgroundGray)
         },
         headerOverlay: {
-          HStack {
-            backButtonView
-            Spacer()
+          ZStack {
+            HStack {
+              backButtonView
+              Spacer()
+            }
             Text(cragDetails == nil ? "Create Crag" : "Edit Crag")
               .font(.headline)
               .fontWeight(.bold)
-              .foregroundColor(Color.newTextColor)
-            Spacer()
+              .foregroundColor(Color.newPrimaryColor)
           }
           .padding(.horizontal, ThemeExtension.horizontalPadding)
           .padding(.top, safeAreaInsets.top)
@@ -133,7 +134,7 @@ struct CreateCragView: View {
         Text(cragDetails == nil ? "Create Crag" : "Edit Crag")
           .font(.largeTitle)
           .fontWeight(.bold)
-          .foregroundColor(Color.newTextColor)
+          .foregroundColor(Color.newPrimaryColor)
 
         Spacer()
       }

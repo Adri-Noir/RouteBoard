@@ -14,6 +14,7 @@ struct MapLocationPickerField: View {
   @State private var searchCompleter = MKLocalSearchCompleter()
   @State private var searchCompleterDelegate: SearchCompleterDelegate!
   @State private var isSearching: Bool = false
+  @State private var isMapInteractionEnabled: Bool = false
 
   @FocusState private var isFocused: Bool
 
@@ -137,32 +138,58 @@ struct MapLocationPickerField: View {
       .zIndex(1)  // Ensure dropdown appears above map
 
       MapReader { proxy in
-        Map(position: $position) {
-          if let coordinate = selectedCoordinate {
-            Marker("Location", coordinate: coordinate)
-              .tint(.red)
-          }
-        }
-        .mapStyle(.standard(elevation: .realistic))
-        .frame(height: 300)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-        .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
-        .onTapGesture { screenCoordinate in
-          if let mapCoordinate = proxy.convert(screenCoordinate, from: .local) {
-            selectedCoordinate = mapCoordinate
-          }
-        }
-        .onChange(of: selectedCoordinate) { _, newCoord in
-          if let newCoord {
-            withAnimation {
-              position = .region(
-                MKCoordinateRegion(
-                  center: newCoord,
-                  span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
-                )
-              )
+        ZStack {
+          Map(position: $position) {
+            if let coordinate = selectedCoordinate {
+              Marker("Location", coordinate: coordinate)
+                .tint(.red)
             }
           }
+          .mapStyle(.standard(elevation: .realistic))
+          .frame(height: 300)
+          .clipShape(RoundedRectangle(cornerRadius: 10))
+          .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+          .onTapGesture { screenCoordinate in
+            if isMapInteractionEnabled,
+              let mapCoordinate = proxy.convert(screenCoordinate, from: .local)
+            {
+              selectedCoordinate = mapCoordinate
+            }
+          }
+          .onChange(of: selectedCoordinate) { _, newCoord in
+            if let newCoord {
+              withAnimation {
+                position = .region(
+                  MKCoordinateRegion(
+                    center: newCoord,
+                    span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
+                  )
+                )
+              }
+            }
+          }
+
+          if !isMapInteractionEnabled {
+            Color.black.opacity(0.4)
+              .frame(height: 300)
+              .clipShape(RoundedRectangle(cornerRadius: 10))
+              .contentShape(Rectangle())
+              .overlay(
+                Text("Tap to enable map")
+                  .foregroundColor(.white)
+                  .font(.headline)
+                  .padding()
+                  .background(Color.black.opacity(0.5))
+                  .clipShape(RoundedRectangle(cornerRadius: 8))
+              )
+              .onTapGesture {
+                withAnimation { isMapInteractionEnabled = true }
+              }
+              .zIndex(2)
+          }
+        }
+        .onTapBackground(enabled: isMapInteractionEnabled) {
+          isMapInteractionEnabled = false
         }
       }
       .padding(.horizontal, ThemeExtension.horizontalPadding)

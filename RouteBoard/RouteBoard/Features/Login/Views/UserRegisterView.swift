@@ -93,27 +93,27 @@ struct UserRegisterView: View {
       ScrollViewWithStickyHeader(
         header: {
           headerView
-            .padding(.bottom, 12)
+            .padding(.top, 20)
             .background(Color.newBackgroundGray)
         },
         headerOverlay: {
-          HStack {
-            backButtonView
-            Spacer()
+          ZStack {
+            HStack {
+              backButtonView
+              Spacer()
+            }
             Text("Register")
               .font(.headline)
               .fontWeight(.bold)
               .foregroundColor(Color.newPrimaryColor)
-            Spacer()
           }
           .padding(.horizontal, ThemeExtension.horizontalPadding)
-          .padding(.top, safeAreaInsets.top)
           .padding(.bottom, 12)
           .background(Color.newBackgroundGray)
           .opacity(headerVisibleRatio == 0 ? 1 : 0)
           .animation(.easeInOut(duration: 0.2), value: headerVisibleRatio)
         },
-        headerHeight: safeAreaInsets.top,
+        headerHeight: safeAreaInsets.top + 20,
         onScroll: { _, headerVisibleRatio in
           self.headerVisibleRatio = headerVisibleRatio
         }
@@ -130,6 +130,8 @@ struct UserRegisterView: View {
             .onSubmit {
               isLastNameFocused = true
             }
+            .padding(.horizontal, ThemeExtension.horizontalPadding)
+
           TextField("", text: $lastName, prompt: Text("Last Name").foregroundColor(.gray))
             .foregroundColor(.black)
             .padding()
@@ -141,6 +143,8 @@ struct UserRegisterView: View {
             .onSubmit {
               isUsernameFocused = true
             }
+            .padding(.horizontal, ThemeExtension.horizontalPadding)
+
           TextField("", text: $username, prompt: Text("Username").foregroundColor(.gray))
             .foregroundColor(.black)
             .padding()
@@ -154,6 +158,8 @@ struct UserRegisterView: View {
             .onSubmit {
               isEmailFocused = true
             }
+            .padding(.horizontal, ThemeExtension.horizontalPadding)
+
           DatePicker(
             selection: $dateOfBirth,
             displayedComponents: .date
@@ -170,6 +176,8 @@ struct UserRegisterView: View {
           .onSubmit {
             isEmailFocused = true
           }
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
+
           TextField("", text: $email, prompt: Text("Email").foregroundColor(.gray))
             .foregroundColor(.black)
             .padding()
@@ -184,6 +192,8 @@ struct UserRegisterView: View {
             .onSubmit {
               isPasswordFocused = true
             }
+            .padding(.horizontal, ThemeExtension.horizontalPadding)
+
           SecureField("", text: $password, prompt: Text("Password").foregroundColor(.gray))
             .foregroundColor(.black)
             .padding()
@@ -197,6 +207,8 @@ struct UserRegisterView: View {
             .onSubmit {
               isConfirmPasswordFocused = true
             }
+            .padding(.horizontal, ThemeExtension.horizontalPadding)
+
           SecureField(
             "", text: $confirmPassword, prompt: Text("Confirm Password").foregroundColor(.gray)
           )
@@ -213,7 +225,10 @@ struct UserRegisterView: View {
               await register()
             }
           }
+          .padding(.horizontal, ThemeExtension.horizontalPadding)
+
           PhotoPickerField(title: "Profile Photo", selectedImages: $profilePhoto, singleMode: true)
+          
           HStack {
             Spacer()
             Button(action: {
@@ -246,8 +261,8 @@ struct UserRegisterView: View {
             Spacer()
           }
         }
+        .padding(.top, 20)
         .padding(.bottom, safeAreaInsets.bottom)
-        .padding(.horizontal, ThemeExtension.horizontalPadding)
       }
       .background(Color.newBackgroundGray)
       .padding(.top, 1)
@@ -269,24 +284,25 @@ struct UserRegisterView: View {
     Button(action: {
       dismiss()
     }) {
-      Image(systemName: "arrow.left")
+      Image(systemName: "chevron.left")
         .foregroundColor(.newPrimaryColor)
-        .imageScale(.large)
     }
   }
 
   private var headerView: some View {
-    HStack {
-      backButtonView
-      Text("Register")
-        .font(.largeTitle)
-        .fontWeight(.bold)
-        .foregroundColor(.newPrimaryColor)
-        .padding(.bottom, 20)
+    VStack {
       Spacer()
+      HStack {
+        backButtonView
+        Text("Register")
+          .font(.largeTitle)
+          .fontWeight(.bold)
+          .foregroundColor(.newPrimaryColor)
+        Spacer()
+      }
+      .padding(.horizontal, ThemeExtension.horizontalPadding)
+      .padding(.top, 20)
     }
-    .padding(.horizontal, ThemeExtension.horizontalPadding)
-    .padding(.top, 20)
   }
 }
 

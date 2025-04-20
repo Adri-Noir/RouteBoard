@@ -57,14 +57,15 @@ struct CreateRouteView: View {
             .background(Color.newBackgroundGray)
         },
         headerOverlay: {
-          HStack {
-            backButtonView
-            Spacer()
+          ZStack {
+            HStack {
+              backButtonView
+              Spacer()
+            }
             Text("Create Route")
               .font(.headline)
               .fontWeight(.bold)
-              .foregroundColor(Color.newTextColor)
-            Spacer()
+              .foregroundColor(Color.newPrimaryColor)
           }
           .padding(.horizontal, ThemeExtension.horizontalPadding)
           .padding(.top, safeAreaInsets.top)
@@ -140,7 +141,7 @@ struct CreateRouteView: View {
         Text("Create Route")
           .font(.largeTitle)
           .fontWeight(.bold)
-          .foregroundColor(Color.newTextColor)
+          .foregroundColor(Color.newPrimaryColor)
         Spacer()
       }
     }

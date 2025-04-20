@@ -42,18 +42,19 @@ struct UserLoginView: View {
       ScrollViewWithStickyHeader(
         header: {
           headerView
-            .padding(.bottom, 12)
+            .padding(.top, 20)
             .background(Color.newBackgroundGray)
         },
         headerOverlay: {
-          HStack {
-            backButtonView
-            Spacer()
+          ZStack {
+            HStack {
+              backButtonView
+              Spacer()
+            }
             Text("Login")
               .font(.headline)
               .fontWeight(.bold)
               .foregroundColor(Color.newPrimaryColor)
-            Spacer()
           }
           .padding(.horizontal, ThemeExtension.horizontalPadding)
           .padding(.top, safeAreaInsets.top)
@@ -62,7 +63,7 @@ struct UserLoginView: View {
           .opacity(headerVisibleRatio == 0 ? 1 : 0)
           .animation(.easeInOut(duration: 0.2), value: headerVisibleRatio)
         },
-        headerHeight: safeAreaInsets.top,
+        headerHeight: safeAreaInsets.top + 20,
         onScroll: { _, headerVisibleRatio in
           self.headerVisibleRatio = headerVisibleRatio
         }
@@ -126,6 +127,7 @@ struct UserLoginView: View {
             Spacer()
           }
         }
+        .padding(.top, 20)
         .padding(.bottom, safeAreaInsets.bottom)
         .padding(.horizontal, ThemeExtension.horizontalPadding)
       }
@@ -145,21 +147,22 @@ struct UserLoginView: View {
     Button(action: {
       dismiss()
     }) {
-      Image(systemName: "arrow.left")
+      Image(systemName: "chevron.left")
         .foregroundColor(.newPrimaryColor)
-        .imageScale(.large)
     }
   }
 
   private var headerView: some View {
-    HStack {
-      backButtonView
-      Text("Login")
-        .font(.largeTitle)
-        .fontWeight(.bold)
-        .foregroundColor(.newPrimaryColor)
-        .padding(.bottom, 20)
+    VStack {
       Spacer()
+      HStack(alignment: .center) {
+        backButtonView
+        Text("Login")
+          .font(.largeTitle)
+          .fontWeight(.bold)
+          .foregroundColor(.newPrimaryColor)
+        Spacer()
+      }
     }
     .padding(.horizontal, ThemeExtension.horizontalPadding)
     .padding(.top, 20)
