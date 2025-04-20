@@ -3,10 +3,14 @@
 import Combine
 import SwiftUI
 
+enum SearchBarStyle {
+  case normal
+  case compact
+}
+
 struct SearchBar: View {
   @Binding var searchText: String
-  var shouldNavigateToSearch: Bool = false
-  var shouldFocusOnShow: Bool = false
+  var style: SearchBarStyle = .normal
 
   @FocusState var isSearchFocused: Bool
   @State private var internalSearchText: String = ""
@@ -27,7 +31,8 @@ struct SearchBar: View {
       TextField(
         "", text: $internalSearchText, prompt: Text("Search...").foregroundColor(.gray)
       )
-      .padding()
+      .padding(style == .compact ? 12 : 16)
+      .font(.body)
       .focused($isSearchFocused)
       .background(Color.clear)
       .foregroundColor(Color.newTextColor)
@@ -63,12 +68,12 @@ struct SearchBar: View {
       internalSearchText = searchText
     }
     .onChange(of: isSearchFocused) {
-      if shouldNavigateToSearch && isSearchFocused {
+      if style == .normal && isSearchFocused {
         navigationManager.pushView(.generalSearch)
       }
     }
     .task {
-      if shouldFocusOnShow {
+      if style == .compact {
         isSearchFocused = true
       }
     }

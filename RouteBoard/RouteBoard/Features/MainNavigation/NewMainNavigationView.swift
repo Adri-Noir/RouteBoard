@@ -14,7 +14,7 @@ struct NewMainNavigationView: View {
         ScrollView {
           VStack(alignment: .leading, spacing: 30) {
             UserHelloView(showProfileView: $showProfileView)
-            SearchBar(searchText: $searchText, shouldNavigateToSearch: true)
+            SearchBar(searchText: $searchText, style: .normal)
             RecentlyViewedView()
             UserRecentAscentsView()
             ExploreView()
