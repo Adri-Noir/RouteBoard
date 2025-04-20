@@ -7,6 +7,8 @@ using AutoMapper;
 using MediatR;
 using NetTopologySuite.Geometries;
 using Alpinity.Application.Helpers;
+using Alpinity.Application.Interfaces;
+using Alpinity.Domain.Enums;
 
 namespace Alpinity.Application.UseCases.Sectors.Commands.Edit;
 
@@ -15,10 +17,17 @@ public class EditSectorCommandHandler(
     ISectorRepository sectorRepository,
     IFileRepository fileRepository,
     IPhotoRepository photoRepository,
-    IMapper mapper) : IRequestHandler<EditSectorCommand, SectorDetailedDto>
+    IMapper mapper,
+    IAuthenticationContext authenticationContext) : IRequestHandler<EditSectorCommand, SectorDetailedDto>
 {
     public async Task<SectorDetailedDto> Handle(EditSectorCommand request, CancellationToken cancellationToken)
     {
+        var userRole = authenticationContext.GetUserRole();
+        if (userRole != UserRole.Admin && userRole != UserRole.Creator)
+        {
+            throw new UnAuthorizedAccessException("You are not authorized to edit a sector.");
+        }
+
         var sector = await sectorRepository.GetSectorById(request.Id, cancellationToken) ?? throw new EntityNotFoundException("Sector not found.");
         var locationIsChanged = false;
 

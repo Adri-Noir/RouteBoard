@@ -6,13 +6,15 @@ import SwiftUI
 struct CreateRouteView: View {
   @State private var name: String = ""
   @State private var description: String = ""
-  @State private var selectedGrade: String? = nil
+  @State private var selectedGrade: Components.Schemas.ClimbingGrade? = nil
   @State private var selectedRouteTypes: [Components.Schemas.RouteType] = []
   @State private var length: String = ""
   @State private var isSubmitting: Bool = false
   @State private var errorMessage: String? = nil
   @State private var scrollPosition: String?
   @State private var headerVisibleRatio: CGFloat = 1
+  @State private var selectedImages: [UIImage] = []
+  @State private var removedPhotoIds: Set<String> = []
 
   // Route-specific properties
   let sectorId: String
@@ -32,13 +34,23 @@ struct CreateRouteView: View {
   }
 
   private let createRouteClient = CreateRouteClient()
+  private let editRouteClient = EditRouteClient()
 
   private var grades: [String] {
     authViewModel.getGradeSystem().climbingGrades
   }
 
+  private var climbingGradeSystem: ClimbingGrades {
+    authViewModel.getGradeSystem()
+  }
+
   private var routeTypes: [Components.Schemas.RouteType] {
     Components.Schemas.RouteType.allCases
+  }
+
+  private var existingPhotos: [PhotoDto] {
+    (routeDetails?.routePhotos ?? []).compactMap { $0.combinedPhoto }
+      .filter { !removedPhotoIds.contains($0.id) }
   }
 
   private var safeAreaInsets: UIEdgeInsets {
@@ -62,7 +74,7 @@ struct CreateRouteView: View {
               backButtonView
               Spacer()
             }
-            Text("Create Route")
+            Text(routeDetails == nil ? "Create Route" : "Edit Route")
               .font(.headline)
               .fontWeight(.bold)
               .foregroundColor(Color.newPrimaryColor)
@@ -98,6 +110,17 @@ struct CreateRouteView: View {
             placeholder: "Enter route length... (optional)",
             keyboardType: .numberPad
           )
+          if !existingPhotos.isEmpty {
+            PhotoPickerField(
+              title: "Route Images",
+              selectedImages: $selectedImages,
+              existingPhotos: existingPhotos,
+              onRemovePhoto: { photo in
+                removedPhotoIds.insert(photo.id)
+              },
+              disableAddMore: true
+            )
+          }
           submitButton
         }
         .padding(.bottom, safeAreaInsets.bottom)
@@ -105,16 +128,23 @@ struct CreateRouteView: View {
       .scrollDismissesKeyboard(.interactively)
       .alert(message: $errorMessage)
       .task {
+        if let details = routeDetails {
+          name = details.name ?? ""
+          description = details.description ?? ""
+          selectedGrade = details.grade
+          selectedRouteTypes = details.routeType ?? []
+          length = details.length != nil ? String(details.length!) : ""
+        }
         // Set the scroll position to the selected grade after a short delay
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
           withAnimation {
-            scrollPosition = selectedGrade ?? "?"
+            scrollPosition = selectedGrade?.rawValue ?? "?"
           }
         }
       }
       .onChange(of: selectedGrade) { _, newGrade in
         withAnimation {
-          scrollPosition = newGrade ?? "?"
+          scrollPosition = newGrade?.rawValue ?? "?"
         }
       }
     }
@@ -138,7 +168,7 @@ struct CreateRouteView: View {
       Spacer()
       HStack {
         backButtonView
-        Text("Create Route")
+        Text(routeDetails == nil ? "Create Route" : "Edit Route")
           .font(.largeTitle)
           .fontWeight(.bold)
           .foregroundColor(Color.newPrimaryColor)
@@ -158,18 +188,20 @@ struct CreateRouteView: View {
 
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 10) {
-          ForEach(grades, id: \.self) { grade in
+          ForEach(grades, id: \.self) { gradeString in
+            let grade = climbingGradeSystem.convertStringToGrade(gradeString)
             Button(action: {
               withAnimation {
-                if grade == "?" {
+                if gradeString == "?" {
                   selectedGrade = nil
                 } else {
-                  selectedGrade = grade == selectedGrade ? nil : grade
+                  selectedGrade = selectedGrade == grade ? nil : grade
                 }
               }
             }) {
-              let isSelected = selectedGrade == grade || (grade == "?" && selectedGrade == nil)
-              Text(grade)
+              let isSelected =
+                selectedGrade == grade || (gradeString == "?" && selectedGrade == nil)
+              Text(gradeString)
                 .font(.headline)
                 .padding(.vertical, 8)
                 .padding(.horizontal, 16)
@@ -178,7 +210,7 @@ struct CreateRouteView: View {
                 .cornerRadius(10)
                 .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
             }
-            .id(grade)
+            .id(gradeString)
           }
         }
         .scrollTargetLayout()
@@ -244,7 +276,7 @@ struct CreateRouteView: View {
           ProgressView()
             .progressViewStyle(CircularProgressViewStyle(tint: .white))
         } else {
-          Text("Create Route")
+          Text(routeDetails == nil ? "Create Route" : "Edit Route")
             .fontWeight(.bold)
         }
         Spacer()
@@ -279,27 +311,49 @@ struct CreateRouteView: View {
       return length
     }()
 
-    let createRouteCommand = CreateRouteCommand(
-      name: name,
-      description: description.isEmpty ? nil : description,
-      grade: selectedGrade == nil
-        ? nil : authViewModel.getGradeSystem().convertStringToGrade(selectedGrade!),
-      routeType: selectedRouteTypes.isEmpty ? nil : selectedRouteTypes,
-      length: lengthValue != nil ? Int32(lengthValue!) : nil,
-      sectorId: sectorId
-    )
-
-    let result = await createRouteClient.call(
-      createRouteCommand,
-      authViewModel.getAuthData(),
-      { message in
-        errorMessage = message
+    if let details = routeDetails {
+      // Edit mode
+      let editCommand = EditRouteCommand(
+        name: name == details.name ? nil : name,
+        description: description == details.description ? nil : description,
+        grade: selectedGrade == details.grade ? nil : selectedGrade,
+        routeType: selectedRouteTypes == (details.routeType ?? []) ? nil : selectedRouteTypes,
+        length: lengthValue != Int(details.length ?? 0)
+          ? (lengthValue != nil ? Int32(lengthValue!) : nil) : nil,
+        photosToRemove: removedPhotoIds.isEmpty ? nil : Array(removedPhotoIds)
+      )
+      let result = await editRouteClient.call(
+        (details.id, editCommand),
+        authViewModel.getAuthData(),
+        { message in
+          errorMessage = message
+        }
+      )
+      if result != nil {
+        navigationManager.pop()
+        navigationManager.pushView(.routeDetails(id: result?.id ?? ""))
       }
-    )
-
-    if result != nil {
-      navigationManager.pop()
-      navigationManager.pushView(.routeDetails(id: result?.id ?? ""))
+    } else {
+      // Create mode
+      let createRouteCommand = CreateRouteCommand(
+        name: name,
+        description: description.isEmpty ? nil : description,
+        grade: selectedGrade,
+        routeType: selectedRouteTypes.isEmpty ? nil : selectedRouteTypes,
+        length: lengthValue != nil ? Int32(lengthValue!) : nil,
+        sectorId: sectorId
+      )
+      let result = await createRouteClient.call(
+        createRouteCommand,
+        authViewModel.getAuthData(),
+        { message in
+          errorMessage = message
+        }
+      )
+      if result != nil {
+        navigationManager.pop()
+        navigationManager.pushView(.routeDetails(id: result?.id ?? ""))
+      }
     }
   }
 }

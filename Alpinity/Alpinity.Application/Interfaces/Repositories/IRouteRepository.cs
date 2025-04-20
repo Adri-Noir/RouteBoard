@@ -6,6 +6,7 @@ namespace Alpinity.Application.Interfaces.Repositories;
 public interface IRouteRepository
 {
     Task CreateRoute(Route route, CancellationToken cancellationToken = default);
+    Task UpdateRoute(Route route, CancellationToken cancellationToken = default);
 
     Task<Route?> GetRouteById(Guid routeId, CancellationToken cancellationToken = default);
 

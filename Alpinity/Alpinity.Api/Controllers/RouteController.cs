@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Alpinity.Api.ProblemDetails;
 using Alpinity.Application.UseCases.Routes.Commands;
+using Alpinity.Application.UseCases.Routes.Commands.Edit;
 
 namespace Alpinity.Api.Controllers;
 
@@ -98,5 +99,19 @@ public class RouteController(IMediator mediator) : ControllerBase
     {
         await mediator.Send(new DeleteRouteCommand { RouteId = id }, cancellationToken);
         return Ok();
+    }
+
+    [HttpPut("{id:guid}")]
+    [Authorize]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(RouteDetailedDto), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    public async Task<ActionResult<RouteDetailedDto>> EditRoute(Guid id, EditRouteCommand command, CancellationToken cancellationToken)
+    {
+        command.Id = id;
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
     }
 }

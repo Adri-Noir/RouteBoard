@@ -14,6 +14,12 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
+    public async Task UpdateRoute(Route route, CancellationToken cancellationToken = default)
+    {
+        dbContext.Routes.Update(route);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task<Route?> GetRouteById(Guid routeId, CancellationToken cancellationToken = default)
     {
         return await dbContext.Routes

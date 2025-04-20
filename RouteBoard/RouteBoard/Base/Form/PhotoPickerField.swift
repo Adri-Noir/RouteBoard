@@ -168,6 +168,7 @@ struct PhotoPickerField: View {
   var singleMode: Bool = false
   var existingPhotos: [PhotoDto] = []
   var onRemovePhoto: ((PhotoDto) -> Void)? = nil
+  var disableAddMore: Bool = false
 
   @State private var photoItems: [PhotosPickerItem] = []
 
@@ -282,13 +283,15 @@ struct PhotoPickerField: View {
           }
           .id("selected-\(index)")
         }
-        AddMoreButton(binding: $photoItems)
-          .scrollTransition { content, phase in
-            content
-              .opacity(phase.isIdentity ? 1 : 0)
-              .scaleEffect(phase.isIdentity ? 1 : 0)
-          }
-          .id("add-more")
+        if !disableAddMore {
+          AddMoreButton(binding: $photoItems)
+            .scrollTransition { content, phase in
+              content
+                .opacity(phase.isIdentity ? 1 : 0)
+                .scaleEffect(phase.isIdentity ? 1 : 0)
+            }
+            .id("add-more")
+        }
       }
       .padding(.horizontal, ThemeExtension.horizontalPadding)
       .scrollTargetLayout()

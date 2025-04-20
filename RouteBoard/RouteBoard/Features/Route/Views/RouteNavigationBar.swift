@@ -55,6 +55,14 @@ struct RouteNavigationBar: View {
           Label("Add Route Image", systemImage: "camera")
         }
 
+        if authViewModel.isCreator, let route = route {
+          Button(action: {
+            navigationManager.pushView(.editRoute(routeDetails: route))
+          }) {
+            Label("Edit Route", systemImage: "pencil")
+          }
+        }
+
         if let route = route {
           if route.routePhotos?.isEmpty == false {
             Button(action: onRouteARView) {
