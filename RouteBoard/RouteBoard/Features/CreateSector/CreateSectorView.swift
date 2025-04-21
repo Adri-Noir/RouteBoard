@@ -29,6 +29,30 @@ struct CreateSectorView: View {
 
   @State private var headerVisibleRatio: CGFloat = 1
 
+  // Add original values for edit mode
+  private var originalName: String { sectorDetails?.name ?? "" }
+  private var originalDescription: String { sectorDetails?.description ?? "" }
+  private var originalLatitude: Double? { sectorDetails?.location?.latitude }
+  private var originalLongitude: Double? { sectorDetails?.location?.longitude }
+  private var originalPhotos: [PhotoDto] { sectorDetails?.photos ?? [] }
+
+  // Add hasChanges computed property
+  private var hasChanges: Bool {
+    guard sectorDetails != nil else { return true }  // Always true in create mode
+    if name != originalName { return true }
+    if description != originalDescription { return true }
+    if let selected = selectedCoordinate {
+      if selected.latitude != originalLatitude || selected.longitude != originalLongitude {
+        return true
+      }
+    } else if originalLatitude != nil || originalLongitude != nil {
+      return true
+    }
+    if !selectedImages.isEmpty { return true }
+    if !removedPhotoIds.isEmpty { return true }
+    return false
+  }
+
   init(sectorDetails: CreateSectorOutput) {
     self.cragId = sectorDetails.cragId ?? ""
     self.sectorDetails = sectorDetails
@@ -95,12 +119,8 @@ struct CreateSectorView: View {
           PhotoPickerField(
             title: "Sector Images",
             selectedImages: $selectedImages,
-            existingPhotos: (sectorDetails?.photos ?? []).filter { photo in
-              !removedPhotoIds.contains(photo.id)
-            },
-            onRemovePhoto: { photo in
-              removedPhotoIds.insert(photo.id)
-            }
+            existingPhotos: sectorDetails?.photos ?? [],
+            removedPhotoIds: $removedPhotoIds
           )
 
           submitButton
@@ -181,8 +201,9 @@ struct CreateSectorView: View {
     !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && selectedCoordinate != nil
   }
 
+  // Update isButtonEnabled to require hasChanges in edit mode
   private var isButtonEnabled: Bool {
-    !isSubmitting && isFormValid
+    !isSubmitting && isFormValid && hasChanges
   }
 
   private func navigateToSectorDetails() {

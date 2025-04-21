@@ -48,16 +48,34 @@ struct CreateRouteView: View {
     Components.Schemas.RouteType.allCases
   }
 
-  private var existingPhotos: [PhotoDto] {
-    (routeDetails?.routePhotos ?? []).compactMap { $0.combinedPhoto }
-      .filter { !removedPhotoIds.contains($0.id) }
-  }
-
   private var safeAreaInsets: UIEdgeInsets {
     guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
       let window = windowScene.windows.first
     else { return .zero }
     return window.safeAreaInsets
+  }
+
+  // Add original values for edit mode
+  private var originalName: String { routeDetails?.name ?? "" }
+  private var originalDescription: String { routeDetails?.description ?? "" }
+  private var originalGrade: Components.Schemas.ClimbingGrade? { routeDetails?.grade }
+  private var originalRouteTypes: [Components.Schemas.RouteType] { routeDetails?.routeType ?? [] }
+  private var originalLength: String {
+    routeDetails?.length != nil ? String(routeDetails!.length!) : ""
+  }
+  private var originalPhotos: [Components.Schemas.RoutePhotoDto] { routeDetails?.routePhotos ?? [] }
+
+  // Add hasChanges computed property
+  private var hasChanges: Bool {
+    guard routeDetails != nil else { return true }  // Always true in create mode
+    if name != originalName { return true }
+    if description != originalDescription { return true }
+    if selectedGrade != originalGrade { return true }
+    if selectedRouteTypes != originalRouteTypes { return true }
+    if length != originalLength { return true }
+    if !selectedImages.isEmpty { return true }
+    if !removedPhotoIds.isEmpty { return true }
+    return false
   }
 
   var body: some View {
@@ -110,14 +128,12 @@ struct CreateRouteView: View {
             placeholder: "Enter route length... (optional)",
             keyboardType: .numberPad
           )
-          if !existingPhotos.isEmpty {
+          if let routeDetails = routeDetails, routeDetails.routePhotos?.count ?? 0 > 0 {
             PhotoPickerField(
               title: "Route Images",
               selectedImages: $selectedImages,
-              existingPhotos: existingPhotos,
-              onRemovePhoto: { photo in
-                removedPhotoIds.insert(photo.id)
-              },
+              existingPhotos: routeDetails.routePhotos?.compactMap { $0.combinedPhoto } ?? [],
+              removedPhotoIds: $removedPhotoIds,
               disableAddMore: true
             )
           }
@@ -138,13 +154,13 @@ struct CreateRouteView: View {
         // Set the scroll position to the selected grade after a short delay
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
           withAnimation {
-            scrollPosition = selectedGrade?.rawValue ?? "?"
+            scrollPosition = authViewModel.getGradeSystem().convertGradeToString(selectedGrade)
           }
         }
       }
       .onChange(of: selectedGrade) { _, newGrade in
         withAnimation {
-          scrollPosition = newGrade?.rawValue ?? "?"
+          scrollPosition = authViewModel.getGradeSystem().convertGradeToString(newGrade)
         }
       }
     }
@@ -282,7 +298,7 @@ struct CreateRouteView: View {
         Spacer()
       }
       .padding()
-      .background(isFormValid ? Color.newPrimaryColor : Color.gray.opacity(0.5))
+      .background(isButtonEnabled ? Color.newPrimaryColor : Color.gray.opacity(0.5))
       .foregroundColor(.white)
       .cornerRadius(10)
       .padding(.horizontal, ThemeExtension.horizontalPadding)
@@ -295,8 +311,9 @@ struct CreateRouteView: View {
     !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
   }
 
+  // Update isButtonEnabled to require hasChanges in edit mode
   private var isButtonEnabled: Bool {
-    !isSubmitting && isFormValid
+    !isSubmitting && isFormValid && hasChanges
   }
 
   private func submitRoute() async {
@@ -312,7 +329,15 @@ struct CreateRouteView: View {
     }()
 
     if let details = routeDetails {
-      // Edit mode
+      let photosToRemove =
+        removedPhotoIds.isEmpty
+        ? nil
+        : Array(
+          details.routePhotos?
+            .filter { $0.combinedPhoto != nil && removedPhotoIds.contains($0.combinedPhoto!.id) }
+            .compactMap { $0.id } ?? []
+        )
+
       let editCommand = EditRouteCommand(
         name: name == details.name ? nil : name,
         description: description == details.description ? nil : description,
@@ -320,7 +345,7 @@ struct CreateRouteView: View {
         routeType: selectedRouteTypes == (details.routeType ?? []) ? nil : selectedRouteTypes,
         length: lengthValue != Int(details.length ?? 0)
           ? (lengthValue != nil ? Int32(lengthValue!) : nil) : nil,
-        photosToRemove: removedPhotoIds.isEmpty ? nil : Array(removedPhotoIds)
+        photosToRemove: photosToRemove
       )
       let result = await editRouteClient.call(
         (details.id, editCommand),

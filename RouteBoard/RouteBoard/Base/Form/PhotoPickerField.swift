@@ -167,7 +167,7 @@ struct PhotoPickerField: View {
   @Binding var selectedImages: [UIImage]
   var singleMode: Bool = false
   var existingPhotos: [PhotoDto] = []
-  var onRemovePhoto: ((PhotoDto) -> Void)? = nil
+  var removedPhotoIds: Binding<Set<String>>? = nil
   var disableAddMore: Bool = false
 
   @State private var photoItems: [PhotosPickerItem] = []
@@ -224,51 +224,10 @@ struct PhotoPickerField: View {
     ScrollView(.horizontal, showsIndicators: false) {
       HStack(spacing: 12) {
         // Existing photos from server
-        ForEach(existingPhotos, id: \.id) { photo in
-          ZStack(alignment: .topTrailing) {
-            if let urlString = photo.url, let url = URL(string: urlString) {
-              AsyncImage(url: url) { phase in
-                switch phase {
-                case .success(let image):
-                  image
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 150, height: 150)
-                    .clipped()
-                    .cornerRadius(10)
-                case .failure(_):
-                  PlaceholderImage()
-                    .frame(width: 150, height: 150)
-                    .cornerRadius(10)
-                default:
-                  ProgressView()
-                    .frame(width: 150, height: 150)
-                }
-              }
-            } else {
-              Rectangle()
-                .fill(Color.gray.opacity(0.2))
-                .frame(width: 150, height: 150)
-                .cornerRadius(10)
-            }
-            // Remove button for existing photo
-            if let onRemovePhoto = onRemovePhoto {
-              Button(action: { onRemovePhoto(photo) }) {
-                Image(systemName: "xmark.circle.fill")
-                  .font(.system(size: 22))
-                  .foregroundColor(.white)
-                  .background(Circle().fill(Color.black.opacity(0.7)))
-              }
-              .padding(5)
-            }
-          }
-          .scrollTransition { content, phase in
-            content
-              .opacity(phase.isIdentity ? 1 : 0)
-              .scaleEffect(phase.isIdentity ? 1 : 0)
-          }
-          .id(photo.id)
-        }
+        ExistingPhotosGallery(
+          existingPhotos: existingPhotos,
+          removedPhotoIds: removedPhotoIds
+        )
         // New images (not yet uploaded)
         ForEach(0..<selectedImages.count, id: \.self) { index in
           ImageItemView(
@@ -326,6 +285,87 @@ extension PhotoPickerField {
     var field = self
     field.singleMode = true
     return field
+  }
+}
+
+// Extracted view for existing photos gallery
+private struct ExistingPhotosGallery: View {
+  let existingPhotos: [PhotoDto]
+  let removedPhotoIds: Binding<Set<String>>?
+
+  var body: some View {
+    ForEach(existingPhotos, id: \.id) { photo in
+      ZStack(alignment: .topTrailing) {
+        if let urlString = photo.url, let url = URL(string: urlString) {
+          AsyncImage(url: url) { phase in
+            switch phase {
+            case .success(let image):
+              image
+                .resizable()
+                .scaledToFill()
+                .frame(width: 150, height: 150)
+                .clipped()
+                .cornerRadius(10)
+            case .failure(_):
+              PlaceholderImage()
+                .frame(width: 150, height: 150)
+                .cornerRadius(10)
+            default:
+              ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: Color.newPrimaryColor))
+                .frame(width: 150, height: 150)
+            }
+          }
+        } else {
+          PlaceholderImage()
+            .frame(width: 150, height: 150)
+            .cornerRadius(10)
+        }
+        // Toggle remove/undo button for existing photo with visual indication
+        let isRemoved = removedPhotoIds?.wrappedValue.contains(photo.id) ?? false
+        // Overlay to indicate removal
+        if isRemoved {
+          ZStack {
+            Color.black.opacity(0.4)
+              .frame(width: 150, height: 150)
+              .cornerRadius(10)
+            Image(systemName: "trash.slash.fill")
+              .font(.system(size: 40))
+              .foregroundColor(.white)
+          }
+          .frame(width: 150, height: 150)
+        }
+        if let removedPhotoIds = removedPhotoIds {
+          Button(action: {
+            if isRemoved {
+              removedPhotoIds.wrappedValue.remove(photo.id)
+            } else {
+              removedPhotoIds.wrappedValue.insert(photo.id)
+            }
+          }) {
+            if isRemoved {
+              Image(systemName: "arrow.uturn.left")
+                .font(.system(size: 18))
+                .foregroundColor(.white)
+                .padding(4)
+                .background(Circle().fill(Color.black.opacity(0.7)))
+            } else {
+              Image(systemName: "xmark.circle.fill")
+                .font(.system(size: 22))
+                .foregroundColor(.white)
+                .background(Circle().fill(Color.black.opacity(0.7)))
+            }
+          }
+          .padding(5)
+        }
+      }
+      .scrollTransition { content, phase in
+        content
+          .opacity(phase.isIdentity ? 1 : 0)
+          .scaleEffect(phase.isIdentity ? 1 : 0)
+      }
+      .id(photo.id)
+    }
   }
 }
 

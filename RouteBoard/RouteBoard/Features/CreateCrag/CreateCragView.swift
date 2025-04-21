@@ -26,6 +26,23 @@ struct CreateCragView: View {
   private let createCragClient = CreateCragClient()
   private var cragDetails: CreateCragOutput? = nil
 
+  // Add original values for edit mode
+  private var originalName: String { cragDetails?.name ?? "" }
+  private var originalDescription: String { cragDetails?.description ?? "" }
+  private var originalLocationName: String { cragDetails?.locationName ?? "" }
+  private var originalPhotos: [PhotoDto] { cragDetails?.photos ?? [] }
+
+  // Add hasChanges computed property
+  private var hasChanges: Bool {
+    guard cragDetails != nil else { return true }  // Always true in create mode
+    if name != originalName { return true }
+    if description != originalDescription { return true }
+    if locationName != originalLocationName { return true }
+    if !selectedImages.isEmpty { return true }
+    if !removedPhotoIds.isEmpty { return true }
+    return false
+  }
+
   private var safeAreaInsets: UIEdgeInsets {
     guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
       let window = windowScene.windows.first
@@ -92,12 +109,8 @@ struct CreateCragView: View {
           PhotoPickerField(
             title: "Crag Images",
             selectedImages: $selectedImages,
-            existingPhotos: (cragDetails?.photos ?? []).filter { photo in
-              return !removedPhotoIds.contains(photo.id)
-            },
-            onRemovePhoto: { photo in
-              removedPhotoIds.insert(photo.id)
-            }
+            existingPhotos: cragDetails?.photos ?? [],
+            removedPhotoIds: $removedPhotoIds
           )
 
           submitButton
@@ -173,8 +186,9 @@ struct CreateCragView: View {
     !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
   }
 
+  // Update isButtonEnabled to require hasChanges in edit mode
   private var isButtonEnabled: Bool {
-    !isSubmitting && isFormValid
+    !isSubmitting && isFormValid && hasChanges
   }
 
   private func navigateToCragDetails() {
