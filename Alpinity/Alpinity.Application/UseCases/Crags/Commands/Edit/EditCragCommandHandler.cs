@@ -21,12 +21,17 @@ public class EditCragCommandHandler(
     public async Task<CragDetailedDto> Handle(EditCragCommand request, CancellationToken cancellationToken)
     {
         var userRole = authenticationContext.GetUserRole();
-        if (userRole != UserRole.Admin && userRole != UserRole.Creator)
-        {
-            throw new UnAuthorizedAccessException("You are not authorized to edit a crag.");
-        }
 
         var crag = await repository.GetCragById(request.Id, cancellationToken) ?? throw new EntityNotFoundException("Crag not found.");
+
+        if (userRole != UserRole.Admin)
+        {
+            var userId = authenticationContext.GetUserId() ?? throw new UnAuthorizedAccessException("Invalid User ID");
+            if (!await repository.IsUserCreatorOfCrag(request.Id, userId, cancellationToken))
+            {
+                throw new UnAuthorizedAccessException("You are not authorized to edit this crag.");
+            }
+        }
 
         if (request.Name != null)
             crag.Name = request.Name;

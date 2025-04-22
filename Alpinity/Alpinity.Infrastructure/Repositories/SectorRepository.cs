@@ -117,4 +117,10 @@ public class SectorRepository(ApplicationDbContext dbContext, ICragRepository cr
             await dbContext.SaveChangesAsync(cancellationToken);
         }
     }
+
+    public async Task<bool> IsUserCreatorOfSector(Guid sectorId, Guid userId, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Sectors
+            .AnyAsync(sector => sector.Id == sectorId && sector.Crag!.CragCreators!.Any(creator => creator.UserId == userId), cancellationToken);
+    }
 }

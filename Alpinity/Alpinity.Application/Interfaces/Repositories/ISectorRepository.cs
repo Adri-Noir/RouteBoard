@@ -26,4 +26,6 @@ public interface ISectorRepository
     Task UpdateSector(Sector sector, CancellationToken cancellationToken = default);
 
     Task DeleteSector(Guid sectorId, CancellationToken cancellationToken = default);
+
+    Task<bool> IsUserCreatorOfSector(Guid sectorId, Guid userId, CancellationToken cancellationToken = default);
 }

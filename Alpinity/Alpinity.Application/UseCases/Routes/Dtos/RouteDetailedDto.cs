@@ -20,4 +20,5 @@ public class RouteDetailedDto
     public ICollection<RoutePhotoDto> RoutePhotos { get; set; }
     public RouteCategoriesDto RouteCategories { get; set; }
     public ICollection<AscentDto>? Ascents { get; set; }
+    public bool CanModify { get; set; } = false;
 }

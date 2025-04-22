@@ -8,6 +8,7 @@ struct SectorPickerView: View {
   let selectedSector: SectorDetailedDto?
   @Binding var selectedSectorId: String?
   let refetch: () -> Void
+  let canModify: Bool
 
   @State private var isOpen: Bool = false
   @State private var isOptionsOpen: Bool = false
@@ -59,7 +60,7 @@ struct SectorPickerView: View {
 
         Spacer()
 
-        if let selectedSectorId = selectedSectorId, let selectedSector = selectedSector {
+        if let selectedSectorId = selectedSectorId, let selectedSector = selectedSector, canModify {
           Button {
             isOptionsOpen.toggle()
           } label: {
@@ -103,21 +104,19 @@ struct SectorPickerView: View {
                 .foregroundColor(Color.newTextColor)
               }
 
-              if authViewModel.isCreator {
-                Divider()
+              Divider()
 
-                Button {
-                  isOptionsOpen = false
-                  showDeleteConfirmation = true
-                } label: {
-                  HStack {
-                    Image(systemName: "trash")
-                    Text("Delete Sector")
-                    Spacer()
-                  }
-                  .padding(.horizontal, 12)
-                  .foregroundColor(Color.red)
+              Button {
+                isOptionsOpen = false
+                showDeleteConfirmation = true
+              } label: {
+                HStack {
+                  Image(systemName: "trash")
+                  Text("Delete Sector")
+                  Spacer()
                 }
+                .padding(.horizontal, 12)
+                .foregroundColor(Color.red)
               }
             }
             .padding(.vertical, 12)

@@ -68,6 +68,28 @@ public static class CragSectorRouteSeed
             await context.SaveChangesAsync();
         }
 
+        // Seed CragCreators: associate seededUser with all crags, seededUser2 with only some
+        if (!await context.CragCreators.AnyAsync())
+        {
+            var seededUser2 = await context.Users.FirstOrDefaultAsync(u => u.Username == "seededUser2");
+            var crags = await context.Crags.ToListAsync();
+            var cragCreators = new List<CragCreator>();
+            if (seededUser2 != null)
+            {
+                // Add seededUser2 as creator for only the first three crags
+                foreach (var crag in crags.Take(3))
+                {
+                    cragCreators.Add(new CragCreator
+                    {
+                        CragId = crag.Id,
+                        UserId = seededUser2.Id
+                    });
+                }
+            }
+            await context.CragCreators.AddRangeAsync(cragCreators);
+            await context.SaveChangesAsync();
+        }
+
         if (!await context.Sectors.AnyAsync())
         {
             var crags = await context.Crags.ToListAsync();

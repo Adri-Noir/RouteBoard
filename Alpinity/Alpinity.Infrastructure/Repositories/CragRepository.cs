@@ -93,4 +93,17 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
             await dbContext.SaveChangesAsync(cancellationToken);
         }
     }
+
+    public async Task AddCragCreator(Guid cragId, Guid userId, CancellationToken cancellationToken = default)
+    {
+        var cragCreator = new CragCreator { CragId = cragId, UserId = userId };
+        await dbContext.CragCreators.AddAsync(cragCreator, cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<bool> IsUserCreatorOfCrag(Guid cragId, Guid userId, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.CragCreators
+            .AnyAsync(cc => cc.CragId == cragId && cc.UserId == userId, cancellationToken);
+    }
 }

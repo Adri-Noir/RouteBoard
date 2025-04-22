@@ -189,7 +189,8 @@ struct CragSectorRouteSelection: View {
       sectors: sectors,
       selectedSector: selectedSector,
       selectedSectorId: $selectedSectorId,
-      refetch: refetch
+      refetch: refetch,
+      canModify: crag?.canModify ?? false
     )
   }
 

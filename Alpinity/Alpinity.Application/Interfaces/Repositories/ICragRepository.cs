@@ -16,4 +16,6 @@ public interface ICragRepository
     Task<ICollection<Crag>> GetCragsByBoundingBox(Point northEast, Point southWest, CancellationToken cancellationToken = default);
     Task<Point?> GetCragLocation(Guid cragId, CancellationToken cancellationToken = default);
     Task DeleteCrag(Guid cragId, CancellationToken cancellationToken = default);
+    Task<bool> IsUserCreatorOfCrag(Guid cragId, Guid userId, CancellationToken cancellationToken = default);
+    Task AddCragCreator(Guid cragId, Guid userId, CancellationToken cancellationToken = default);
 }

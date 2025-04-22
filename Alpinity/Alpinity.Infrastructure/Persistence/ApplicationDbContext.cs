@@ -17,6 +17,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Route> Routes { get; set; } = null!;
     public DbSet<RoutePhoto> RoutePhotos { get; set; } = null!;
     public DbSet<Photo> Photos { get; set; } = null!;
+    public DbSet<CragCreator> CragCreators { get; set; } = null!;
     public DbSet<Ascent> Ascents { get; set; } = null!;
     public DbSet<SearchHistory> SearchHistories { get; set; } = null!;
     public DbSet<CragWeather> CragWeathers { get; set; } = null!;
@@ -151,5 +152,18 @@ public class ApplicationDbContext : DbContext
             .WithOne(rp => rp.Route)
             .HasForeignKey(rp => rp.RouteId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<CragCreator>(entity =>
+        {
+            entity.HasKey(cc => new { cc.CragId, cc.UserId });
+            entity.HasOne(cc => cc.Crag)
+                .WithMany(c => c.CragCreators)
+                .HasForeignKey(cc => cc.CragId)
+                .OnDelete(DeleteBehavior.Cascade);
+            entity.HasOne(cc => cc.User)
+                .WithMany()
+                .HasForeignKey(cc => cc.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
     }
 }

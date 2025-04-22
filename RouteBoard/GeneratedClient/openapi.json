@@ -2378,6 +2378,9 @@
               "$ref": "#/components/schemas/PhotoDto"
             },
             "nullable": true
+          },
+          "canModify": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -3111,6 +3114,9 @@
               "$ref": "#/components/schemas/AscentDto"
             },
             "nullable": true
+          },
+          "canModify": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -3348,6 +3354,9 @@
           "cragName": {
             "type": "string",
             "nullable": true
+          },
+          "canModify": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false

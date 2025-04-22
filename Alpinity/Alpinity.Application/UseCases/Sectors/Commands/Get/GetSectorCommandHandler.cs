@@ -1,5 +1,6 @@
 using Alpinity.Application.Interfaces;
 using Alpinity.Application.Interfaces.Repositories;
+using Alpinity.Application.Interfaces.Services;
 using Alpinity.Application.UseCases.Sectors.Dtos;
 using Alpinity.Domain.Enums;
 using ApiExceptions.Exceptions;
@@ -12,7 +13,8 @@ public class GetSectorCommandHandler(
     IMapper mapper,
     ISectorRepository sectorRepository,
     ISearchHistoryRepository searchHistoryRepository,
-    IAuthenticationContext authenticationContext) : IRequestHandler<GetSectorCommand, SectorDetailedDto>
+    IAuthenticationContext authenticationContext,
+    IEntityPermissionService permissionService) : IRequestHandler<GetSectorCommand, SectorDetailedDto>
 {
     public async Task<SectorDetailedDto> Handle(GetSectorCommand request, CancellationToken cancellationToken)
     {
@@ -40,6 +42,8 @@ public class GetSectorCommandHandler(
             await searchHistoryRepository.AddSearchHistoryAsync(searchHistory, cancellationToken);
         }
 
-        return mapper.Map<SectorDetailedDto>(sector);
+        var dto = mapper.Map<SectorDetailedDto>(sector);
+        dto.CanModify = await permissionService.CanModifySector(sector.Id, cancellationToken);
+        return dto;
     }
 }

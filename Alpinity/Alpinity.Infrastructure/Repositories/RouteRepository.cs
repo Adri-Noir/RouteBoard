@@ -106,4 +106,10 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
             await dbContext.SaveChangesAsync(cancellationToken);
         }
     }
+
+    public async Task<bool> IsUserCreatorOfRoute(Guid routeId, Guid userId, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Routes
+            .AnyAsync(route => route.Id == routeId && route.Sector!.Crag!.CragCreators!.Any(creator => creator.UserId == userId), cancellationToken);
+    }
 }

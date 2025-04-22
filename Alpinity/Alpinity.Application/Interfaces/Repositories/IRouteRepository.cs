@@ -21,4 +21,6 @@ public interface IRouteRepository
     Task<ICollection<RoutePhoto>> GetRoutePhotos(Guid routeId, CancellationToken cancellationToken = default);
 
     Task DeleteRoute(Guid routeId, CancellationToken cancellationToken = default);
+
+    Task<bool> IsUserCreatorOfRoute(Guid routeId, Guid userId, CancellationToken cancellationToken = default);
 }

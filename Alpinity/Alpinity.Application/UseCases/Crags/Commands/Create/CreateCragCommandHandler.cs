@@ -47,6 +47,12 @@ public class CreateCragCommandHandler(
 
         await repository.CreateCrag(crag, cancellationToken);
 
+        var userId = authenticationContext.GetUserId() ?? throw new UnAuthorizedAccessException("Invalid User ID");
+        if (userRole == UserRole.Creator)
+        {
+            await repository.AddCragCreator(crag.Id, userId, cancellationToken);
+        }
+
         return mapper.Map<CragDetailedDto>(crag);
     }
 }

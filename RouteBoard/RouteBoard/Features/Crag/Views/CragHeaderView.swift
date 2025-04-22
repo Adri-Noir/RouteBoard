@@ -164,37 +164,37 @@ struct CragHeaderView<Content: View>: View {
 
       Spacer()
 
-      Button {
-        isCompactMenuPresented.toggle()
-      } label: {
-        Image(systemName: "ellipsis")
-          .foregroundColor(.white)
-          .font(.system(size: 24))
-          .padding(12)
-          .background(Color.black.opacity(0.75))
-          .clipShape(Circle())
-      }
-      .disabled(crag == nil)
-      .popover(
-        isPresented: $isCompactMenuPresented,
-        attachmentAnchor: .point(.bottomTrailing),
-        arrowEdge: .top
-      ) {
-        VStack(alignment: .leading, spacing: 12) {
-          Button(action: {
-            isCompactMenuPresented = false
-            navigationManager.pushView(.createSector(cragId: crag?.id ?? ""))
-          }) {
-            HStack {
-              Image(systemName: "plus.circle")
-              Text("Create Sector")
-              Spacer()
+      if let crag = crag, crag.canModify ?? false {
+        Button {
+          isCompactMenuPresented.toggle()
+        } label: {
+          Image(systemName: "ellipsis")
+            .foregroundColor(.white)
+            .font(.system(size: 24))
+            .padding(12)
+            .background(Color.black.opacity(0.75))
+            .clipShape(Circle())
+        }
+        .disabled(crag == nil)
+        .popover(
+          isPresented: $isCompactMenuPresented,
+          attachmentAnchor: .point(.bottomTrailing),
+          arrowEdge: .top
+        ) {
+          VStack(alignment: .leading, spacing: 12) {
+            Button(action: {
+              isCompactMenuPresented = false
+              navigationManager.pushView(.createSector(cragId: crag.id ?? ""))
+            }) {
+              HStack {
+                Image(systemName: "plus.circle")
+                Text("Create Sector")
+                Spacer()
+              }
+              .padding(.horizontal, 12)
+              .foregroundColor(Color.newTextColor)
             }
-            .padding(.horizontal, 12)
-            .foregroundColor(Color.newTextColor)
-          }
 
-          if let crag = crag {
             Divider()
 
             Button(action: {
@@ -210,28 +210,26 @@ struct CragHeaderView<Content: View>: View {
               .foregroundColor(Color.newTextColor)
             }
 
-            if authViewModel.isCreator {
-              Divider()
+            Divider()
 
-              Button(action: {
-                isCompactMenuPresented = false
-                showDeleteConfirmation = true
-              }) {
-                HStack {
-                  Image(systemName: "trash")
-                  Text("Delete Crag")
-                  Spacer()
-                }
-                .padding(.horizontal, 12)
-                .foregroundColor(Color.red)
+            Button(action: {
+              isCompactMenuPresented = false
+              showDeleteConfirmation = true
+            }) {
+              HStack {
+                Image(systemName: "trash")
+                Text("Delete Crag")
+                Spacer()
               }
+              .padding(.horizontal, 12)
+              .foregroundColor(Color.red)
             }
           }
+          .padding(.vertical, 12)
+          .frame(width: 200)
+          .preferredColorScheme(.light)
+          .presentationCompactAdaptation(.popover)
         }
-        .padding(.vertical, 12)
-        .frame(width: 200)
-        .preferredColorScheme(.light)
-        .presentationCompactAdaptation(.popover)
       }
     }
     .alert(

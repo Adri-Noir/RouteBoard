@@ -11,15 +11,20 @@ public class DeleteRouteCommandHandler(IRouteRepository routeRepository, IAuthen
     public async Task Handle(DeleteRouteCommand request, CancellationToken cancellationToken)
     {
         var userRole = authenticationContext.GetUserRole();
-        if (userRole != UserRole.Admin && userRole != UserRole.Creator)
-        {
-            throw new UnAuthorizedAccessException("You are not authorized to delete a route.");
-        }
 
         var exists = await routeRepository.RouteExists(request.RouteId, cancellationToken);
         if (!exists)
         {
             throw new EntityNotFoundException("Route not found.");
+        }
+
+        if (userRole != UserRole.Admin)
+        {
+            var userId = authenticationContext.GetUserId() ?? throw new UnAuthorizedAccessException("Invalid User ID");
+            if (!await routeRepository.IsUserCreatorOfRoute(request.RouteId, userId, cancellationToken))
+            {
+                throw new UnAuthorizedAccessException("You are not authorized to delete this route.");
+            }
         }
 
         await routeRepository.DeleteRoute(request.RouteId, cancellationToken);

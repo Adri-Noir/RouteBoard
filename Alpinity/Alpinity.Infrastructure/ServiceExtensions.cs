@@ -39,6 +39,7 @@ public static class ServiceExtensions
         services.AddTransient<ICragWeatherRepository, CragWeatherRepository>();
         services.AddTransient<ILocationInformationService, LocationInformationService>();
         services.AddTransient<IWeatherService, WeatherService>();
+        services.AddTransient<IEntityPermissionService, EntityPermissionService>();
 
         return services;
     }

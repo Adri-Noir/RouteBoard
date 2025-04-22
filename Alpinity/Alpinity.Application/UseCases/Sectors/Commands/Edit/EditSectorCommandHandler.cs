@@ -23,12 +23,16 @@ public class EditSectorCommandHandler(
     public async Task<SectorDetailedDto> Handle(EditSectorCommand request, CancellationToken cancellationToken)
     {
         var userRole = authenticationContext.GetUserRole();
-        if (userRole != UserRole.Admin && userRole != UserRole.Creator)
+        var sector = await sectorRepository.GetSectorById(request.Id, cancellationToken) ?? throw new EntityNotFoundException("Sector not found.");
+        if (userRole != UserRole.Admin)
         {
-            throw new UnAuthorizedAccessException("You are not authorized to edit a sector.");
+            var userId = authenticationContext.GetUserId() ?? throw new UnAuthorizedAccessException("Invalid User ID");
+            if (!await sectorRepository.IsUserCreatorOfSector(request.Id, userId, cancellationToken))
+            {
+                throw new UnAuthorizedAccessException("You are not authorized to edit this sector.");
+            }
         }
 
-        var sector = await sectorRepository.GetSectorById(request.Id, cancellationToken) ?? throw new EntityNotFoundException("Sector not found.");
         var locationIsChanged = false;
 
         if (request.Name != null)

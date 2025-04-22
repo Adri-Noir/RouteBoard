@@ -10,18 +10,23 @@ using MediatR;
 
 namespace Alpinity.Application.UseCases.Routes.Commands.Edit;
 
-public class EditRouteCommandHandler(IRouteRepository routeRepository, IMapper mapper, IAuthenticationContext authenticationContext) : IRequestHandler<EditRouteCommand, RouteDetailedDto>
+public class EditRouteCommandHandler(IRouteRepository routeRepository, IMapper mapper, IAuthenticationContext authenticationContext, ICragRepository cragRepository) : IRequestHandler<EditRouteCommand, RouteDetailedDto>
 {
 
     public async Task<RouteDetailedDto> Handle(EditRouteCommand request, CancellationToken cancellationToken)
     {
         var userRole = authenticationContext.GetUserRole();
-        if (userRole != UserRole.Admin && userRole != UserRole.Creator)
-        {
-            throw new UnAuthorizedAccessException("You are not authorized to edit a route.");
-        }
 
         var route = await routeRepository.GetRouteById(request.Id, cancellationToken) ?? throw new EntityNotFoundException("Route not found.");
+
+        if (userRole != UserRole.Admin)
+        {
+            var userId = authenticationContext.GetUserId() ?? throw new UnAuthorizedAccessException("Invalid User ID");
+            if (!await routeRepository.IsUserCreatorOfRoute(request.Id, userId, cancellationToken))
+            {
+                throw new UnAuthorizedAccessException("You are not authorized to edit this route.");
+            }
+        }
 
         if (request.Name != null)
             route.Name = request.Name;

@@ -17,4 +17,6 @@ public class Crag
     public ICollection<Sector>? Sectors { get; set; }
 
     public ICollection<Photo>? Photos { get; set; }
+
+    public ICollection<CragCreator>? CragCreators { get; set; }
 }

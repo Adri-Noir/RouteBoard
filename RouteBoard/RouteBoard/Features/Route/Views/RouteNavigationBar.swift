@@ -55,32 +55,33 @@ struct RouteNavigationBar: View {
           Label("Add Route Image", systemImage: "camera")
         }
 
-        if authViewModel.isCreator, let route = route {
-          Button(action: {
-            navigationManager.pushView(.editRoute(routeDetails: route))
-          }) {
-            Label("Edit Route", systemImage: "pencil")
-          }
-        }
-
         if let route = route {
           if route.routePhotos?.isEmpty == false {
             Button(action: onRouteARView) {
               Label("Route AR", systemImage: "arkit")
             }
           }
-          if authViewModel.isCreator {
-            Divider()
-            Button(
-              role: .destructive,
-              action: {
-                showDeleteConfirmation = true
-              }
-            ) {
-              Label("Delete Route", systemImage: "trash")
+        }
+
+        if let route = route, route.canModify ?? false {
+          Divider()
+
+          Button(action: {
+            navigationManager.pushView(.editRoute(routeDetails: route))
+          }) {
+            Label("Edit Route", systemImage: "pencil")
+          }
+
+          Button(
+            role: .destructive,
+            action: {
+              showDeleteConfirmation = true
             }
+          ) {
+            Label("Delete Route", systemImage: "trash")
           }
         }
+
       } label: {
         Image(systemName: "ellipsis")
           .foregroundColor(.white)

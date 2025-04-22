@@ -15,4 +15,5 @@ public class SectorDetailedDto
     public ICollection<SectorRouteDto> Routes { get; set; } = null!;
     public Guid CragId { get; set; }
     public string CragName { get; set; } = null!;
+    public bool CanModify { get; set; } = false;
 }

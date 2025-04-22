@@ -7,6 +7,7 @@ using ApiExceptions.Exceptions;
 using AutoMapper;
 using MediatR;
 using NetTopologySuite.Geometries;
+using Alpinity.Domain.Enums;
 
 namespace Alpinity.Application.UseCases.Sectors.Commands.Create;
 
@@ -15,12 +16,23 @@ public class CreateSectorCommandHandler(
     ICragRepository cragRepository,
     IFileRepository fileRepository,
     IPhotoRepository photoRepository,
-    IMapper mapper) : IRequestHandler<CreateSectorCommand, SectorDetailedDto>
+    IMapper mapper,
+    IAuthenticationContext authenticationContext) : IRequestHandler<CreateSectorCommand, SectorDetailedDto>
 {
     public async Task<SectorDetailedDto> Handle(CreateSectorCommand request, CancellationToken cancellationToken)
     {
         var cragExists = await cragRepository.CragExists(request.CragId, cancellationToken);
         if (!cragExists) throw new EntityNotFoundException("Crag not found.");
+
+        var userRole = authenticationContext.GetUserRole();
+        if (userRole != UserRole.Admin)
+        {
+            var userId = authenticationContext.GetUserId() ?? throw new UnAuthorizedAccessException("Invalid User ID");
+            if (!await cragRepository.IsUserCreatorOfCrag(request.CragId, userId, cancellationToken))
+            {
+                throw new UnAuthorizedAccessException("You are not authorized to create a sector for this crag.");
+            }
+        }
 
         var point = mapper.Map<Point>(request.Location);
 

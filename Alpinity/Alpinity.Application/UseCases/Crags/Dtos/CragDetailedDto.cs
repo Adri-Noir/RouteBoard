@@ -13,4 +13,5 @@ public class CragDetailedDto
     public string? LocationName { get; set; }
     public ICollection<SectorDetailedDto> Sectors { get; set; }
     public ICollection<PhotoDto> Photos { get; set; }
+    public bool CanModify { get; set; } = false;
 }

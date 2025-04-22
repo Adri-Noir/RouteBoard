@@ -11,12 +11,6 @@ public class DeleteSectorCommandHandler(ISectorRepository sectorRepository, IAut
 {
     public async Task Handle(DeleteSectorCommand request, CancellationToken cancellationToken)
     {
-        var userRole = authenticationContext.GetUserRole();
-        if (userRole != UserRole.Admin && userRole != UserRole.Creator)
-        {
-            throw new UnAuthorizedAccessException("You are not authorized to delete a sector.");
-        }
-
         var exists = await sectorRepository.SectorExists(request.SectorId, cancellationToken);
         if (!exists)
         {
@@ -26,6 +20,16 @@ public class DeleteSectorCommandHandler(ISectorRepository sectorRepository, IAut
         var sector = await sectorRepository.GetSectorById(request.SectorId, cancellationToken)
             ?? throw new EntityNotFoundException("Sector not found.");
         var cragId = sector.CragId;
+
+        var userRole = authenticationContext.GetUserRole();
+        if (userRole != UserRole.Admin)
+        {
+            var userId = authenticationContext.GetUserId() ?? throw new UnAuthorizedAccessException("Invalid User ID");
+            if (!await sectorRepository.IsUserCreatorOfSector(request.SectorId, userId, cancellationToken))
+            {
+                throw new UnAuthorizedAccessException("You are not authorized to delete this sector.");
+            }
+        }
 
         await sectorRepository.DeleteSector(request.SectorId, cancellationToken);
 

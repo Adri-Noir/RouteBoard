@@ -1,5 +1,6 @@
 using Alpinity.Application.Interfaces;
 using Alpinity.Application.Interfaces.Repositories;
+using Alpinity.Application.Interfaces.Services;
 using Alpinity.Application.UseCases.Routes.Dtos;
 using Alpinity.Domain.Enums;
 using ApiExceptions.Exceptions;
@@ -12,7 +13,8 @@ public class GetRouteCommandHandler(
     IRouteRepository routeRepository,
     ISearchHistoryRepository searchHistoryRepository,
     IAuthenticationContext authenticationContext,
-    IMapper mapper) : IRequestHandler<GetRouteCommand, RouteDetailedDto>
+    IMapper mapper,
+    IEntityPermissionService permissionService) : IRequestHandler<GetRouteCommand, RouteDetailedDto>
 {
     public async Task<RouteDetailedDto> Handle(GetRouteCommand request, CancellationToken cancellationToken)
     {
@@ -39,6 +41,8 @@ public class GetRouteCommandHandler(
             await searchHistoryRepository.AddSearchHistoryAsync(searchHistory, cancellationToken);
         }
 
-        return mapper.Map<RouteDetailedDto>(route);
+        var dto = mapper.Map<RouteDetailedDto>(route);
+        dto.CanModify = await permissionService.CanModifyRoute(route.Id, cancellationToken);
+        return dto;
     }
 }
