@@ -13,14 +13,10 @@ final class RouteImageModel: ObservableObject {
   @Published var viewfinderImage: Image?
   @Published var closestRouteId: Int? = nil
 
-  private var processInputSamples = ProcessInputSamples(samples: DetectInputSamples(samples: []))
-  let camera = CameraModel(cameraSetting: .videoTaking)
+  var processInputSamples = ProcessInputSamples(samples: DetectInputSamples(samples: []))
+  let camera = CameraModel(shouldDelegatePreview: true)
 
-  init() {
-    Task {
-      await handleCameraPreviewsProcessEveryFrame()
-    }
-  }
+  init() {}
 
   init(routeSamples: [DetectSample]) {
     processInputSamples = ProcessInputSamples(samples: DetectInputSamples(samples: routeSamples))
@@ -43,15 +39,20 @@ final class RouteImageModel: ObservableObject {
   }
 
   func startCamera() async {
-    await camera.start()
+    do {
+      try await camera.start()
+    } catch {
+      print("Error starting camera: \(error)")
+    }
   }
 
   func stopCamera() async {
     camera.stop()
   }
 
-  func processSamples(samples: [DetectSample]) {
-    processInputSamples = ProcessInputSamples(samples: DetectInputSamples(samples: samples))
+  func processSamples(samples: [DetectSample], routeDetectionLOD: RouteDetectionLOD) {
+    processInputSamples = ProcessInputSamples(
+      samples: DetectInputSamples(samples: samples), routeDetectionLOD: routeDetectionLOD)
   }
 }
 

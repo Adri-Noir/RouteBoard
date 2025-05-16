@@ -18,7 +18,7 @@ enum PhotoCreatingState {
 
 @MainActor
 final class CreateRouteImageModel: ObservableObject {
-  @State private var camera = CameraModel(cameraSetting: .photoTaking)
+  @State private var camera = CameraModel()
   @Published var viewfinderImage: Image?
   @Published var photoImage: Image?
   @Published var imageCreatingState: PhotoCreatingState = .isShowingPreview
@@ -37,7 +37,11 @@ final class CreateRouteImageModel: ObservableObject {
   init() {
     #if !targetEnvironment(simulator)
       Task {
-        await camera.start()
+        do {
+          try await camera.start()
+        } catch {
+          print("Error starting camera: \(error)")
+        }
       }
     #endif
   }
@@ -63,13 +67,12 @@ final class CreateRouteImageModel: ObservableObject {
     #endif
 
     // Normal camera flow for physical devices
-    self.photoImage = await camera.takePhoto()
-    let uiImage = ImageRenderer(content: self.photoImage).uiImage
-    guard let uiImage = uiImage else {
+    guard let uiImage = await camera.takePhoto() else {
       return
     }
 
     self.photoUIImage = uiImage
+    self.photoImage = Image(uiImage: uiImage)
     imageCreatingState = .isShowingEditing
   }
 

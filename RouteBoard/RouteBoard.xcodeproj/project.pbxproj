@@ -79,7 +79,6 @@
 		AF869CB82C3064AB0092E371 /* RouteBoardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF869CB72C3064AB0092E371 /* RouteBoardUITests.swift */; };
 		AF869CBA2C3064AB0092E371 /* RouteBoardUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF869CB92C3064AB0092E371 /* RouteBoardUITestsLaunchTests.swift */; };
 		AF869CCE2C307CC50092E371 /* RouteFinderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF869CCD2C307CC50092E371 /* RouteFinderView.swift */; };
-		AF869CD02C307CFA0092E371 /* ViewFinderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF869CCF2C307CFA0092E371 /* ViewFinderView.swift */; };
 		AF869CD22C307D870092E371 /* RouteImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF869CD12C307D870092E371 /* RouteImageModel.swift */; };
 		AF8A74E62D407E570029BE40 /* MarqueeText.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A74E52D407E540029BE40 /* MarqueeText.swift */; };
 		AF8A75B02D4312390029BE40 /* AsyncImageWithFallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A75AE2D4312330029BE40 /* AsyncImageWithFallback.swift */; };
@@ -271,7 +270,6 @@
 		AF869CB72C3064AB0092E371 /* RouteBoardUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteBoardUITests.swift; sourceTree = "<group>"; };
 		AF869CB92C3064AB0092E371 /* RouteBoardUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteBoardUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		AF869CCD2C307CC50092E371 /* RouteFinderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteFinderView.swift; sourceTree = "<group>"; };
-		AF869CCF2C307CFA0092E371 /* ViewFinderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFinderView.swift; sourceTree = "<group>"; };
 		AF869CD12C307D870092E371 /* RouteImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteImageModel.swift; sourceTree = "<group>"; };
 		AF8A74E52D407E540029BE40 /* MarqueeText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeText.swift; sourceTree = "<group>"; };
 		AF8A75AE2D4312330029BE40 /* AsyncImageWithFallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImageWithFallback.swift; sourceTree = "<group>"; };
@@ -848,7 +846,6 @@
 		AF9B62482C346D99003762B0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				AF869CCF2C307CFA0092E371 /* ViewFinderView.swift */,
 				AF191C6D2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift */,
 			);
 			path = Views;
@@ -1381,7 +1378,6 @@
 				AF9184F72D9DC43500484F7D /* PhotoPickerField.swift in Sources */,
 				AF8A76852D45AFE70029BE40 /* RouteAscentsView.swift in Sources */,
 				AF1271082D875C6F0009D70F /* ClmbingGradeStatistics.swift in Sources */,
-				AF869CD02C307CFA0092E371 /* ViewFinderView.swift in Sources */,
 				AF9E0C782C38BE1800984C58 /* CreateRouteOverlayView.swift in Sources */,
 				AFD9316D2D29EF6B00B68D92 /* AuthViewModel.swift in Sources */,
 				AF07624F2D82164B003BB9BA /* RouteDetailsCacheClient.swift in Sources */,

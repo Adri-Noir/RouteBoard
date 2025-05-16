@@ -1,5 +1,5 @@
 /*
-See the LICENSE.txt file for this sample’s licensing information.
+See the LICENSE.txt file for this sample's licensing information.
 
 Abstract:
 An object that provides the interface to the features of the camera.
@@ -7,16 +7,12 @@ An object that provides the interface to the features of the camera.
 
 import AVFoundation
 import CoreImage
+import CoreVideo
 import SwiftUI
 import os.log
 
-enum CameraSettings {
-  case photoTaking
-  case videoTaking
-}
-
 class CameraModel: NSObject {
-  let cameraSetting: CameraSettings
+  let shouldDelegatePreview: Bool
 
   private let captureSession = AVCaptureSession()
   private let photoCapture = PhotoCapture()
@@ -26,6 +22,7 @@ class CameraModel: NSObject {
   private var videoOutput: AVCaptureVideoDataOutput?
   nonisolated let previewSource: PreviewSource
   private var sessionQueue: DispatchQueue = DispatchQueue(label: "RouteBoard.CameraModel")
+  private var rotationCoordinator: AVCaptureDevice.RotationCoordinator?
 
   private var allCaptureDevices: [AVCaptureDevice] {
     AVCaptureDevice.DiscoverySession(
@@ -65,7 +62,7 @@ class CameraModel: NSObject {
   let YIELD_EVERY_N_FRAME = 4
 
   lazy var previewStream: AsyncStream<UIImage> = {
-    AsyncStream { continuation in
+    AsyncStream(bufferingPolicy: .bufferingOldest(1)) { continuation in
       addToPreviewStream = { uiImage in
         if !self.isPreviewPaused {
           self.frameCounter += 1
@@ -78,8 +75,8 @@ class CameraModel: NSObject {
     }
   }()
 
-  init(cameraSetting: CameraSettings) {
-    self.cameraSetting = cameraSetting
+  init(shouldDelegatePreview: Bool = false) {
+    self.shouldDelegatePreview = shouldDelegatePreview
     self.previewSource = DefaultPreviewSource(session: captureSession)
     super.init()
     initialize()
@@ -87,6 +84,10 @@ class CameraModel: NSObject {
 
   private func initialize() {
     captureDevice = availableCaptureDevices.first ?? AVCaptureDevice.default(for: .video)
+    if let captureDevice = captureDevice {
+      self.rotationCoordinator = AVCaptureDevice.RotationCoordinator(
+        device: captureDevice, previewLayer: nil)
+    }
     UIDevice.current.beginGeneratingDeviceOrientationNotifications()
   }
 
@@ -101,12 +102,7 @@ class CameraModel: NSObject {
       completionHandler(success)
     }
 
-    switch cameraSetting {
-    case .photoTaking:
-      captureSession.sessionPreset = .high
-    case .videoTaking:
-      captureSession.sessionPreset = .iFrame1280x720
-    }
+    captureSession.sessionPreset = .high
 
     addCameraInput()
     addPreviewOutput()
@@ -130,6 +126,9 @@ class CameraModel: NSObject {
 
   private func addPreviewOutput() {
     let videoOutput = AVCaptureVideoDataOutput()
+    videoOutput.videoSettings = [
+      kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA
+    ]
     videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "VideoDataOutputQueue"))
 
     do {
@@ -221,6 +220,12 @@ class CameraModel: NSObject {
       }
     }
 
+    // Update the rotation coordinator with the new device
+    if let captureDevice = self.captureDevice {  // Ensure captureDevice is not nil
+      self.rotationCoordinator = AVCaptureDevice.RotationCoordinator(
+        device: captureDevice, previewLayer: nil)
+    }
+
     updateVideoOutputConnection()
   }
 
@@ -234,26 +239,36 @@ class CameraModel: NSObject {
     }
   }
 
-  func start() async {
+  func start() async throws {
     let authorized = await checkAuthorization()
     guard authorized else {
       logger.error("Camera access was not authorized.")
-      return
+      throw CameraError.videoDeviceUnavailable
     }
 
     if isCaptureSessionConfigured {
       if !captureSession.isRunning {
-        sessionQueue.async { [self] in
-          self.captureSession.startRunning()
+        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+          sessionQueue.async {
+            self.captureSession.startRunning()
+            continuation.resume()
+          }
         }
       }
       return
     }
 
-    sessionQueue.async { [self] in
-      self.configureCaptureSession { success in
-        guard success else { return }
-        self.captureSession.startRunning()
+    try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+      sessionQueue.async { [self] in
+        self.configureCaptureSession { success in
+          if success {
+            self.captureSession.startRunning()
+            continuation.resume()
+          } else {
+            logger.error("Failed to configure capture session.")
+            continuation.resume(throwing: CameraError.setupFailed)
+          }
+        }
       }
     }
   }
@@ -268,21 +283,44 @@ class CameraModel: NSObject {
     }
   }
 
-  func takePhoto() async -> Image? {
+  func takePhoto() async -> UIImage? {
+    guard captureSession.isRunning else { return nil }
+    guard let photoOutput = photoCapture.output as? AVCapturePhotoOutput,
+      captureSession.outputs.contains(where: { $0 == photoOutput })
+    else {
+      logger.error(
+        "Attempted to take photo but photo output is not attached or not an AVCapturePhotoOutput.")
+      return nil
+    }
+
+    // Set the orientation on the photo output connection before capturing
+    if let photoOutputConnection = photoOutput.connection(with: .video) {
+      // Always set to portrait orientation (90 degrees) for the captured photo
+      photoOutputConnection.videoRotationAngle = 90.0
+    } else {
+      logger.warning(
+        "Could not get photo output connection or rotation coordinator to set orientation.")
+    }
+
     do {
       let photoFeatures = PhotoFeatures(isLivePhotoEnabled: false, qualityPrioritization: .quality)
-      let photo = try await photoCapture.capturePhoto(with: photoFeatures)
-      guard let uiImage = UIImage(data: photo.data) else { return nil }
-      return Image(uiImage: uiImage)
+      let capturePhotoResult = try await photoCapture.capturePhoto(with: photoFeatures)
+
+      let dataFromPhoto = capturePhotoResult.data
+
+      // Create UIImage and normalize its orientation to .up
+      guard let image = UIImage(data: dataFromPhoto) else {
+        logger.error("Failed to create UIImage from photo data.")
+        return nil
+      }
+      let finalImage = image.fixedOrientation()
+      return finalImage
+
     } catch {
       logger.error("Failed to take photo: \(error)")
     }
 
     return nil
-  }
-
-  private var deviceOrientation: UIDeviceOrientation {
-    return .portrait
   }
 }
 
@@ -292,15 +330,33 @@ extension CameraModel: AVCaptureVideoDataOutputSampleBufferDelegate {
     _ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer,
     from connection: AVCaptureConnection
   ) {
-    guard let imageBuffer = sampleBuffer.imageBuffer else { return }
+    guard shouldDelegatePreview else { return }
+
     connection.videoRotationAngle = 90
 
-    let ciImage = CIImage(cvImageBuffer: imageBuffer)
+    guard let pixelBuffer = sampleBuffer.imageBuffer else { return }
+    // Lock the pixel buffer to safely access its base address.
+    CVPixelBufferLockBaseAddress(pixelBuffer, .readOnly)
+    defer { CVPixelBufferUnlockBaseAddress(pixelBuffer, .readOnly) }
+
+    let ciImage = CIImage(cvImageBuffer: pixelBuffer)
 
     guard let cgImage = ciContext.createCGImage(ciImage, from: ciImage.extent) else { return }
 
-    let uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
+    let uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .up)
 
     addToPreviewStream?(uiImage)
+  }
+}
+
+// Add extension to normalize UIImage orientation
+extension UIImage {
+  fileprivate func fixedOrientation() -> UIImage {
+    guard imageOrientation != .up else { return self }
+    UIGraphicsBeginImageContextWithOptions(size, false, scale)
+    draw(in: CGRect(origin: .zero, size: size))
+    let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()!
+    UIGraphicsEndImageContext()
+    return normalizedImage
   }
 }

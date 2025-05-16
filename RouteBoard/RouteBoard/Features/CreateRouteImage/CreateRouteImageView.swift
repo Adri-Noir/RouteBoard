@@ -125,14 +125,12 @@ struct CreateRouteImageView: View {
               .scaledToFill()
               .frame(width: geometry.size.width, height: geometry.size.height)
 
-            // Drawing canvas overlay - Moved inside GeometryReader
             CreateRouteOverlayView(
               createRouteImageModel: createRouteImageModel,
-              viewSize: geometry.size  // Pass the size
+              viewSize: geometry.size
             )
-          }  // End GeometryReader
+          }
 
-          // Editing phase controls - only show Retake button during drawing
           if createRouteImageModel.imageCreatingState != .isCurrentlyDrawing {
             VStack {
               Spacer()

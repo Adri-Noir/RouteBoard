@@ -5,6 +5,7 @@
 //  Created with <3 on 18.12.2024..
 //
 
+import UIKit
 import opencv2
 
 class DetectSample {
@@ -68,42 +69,45 @@ class DetectProcessedFrame {
   }
 }
 
+struct DetectOptions {
+  var shouldAddFrameToOutput: Bool = false
+  var routeDetectionLOD: RouteDetectionLOD = .medium
+}
+
 class ProcessInputSamples {
-  let DROP_INPUTFRAME_FACTOR: Double = 0.5
-  let MAX_RESOLUTION_PX: Double = 800.0
   let LOWES_RATIO_LAW: Float = 0.7
   let MIN_MATCH_COUNT: Int = 10
-  let SHOULD_SHOW_THE_FIRST_VALID: Bool = true
 
   let sift = SIFT.create()
   let matcher = FlannBasedMatcher.create()
-  let processedSamples = DetectProcessedSamples()
+  var processedSamples = DetectProcessedSamples()
 
   init() {}
 
-  init(samples: DetectInputSamples) {
-    processInputSamples(samples: samples)
+  init(samples: DetectInputSamples, routeDetectionLOD: RouteDetectionLOD = .medium) {
+    processInputSamples(samples: samples, routeDetectionLOD: routeDetectionLOD)
   }
 
-  func processInputSamples(samples: DetectInputSamples) {
+  func processInputSamples(
+    samples: DetectInputSamples, routeDetectionLOD: RouteDetectionLOD = .medium
+  ) {
     sift.clear()
     matcher.clear()
+    processedSamples = DetectProcessedSamples()
 
     for sample in samples.samples {
       let routeImageMatrix = Mat(uiImage: sample.route)
       let resizedRouteImageMatrix = Mat()
 
-      let pathImageMatrix = Mat(uiImage: sample.path)
-      let resizedPathImageMatrix = Mat()
+      let maxResolutionPx = min(
+        routeDetectionLOD == .low ? 600 : routeDetectionLOD == .medium ? 1000 : 1600,
+        max(routeImageMatrix.rows(), routeImageMatrix.cols()))
 
       let resizeFactor =
-        Double(MAX_RESOLUTION_PX) / Double(max(routeImageMatrix.rows(), routeImageMatrix.cols()))
+        Double(maxResolutionPx) / Double(max(routeImageMatrix.rows(), routeImageMatrix.cols()))
 
       Imgproc.resize(
         src: routeImageMatrix, dst: resizedRouteImageMatrix, dsize: Size(), fx: resizeFactor,
-        fy: resizeFactor)
-      Imgproc.resize(
-        src: pathImageMatrix, dst: resizedPathImageMatrix, dsize: Size(), fx: resizeFactor,
         fy: resizeFactor)
 
       var routeKeypoints: [opencv2.KeyPoint] = []
@@ -120,7 +124,14 @@ class ProcessInputSamples {
         continue
       }
 
-      let pathImage = resizedPathImageMatrix.toUIImage()
+      let originalPath = sample.path
+      let newSize = CGSize(
+        width: originalPath.size.width * CGFloat(resizeFactor),
+        height: originalPath.size.height * CGFloat(resizeFactor))
+      UIGraphicsBeginImageContextWithOptions(newSize, false, originalPath.scale)
+      originalPath.draw(in: CGRect(origin: .zero, size: newSize))
+      let pathImage = UIGraphicsGetImageFromCurrentImageContext() ?? originalPath
+      UIGraphicsEndImageContext()
 
       processedSamples.addSample(
         sample: DetectProcessedSample(
@@ -129,7 +140,9 @@ class ProcessInputSamples {
     }
   }
 
-  func detectRoutesAndAddOverlay(inputFrame: UIImage) -> DetectProcessedFrame {
+  func detectRoutesAndAddOverlay(inputFrame: UIImage, options: DetectOptions = DetectOptions())
+    -> DetectProcessedFrame
+  {
     sift.clear()
 
     let frameMatrix = Mat(uiImage: inputFrame)
@@ -138,10 +151,13 @@ class ProcessInputSamples {
       return DetectProcessedFrame(frame: inputFrame, routeId: "-1")
     }
 
+    let dropInputFrameFactor =
+      options.routeDetectionLOD == .low ? 0.5 : options.routeDetectionLOD == .medium ? 0.75 : 0.9
+
     let resizedFrameMatrix = Mat()
     Imgproc.resize(
-      src: frameMatrix, dst: resizedFrameMatrix, dsize: Size(), fx: DROP_INPUTFRAME_FACTOR,
-      fy: DROP_INPUTFRAME_FACTOR)
+      src: frameMatrix, dst: resizedFrameMatrix, dsize: Size(), fx: dropInputFrameFactor,
+      fy: dropInputFrameFactor)
 
     let frameOutput = Mat.zeros(
       resizedFrameMatrix.rows(), cols: resizedFrameMatrix.cols(), type: resizedFrameMatrix.type())
@@ -240,8 +256,10 @@ class ProcessInputSamples {
     Imgproc.resize(
       src: frameOutput, dst: frameOutput,
       dsize: Size(width: frameMatrix.cols(), height: frameMatrix.rows()))
-    Core.addWeighted(
-      src1: frameMatrix, alpha: 1.0, src2: frameOutput, beta: 1.0, gamma: 0.0, dst: frameOutput)
+    if options.shouldAddFrameToOutput {
+      Core.addWeighted(
+        src1: frameMatrix, alpha: 1.0, src2: frameOutput, beta: 1.0, gamma: 0.0, dst: frameOutput)
+    }
 
     return DetectProcessedFrame(frame: frameOutput.toUIImage(), routeId: closestRouteId)
   }
