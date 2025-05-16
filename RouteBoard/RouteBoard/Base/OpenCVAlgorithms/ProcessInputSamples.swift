@@ -154,10 +154,16 @@ class ProcessInputSamples {
     let dropInputFrameFactor =
       options.routeDetectionLOD == .low ? 0.5 : options.routeDetectionLOD == .medium ? 0.75 : 0.9
 
-    let resizedFrameMatrix = Mat()
-    Imgproc.resize(
-      src: frameMatrix, dst: resizedFrameMatrix, dsize: Size(), fx: dropInputFrameFactor,
-      fy: dropInputFrameFactor)
+    // Resize inputFrame UIImage using CoreGraphics
+    let originalFrame = inputFrame
+    let resizedSize = CGSize(
+      width: originalFrame.size.width * CGFloat(dropInputFrameFactor),
+      height: originalFrame.size.height * CGFloat(dropInputFrameFactor))
+    UIGraphicsBeginImageContextWithOptions(resizedSize, false, originalFrame.scale)
+    originalFrame.draw(in: CGRect(origin: .zero, size: resizedSize))
+    let resizedFrameImage = UIGraphicsGetImageFromCurrentImageContext() ?? originalFrame
+    UIGraphicsEndImageContext()
+    let resizedFrameMatrix = Mat(uiImage: resizedFrameImage)
 
     let frameOutput = Mat.zeros(
       resizedFrameMatrix.rows(), cols: resizedFrameMatrix.cols(), type: resizedFrameMatrix.type())
@@ -253,14 +259,19 @@ class ProcessInputSamples {
       Core.add(src1: frameOutput, src2: closestOverlay, dst: frameOutput)
     }
 
-    Imgproc.resize(
-      src: frameOutput, dst: frameOutput,
-      dsize: Size(width: frameMatrix.cols(), height: frameMatrix.rows()))
+    // Convert Mat output to UIImage and composite using CoreGraphics
+    let overlayImage = frameOutput.toUIImage()
+    let originalSize = inputFrame.size
+    UIGraphicsBeginImageContextWithOptions(originalSize, false, inputFrame.scale)
     if options.shouldAddFrameToOutput {
-      Core.addWeighted(
-        src1: frameMatrix, alpha: 1.0, src2: frameOutput, beta: 1.0, gamma: 0.0, dst: frameOutput)
+      inputFrame.draw(in: CGRect(origin: .zero, size: originalSize))
+      overlayImage.draw(
+        in: CGRect(origin: .zero, size: originalSize), blendMode: .plusLighter, alpha: 1.0)
+    } else {
+      overlayImage.draw(in: CGRect(origin: .zero, size: originalSize))
     }
-
-    return DetectProcessedFrame(frame: frameOutput.toUIImage(), routeId: closestRouteId)
+    let finalImage = UIGraphicsGetImageFromCurrentImageContext() ?? overlayImage
+    UIGraphicsEndImageContext()
+    return DetectProcessedFrame(frame: finalImage, routeId: closestRouteId)
   }
 }
