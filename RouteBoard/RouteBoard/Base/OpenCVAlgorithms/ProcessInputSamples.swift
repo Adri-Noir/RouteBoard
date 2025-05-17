@@ -230,7 +230,7 @@ class ProcessInputSamples {
           Core.perspectiveTransform(
             src: transformedCenter, dst: transformedResult, m: homography.inv())
 
-          let routeMatrix = Mat(uiImage: sample.routeReference)
+          let routeMatrix = Mat(uiImage: sample.routeReference, alphaExist: true)
           let routeReferencePoint = opencv2.Point2f(
             x: Float(routeMatrix.cols()) / 2.0, y: Float(routeMatrix.rows()) / 2.0)
           let distance = Core.norm(

@@ -13,13 +13,17 @@ final class RouteImageModel: ObservableObject {
   @Published var viewfinderImage: Image?
   @Published var closestRouteId: Int? = nil
 
+  var routeDetectionLOD: RouteDetectionLOD = .medium
+
   var processInputSamples = ProcessInputSamples(samples: DetectInputSamples(samples: []))
   let camera = CameraModel(shouldDelegatePreview: true)
 
   init() {}
 
-  init(routeSamples: [DetectSample]) {
+  init(routeSamples: [DetectSample], routeDetectionLOD: RouteDetectionLOD) {
     processInputSamples = ProcessInputSamples(samples: DetectInputSamples(samples: routeSamples))
+    camera.isPreviewPaused = true
+    self.routeDetectionLOD = routeDetectionLOD
     Task {
       await handleCameraPreviewsProcessEveryFrame()
     }
@@ -31,7 +35,8 @@ final class RouteImageModel: ObservableObject {
 
     for await image in imageStream {
       Task {
-        let processedImage = processInputSamples.detectRoutesAndAddOverlay(inputFrame: image)
+        let processedImage = processInputSamples.detectRoutesAndAddOverlay(
+          inputFrame: image, options: DetectOptions(routeDetectionLOD: routeDetectionLOD))
         self.viewfinderImage = Image(uiImage: processedImage.frame)
         self.closestRouteId = Int(processedImage.routeId)
       }
@@ -48,6 +53,15 @@ final class RouteImageModel: ObservableObject {
 
   func stopCamera() async {
     camera.stop()
+  }
+
+  func pauseCameraPreviews() {
+    camera.isPreviewPaused = true
+  }
+
+  func resumeCameraPreviews(routeDetectionLOD: RouteDetectionLOD) {
+    camera.isPreviewPaused = false
+    self.routeDetectionLOD = routeDetectionLOD
   }
 
   func processSamples(samples: [DetectSample], routeDetectionLOD: RouteDetectionLOD) {

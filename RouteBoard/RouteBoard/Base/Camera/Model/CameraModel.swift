@@ -330,7 +330,7 @@ extension CameraModel: AVCaptureVideoDataOutputSampleBufferDelegate {
     _ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer,
     from connection: AVCaptureConnection
   ) {
-    guard shouldDelegatePreview else { return }
+    guard shouldDelegatePreview && !isPreviewPaused else { return }
 
     connection.videoRotationAngle = 90
 

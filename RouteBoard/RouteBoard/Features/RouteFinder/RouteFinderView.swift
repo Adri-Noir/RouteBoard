@@ -46,10 +46,18 @@ struct RouteFinderView: View {
 
           Menu {
             Button(action: { routeFinderType = .auto }) {
-              Label("Auto", systemImage: routeFinderType == .auto ? "checkmark" : "")
+              if routeFinderType == .auto {
+                Label("Auto", systemImage: "checkmark")
+              } else {
+                Text("Auto")
+              }
             }
             Button(action: { routeFinderType = .manual }) {
-              Label("Manual", systemImage: routeFinderType == .manual ? "checkmark" : "")
+              if routeFinderType == .manual {
+                Label("Manual", systemImage: "checkmark")
+              } else {
+                Text("Manual")
+              }
             }
             Divider()
             // add 3 buttons to represent the 3 LODs for detecting routes
@@ -57,19 +65,31 @@ struct RouteFinderView: View {
               routeDetectionLOD = .low
               routeImageModel.processSamples(samples: routeSamples, routeDetectionLOD: .low)
             }) {
-              Label("Low", systemImage: routeDetectionLOD == .low ? "checkmark" : "")
+              if routeDetectionLOD == .low {
+                Label("Low", systemImage: "checkmark")
+              } else {
+                Text("Low")
+              }
             }
             Button(action: {
               routeDetectionLOD = .medium
               routeImageModel.processSamples(samples: routeSamples, routeDetectionLOD: .medium)
             }) {
-              Label("Medium", systemImage: routeDetectionLOD == .medium ? "checkmark" : "")
+              if routeDetectionLOD == .medium {
+                Label("Medium", systemImage: "checkmark")
+              } else {
+                Text("Medium")
+              }
             }
             Button(action: {
               routeDetectionLOD = .high
               routeImageModel.processSamples(samples: routeSamples, routeDetectionLOD: .high)
             }) {
-              Label("High", systemImage: routeDetectionLOD == .high ? "checkmark" : "")
+              if routeDetectionLOD == .high {
+                Label("High", systemImage: "checkmark")
+              } else {
+                Text("High")
+              }
             }
           } label: {
             Image(systemName: "gearshape.fill")
@@ -81,12 +101,14 @@ struct RouteFinderView: View {
         .padding(.horizontal, ThemeExtension.horizontalPadding)
 
         if routeFinderType == .auto {
-          AutoRouteFinderView(routeImageModel: routeImageModel)
+          AutoRouteFinderView(
+            routeImageModel: routeImageModel, routeDetectionLOD: $routeDetectionLOD)
         } else {
           ManualRouteFinderView(
             routeImageModel: routeImageModel,
             manualCapturedImage: $manualCapturedImage,
             manualClosestRouteId: $manualClosestRouteId,
+            routeDetectionLOD: $routeDetectionLOD,
           )
         }
       }
@@ -121,6 +143,11 @@ struct RouteFinderView: View {
 
       routeImageModel.processSamples(samples: routeSamples, routeDetectionLOD: routeDetectionLOD)
     }
+    .onAppear {
+      Task {
+        await routeImageModel.startCamera()
+      }
+    }
     .onDisappear {
       Task {
         await routeImageModel.stopCamera()
@@ -131,20 +158,31 @@ struct RouteFinderView: View {
 
 struct AutoRouteFinderView: View {
   @ObservedObject var routeImageModel: RouteImageModel
+  @Binding var routeDetectionLOD: RouteDetectionLOD
 
   var body: some View {
     ZStack {
       CameraPreview(source: routeImageModel.camera.previewSource)
         .background(.black)
-        .task {
-          await routeImageModel.startCamera()
-          await routeImageModel.handleCameraPreviewsProcessEveryFrame()
+        .onAppear {
+          Task {
+            await routeImageModel.handleCameraPreviewsProcessEveryFrame()
+          }
         }
 
       routeImageModel.viewfinderImage?
         .resizable()
         .scaledToFit()
         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+    }
+    .onChange(of: routeDetectionLOD) { _, newValue in
+      routeImageModel.resumeCameraPreviews(routeDetectionLOD: newValue)
+    }
+    .onAppear {
+      routeImageModel.resumeCameraPreviews(routeDetectionLOD: routeDetectionLOD)
+    }
+    .onDisappear {
+      routeImageModel.pauseCameraPreviews()
     }
 
     RouteFinderBottomInfoView(routeImageModel: routeImageModel)
@@ -155,6 +193,7 @@ struct ManualRouteFinderView: View {
   @ObservedObject var routeImageModel: RouteImageModel
   @Binding var manualCapturedImage: Image?
   @Binding var manualClosestRouteId: Int?
+  @Binding var routeDetectionLOD: RouteDetectionLOD
 
   @State var isTakingPhoto: Bool = false
 
@@ -197,7 +236,9 @@ struct ManualRouteFinderView: View {
                 if let uiImage = await routeImageModel.camera.takePhoto() {
                   let processed = routeImageModel.processInputSamples
                     .detectRoutesAndAddOverlay(
-                      inputFrame: uiImage, options: DetectOptions(shouldAddFrameToOutput: true))
+                      inputFrame: uiImage,
+                      options: DetectOptions(
+                        shouldAddFrameToOutput: true, routeDetectionLOD: routeDetectionLOD))
                   self.manualCapturedImage = Image(uiImage: processed.frame)
                   self.manualClosestRouteId = Int(processed.routeId)
                 }
@@ -215,9 +256,6 @@ struct ManualRouteFinderView: View {
         }
       }
       .frame(maxWidth: .infinity)
-    }
-    .task {
-      await routeImageModel.startCamera()
     }
   }
 }
