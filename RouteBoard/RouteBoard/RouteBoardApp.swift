@@ -5,6 +5,7 @@
 //  Created with <3 on 29.06.2024..
 //
 
+import SwiftData
 import SwiftUI
 import os
 
@@ -12,9 +13,11 @@ import os
 struct RouteBoardApp: App {
   var body: some Scene {
     WindowGroup {
-      APIClientInjection {
-        AuthInjection {
-          MainNavigationView()
+      ModelInjection {
+        APIClientInjection {
+          AuthInjection {
+            MainNavigationView()
+          }
         }
       }
     }

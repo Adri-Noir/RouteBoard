@@ -78,11 +78,11 @@ public class RouteController(IMediator mediator) : ControllerBase
 
     [HttpGet("/routePhotos/{routeId:guid}")]
     [Authorize]
-    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ICollection<ExtendedRoutePhotoDto>), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ICollection<DetectRoutePhotoDto>), ContentTypes = new[] { "application/json" })]
     [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
-    public async Task<ActionResult<ICollection<ExtendedRoutePhotoDto>>> GetRoutePhotos(Guid routeId, CancellationToken cancellationToken)
+    public async Task<ActionResult<ICollection<DetectRoutePhotoDto>>> GetRoutePhotos(Guid routeId, CancellationToken cancellationToken)
     {
         var command = new GetRoutePhotosCommand { RouteId = routeId };
         var result = await mediator.Send(command, cancellationToken);

@@ -259,7 +259,6 @@ class ProcessInputSamples {
       Core.add(src1: frameOutput, src2: closestOverlay, dst: frameOutput)
     }
 
-    // Convert Mat output to UIImage and composite using CoreGraphics
     let overlayImage = frameOutput.toUIImage()
     let originalSize = inputFrame.size
     UIGraphicsBeginImageContextWithOptions(originalSize, false, inputFrame.scale)

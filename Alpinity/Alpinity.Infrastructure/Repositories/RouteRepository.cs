@@ -112,4 +112,18 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
         return await dbContext.Routes
             .AnyAsync(route => route.Id == routeId && route.Sector!.Crag!.CragCreators!.Any(creator => creator.UserId == userId), cancellationToken);
     }
+
+    public async Task<Route?> GetRouteForDownload(Guid routeId, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Routes
+            .Include(route => route.Sector)
+            .Include(route => route.Sector!.Crag)
+            .Include(route => route.RoutePhotos!)
+                .ThenInclude(photo => photo.Image)
+            .Include(route => route.RoutePhotos!)
+                .ThenInclude(photo => photo.PathLine)
+            .Include(route => route.RoutePhotos!)
+                .ThenInclude(photo => photo.CombinedPhoto)
+            .FirstOrDefaultAsync(route => route.Id == routeId, cancellationToken);
+    }
 }

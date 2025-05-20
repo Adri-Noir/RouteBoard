@@ -1,6 +1,7 @@
 // Created with <3 on 20.03.2025.
 
 import GeneratedClient
+import SwiftData
 import SwiftUI
 
 struct RouteNavigationBar: View {
@@ -10,12 +11,18 @@ struct RouteNavigationBar: View {
 
   @EnvironmentObject var navigationManager: NavigationManager
   @EnvironmentObject var authViewModel: AuthViewModel
+  @Environment(\.modelContext) private var modelContext
 
   @State private var isDeletingRoute: Bool = false
   @State private var showDeleteConfirmation: Bool = false
   @State private var deleteError: String? = nil
+  @State private var isDownloadingRoute: Bool = false
+  @State private var isDownloadingError: Bool = false
+
+  @State private var isAlreadyDownloaded: Bool = false
 
   private let deleteRouteClient = DeleteRouteClient()
+  private let downloadRouteClient = DownloadRouteClient()
 
   var body: some View {
     HStack {
@@ -63,6 +70,19 @@ struct RouteNavigationBar: View {
           }
         }
 
+        Button(action: {
+          Task {
+            await downloadRoute()
+          }
+        }) {
+          Label(
+            isAlreadyDownloaded
+              ? "Route downloaded" : (isDownloadingRoute ? "Downloading..." : "Download Route"),
+            systemImage: "arrow.down.to.line"
+          )
+        }
+        .disabled(isAlreadyDownloaded || isDownloadingRoute)
+
         if let route = route, route.canModify ?? false {
           Divider()
 
@@ -92,7 +112,17 @@ struct RouteNavigationBar: View {
       }
     }
     .padding(.horizontal, ThemeExtension.horizontalPadding)
-    .padding(.top, 60)  // Account for safe area
+    .padding(.top, 60)
+    .task {
+      isAlreadyDownloaded = isRouteAlreadyDownloaded()
+    }
+    .alert(
+      "Download Failed",
+      isPresented: $isDownloadingError,
+      actions: { Button("OK", role: .cancel) {} },
+      message: { Text("Failed to download route. Please try again.") }
+    )
+
     .alert(
       isPresented: Binding<Bool>(
         get: { showDeleteConfirmation || deleteError != nil },
@@ -136,15 +166,86 @@ struct RouteNavigationBar: View {
       DeleteRouteInput(id: routeId),
       authViewModel.getAuthData()
     ) { errorMsg in
-      DispatchQueue.main.async {
-        deleteError = errorMsg
-      }
+      deleteError = errorMsg
     }
+
     isDeletingRoute = false
     if success {
       navigationManager.pop()
     } else if deleteError == nil {
       deleteError = "Failed to delete route. Please try again."
     }
+  }
+
+  private func downloadRoute() async {
+    isDownloadingRoute = true
+    defer { isDownloadingRoute = false }
+
+    let downloadedRoute = await downloadRouteClient.call(
+      DownloadRouteInput(id: route?.id ?? ""),
+      authViewModel.getAuthData()
+    ) { errorMsg in
+      isDownloadingError = true
+    }
+
+    guard let downloadedRoute = downloadedRoute else {
+      isDownloadingError = true
+      return
+    }
+
+    var routePhotos: [DownloadedRoutePhoto] = []
+    for photo in downloadedRoute.routePhotos ?? [] {
+      if let imageUrlString = photo.image.url,
+        let pathLineUrlString = photo.pathLine.url,
+        let combinedImageUrlString = photo.combinedPhoto.url,
+        let imageUrl = await PhotoDownloader.downloadPhotoToFile(url: imageUrlString),
+        let pathLineUrl = await PhotoDownloader.downloadPhotoToFile(url: pathLineUrlString),
+        let combinedImageUrl = await PhotoDownloader.downloadPhotoToFile(
+          url: combinedImageUrlString)
+      {
+        routePhotos.append(
+          DownloadedRoutePhoto(
+            id: photo.id,
+            pathLineUrl: pathLineUrl,
+            imageUrl: imageUrl,
+            combinedImageUrl: combinedImageUrl
+          )
+        )
+      }
+    }
+
+    let localRoute = DownloadedRoute.init(
+      id: downloadedRoute.id,
+      name: downloadedRoute.name,
+      descriptionText: downloadedRoute.description,
+      grade: downloadedRoute.grade,
+      createdAt: DateTimeConverter.convertDateStringToDate(
+        dateString: downloadedRoute.createdAt ?? ""),
+      routeType: downloadedRoute.routeType,
+      length: downloadedRoute.length.map(Int.init),
+      sectorId: downloadedRoute.sectorId,
+      sectorName: downloadedRoute.sectorName,
+      cragId: downloadedRoute.cragId,
+      cragName: downloadedRoute.cragName,
+      photos: routePhotos
+    )
+
+    modelContext.insert(localRoute)
+    // Persist the downloaded route and its photos immediately
+    do {
+      try modelContext.save()
+    } catch {
+      print("Failed to save downloaded route: \(error)")
+    }
+    isAlreadyDownloaded = true
+  }
+
+  private func isRouteAlreadyDownloaded() -> Bool {
+    let downloadedRoute = try? modelContext.fetch(
+      FetchDescriptor<DownloadedRoute>(
+        predicate: #Predicate<DownloadedRoute> { $0.id == route?.id }
+      )
+    )
+    return !(downloadedRoute?.isEmpty ?? true)
   }
 }

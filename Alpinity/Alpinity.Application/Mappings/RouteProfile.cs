@@ -1,3 +1,4 @@
+using Alpinity.Application.UseCases.Download.Dtos;
 using Alpinity.Application.UseCases.Routes.Commands.Create;
 using Alpinity.Application.UseCases.Routes.Dtos;
 using Alpinity.Application.UseCases.Sectors.Dtos;
@@ -39,5 +40,7 @@ public class RouteProfile : Profile
             .ForMember(t => t.AscentsCount, opt => opt.MapFrom(s => s.Ascents!.Count));
 
         CreateMap<CreateRouteCommand, Route>();
+
+        CreateMap<Route, DownloadRouteResponse>();
     }
 }

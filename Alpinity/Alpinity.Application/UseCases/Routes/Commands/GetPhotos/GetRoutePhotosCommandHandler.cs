@@ -9,9 +9,9 @@ namespace Alpinity.Application.UseCases.Routes.Commands.GetPhotos;
 
 public class GetRoutePhotosCommandHandler(
     IRouteRepository routeRepository,
-    IMapper mapper) : IRequestHandler<GetRoutePhotosCommand, ICollection<ExtendedRoutePhotoDto>>
+    IMapper mapper) : IRequestHandler<GetRoutePhotosCommand, ICollection<DetectRoutePhotoDto>>
 {
-    public async Task<ICollection<ExtendedRoutePhotoDto>> Handle(GetRoutePhotosCommand request, CancellationToken cancellationToken)
+    public async Task<ICollection<DetectRoutePhotoDto>> Handle(GetRoutePhotosCommand request, CancellationToken cancellationToken)
     {
         // Check if route exists using the lightweight method
         var routeExists = await routeRepository.RouteExists(request.RouteId, cancellationToken);
@@ -20,15 +20,13 @@ public class GetRoutePhotosCommandHandler(
             throw new EntityNotFoundException("Route not found.");
         }
 
-        // Get route photos directly from repository
         var routePhotos = await routeRepository.GetRoutePhotos(request.RouteId, cancellationToken);
 
         if (routePhotos == null || !routePhotos.Any())
         {
-            return new List<ExtendedRoutePhotoDto>();
+            return new List<DetectRoutePhotoDto>();
         }
 
-        // Use mapper to map the routePhotos collection to ExtendedRoutePhotoDto
-        return mapper.Map<ICollection<ExtendedRoutePhotoDto>>(routePhotos);
+        return mapper.Map<ICollection<DetectRoutePhotoDto>>(routePhotos);
     }
 }

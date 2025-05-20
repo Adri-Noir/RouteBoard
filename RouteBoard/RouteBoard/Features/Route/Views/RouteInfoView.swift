@@ -5,7 +5,21 @@ import SwiftUI
 
 struct RouteInfoView: View {
   let route: RouteDetails?
-  let climbingTypes: [UserClimbingType]
+
+  var climbingTypes: [UserClimbingType] {
+    if let route = route, let categories = route.routeCategories {
+      return ClimbTypesConverter.convertComponentsClimbTypesToUserClimbingTypes(
+        componentsClimbTypes: categories.climbTypes ?? []
+      )
+        + ClimbTypesConverter.convertComponentsRockTypesToUserClimbingTypes(
+          componentsRockTypes: categories.rockTypes ?? []
+        )
+        + ClimbTypesConverter.convertComponentsHoldTypesToUserClimbingTypes(
+          componentsHoldTypes: categories.holdTypes ?? []
+        )
+    }
+    return []
+  }
 
   var body: some View {
     VStack(alignment: .leading, spacing: 16) {
@@ -28,7 +42,7 @@ struct RouteInfoView: View {
         .padding(.horizontal, ThemeExtension.horizontalPadding)
     }
     .frame(maxWidth: .infinity, alignment: .leading)
-    .padding(.bottom, 10)  // Reduced bottom padding since button is now below
+    .padding(.bottom, 10)
     .padding(.top, 20)
   }
 }

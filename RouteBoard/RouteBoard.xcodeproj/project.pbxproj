@@ -12,6 +12,10 @@
 		6911F969FF44336C6055B5F6 /* DetailsViewStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6911F4820D429661D9F37AD7 /* DetailsViewStateMachine.swift */; };
 		6911FD154165DD1FB3490BFC /* SectorLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6911FF5311C7DCE4BE3D4E04 /* SectorLink.swift */; };
 		6911FFF19EC58C8CB29ACAE3 /* SlideupLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6911F33CA5627DDD3877F849 /* SlideupLayout.swift */; };
+		AF00C6C72DDA1DE500B0945C /* OfflineModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF00C6C62DDA1DE100B0945C /* OfflineModeView.swift */; };
+		AF00C6D02DDA1DF100B0945C /* OfflineModeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF00C6CD2DDA1DED00B0945C /* OfflineModeButton.swift */; };
+		AF00C6E62DDA55CA00B0945C /* DownloadedRoutePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF00C6E52DDA55C500B0945C /* DownloadedRoutePhoto.swift */; };
+		AF00C6E92DDA55D800B0945C /* DownloadedRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF00C6E82DDA55D700B0945C /* DownloadedRoute.swift */; };
 		AF0243342D163FC70007748D /* ConfirmPhotoOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0243332D163FB70007748D /* ConfirmPhotoOverlayView.swift */; };
 		AF0243382D1640250007748D /* PhotoDrawingCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0243372D16401E0007748D /* PhotoDrawingCanvas.swift */; };
 		AF0243702D1C7CDF0007748D /* GeneratedClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF0243682D1C7CDF0007748D /* GeneratedClient.framework */; };
@@ -30,6 +34,9 @@
 		AF1271062D875C640009D70F /* AscentTypeStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1271052D875C5D0009D70F /* AscentTypeStatistics.swift */; };
 		AF1271082D875C6F0009D70F /* ClmbingGradeStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1271072D875C6B0009D70F /* ClmbingGradeStatistics.swift */; };
 		AF12710C2D8760600009D70F /* UserLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF12710B2D87605E0009D70F /* UserLink.swift */; };
+		AF1824132DDD07F2001CDF92 /* OfflineRouteTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1824122DDD07E7001CDF92 /* OfflineRouteTabView.swift */; };
+		AF1824192DDD07FC001CDF92 /* OfflineCragTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1824162DDD07F4001CDF92 /* OfflineCragTabView.swift */; };
+		AF18241C2DDD0B6D001CDF92 /* OfflineRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF18241B2DDD0B69001CDF92 /* OfflineRouteView.swift */; };
 		AF191C6E2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF191C6D2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift */; };
 		AF1DC6C42D3489F200D8409D /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = AF1DC6C32D3489F200D8409D /* KeychainAccess */; };
 		AF21C0AF2D6E7AB6000BE26C /* RouteLogAscent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF21C0AD2D6E7AB3000BE26C /* RouteLogAscent.swift */; };
@@ -70,6 +77,7 @@
 		AF62E1A22D7A461A0039B67F /* APIClientInjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E1A12D7A45FF0039B67F /* APIClientInjection.swift */; };
 		AF62E1A52D7A46BC0039B67F /* ExploreCacheClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E1A42D7A46B90039B67F /* ExploreCacheClient.swift */; };
 		AF62E1B12D7A492C0039B67F /* APICache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF62E1B02D7A49280039B67F /* APICache.swift */; };
+		AF65E5472DDA732C002290C9 /* ModelInjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF65E5462DDA7328002290C9 /* ModelInjection.swift */; };
 		AF773D6C2C3DFBED00886C00 /* OverlayAndRouteId.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF773D6B2C3DFBED00886C00 /* OverlayAndRouteId.swift */; };
 		AF78ECAA2D1C8019009F3B79 /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = AF78ECA92D1C8019009F3B79 /* OpenAPIRuntime */; };
 		AF869C9D2C3064AA0092E371 /* RouteBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF869C9C2C3064AA0092E371 /* RouteBoardApp.swift */; };
@@ -202,6 +210,10 @@
 		6911F51F855391514852E6F0 /* SingleResultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleResultView.swift; sourceTree = "<group>"; };
 		6911FB5412234CF26B197F5A /* LoadingSearchResults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingSearchResults.swift; sourceTree = "<group>"; };
 		6911FF5311C7DCE4BE3D4E04 /* SectorLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectorLink.swift; sourceTree = "<group>"; };
+		AF00C6C62DDA1DE100B0945C /* OfflineModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineModeView.swift; sourceTree = "<group>"; };
+		AF00C6CD2DDA1DED00B0945C /* OfflineModeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineModeButton.swift; sourceTree = "<group>"; };
+		AF00C6E52DDA55C500B0945C /* DownloadedRoutePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadedRoutePhoto.swift; sourceTree = "<group>"; };
+		AF00C6E82DDA55D700B0945C /* DownloadedRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadedRoute.swift; sourceTree = "<group>"; };
 		AF0243332D163FB70007748D /* ConfirmPhotoOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPhotoOverlayView.swift; sourceTree = "<group>"; };
 		AF0243372D16401E0007748D /* PhotoDrawingCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDrawingCanvas.swift; sourceTree = "<group>"; };
 		AF0243682D1C7CDF0007748D /* GeneratedClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GeneratedClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -219,6 +231,9 @@
 		AF1271052D875C5D0009D70F /* AscentTypeStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AscentTypeStatistics.swift; sourceTree = "<group>"; };
 		AF1271072D875C6B0009D70F /* ClmbingGradeStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClmbingGradeStatistics.swift; sourceTree = "<group>"; };
 		AF12710B2D87605E0009D70F /* UserLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLink.swift; sourceTree = "<group>"; };
+		AF1824122DDD07E7001CDF92 /* OfflineRouteTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineRouteTabView.swift; sourceTree = "<group>"; };
+		AF1824162DDD07F4001CDF92 /* OfflineCragTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineCragTabView.swift; sourceTree = "<group>"; };
+		AF18241B2DDD0B69001CDF92 /* OfflineRouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineRouteView.swift; sourceTree = "<group>"; };
 		AF191C6D2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteFinderBottomInfoView.swift; sourceTree = "<group>"; };
 		AF21C0AD2D6E7AB3000BE26C /* RouteLogAscent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteLogAscent.swift; sourceTree = "<group>"; };
 		AF21C18B2D711073000BE26C /* ClimbTypesConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbTypesConverter.swift; sourceTree = "<group>"; };
@@ -259,6 +274,7 @@
 		AF62E1A12D7A45FF0039B67F /* APIClientInjection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientInjection.swift; sourceTree = "<group>"; };
 		AF62E1A42D7A46B90039B67F /* ExploreCacheClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCacheClient.swift; sourceTree = "<group>"; };
 		AF62E1B02D7A49280039B67F /* APICache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICache.swift; sourceTree = "<group>"; };
+		AF65E5462DDA7328002290C9 /* ModelInjection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInjection.swift; sourceTree = "<group>"; };
 		AF773D6B2C3DFBED00886C00 /* OverlayAndRouteId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayAndRouteId.swift; sourceTree = "<group>"; };
 		AF869C992C3064AA0092E371 /* RouteBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RouteBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF869C9C2C3064AA0092E371 /* RouteBoardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteBoardApp.swift; sourceTree = "<group>"; };
@@ -432,6 +448,36 @@
 				AFD9310D2D2386AE00B68D92 /* RouteView.swift */,
 			);
 			path = Route;
+			sourceTree = "<group>";
+		};
+		AF00C6C52DDA1DD700B0945C /* OfflineMode */ = {
+			isa = PBXGroup;
+			children = (
+				AF00C6C92DDA1DE800B0945C /* Views */,
+				AF00C6C62DDA1DE100B0945C /* OfflineModeView.swift */,
+			);
+			path = OfflineMode;
+			sourceTree = "<group>";
+		};
+		AF00C6C92DDA1DE800B0945C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AF18241B2DDD0B69001CDF92 /* OfflineRouteView.swift */,
+				AF1824162DDD07F4001CDF92 /* OfflineCragTabView.swift */,
+				AF1824122DDD07E7001CDF92 /* OfflineRouteTabView.swift */,
+				AF00C6CD2DDA1DED00B0945C /* OfflineModeButton.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		AF00C6E32DDA555A00B0945C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AF65E5462DDA7328002290C9 /* ModelInjection.swift */,
+				AF00C6E82DDA55D700B0945C /* DownloadedRoute.swift */,
+				AF00C6E52DDA55C500B0945C /* DownloadedRoutePhoto.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		AF0762082D80F839003BB9BA /* PlaceholderImage */ = {
@@ -669,6 +715,7 @@
 			isa = PBXGroup;
 			children = (
 				AFB7DB8B2DB06485006005C6 /* RouteBoard.entitlements */,
+				AF00C6E32DDA555A00B0945C /* Models */,
 				AF62E19A2D7A42990039B67F /* API */,
 				AFC7D2B42D3C825C0034DC05 /* Extensions */,
 				AF9B62472C346D52003762B0 /* Features */,
@@ -825,6 +872,7 @@
 		AF9B62472C346D52003762B0 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				AF00C6C52DDA1DD700B0945C /* OfflineMode */,
 				AF382A442DA0816600F3DAD0 /* CreateRoute */,
 				AF3829C22D9F35AD00F3DAD0 /* CreateSector */,
 				AF998ABD2D9B35C800949E12 /* CreateCrag */,
@@ -1348,7 +1396,9 @@
 				AFD64A6F2D825CED00EE84F3 /* OnAppearOnceExtension.swift in Sources */,
 				AF0760C72D7CEC7A003BB9BA /* AscentTypeConverter.swift in Sources */,
 				AFD931362D25DBA200B68D92 /* CragView.swift in Sources */,
+				AF1824192DDD07FC001CDF92 /* OfflineCragTabView.swift in Sources */,
 				AF382A412DA07D4200F3DAD0 /* SectorViewModeSwitcher.swift in Sources */,
+				AF18241C2DDD0B6D001CDF92 /* OfflineRouteView.swift in Sources */,
 				AF8DA64B2CD56C1300751865 /* GeneralSearchView.swift in Sources */,
 				AF2B56812DB1A410003071FE /* ThemeExtension.swift in Sources */,
 				AF8DA6482CD5671E00751865 /* ApplyBackgroundColor.swift in Sources */,
@@ -1363,18 +1413,21 @@
 				AFB321C52D85D1D9003A60F7 /* MapViewModel.swift in Sources */,
 				AFBED2902D136D5B002CA393 /* CreateRouteImage.swift in Sources */,
 				AFA0ECE42D8CB13700437911 /* RouteCharacteristicsView.swift in Sources */,
+				AF00C6C72DDA1DE500B0945C /* OfflineModeView.swift in Sources */,
 				AFE4C4A32D87586800A09302 /* ClimbingStatsGraphView.swift in Sources */,
 				AF62E0E02D777F4D0039B67F /* CragHeaderView.swift in Sources */,
 				AF0760E12D7E1F64003BB9BA /* CragWeatherCacheClient.swift in Sources */,
 				AFD931642D29EC7300B68D92 /* KeychainService.swift in Sources */,
 				AF29920B2D07BEB300BB7907 /* CameraPreview.swift in Sources */,
 				AF62D5C12D8F542B00F6F122 /* AllSectorsRoutesView.swift in Sources */,
+				AF65E5472DDA732C002290C9 /* ModelInjection.swift in Sources */,
 				AF07624D2D821644003BB9BA /* SectorDetailsCacheClient.swift in Sources */,
 				AF9E0C722C38AC0B00984C58 /* CreateRouteImageView.swift in Sources */,
 				AF3D944D2D6A98AC003FAF90 /* UserHelloView.swift in Sources */,
 				AF998AC22D9B35D100949E12 /* CreateCragView.swift in Sources */,
 				AF9B62542C34A271003762B0 /* ExtendedDivider.swift in Sources */,
 				AF191C6E2C34B8AD000EBB61 /* RouteFinderBottomInfoView.swift in Sources */,
+				AF00C6E92DDA55D800B0945C /* DownloadedRoute.swift in Sources */,
 				AF9184F72D9DC43500484F7D /* PhotoPickerField.swift in Sources */,
 				AF8A76852D45AFE70029BE40 /* RouteAscentsView.swift in Sources */,
 				AF1271082D875C6F0009D70F /* ClmbingGradeStatistics.swift in Sources */,
@@ -1399,6 +1452,7 @@
 				AF2991EA2D078CF200BB7907 /* PhotoCapture.swift in Sources */,
 				AFA0ECE02D8CB11E00437911 /* RouteInfoView.swift in Sources */,
 				AF62D5C62D8F570600F6F122 /* GradeDistributionGraph.swift in Sources */,
+				AF00C6D02DDA1DF100B0945C /* OfflineModeButton.swift in Sources */,
 				AF2991F62D078D3400BB7907 /* CameraModel.swift in Sources */,
 				AF62D5C82D8F573700F6F122 /* RoutesTableView.swift in Sources */,
 				AF9E0C7B2C39887F00984C58 /* RoutePoints.swift in Sources */,
@@ -1412,6 +1466,7 @@
 				AFBED28A2D124079002CA393 /* ProcessInputSamples.swift in Sources */,
 				AFBED2942D162231002CA393 /* PhotoTakingOverlayView.swift in Sources */,
 				AF8A74E62D407E570029BE40 /* MarqueeText.swift in Sources */,
+				AF1824132DDD07F2001CDF92 /* OfflineRouteTabView.swift in Sources */,
 				AF21C0AF2D6E7AB6000BE26C /* RouteLogAscent.swift in Sources */,
 				AF07624B2D82163C003BB9BA /* CragDetailsCacheClient.swift in Sources */,
 				AFE4C49F2D87581B00A09302 /* AscentTypeSelectorView.swift in Sources */,
@@ -1431,6 +1486,7 @@
 				AFA0ECF42D8CBA8000437911 /* OnTapBackgroundExtension.swift in Sources */,
 				AFE4C49D2D8757F800A09302 /* UserStatsView.swift in Sources */,
 				AF2991DE2D078CEE00BB7907 /* MediaLibrary.swift in Sources */,
+				AF00C6E62DDA55CA00B0945C /* DownloadedRoutePhoto.swift in Sources */,
 				AF62D5B92D8F50DE00F6F122 /* NoRouteView.swift in Sources */,
 				AF2991E12D078CEE00BB7907 /* DataTypes.swift in Sources */,
 				AFB322502D87368A003A60F7 /* MapContent.swift in Sources */,

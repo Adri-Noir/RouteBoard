@@ -1,4 +1,5 @@
 using Alpinity.Application.UseCases.Crags.Dtos;
+using Alpinity.Application.UseCases.Download.Dtos;
 using Alpinity.Application.UseCases.Map.Dtos;
 using Alpinity.Application.UseCases.Sectors.Commands.Create;
 using Alpinity.Application.UseCases.Sectors.Commands.Edit;
@@ -27,5 +28,9 @@ public class SectorProfile : Profile
 
         CreateMap<EditSectorCommand, Sector>()
             .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+        CreateMap<Sector, DownloadSectorResponse>()
+            .ForMember(dest => dest.CragId, opt => opt.MapFrom(src => src.Crag.Id))
+            .ForMember(dest => dest.CragName, opt => opt.MapFrom(src => src.Crag.Name));
     }
 }

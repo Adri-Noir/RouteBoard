@@ -18,11 +18,7 @@ public class GetRouteCommandHandler(
 {
     public async Task<RouteDetailedDto> Handle(GetRouteCommand request, CancellationToken cancellationToken)
     {
-        var route = await routeRepository.GetRouteById(request.Id, cancellationToken);
-        if (route == null)
-        {
-            throw new EntityNotFoundException("Route not found.");
-        }
+        var route = await routeRepository.GetRouteById(request.Id, cancellationToken) ?? throw new EntityNotFoundException("Route not found.");
 
         // Save search history if user is authenticated
         var userId = authenticationContext.GetUserId();

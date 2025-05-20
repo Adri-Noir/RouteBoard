@@ -655,6 +655,126 @@
         }
       }
     },
+    "/api/Download/crag/{id}": {
+      "get": {
+        "tags": [
+          "Download"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadCragResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Download/route/{id}": {
+      "get": {
+        "tags": [
+          "Download"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadRouteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Map/explore": {
       "get": {
         "tags": [
@@ -1319,7 +1439,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ExtendedRoutePhotoDto"
+                    "$ref": "#/components/schemas/DetectRoutePhotoDto"
                   }
                 }
               }
@@ -2190,6 +2310,36 @@
   },
   "components": {
     "schemas": {
+      "AllRoutePhotoDto": {
+        "required": [
+          "combinedPhoto",
+          "id",
+          "image",
+          "pathLine",
+          "routeId"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "routeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "image": {
+            "$ref": "#/components/schemas/PhotoDto"
+          },
+          "pathLine": {
+            "$ref": "#/components/schemas/PhotoDto"
+          },
+          "combinedPhoto": {
+            "$ref": "#/components/schemas/PhotoDto"
+          }
+        },
+        "additionalProperties": false
+      },
       "AscentCountDto": {
         "type": "object",
         "properties": {
@@ -2548,6 +2698,183 @@
         },
         "additionalProperties": false
       },
+      "DetectRoutePhotoDto": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "routeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "image": {
+            "$ref": "#/components/schemas/PhotoDto"
+          },
+          "pathLine": {
+            "$ref": "#/components/schemas/PhotoDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DownloadCragResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "locationName": {
+            "type": "string",
+            "nullable": true
+          },
+          "sectors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DownloadSectorResponse"
+            },
+            "nullable": true
+          },
+          "photos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PhotoDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DownloadRouteResponse": {
+        "required": [
+          "cragId",
+          "cragName",
+          "id",
+          "name",
+          "sectorId",
+          "sectorName"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "grade": {
+            "$ref": "#/components/schemas/ClimbingGrade"
+          },
+          "createdAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "routeType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RouteType"
+            },
+            "nullable": true
+          },
+          "length": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "sectorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sectorName": {
+            "type": "string",
+            "nullable": true
+          },
+          "cragId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "cragName": {
+            "type": "string",
+            "nullable": true
+          },
+          "routePhotos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AllRoutePhotoDto"
+            },
+            "nullable": true
+          },
+          "routeCategories": {
+            "$ref": "#/components/schemas/RouteCategoriesDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DownloadSectorResponse": {
+        "required": [
+          "id",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "location": {
+            "$ref": "#/components/schemas/PointDto"
+          },
+          "photos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PhotoDto"
+            },
+            "nullable": true
+          },
+          "routes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DownloadRouteResponse"
+            },
+            "nullable": true
+          },
+          "cragId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "cragName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "EditRouteCommand": {
         "type": "object",
         "properties": {
@@ -2645,29 +2972,6 @@
             "type": "integer",
             "format": "int32",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ExtendedRoutePhotoDto": {
-        "required": [
-          "id"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "routeId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "image": {
-            "$ref": "#/components/schemas/PhotoDto"
-          },
-          "pathLine": {
-            "$ref": "#/components/schemas/PhotoDto"
           }
         },
         "additionalProperties": false

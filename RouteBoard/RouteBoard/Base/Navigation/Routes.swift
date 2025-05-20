@@ -22,6 +22,8 @@ enum NavigationPaths: Hashable {
   case editSector(sectorDetails: CreateSectorOutput)
   case editRoute(routeDetails: RouteDetails)
   case generalSearch
+  case offlineMode
+  case offlineRoute(routeId: String)
 }
 
 enum Routes {
@@ -63,6 +65,10 @@ enum Routes {
       return AnyView(CreateRouteView(routeDetails: routeDetails))
     case .generalSearch:
       return AnyView(GeneralSearchView())
+    case .offlineMode:
+      return AnyView(OfflineModeView())
+    case .offlineRoute(let routeId):
+      return AnyView(OfflineRouteView(routeId: routeId))
     }
   }
 }

@@ -23,4 +23,6 @@ public interface IRouteRepository
     Task DeleteRoute(Guid routeId, CancellationToken cancellationToken = default);
 
     Task<bool> IsUserCreatorOfRoute(Guid routeId, Guid userId, CancellationToken cancellationToken = default);
+
+    Task<Route?> GetRouteForDownload(Guid routeId, CancellationToken cancellationToken = default);
 }

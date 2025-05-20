@@ -20,10 +20,9 @@ public class PhotoProfile : Profile
             .ForMember(t => t.Url,
                 opt => opt.ConvertUsing<TemporaryUrlResolver, string>(s => s.Url));
 
-        CreateMap<RoutePhoto, ExtendedRoutePhotoDto>()
-            .ForMember(t => t.RouteId, opt => opt.MapFrom(s => s.RouteId))
-            .ForMember(t => t.Image, opt => opt.MapFrom(s => s.Image))
-            .ForMember(t => t.PathLine, opt => opt.MapFrom(s => s.PathLine));
+        CreateMap<RoutePhoto, DetectRoutePhotoDto>();
+
+        CreateMap<RoutePhoto, AllRoutePhotoDto>();
     }
 }
 

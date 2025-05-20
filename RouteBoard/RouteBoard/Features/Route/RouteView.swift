@@ -111,21 +111,6 @@ struct RouteView: View {
     return DateTimeConverter.convertDateStringToDate(dateString: dateString)
   }
 
-  var climbingTypes: [UserClimbingType] {
-    if let route = route, let categories = route.routeCategories {
-      return ClimbTypesConverter.convertComponentsClimbTypesToUserClimbingTypes(
-        componentsClimbTypes: categories.climbTypes ?? []
-      )
-        + ClimbTypesConverter.convertComponentsRockTypesToUserClimbingTypes(
-          componentsRockTypes: categories.rockTypes ?? []
-        )
-        + ClimbTypesConverter.convertComponentsHoldTypesToUserClimbingTypes(
-          componentsHoldTypes: categories.holdTypes ?? []
-        )
-    }
-    return []
-  }
-
   var body: some View {
     ZStack(alignment: .bottom) {
       // Show loading state when data is loading
@@ -147,7 +132,7 @@ struct RouteView: View {
         VStack(spacing: 0) {
           Spacer()
           HStack {
-            RouteInfoView(route: route, climbingTypes: climbingTypes)
+            RouteInfoView(route: route)
             Spacer()
           }
 

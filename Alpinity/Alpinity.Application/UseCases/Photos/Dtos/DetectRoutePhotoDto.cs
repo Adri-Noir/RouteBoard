@@ -1,8 +1,6 @@
-using System;
-
 namespace Alpinity.Application.UseCases.Photos.Dtos;
 
-public class ExtendedRoutePhotoDto
+public class DetectRoutePhotoDto
 {
     public required Guid Id { get; set; }
     public Guid RouteId { get; set; }

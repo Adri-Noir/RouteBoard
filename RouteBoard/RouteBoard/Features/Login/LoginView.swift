@@ -71,13 +71,14 @@ struct LoginView: View {
             .disabled(loginIsOpen)
             .padding(.bottom)
 
+            OfflineModeButton()
+
             Spacer()
               .frame(height: 150)
           }
           .padding(.horizontal, ThemeExtension.horizontalPadding)
         }
       }
-      .routeIterator()
     }
   }
 }

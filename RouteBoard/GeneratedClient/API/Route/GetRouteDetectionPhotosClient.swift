@@ -2,11 +2,11 @@
 
 import Foundation
 
-public typealias ExtedendedRoutePhoto = Components.Schemas.ExtendedRoutePhotoDto
+public typealias DetectRoutePhoto = Components.Schemas.DetectRoutePhotoDto
 
 public class GetRouteDetectionPhotosClient: AuthenticatedClientProvider {
   public typealias T = String
-  public typealias R = [ExtedendedRoutePhoto]?
+  public typealias R = [DetectRoutePhoto]?
 
   public func call(_ data: T, _ authData: AuthData, _ errorHandler: ((String) -> Void)? = nil) async
     -> R

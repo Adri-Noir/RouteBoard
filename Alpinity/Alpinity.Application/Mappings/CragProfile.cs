@@ -1,5 +1,6 @@
 using Alpinity.Application.UseCases.Crags.Commands.Edit;
 using Alpinity.Application.UseCases.Crags.Dtos;
+using Alpinity.Application.UseCases.Download.Dtos;
 using Alpinity.Application.UseCases.Map.Dtos;
 using Alpinity.Domain.Entities;
 using AutoMapper;
@@ -26,5 +27,7 @@ public class CragProfile : Profile
 
         CreateMap<EditCragCommand, Crag>()
             .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+        CreateMap<Crag, DownloadCragResponse>();
     }
 }

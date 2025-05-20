@@ -106,4 +106,27 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
         return await dbContext.CragCreators
             .AnyAsync(cc => cc.CragId == cragId && cc.UserId == userId, cancellationToken);
     }
+
+    public async Task<Crag?> GetCragForDownload(Guid cragId, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Crags
+            .Include(crag => crag.Photos)
+            .Include(crag => crag.Sectors!)
+                .ThenInclude(sector => sector.Photos)
+            .Include(crag => crag.Sectors!)
+                .ThenInclude(sector => sector.Routes!)
+            .Include(crag => crag.Sectors!)
+                .ThenInclude(sector => sector.Routes!)
+                    .ThenInclude(route => route.RoutePhotos!)
+                        .ThenInclude(photo => photo.Image)
+            .Include(crag => crag.Sectors!)
+                .ThenInclude(sector => sector.Routes!)
+                    .ThenInclude(route => route.RoutePhotos!)
+                        .ThenInclude(photo => photo.CombinedPhoto)
+            .Include(crag => crag.Sectors!)
+                .ThenInclude(sector => sector.Routes!)
+                    .ThenInclude(route => route.RoutePhotos!)
+                        .ThenInclude(photo => photo.PathLine)
+            .FirstOrDefaultAsync(crag => crag.Id == cragId, cancellationToken);
+    }
 }
