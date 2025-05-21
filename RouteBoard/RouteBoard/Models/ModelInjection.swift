@@ -11,6 +11,8 @@ struct ModelInjection<Content: View>: View {
 
   var body: some View {
     content()
-      .modelContainer(for: [DownloadedRoute.self, DownloadedRoutePhoto.self])
+      .modelContainer(for: [
+        DownloadedRoute.self, DownloadedRoutePhoto.self, DownloadedSector.self, DownloadedCrag.self,
+      ])
   }
 }

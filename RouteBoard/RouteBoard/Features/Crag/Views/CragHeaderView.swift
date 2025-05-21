@@ -1,12 +1,14 @@
 // Created with <3 on 04.03.2025.
 
 import GeneratedClient
+import SwiftData
 import SwiftUI
 
 struct CragHeaderView<Content: View>: View {
   @Environment(\.dismiss) var dismiss
   @EnvironmentObject var navigationManager: NavigationManager
   @EnvironmentObject var authViewModel: AuthViewModel
+  @Environment(\.modelContext) private var modelContext
 
   private var safeAreaInsets: UIEdgeInsets {
     guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
@@ -23,10 +25,14 @@ struct CragHeaderView<Content: View>: View {
   @State private var isMenuOpen: Bool = false
   @State private var isCompactMenuPresented: Bool = false
   @State private var isDeletingCrag: Bool = false
+  @State private var isDownloadingCrag: Bool = false
+  @State private var isDownloadingError: Bool = false
+  @State private var isAlreadyDownloadedCrag: Bool = false
   @State private var showDeleteConfirmation: Bool = false
   @State private var deleteError: String? = nil
 
   private let deleteCragClient = DeleteCragClient()
+  private let downloadCragClient = DownloadCragClient()
 
   init(
     crag: CragDetails?,
@@ -184,6 +190,24 @@ struct CragHeaderView<Content: View>: View {
           VStack(alignment: .leading, spacing: 12) {
             Button(action: {
               isCompactMenuPresented = false
+              Task { await downloadCrag() }
+            }) {
+              HStack {
+                Image(systemName: "arrow.down.to.line")
+                Text(
+                  isAlreadyDownloadedCrag
+                    ? "Crag downloaded"
+                    : (isDownloadingCrag ? "Downloading..." : "Download Crag")
+                )
+                Spacer()
+              }
+              .padding(.horizontal, 12)
+              .foregroundColor(Color.newTextColor)
+            }
+            .disabled(isAlreadyDownloadedCrag || isDownloadingCrag)
+
+            Button(action: {
+              isCompactMenuPresented = false
               navigationManager.pushView(.createSector(cragId: crag.id ?? ""))
             }) {
               HStack {
@@ -265,6 +289,12 @@ struct CragHeaderView<Content: View>: View {
         )
       }
     }
+    .alert(
+      "Download Failed",
+      isPresented: $isDownloadingError,
+      actions: { Button("OK", role: .cancel) {} },
+      message: { Text("Failed to download crag. Please try again.") }
+    )
   }
 
   public var body: some View {
@@ -296,6 +326,89 @@ struct CragHeaderView<Content: View>: View {
     } else if deleteError == nil {
       deleteError = "Failed to delete crag. Please try again."
     }
+  }
+
+  private func downloadCrag() async {
+    guard let cragId = crag?.id else { return }
+    isDownloadingCrag = true
+    defer { isDownloadingCrag = false }
+    let response = await downloadCragClient.call(
+      DownloadCragInput(id: cragId),
+      authViewModel.getAuthData()
+    ) { errorMsg in
+      isDownloadingError = true
+    }
+    guard let cragResp = response else {
+      isDownloadingError = true
+      return
+    }
+    // Map crag photos
+    var cragPhotosModel: [DownloadedPhoto] = []
+    for photo in cragResp.photos ?? [] {
+      if let urlString = photo.url,
+        let localUrl = await PhotoDownloader.downloadPhotoToFile(url: urlString)
+      {
+        cragPhotosModel.append(DownloadedPhoto(id: photo.id, url: localUrl.absoluteString))
+      }
+    }
+    // Map sectors
+    var sectorsModel: [DownloadedSector] = []
+    for sector in cragResp.sectors ?? [] {
+      // Sector photos
+      var sectorPhotosModel: [DownloadedPhoto] = []
+      for sp in sector.photos ?? [] {
+        if let urlString = sp.url,
+          let localUrl = await PhotoDownloader.downloadPhotoToFile(url: urlString)
+        {
+          sectorPhotosModel.append(DownloadedPhoto(id: sp.id, url: localUrl.absoluteString))
+        }
+      }
+      // Sector routes
+      var sectorRoutesModel: [DownloadedRoute] = []
+      for r in sector.routes ?? [] {
+        let localRoute = DownloadedRoute(
+          id: r.id,
+          name: r.name,
+          descriptionText: r.description,
+          grade: r.grade,
+          createdAt: DateTimeConverter.convertDateStringToDate(dateString: r.createdAt ?? ""),
+          routeType: r.routeType,
+          length: r.length.map(Int.init),
+          sectorId: sector.id,
+          sectorName: sector.name,
+          cragId: cragResp.id,
+          cragName: cragResp.name,
+          photos: []
+        )
+        sectorRoutesModel.append(localRoute)
+      }
+      let localSector = DownloadedSector(
+        id: sector.id,
+        name: sector.name,
+        descriptionText: sector.description,
+        location: sector.location,
+        photos: sectorPhotosModel,
+        routes: sectorRoutesModel,
+        cragId: cragResp.id,
+        cragName: cragResp.name
+      )
+      sectorsModel.append(localSector)
+    }
+    let localCrag = DownloadedCrag(
+      id: cragResp.id,
+      name: cragResp.name,
+      descriptionText: cragResp.description,
+      locationName: cragResp.locationName,
+      sectors: sectorsModel,
+      photos: cragPhotosModel
+    )
+    modelContext.insert(localCrag)
+    do {
+      try modelContext.save()
+    } catch {
+      print("Failed to save downloaded crag: \(error)")
+    }
+    isAlreadyDownloadedCrag = true
   }
 }
 

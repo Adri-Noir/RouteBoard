@@ -6,19 +6,19 @@ import SwiftUI
 @Model
 class DownloadedRoutePhoto {
   @Attribute(.unique) var id: String?
-  var pathLineUrl: URL?
-  var imageUrl: URL?
-  var combinedImageUrl: URL?
+  @Relationship var pathLinePhoto: DownloadedPhoto?
+  @Relationship var imagePhoto: DownloadedPhoto?
+  @Relationship var combinedImagePhoto: DownloadedPhoto?
 
   init(
     id: String? = nil,
-    pathLineUrl: URL? = nil,
-    imageUrl: URL? = nil,
-    combinedImageUrl: URL? = nil
+    pathLinePhoto: DownloadedPhoto? = nil,
+    imagePhoto: DownloadedPhoto? = nil,
+    combinedImagePhoto: DownloadedPhoto? = nil
   ) {
     self.id = id
-    self.pathLineUrl = pathLineUrl
-    self.imageUrl = imageUrl
-    self.combinedImageUrl = combinedImageUrl
+    self.pathLinePhoto = pathLinePhoto
+    self.imagePhoto = imagePhoto
+    self.combinedImagePhoto = combinedImagePhoto
   }
 }

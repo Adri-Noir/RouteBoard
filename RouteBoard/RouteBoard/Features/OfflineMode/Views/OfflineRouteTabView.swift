@@ -36,69 +36,80 @@ public struct OfflineRoutesTabView: View {
       ScrollView {
         VStack(spacing: 10) {
           ForEach(routes, id: \.id) { route in
-            Button(action: {
-              navigationManager.pushView(.offlineRoute(routeId: route.id ?? ""))
-            }) {
-              HStack(alignment: .center, spacing: 12) {
-                // Route image or placeholder
-                if let photoUrl: String = route.photos.first?.combinedImageUrl?.absoluteString,
-                  let url = URL(string: photoUrl),
-                  url.isFileURL,
-                  let uiImage = UIImage(contentsOfFile: url.path)
-                {
-                  Image(uiImage: uiImage)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 60, height: 60)
-                    .clipped()
-                    .cornerRadius(10)
-                } else {
-                  PlaceholderImage(backgroundColor: Color.gray, iconColor: Color.white)
-                    .frame(width: 60, height: 60)
-                    .cornerRadius(10)
-                }
-                VStack(alignment: .leading, spacing: 4) {
-                  Text(route.name ?? "Unnamed Route")
-                    .font(.body)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color.newTextColor)
-                  if let grade = route.grade {
-                    Text("Grade: \(authViewModel.getGradeSystem().convertGradeToString(grade))")
-                      .font(.caption)
-                      .foregroundColor(.gray)
-                  }
-                  if let cragName = route.cragName {
-                    Text("Crag: \(cragName)")
-                      .font(.caption)
-                      .foregroundColor(.gray)
-                  }
-                  if let length = route.length {
-                    Text("Length: \(length)m")
-                      .font(.caption2)
-                      .foregroundColor(.gray)
-                  }
-                }
-                Spacer()
-                Button(action: {
-                  deleteRoute(route: route)
-                }) {
-                  Image(systemName: "trash")
-                    .foregroundColor(.red)
-                }
-                Image(systemName: "chevron.right")
-                  .foregroundColor(.gray)
-              }
-              .padding(10)
-              .background(Color.white)
-              .cornerRadius(10)
-              .shadow(color: Color.black.opacity(0.08), radius: 8, x: 0, y: 2)
-            }
+            OfflineRouteRowView(
+              route: route,
+              authViewModel: authViewModel,
+              onDelete: { deleteRoute(route: route) },
+              onNavigate: { navigationManager.pushView(.offlineRoute(routeId: route.id ?? "")) }
+            )
           }
         }
       }
       .padding(.vertical, 8)
       .padding(.horizontal, ThemeExtension.horizontalPadding)
       .background(Color.newBackgroundGray)
+    }
+  }
+}
+
+// MARK: - OfflineRouteRowView
+struct OfflineRouteRowView: View {
+  let route: DownloadedRoute
+  let authViewModel: AuthViewModel
+  let onDelete: () -> Void
+  let onNavigate: () -> Void
+
+  var body: some View {
+    Button(action: onNavigate) {
+      HStack(alignment: .center, spacing: 12) {
+        let photoUrl: String? =
+          route.photos.first?.combinedImagePhoto?.url ?? route.photos.first?.imagePhoto?.url
+          ?? route.photos.first?.pathLinePhoto?.url
+        if let urlString = photoUrl, let uiImage = UIImage(contentsOfFile: urlString) {
+          Image(uiImage: uiImage)
+            .resizable()
+            .aspectRatio(1, contentMode: .fill)
+            .frame(width: 60, height: 60)
+            .clipped()
+            .cornerRadius(10)
+        } else {
+          PlaceholderImage(backgroundColor: Color.gray, iconColor: Color.white)
+            .frame(width: 60, height: 60)
+            .cornerRadius(10)
+        }
+        VStack(alignment: .leading, spacing: 4) {
+          Text(route.name ?? "Unnamed Route")
+            .font(.body)
+            .fontWeight(.bold)
+            .foregroundColor(Color.newTextColor)
+          if let grade = route.grade {
+            Text("Grade: \(authViewModel.getGradeSystem().convertGradeToString(grade))")
+              .font(.caption)
+              .foregroundColor(.gray)
+          }
+          if let cragName = route.cragName {
+            Text("Crag: \(cragName)")
+              .font(.caption)
+              .foregroundColor(.gray)
+          }
+          if let length = route.length {
+            Text("Length: \(length)m")
+              .font(.caption2)
+              .foregroundColor(.gray)
+          }
+        }
+        Spacer()
+        Button(action: onDelete) {
+          Image(systemName: "trash")
+            .foregroundColor(.red)
+        }
+        Image(systemName: "chevron.right")
+          .foregroundColor(.gray)
+      }
+      .padding(10)
+      .background(Color.white)
+      .cornerRadius(10)
+      .shadow(color: Color.black.opacity(0.08), radius: 8, x: 0, y: 2)
     }
   }
 }

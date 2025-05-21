@@ -203,12 +203,16 @@ struct RouteNavigationBar: View {
         let combinedImageUrl = await PhotoDownloader.downloadPhotoToFile(
           url: combinedImageUrlString)
       {
+        let imagePhoto = DownloadedPhoto(id: photo.image.id, url: imageUrl.absoluteString)
+        let pathLinePhoto = DownloadedPhoto(id: photo.pathLine.id, url: pathLineUrl.absoluteString)
+        let combinedImagePhoto = DownloadedPhoto(
+          id: photo.combinedPhoto.id, url: combinedImageUrl.absoluteString)
         routePhotos.append(
           DownloadedRoutePhoto(
             id: photo.id,
-            pathLineUrl: pathLineUrl,
-            imageUrl: imageUrl,
-            combinedImageUrl: combinedImageUrl
+            pathLinePhoto: pathLinePhoto,
+            imagePhoto: imagePhoto,
+            combinedImagePhoto: combinedImagePhoto
           )
         )
       }

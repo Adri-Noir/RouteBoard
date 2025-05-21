@@ -17,6 +17,7 @@ class DownloadedRoute {
   var cragId: String?
   var cragName: String?
   @Relationship var photos: [DownloadedRoutePhoto]
+  @Relationship(inverse: \DownloadedSector.routes) var sector: DownloadedSector?
 
   init(
     id: String? = "",

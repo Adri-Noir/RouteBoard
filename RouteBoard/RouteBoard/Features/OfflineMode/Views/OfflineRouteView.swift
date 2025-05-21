@@ -80,8 +80,8 @@ struct OfflineRouteBackgroundView: View {
   var body: some View {
     GeometryReader { geometry in
       ZStack {
-        if let photoUrl = route.photos.first?.combinedImageUrl,
-          let uiImage = UIImage(contentsOfFile: photoUrl.path)
+        if let photoUrl = route.photos.first?.combinedImagePhoto?.url,
+          let uiImage = UIImage(contentsOfFile: photoUrl)
         {
           Image(uiImage: uiImage)
             .resizable()
@@ -228,7 +228,7 @@ struct OfflineRouteNavigationBar: View {
   let onBack: () -> Void
 
   var hasPhotos: Bool {
-    route.photos.first?.combinedImageUrl != nil
+    route.photos.first?.combinedImagePhoto?.url != nil
   }
 
   var body: some View {
