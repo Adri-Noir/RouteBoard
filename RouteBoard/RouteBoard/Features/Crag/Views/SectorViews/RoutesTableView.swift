@@ -244,6 +244,7 @@ struct TableHeaderRow: View {
 // Route Table Row
 struct RouteTableRow: View {
   @EnvironmentObject private var authViewModel: AuthViewModel
+  @Environment(\.isOfflineMode) private var isOfflineMode
 
   let route: SectorRouteDto
   let sectorId: String
@@ -253,11 +254,11 @@ struct RouteTableRow: View {
   let onSelectSector: (String) -> Void
 
   var body: some View {
-    RouteLink(routeId: route.id) {
+    RouteLink(routeId: route.id, isOfflineMode: isOfflineMode) {
       HStack(spacing: 0) {
         // Name and sector
         tableDataCell(width: columnWidths[0]) {
-          RouteLink(routeId: route.id) {
+          RouteLink(routeId: route.id, isOfflineMode: isOfflineMode) {
             VStack(alignment: .leading, spacing: 2) {
               Text(route.name ?? "Unnamed Route")
                 .font(.subheadline)

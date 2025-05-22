@@ -9,6 +9,7 @@ struct CragHeaderView<Content: View>: View {
   @EnvironmentObject var navigationManager: NavigationManager
   @EnvironmentObject var authViewModel: AuthViewModel
   @Environment(\.modelContext) private var modelContext
+  @Environment(\.isOfflineMode) private var isOfflineMode
 
   private var safeAreaInsets: UIEdgeInsets {
     guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
@@ -51,7 +52,7 @@ struct CragHeaderView<Content: View>: View {
       Spacer()
 
       // Could add crag-specific info here if needed
-      if let locationName = crag?.locationName {
+      if let locationName = crag?.locationName, !isOfflineMode {
         Button {
           isLocationDetailsPresented.toggle()
         } label: {
@@ -170,7 +171,7 @@ struct CragHeaderView<Content: View>: View {
 
       Spacer()
 
-      if let crag = crag, crag.canModify ?? false {
+      if let crag = crag, !isOfflineMode {
         Button {
           isCompactMenuPresented.toggle()
         } label: {
@@ -181,72 +182,60 @@ struct CragHeaderView<Content: View>: View {
             .background(Color.black.opacity(0.75))
             .clipShape(Circle())
         }
-        .disabled(crag == nil)
         .popover(
           isPresented: $isCompactMenuPresented,
           attachmentAnchor: .point(.bottomTrailing),
           arrowEdge: .top
         ) {
           VStack(alignment: .leading, spacing: 12) {
-            Button(action: {
-              isCompactMenuPresented = false
-              Task { await downloadCrag() }
-            }) {
-              HStack {
-                Image(systemName: "arrow.down.to.line")
-                Text(
+            VStack(alignment: .leading, spacing: 16) {
+              Button(action: {
+                isCompactMenuPresented = false
+                Task { await downloadCrag() }
+              }) {
+                Label(
                   isAlreadyDownloadedCrag
                     ? "Crag downloaded"
-                    : (isDownloadingCrag ? "Downloading..." : "Download Crag")
+                    : (isDownloadingCrag ? "Downloading..." : "Download Crag"),
+                  systemImage: "arrow.down.to.line"
                 )
-                Spacer()
+                .padding(.horizontal, 12)
+                .foregroundColor(Color.newTextColor)
               }
-              .padding(.horizontal, 12)
-              .foregroundColor(Color.newTextColor)
-            }
-            .disabled(isAlreadyDownloadedCrag || isDownloadingCrag)
+              .disabled(isAlreadyDownloadedCrag || isDownloadingCrag)
 
-            Button(action: {
-              isCompactMenuPresented = false
-              navigationManager.pushView(.createSector(cragId: crag.id ?? ""))
-            }) {
-              HStack {
-                Image(systemName: "plus.circle")
-                Text("Create Sector")
-                Spacer()
+              if crag.canModify ?? false {
+                Button(action: {
+                  isCompactMenuPresented = false
+                  navigationManager.pushView(.createSector(cragId: crag.id ?? ""))
+                }) {
+                  Label("Create Sector", systemImage: "plus")
+                    .padding(.horizontal, 12)
+                    .foregroundColor(Color.newTextColor)
+                }
+
+                Button(action: {
+                  isCompactMenuPresented = false
+                  navigationManager.pushView(.editCrag(cragDetails: crag))
+                }) {
+                  Label("Edit Crag", systemImage: "pencil")
+                    .padding(.horizontal, 12)
+                    .foregroundColor(Color.newTextColor)
+                }
               }
-              .padding(.horizontal, 12)
-              .foregroundColor(Color.newTextColor)
-            }
-
-            Divider()
-
-            Button(action: {
-              isCompactMenuPresented = false
-              navigationManager.pushView(.editCrag(cragDetails: crag))
-            }) {
-              HStack {
-                Image(systemName: "pencil")
-                Text("Edit Crag")
-                Spacer()
-              }
-              .padding(.horizontal, 12)
-              .foregroundColor(Color.newTextColor)
             }
 
-            Divider()
+            if crag.canModify ?? false {
+              Divider()
 
-            Button(action: {
-              isCompactMenuPresented = false
-              showDeleteConfirmation = true
-            }) {
-              HStack {
-                Image(systemName: "trash")
-                Text("Delete Crag")
-                Spacer()
+              Button(action: {
+                isCompactMenuPresented = false
+                showDeleteConfirmation = true
+              }) {
+                Label("Delete Crag", systemImage: "trash")
+                  .padding(.horizontal, 12)
+                  .foregroundColor(Color.red)
               }
-              .padding(.horizontal, 12)
-              .foregroundColor(Color.red)
             }
           }
           .padding(.vertical, 12)
@@ -366,6 +355,33 @@ struct CragHeaderView<Content: View>: View {
       // Sector routes
       var sectorRoutesModel: [DownloadedRoute] = []
       for r in sector.routes ?? [] {
+        // Download route photos
+        var routePhotos: [DownloadedRoutePhoto] = []
+        for photo in r.routePhotos ?? [] {
+          if let imageUrlString = photo.image.url,
+            let pathLineUrlString = photo.pathLine.url,
+            let combinedImageUrlString = photo.combinedPhoto.url,
+            let imageUrl = await PhotoDownloader.downloadPhotoToFile(url: imageUrlString),
+            let pathLineUrl = await PhotoDownloader.downloadPhotoToFile(url: pathLineUrlString),
+            let combinedImageUrl = await PhotoDownloader.downloadPhotoToFile(
+              url: combinedImageUrlString)
+          {
+            let imagePhoto = DownloadedPhoto(id: photo.image.id, url: imageUrl.absoluteString)
+            let pathLinePhoto = DownloadedPhoto(
+              id: photo.pathLine.id, url: pathLineUrl.absoluteString)
+            let combinedImagePhoto = DownloadedPhoto(
+              id: photo.combinedPhoto.id, url: combinedImageUrl.absoluteString)
+            routePhotos.append(
+              DownloadedRoutePhoto(
+                id: photo.id,
+                pathLinePhoto: pathLinePhoto,
+                imagePhoto: imagePhoto,
+                combinedImagePhoto: combinedImagePhoto
+              )
+            )
+          }
+        }
+
         let localRoute = DownloadedRoute(
           id: r.id,
           name: r.name,
@@ -378,7 +394,8 @@ struct CragHeaderView<Content: View>: View {
           sectorName: sector.name,
           cragId: cragResp.id,
           cragName: cragResp.name,
-          photos: []
+          routeCategories: r.routeCategories,
+          photos: routePhotos
         )
         sectorRoutesModel.append(localRoute)
       }
@@ -415,8 +432,9 @@ struct CragHeaderView<Content: View>: View {
 #Preview {
   Navigator { _ in
     AuthInjectionMock {
-      CragHeaderView(crag: CragDetails(id: "1", name: "Crag", locationName: "Location", photos: []))
-      {
+      CragHeaderView(
+        crag: CragDetails(id: "1", name: "Crag", locationName: "Location", photos: [])
+      ) {
         Text("Content")
       }
     }

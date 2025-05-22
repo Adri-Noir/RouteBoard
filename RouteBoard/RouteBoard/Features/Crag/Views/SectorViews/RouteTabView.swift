@@ -21,10 +21,12 @@ struct RouteTabView: View {
 }
 
 struct RouteCardFullscreen: View {
+  @Environment(\.isOfflineMode) private var isOfflineMode
+
   let route: SectorRouteDto
 
   var body: some View {
-    RouteLink(routeId: route.id) {
+    RouteLink(routeId: route.id, isOfflineMode: isOfflineMode) {
       ZStack(alignment: .bottom) {
         // Background image
         GeometryReader { geometry in

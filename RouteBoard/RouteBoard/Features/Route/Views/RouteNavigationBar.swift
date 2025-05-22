@@ -231,6 +231,7 @@ struct RouteNavigationBar: View {
       sectorName: downloadedRoute.sectorName,
       cragId: downloadedRoute.cragId,
       cragName: downloadedRoute.cragName,
+      routeCategories: downloadedRoute.routeCategories,
       photos: routePhotos
     )
 

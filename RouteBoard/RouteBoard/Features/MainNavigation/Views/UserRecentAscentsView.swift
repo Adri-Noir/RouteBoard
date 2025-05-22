@@ -116,7 +116,7 @@ struct UserRecentAscentsView: View {
     ScrollView(.horizontal, showsIndicators: false) {
       LazyHStack(spacing: 20) {
         ForEach(recentAscents, id: \.id) { route in
-          RouteLink(routeId: .constant(route.id)) {
+          RouteLink(routeId: .constant(route.id), isOfflineMode: false) {
             routeCard(for: route)
           }
           .scrollTransition { content, phase in

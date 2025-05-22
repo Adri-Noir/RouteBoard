@@ -14,6 +14,13 @@ struct OfflineRouteView: View {
   @State private var isFullscreenMode = false
   @State private var isPresentingRouteARView = false
 
+  private var safeAreaInsets: UIEdgeInsets {
+    guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+      let window = windowScene.windows.first
+    else { return .zero }
+    return window.safeAreaInsets
+  }
+
   var body: some View {
     if let route = route {
       ZStack(alignment: .bottom) {
@@ -36,6 +43,7 @@ struct OfflineRouteView: View {
             Spacer()
           }
         }
+        .padding(.bottom, safeAreaInsets.bottom)
         .opacity(isFullscreenMode ? 0 : 1)
 
         // Top navigation bar
@@ -81,7 +89,8 @@ struct OfflineRouteBackgroundView: View {
     GeometryReader { geometry in
       ZStack {
         if let photoUrl = route.photos.first?.combinedImagePhoto?.url,
-          let uiImage = UIImage(contentsOfFile: photoUrl)
+          let url = URL(string: photoUrl),
+          let uiImage = UIImage(contentsOfFile: url.path)
         {
           Image(uiImage: uiImage)
             .resizable()
@@ -116,9 +125,18 @@ struct OfflineRouteInfoView: View {
   let route: DownloadedRoute
 
   var climbingTypes: [UserClimbingType] {
-    // If you want to support characteristics, adapt this to your offline model
-    // For now, just return an empty array or map routeType if possible
-    []
+    if let categories = route.routeCategories {
+      return ClimbTypesConverter.convertComponentsClimbTypesToUserClimbingTypes(
+        componentsClimbTypes: categories.climbTypes ?? []
+      )
+        + ClimbTypesConverter.convertComponentsRockTypesToUserClimbingTypes(
+          componentsRockTypes: categories.rockTypes ?? []
+        )
+        + ClimbTypesConverter.convertComponentsHoldTypesToUserClimbingTypes(
+          componentsHoldTypes: categories.holdTypes ?? []
+        )
+    }
+    return []
   }
 
   var body: some View {

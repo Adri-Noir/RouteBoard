@@ -35,9 +35,9 @@ enum Routes {
     case .registeredUser:
       return AnyView(RegisteredUserView())
     case .cragDetails(let id):
-      return AnyView(CragView(cragId: id))
+      return AnyView(CragView(cragId: id).offlineMode(false))
     case .sectorDetails(let sectorId):
-      return AnyView(CragView(sectorId: sectorId))
+      return AnyView(CragView(sectorId: sectorId).offlineMode(false))
     case .routeDetails(let id):
       return AnyView(RouteView(routeId: id))
     case .createCrag:
@@ -71,7 +71,7 @@ enum Routes {
     case .offlineRoute(let routeId):
       return AnyView(OfflineRouteView(routeId: routeId))
     case .offlineCrag(let cragId):
-      return AnyView(CragView(cragId: cragId, isOffline: true))
+      return AnyView(CragView(cragId: cragId).offlineMode(true))
     }
   }
 }

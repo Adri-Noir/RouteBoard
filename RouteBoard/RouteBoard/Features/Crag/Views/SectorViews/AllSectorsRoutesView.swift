@@ -99,10 +99,11 @@ struct SectorRoutesSection: View {
 }
 
 struct RouteCardList: View {
+  @Environment(\.isOfflineMode) private var isOfflineMode
   let route: SectorRouteDto
 
   var body: some View {
-    RouteLink(routeId: route.id) {
+    RouteLink(routeId: route.id, isOfflineMode: isOfflineMode) {
       HStack(spacing: 12) {
         // Route thumbnail
         if let photos = route.routePhotos, !photos.isEmpty,

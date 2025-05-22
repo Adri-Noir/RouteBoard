@@ -109,6 +109,7 @@
 		AF9184F22D9DC42C00484F7D /* TextAreaField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9184EF2D9DC42700484F7D /* TextAreaField.swift */; };
 		AF9184F72D9DC43500484F7D /* PhotoPickerField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9184F42D9DC42E00484F7D /* PhotoPickerField.swift */; };
 		AF9184FB2D9DC5B500484F7D /* MapLocationPickerField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9184FA2D9DC5AE00484F7D /* MapLocationPickerField.swift */; };
+		AF98A7FC2DDFBB2200B57A4F /* OfflineModeEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF98A7FB2DDFBB1B00B57A4F /* OfflineModeEnvironment.swift */; };
 		AF998AB42D9B340400949E12 /* AddNewCragButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF998AB32D9B33F900949E12 /* AddNewCragButtonView.swift */; };
 		AF998AC22D9B35D100949E12 /* CreateCragView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF998AC02D9B35CE00949E12 /* CreateCragView.swift */; };
 		AF9B62512C349484003762B0 /* ImageCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B62502C349484003762B0 /* ImageCarouselView.swift */; };
@@ -311,6 +312,7 @@
 		AF9184EF2D9DC42700484F7D /* TextAreaField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAreaField.swift; sourceTree = "<group>"; };
 		AF9184F42D9DC42E00484F7D /* PhotoPickerField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerField.swift; sourceTree = "<group>"; };
 		AF9184FA2D9DC5AE00484F7D /* MapLocationPickerField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLocationPickerField.swift; sourceTree = "<group>"; };
+		AF98A7FB2DDFBB1B00B57A4F /* OfflineModeEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineModeEnvironment.swift; sourceTree = "<group>"; };
 		AF998AB32D9B33F900949E12 /* AddNewCragButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCragButtonView.swift; sourceTree = "<group>"; };
 		AF998AC02D9B35CE00949E12 /* CreateCragView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCragView.swift; sourceTree = "<group>"; };
 		AF9B62502C349484003762B0 /* ImageCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarouselView.swift; sourceTree = "<group>"; };
@@ -459,6 +461,7 @@
 		AF00C6C52DDA1DD700B0945C /* OfflineMode */ = {
 			isa = PBXGroup;
 			children = (
+				AF98A7FB2DDFBB1B00B57A4F /* OfflineModeEnvironment.swift */,
 				AF00C6C92DDA1DE800B0945C /* Views */,
 				AF00C6C62DDA1DE100B0945C /* OfflineModeView.swift */,
 			);
@@ -1449,6 +1452,7 @@
 				AF3D94452D6A97A7003FAF90 /* UserRecentAscentsView.swift in Sources */,
 				AFE4C4972D8756DE00A09302 /* UserView.swift in Sources */,
 				AF9E0C6C2C3747C500984C58 /* ClimbingGrades.swift in Sources */,
+				AF98A7FC2DDFBB2200B57A4F /* OfflineModeEnvironment.swift in Sources */,
 				AFB7DA372DAC67F2006005C6 /* LogoutButton.swift in Sources */,
 				AF18242D2DDD1FD8001CDF92 /* DownloadedCrag.swift in Sources */,
 				AFCCB8E32DA47B440049A86B /* UserRegisterView.swift in Sources */,

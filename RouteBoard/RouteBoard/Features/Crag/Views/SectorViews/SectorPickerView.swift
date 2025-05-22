@@ -18,6 +18,7 @@ struct SectorPickerView: View {
 
   @EnvironmentObject var navigationManager: NavigationManager
   @EnvironmentObject var authViewModel: AuthViewModel
+  @Environment(\.isOfflineMode) private var isOfflineMode
 
   private let deleteSectorClient = DeleteSectorClient()
 
@@ -60,7 +61,9 @@ struct SectorPickerView: View {
 
         Spacer()
 
-        if let selectedSectorId = selectedSectorId, let selectedSector = selectedSector, canModify {
+        if let selectedSectorId = selectedSectorId, let selectedSector = selectedSector, canModify,
+          !isOfflineMode
+        {
           Button {
             isOptionsOpen.toggle()
           } label: {
@@ -76,47 +79,35 @@ struct SectorPickerView: View {
             arrowEdge: .top
           ) {
             VStack(alignment: .leading, spacing: 12) {
-              Button {
-                isOptionsOpen = false
-                navigationManager.pushView(.createRoute(sectorId: selectedSectorId))
-              } label: {
-                HStack {
-                  Image(systemName: "plus")
-                  Text("Add Route")
-                  Spacer()
+              VStack(alignment: .leading, spacing: 16) {
+                Button(action: {
+                  isOptionsOpen = false
+                  navigationManager.pushView(.createRoute(sectorId: selectedSectorId))
+                }) {
+                  Label("Add Route", systemImage: "plus")
+                    .padding(.horizontal, 12)
+                    .foregroundColor(Color.newTextColor)
                 }
-                .padding(.horizontal, 12)
-                .foregroundColor(Color.newTextColor)
+
+                Button(action: {
+                  isOptionsOpen = false
+                  navigationManager.pushView(.editSector(sectorDetails: selectedSector))
+                }) {
+                  Label("Edit Sector", systemImage: "pencil")
+                    .padding(.horizontal, 12)
+                    .foregroundColor(Color.newTextColor)
+                }
               }
 
               Divider()
 
-              Button {
-                isOptionsOpen = false
-                navigationManager.pushView(.editSector(sectorDetails: selectedSector))
-              } label: {
-                HStack {
-                  Image(systemName: "pencil")
-                  Text("Edit Sector")
-                  Spacer()
-                }
-                .padding(.horizontal, 12)
-                .foregroundColor(Color.newTextColor)
-              }
-
-              Divider()
-
-              Button {
+              Button(action: {
                 isOptionsOpen = false
                 showDeleteConfirmation = true
-              } label: {
-                HStack {
-                  Image(systemName: "trash")
-                  Text("Delete Sector")
-                  Spacer()
-                }
-                .padding(.horizontal, 12)
-                .foregroundColor(Color.red)
+              }) {
+                Label("Delete Sector", systemImage: "trash")
+                  .padding(.horizontal, 12)
+                  .foregroundColor(Color.red)
               }
             }
             .padding(.vertical, 12)

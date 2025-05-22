@@ -24,7 +24,7 @@ struct ResultTypeLinkPicker<Content: View>: View {
       }
     case .Route:
       if let routeId = result.routeId {
-        RouteLink(routeId: routeId) {
+        RouteLink(routeId: routeId, isOfflineMode: false) {
           content
         }
       } else {

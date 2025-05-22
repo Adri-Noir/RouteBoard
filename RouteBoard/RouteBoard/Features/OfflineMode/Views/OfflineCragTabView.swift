@@ -10,11 +10,48 @@ public struct OfflineCragTabView: View {
   @Environment(\.modelContext) private var modelContext
 
   private func deleteCrag(crag: DownloadedCrag) {
+    // Cascade delete all related entities
+
+    // Delete all sectors and their content
+    for sector in crag.sectors {
+      // Delete all routes in this sector
+      for route in sector.routes {
+        // Delete route photos and their individual photos
+        for routePhoto in route.photos {
+          if let pathLinePhoto = routePhoto.pathLinePhoto {
+            modelContext.delete(pathLinePhoto)
+          }
+          if let imagePhoto = routePhoto.imagePhoto {
+            modelContext.delete(imagePhoto)
+          }
+          if let combinedImagePhoto = routePhoto.combinedImagePhoto {
+            modelContext.delete(combinedImagePhoto)
+          }
+          modelContext.delete(routePhoto)
+        }
+        modelContext.delete(route)
+      }
+
+      // Delete sector photos
+      for photo in sector.photos {
+        modelContext.delete(photo)
+      }
+
+      modelContext.delete(sector)
+    }
+
+    // Delete crag photos
+    for photo in crag.photos {
+      modelContext.delete(photo)
+    }
+
+    // Delete the crag itself
     modelContext.delete(crag)
+
     do {
       try modelContext.save()
     } catch {
-      print("Failed to save after deleting crag: \(error)")
+      print("Failed to save after deleting crag and all related entities: \(error)")
     }
   }
 
@@ -54,11 +91,13 @@ struct OfflineCragRowView: View {
   var body: some View {
     Button(action: onNavigate) {
       HStack(alignment: .center, spacing: 12) {
-        if let urlString = crag.photos.first?.url, let uiImage = UIImage(contentsOfFile: urlString)
+        if let urlString = crag.photos.first?.url,
+          let url = URL(string: urlString),
+          let uiImage = UIImage(contentsOfFile: url.path)
         {
           Image(uiImage: uiImage)
             .resizable()
-            .aspectRatio(1, contentMode: .fill)
+            .scaledToFill()
             .frame(width: 60, height: 60)
             .clipped()
             .cornerRadius(10)

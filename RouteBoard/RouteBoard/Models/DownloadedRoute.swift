@@ -16,6 +16,7 @@ class DownloadedRoute {
   var sectorName: String?
   var cragId: String?
   var cragName: String?
+  var routeCategories: Components.Schemas.RouteCategoriesDto?
   @Relationship var photos: [DownloadedRoutePhoto]
   @Relationship(inverse: \DownloadedSector.routes) var sector: DownloadedSector?
 
@@ -31,6 +32,7 @@ class DownloadedRoute {
     sectorName: String? = nil,
     cragId: String? = nil,
     cragName: String? = nil,
+    routeCategories: Components.Schemas.RouteCategoriesDto? = nil,
     photos: [DownloadedRoutePhoto] = []
   ) {
     self.id = id
@@ -44,6 +46,7 @@ class DownloadedRoute {
     self.sectorName = sectorName
     self.cragId = cragId
     self.cragName = cragName
+    self.routeCategories = routeCategories
     self.photos = photos
   }
 }

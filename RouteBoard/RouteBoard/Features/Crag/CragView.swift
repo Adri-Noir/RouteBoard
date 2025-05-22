@@ -12,13 +12,12 @@ import SwiftUI
 struct CragView: View {
   var cragId: String? = nil
   var sectorId: String? = nil
-  var isOffline: Bool = false
 
   @Query private var crags: [DownloadedCrag]
   private var downloadedCrag: DownloadedCrag? { crags.first(where: { $0.id == cragId }) }
 
   @State private var selectedSectorId: String? = nil
-  @State private var isLoading: Bool = false
+  @State private var isLoading: Bool = true
   @State private var crag: CragDetails?
   @State private var errorMessage: String? = nil
   @State private var viewMode: RouteViewMode = .tabs
@@ -26,6 +25,7 @@ struct CragView: View {
   @EnvironmentObject private var authViewModel: AuthViewModel
   @Environment(\.dismiss) private var dismiss
   @Environment(\.modelContext) private var modelContext
+  @Environment(\.isOfflineMode) private var isOfflineMode
 
   private let cragDetailsClient = GetCragDetailsClient()
   private let sectorCragDetailsClient = GetSectorCragDetailsClient()
@@ -36,11 +36,6 @@ struct CragView: View {
 
   init(sectorId: String) {
     self.sectorId = sectorId
-  }
-
-  init(cragId: String, isOffline: Bool) {
-    self.cragId = cragId
-    self.isOffline = isOffline
   }
 
   func getCrag(value: String) async {
@@ -119,7 +114,7 @@ struct CragView: View {
                 }
               }
 
-              if !isOffline {
+              if !isOfflineMode {
                 CragTopInfoContainerView(crag: crag)
               }
 
@@ -177,7 +172,7 @@ struct CragView: View {
     .navigationBarHidden(true)
     .task {
       Task {
-        if isOffline == true, let downloadedCrag = downloadedCrag {
+        if isOfflineMode, let downloadedCrag = downloadedCrag {
           crag = CragDetails(
             id: downloadedCrag.id,
             name: downloadedCrag.name,
@@ -188,6 +183,12 @@ struct CragView: View {
                 id: sector.id ?? "",
                 name: sector.name,
                 location: sector.location,
+                photos: sector.photos.map { photo in
+                  PhotoDto(
+                    id: photo.id ?? "",
+                    url: photo.url ?? ""
+                  )
+                },
                 routes: sector.routes.map { route in
                   SectorRouteDto(
                     id: route.id ?? "",
@@ -197,14 +198,31 @@ struct CragView: View {
                     createdAt: String(describing: route.createdAt),
                     routeType: route.routeType,
                     length: route.length.map(Int32.init),
-                    routeCategories: nil,
-                    routePhotos: nil,
+                    routeCategories: route.routeCategories,
+                    routePhotos: route.photos.map { routePhoto in
+                      Components.Schemas.RoutePhotoDto(
+                        id: routePhoto.id ?? "",
+                        routeId: route.id,
+                        combinedPhoto: Components.Schemas.PhotoDto(
+                          id: routePhoto.combinedImagePhoto?.id ?? "",
+                          url: routePhoto.combinedImagePhoto?.url ?? ""
+                        )
+                      )
+                    },
                     ascentsCount: nil
                   )
                 }
               )
+            },
+            photos: downloadedCrag.photos.map { photo in
+              PhotoDto(
+                id: photo.id ?? "",
+                url: photo.url ?? ""
+              )
             }
           )
+
+          isLoading = false
 
           return
         }

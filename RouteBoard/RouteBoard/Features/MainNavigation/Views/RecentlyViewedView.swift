@@ -117,7 +117,7 @@ struct RecentlyViewedView: View {
     switch item.entityType {
     case .Route:
       if let routeId = item.routeId {
-        RouteLink(routeId: routeId) {
+        RouteLink(routeId: routeId, isOfflineMode: false) {
           routeHistoryView(item)
         }
       } else {

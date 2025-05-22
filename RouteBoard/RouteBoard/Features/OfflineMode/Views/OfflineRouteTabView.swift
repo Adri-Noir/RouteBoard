@@ -12,8 +12,19 @@ public struct OfflineRoutesTabView: View {
 
   private func deleteRoute(route: DownloadedRoute) {
     // Cascade delete associated photos first
-    for photo in route.photos {
-      modelContext.delete(photo)
+    for routePhoto in route.photos {
+      // Delete the individual photos within each route photo
+      if let pathLinePhoto = routePhoto.pathLinePhoto {
+        modelContext.delete(pathLinePhoto)
+      }
+      if let imagePhoto = routePhoto.imagePhoto {
+        modelContext.delete(imagePhoto)
+      }
+      if let combinedImagePhoto = routePhoto.combinedImagePhoto {
+        modelContext.delete(combinedImagePhoto)
+      }
+      // Delete the route photo itself
+      modelContext.delete(routePhoto)
     }
     // Delete the route itself
     modelContext.delete(route)
@@ -65,10 +76,12 @@ struct OfflineRouteRowView: View {
         let photoUrl: String? =
           route.photos.first?.combinedImagePhoto?.url ?? route.photos.first?.imagePhoto?.url
           ?? route.photos.first?.pathLinePhoto?.url
-        if let urlString = photoUrl, let uiImage = UIImage(contentsOfFile: urlString) {
+        if let urlString = URL(string: photoUrl ?? ""),
+          let uiImage = UIImage(contentsOfFile: urlString.path)
+        {
           Image(uiImage: uiImage)
             .resizable()
-            .aspectRatio(1, contentMode: .fill)
+            .scaledToFill()
             .frame(width: 60, height: 60)
             .clipped()
             .cornerRadius(10)
