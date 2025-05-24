@@ -19,6 +19,7 @@ interface RouteTableProps {
   sortDirection: "asc" | "desc";
   handleSort: (column: "name" | "grade" | "ascents" | "sector") => void;
   handleAscentClick: (routeId: string) => void;
+  onViewAscents?: (routeId: string) => void;
   canModify?: boolean;
   onEditRoute?: (routeId: string) => void;
   onDeleteRoute?: (routeId: string) => void;
@@ -30,6 +31,7 @@ const RouteTable = ({
   sortDirection,
   handleSort,
   handleAscentClick,
+  onViewAscents,
   canModify,
   onEditRoute,
   onDeleteRoute,
@@ -75,7 +77,19 @@ const RouteTable = ({
                   </div>
                 </TableCell>
                 <TableCell>{sectorName || "-"}</TableCell>
-                <TableCell className="text-right">{route.ascentsCount || 0}</TableCell>
+                <TableCell className="text-right">
+                  {route.ascentsCount && route.ascentsCount > 0 && onViewAscents ? (
+                    <Button
+                      variant="link"
+                      className="text-foreground underline"
+                      onClick={() => onViewAscents(route.id)}
+                    >
+                      {route.ascentsCount}
+                    </Button>
+                  ) : (
+                    <span>{route.ascentsCount || 0}</span>
+                  )}
+                </TableCell>
                 <TableCell className="text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>

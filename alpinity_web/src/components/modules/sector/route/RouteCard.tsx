@@ -9,13 +9,14 @@ import { Label } from "@/components/ui/label";
 import { GradeBadge, TypeBadge } from "@/components/ui/library/Badge";
 import { SectorRouteDto } from "@/lib/api/types.gen";
 import { formatClimbingCategoryType, formatRouteType } from "@/lib/utils/formatters";
-import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
+import { Edit, MoreHorizontal, Plus, Trash2 } from "lucide-react";
 
 interface RouteCardProps {
   route: SectorRouteDto;
   isSelected: boolean;
   onSelect: () => void;
   onAscentClick: () => void;
+  onLogAscentClick: () => void;
   canModify?: boolean;
   onEditRoute?: () => void;
   onDeleteRoute?: () => void;
@@ -26,6 +27,7 @@ const RouteCard = ({
   isSelected,
   onSelect,
   onAscentClick,
+  onLogAscentClick,
   canModify,
   onEditRoute,
   onDeleteRoute,
@@ -95,6 +97,15 @@ const RouteCard = ({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onLogAscentClick();
+                }}
+              >
+                <Plus className="mr-2 h-4 w-4" />
+                Log Ascent
+              </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={(e) => {
                   e.stopPropagation();

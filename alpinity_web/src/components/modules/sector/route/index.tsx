@@ -1,5 +1,6 @@
+import { LogAscentDialog } from "@/components/modules/route/log-ascent";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { SectorDetailedDto } from "@/lib/api/types.gen";
+import { SectorDetailedDto, SectorRouteDto } from "@/lib/api/types.gen";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import AscentDialog from "./AscentDialog";
@@ -21,6 +22,8 @@ const SectorRoutes = ({ sector, canModify, onEditRoute, onDeleteRoute }: SectorR
   );
   const [ascentDialogOpen, setAscentDialogOpen] = useState(false);
   const [selectedAscentRouteId, setSelectedAscentRouteId] = useState<string | null>(null);
+  const [logAscentDialogOpen, setLogAscentDialogOpen] = useState(false);
+  const [selectedLogAscentRoute, setSelectedLogAscentRoute] = useState<SectorRouteDto | null>(null);
 
   const selectedRoute = sector.routes?.find((route) => route.id === selectedRouteId);
 
@@ -53,6 +56,12 @@ const SectorRoutes = ({ sector, canModify, onEditRoute, onDeleteRoute }: SectorR
     setAscentDialogOpen(true);
   };
 
+  const handleLogAscentClick = (routeId: string) => {
+    const foundRoute = sector.routes?.find((r) => r.id === routeId);
+    setSelectedLogAscentRoute(foundRoute || null);
+    setLogAscentDialogOpen(true);
+  };
+
   const routeName = sector.routes?.find((r) => r.id === selectedAscentRouteId)?.name ?? undefined;
 
   return (
@@ -69,6 +78,7 @@ const SectorRoutes = ({ sector, canModify, onEditRoute, onDeleteRoute }: SectorR
               selectedRouteId={selectedRouteId}
               onRouteSelect={setSelectedRouteId}
               onAscentClick={handleAscentClick}
+              onLogAscentClick={handleLogAscentClick}
               canModify={canModify}
               onEditRoute={onEditRoute}
               onDeleteRoute={onDeleteRoute}
@@ -82,6 +92,12 @@ const SectorRoutes = ({ sector, canModify, onEditRoute, onDeleteRoute }: SectorR
         onOpenChange={setAscentDialogOpen}
         routeId={selectedAscentRouteId}
         routeName={routeName}
+      />
+
+      <LogAscentDialog
+        open={logAscentDialogOpen}
+        onOpenChange={setLogAscentDialogOpen}
+        route={selectedLogAscentRoute}
       />
     </>
   );

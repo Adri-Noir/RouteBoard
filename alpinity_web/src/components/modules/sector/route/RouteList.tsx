@@ -6,6 +6,7 @@ interface RouteListProps {
   selectedRouteId: string | undefined;
   onRouteSelect: (routeId: string) => void;
   onAscentClick: (routeId: string) => void;
+  onLogAscentClick: (routeId: string) => void;
   canModify?: boolean;
   onEditRoute?: (routeId: string) => void;
   onDeleteRoute?: (routeId: string) => void;
@@ -16,6 +17,7 @@ const RouteList = ({
   selectedRouteId,
   onRouteSelect,
   onAscentClick,
+  onLogAscentClick,
   canModify,
   onEditRoute,
   onDeleteRoute,
@@ -30,6 +32,7 @@ const RouteList = ({
             isSelected={selectedRouteId === route.id}
             onSelect={() => onRouteSelect(route.id)}
             onAscentClick={() => onAscentClick(route.id)}
+            onLogAscentClick={() => onLogAscentClick(route.id)}
             canModify={canModify}
             onEditRoute={() => onEditRoute?.(route.id)}
             onDeleteRoute={() => onDeleteRoute?.(route.id)}

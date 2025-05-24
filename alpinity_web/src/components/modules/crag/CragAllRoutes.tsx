@@ -1,11 +1,12 @@
 "use client";
 
 import { calculateGradeDistribution, GradeDistributionCard } from "@/components/modules/charts/GradeDistributionChart";
+import { LogAscentDialog } from "@/components/modules/route/log-ascent";
+import AscentDialog from "@/components/modules/sector/route/AscentDialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CragDetailedDto, RouteType, SectorDetailedDto, SectorRouteDto } from "@/lib/api/types.gen";
 import { formatClimbingGrade } from "@/lib/utils/formatters";
 import { useMemo, useState } from "react";
-import AscentDialog from "../sector/route/AscentDialog";
 import RouteFilters from "./RouteFilters";
 import RouteTable from "./RouteTable";
 
@@ -44,6 +45,8 @@ const CragAllRoutes = ({ crag, onEditRoute, onDeleteRoute }: CragAllRoutesProps)
   const [selectedSector, setSelectedSector] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<"name" | "grade" | "ascents" | "sector">("name");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [logAscentDialogOpen, setLogAscentDialogOpen] = useState(false);
+  const [selectedLogAscentRoute, setSelectedLogAscentRoute] = useState<SectorRouteDto | null>(null);
   const [ascentDialogOpen, setAscentDialogOpen] = useState(false);
   const [selectedAscentRouteId, setSelectedAscentRouteId] = useState<string | null>(null);
 
@@ -144,11 +147,17 @@ const CragAllRoutes = ({ crag, onEditRoute, onDeleteRoute }: CragAllRoutesProps)
   };
 
   const handleAscentClick = (routeId: string) => {
+    const foundRoute = allRoutes.find(({ route }) => route.id === routeId)?.route;
+    setSelectedLogAscentRoute(foundRoute || null);
+    setLogAscentDialogOpen(true);
+  };
+
+  const handleViewAscents = (routeId: string) => {
     setSelectedAscentRouteId(routeId);
     setAscentDialogOpen(true);
   };
 
-  const selectedRouteName = useMemo(() => {
+  const selectedAscentRouteName = useMemo(() => {
     if (!selectedAscentRouteId) return undefined;
     const foundRoute = allRoutes.find(({ route }) => route.id === selectedAscentRouteId);
     return foundRoute?.route.name || undefined;
@@ -219,18 +228,26 @@ const CragAllRoutes = ({ crag, onEditRoute, onDeleteRoute }: CragAllRoutesProps)
           sortDirection={sortDirection}
           handleSort={handleSort}
           handleAscentClick={handleAscentClick}
+          onViewAscents={handleViewAscents}
           canModify={crag.canModify}
           onEditRoute={onEditRoute}
           onDeleteRoute={onDeleteRoute}
         />
       </CardContent>
 
-      {/* Ascent Dialog */}
+      {/* View Ascents Dialog */}
       <AscentDialog
         open={ascentDialogOpen}
         onOpenChange={setAscentDialogOpen}
         routeId={selectedAscentRouteId}
-        routeName={selectedRouteName}
+        routeName={selectedAscentRouteName}
+      />
+
+      {/* Log Ascent Dialog */}
+      <LogAscentDialog
+        open={logAscentDialogOpen}
+        onOpenChange={setLogAscentDialogOpen}
+        route={selectedLogAscentRoute}
       />
     </Card>
   );
