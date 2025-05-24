@@ -17,7 +17,9 @@
   "paths": {
     "/api/Authentication/login": {
       "post": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -41,9 +43,9 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -51,9 +53,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -63,76 +65,71 @@
     },
     "/api/Authentication/register": {
       "post": {
-        "tags": ["Authentication"],
-        "parameters": [
-          {
-            "name": "Email",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Username",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Password",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "FirstName",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "LastName",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "DateOfBirth",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "NormalizedEmail",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
+        "tags": [
+          "Authentication"
         ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
               "schema": {
+                "required": [
+                  "Email",
+                  "Password",
+                  "Username"
+                ],
                 "type": "object",
                 "properties": {
+                  "Email": {
+                    "type": "string"
+                  },
+                  "Username": {
+                    "type": "string"
+                  },
+                  "Password": {
+                    "type": "string"
+                  },
+                  "FirstName": {
+                    "type": "string"
+                  },
+                  "LastName": {
+                    "type": "string"
+                  },
+                  "DateOfBirth": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
                   "ProfilePhoto": {
                     "type": "string",
                     "format": "binary"
+                  },
+                  "NormalizedEmail": {
+                    "type": "string"
                   }
                 }
               },
               "encoding": {
+                "Email": {
+                  "style": "form"
+                },
+                "Username": {
+                  "style": "form"
+                },
+                "Password": {
+                  "style": "form"
+                },
+                "FirstName": {
+                  "style": "form"
+                },
+                "LastName": {
+                  "style": "form"
+                },
+                "DateOfBirth": {
+                  "style": "form"
+                },
                 "ProfilePhoto": {
+                  "style": "form"
+                },
+                "NormalizedEmail": {
                   "style": "form"
                 }
               }
@@ -153,9 +150,9 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -163,9 +160,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -173,9 +170,9 @@
           "409": {
             "description": "Conflict",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -185,17 +182,22 @@
     },
     "/api/Authentication/authenticated": {
       "post": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": { }
+            }
           },
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -203,9 +205,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -215,7 +217,9 @@
     },
     "/api/Authentication/me": {
       "post": {
-        "tags": ["Authentication"],
+        "tags": [
+          "Authentication"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -230,9 +234,9 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -240,9 +244,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -252,7 +256,9 @@
     },
     "/api/Crag/{id}": {
       "get": {
-        "tags": ["Crag"],
+        "tags": [
+          "Crag"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -278,9 +284,9 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -288,9 +294,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -298,75 +304,19 @@
           "404": {
             "description": "Not Found",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
           }
         }
-      }
-    },
-    "/api/Crag": {
-      "post": {
-        "tags": ["Crag"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCragCommand"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CragDetailedDto"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Crag/{id}/photo": {
-      "post": {
-        "tags": ["Crag"],
+      },
+      "put": {
+        "tags": [
+          "Crag"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -382,12 +332,275 @@
           "content": {
             "multipart/form-data": {
               "schema": {
+                "required": [
+                  "Id"
+                ],
                 "type": "object",
                 "properties": {
-                  "CragId": {
+                  "Id": {
                     "type": "string",
                     "format": "uuid"
                   },
+                  "Name": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  },
+                  "Photos": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  },
+                  "LocationName": {
+                    "type": "string"
+                  },
+                  "PhotosToRemove": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                }
+              },
+              "encoding": {
+                "Id": {
+                  "style": "form"
+                },
+                "Name": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "Photos": {
+                  "style": "form"
+                },
+                "LocationName": {
+                  "style": "form"
+                },
+                "PhotosToRemove": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CragDetailedDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Crag"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Crag": {
+      "post": {
+        "tags": [
+          "Crag"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "Name"
+                ],
+                "type": "object",
+                "properties": {
+                  "Name": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  },
+                  "Photos": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              },
+              "encoding": {
+                "Name": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "Photos": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CragDetailedDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Crag/{id}/photo": {
+      "post": {
+        "tags": [
+          "Crag"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "CragId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
                   "Photo": {
                     "type": "string",
                     "format": "binary"
@@ -395,9 +608,6 @@
                 }
               },
               "encoding": {
-                "CragId": {
-                  "style": "form"
-                },
                 "Photo": {
                   "style": "form"
                 }
@@ -407,24 +617,17 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": { }
+            }
           },
           "400": {
             "description": "Bad Request",
             "content": {
-              "text/plain": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -432,19 +635,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "text/plain": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -452,19 +645,129 @@
           "404": {
             "description": "Not Found",
             "content": {
-              "text/plain": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
-              },
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Download/crag/{id}": {
+      "get": {
+        "tags": [
+          "Download"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/DownloadCragResponse"
                 }
-              },
-              "text/json": {
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Download/route/{id}": {
+      "get": {
+        "tags": [
+          "Download"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadRouteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -474,7 +777,9 @@
     },
     "/api/Map/explore": {
       "get": {
-        "tags": ["Map"],
+        "tags": [
+          "Map"
+        ],
         "parameters": [
           {
             "name": "latitude",
@@ -518,9 +823,9 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -528,9 +833,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -540,7 +845,9 @@
     },
     "/api/Map/weather/{cragId}": {
       "get": {
-        "tags": ["Map"],
+        "tags": [
+          "Map"
+        ],
         "parameters": [
           {
             "name": "cragId",
@@ -563,12 +870,15 @@
               }
             }
           },
+          "204": {
+            "description": "No Content"
+          },
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -576,9 +886,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -586,9 +896,9 @@
           "404": {
             "description": "Not Found",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -598,7 +908,9 @@
     },
     "/api/Map/globe": {
       "post": {
-        "tags": ["Map"],
+        "tags": [
+          "Map"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -635,9 +947,9 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -645,9 +957,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -657,7 +969,9 @@
     },
     "/api/Map/globe/sectors/{cragId}": {
       "get": {
-        "tags": ["Map"],
+        "tags": [
+          "Map"
+        ],
         "parameters": [
           {
             "name": "cragId",
@@ -686,9 +1000,9 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -696,9 +1010,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -706,9 +1020,9 @@
           "404": {
             "description": "Not Found",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -718,7 +1032,9 @@
     },
     "/api/Route/{id}": {
       "get": {
-        "tags": ["Route"],
+        "tags": [
+          "Route"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -744,9 +1060,9 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -754,9 +1070,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -764,9 +1080,127 @@
           "404": {
             "description": "Not Found",
             "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Route"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Route"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditRouteCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/RouteDetailedDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -776,7 +1210,9 @@
     },
     "/api/Route": {
       "post": {
-        "tags": ["Route"],
+        "tags": [
+          "Route"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -800,9 +1236,9 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -810,9 +1246,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -820,9 +1256,9 @@
           "404": {
             "description": "Not Found",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -832,7 +1268,9 @@
     },
     "/addPhoto": {
       "post": {
-        "tags": ["Route"],
+        "tags": [
+          "Route"
+        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -876,14 +1314,17 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": { }
+            }
           },
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -891,9 +1332,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -901,9 +1342,9 @@
           "404": {
             "description": "Not Found",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -913,7 +1354,9 @@
     },
     "/routeAscents/{id}": {
       "get": {
-        "tags": ["Route"],
+        "tags": [
+          "Route"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -942,9 +1385,9 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -952,9 +1395,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -962,9 +1405,9 @@
           "404": {
             "description": "Not Found",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -974,7 +1417,9 @@
     },
     "/routePhotos/{routeId}": {
       "get": {
-        "tags": ["Route"],
+        "tags": [
+          "Route"
+        ],
         "parameters": [
           {
             "name": "routeId",
@@ -994,7 +1439,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ExtendedRoutePhotoDto"
+                    "$ref": "#/components/schemas/DetectRoutePhotoDto"
                   }
                 }
               }
@@ -1003,9 +1448,9 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1013,9 +1458,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1023,9 +1468,9 @@
           "404": {
             "description": "Not Found",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1035,20 +1480,12 @@
     },
     "/api/Search": {
       "post": {
-        "tags": ["Search"],
+        "tags": [
+          "Search"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SearchQueryCommand"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SearchQueryCommand"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/SearchQueryCommand"
               }
@@ -1072,9 +1509,9 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1082,9 +1519,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1094,56 +1531,39 @@
     },
     "/api/Sector": {
       "post": {
-        "tags": ["Sector"],
-        "parameters": [
-          {
-            "name": "Name",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Description",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Location.Latitude",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "number",
-              "format": "double"
-            }
-          },
-          {
-            "name": "Location.Longitude",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "number",
-              "format": "double"
-            }
-          },
-          {
-            "name": "CragId",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
+        "tags": [
+          "Sector"
         ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
               "schema": {
+                "required": [
+                  "CragId",
+                  "Location.Latitude",
+                  "Location.Longitude",
+                  "Name"
+                ],
                 "type": "object",
                 "properties": {
+                  "Name": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  },
+                  "Location.Latitude": {
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "Location.Longitude": {
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "CragId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
                   "Photos": {
                     "type": "array",
                     "items": {
@@ -1154,6 +1574,21 @@
                 }
               },
               "encoding": {
+                "Name": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "Location.Latitude": {
+                  "style": "form"
+                },
+                "Location.Longitude": {
+                  "style": "form"
+                },
+                "CragId": {
+                  "style": "form"
+                },
                 "Photos": {
                   "style": "form"
                 }
@@ -1175,9 +1610,9 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1185,9 +1620,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1195,9 +1630,9 @@
           "404": {
             "description": "Not Found",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1207,7 +1642,9 @@
     },
     "/api/Sector/{id}": {
       "get": {
-        "tags": ["Sector"],
+        "tags": [
+          "Sector"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1233,9 +1670,9 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1243,9 +1680,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1253,9 +1690,189 @@
           "404": {
             "description": "Not Found",
             "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Sector"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "Id",
+                  "Location.Latitude",
+                  "Location.Longitude"
+                ],
+                "type": "object",
+                "properties": {
+                  "Id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "Name": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  },
+                  "Location.Latitude": {
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "Location.Longitude": {
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "Photos": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  },
+                  "PhotosToRemove": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                }
+              },
+              "encoding": {
+                "Id": {
+                  "style": "form"
+                },
+                "Name": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "Location.Latitude": {
+                  "style": "form"
+                },
+                "Location.Longitude": {
+                  "style": "form"
+                },
+                "Photos": {
+                  "style": "form"
+                },
+                "PhotosToRemove": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/SectorDetailedDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Sector"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1265,7 +1882,9 @@
     },
     "/api/Sector/sectorCrag/{id}": {
       "get": {
-        "tags": ["Sector"],
+        "tags": [
+          "Sector"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1291,9 +1910,9 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1301,9 +1920,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1311,9 +1930,9 @@
           "404": {
             "description": "Not Found",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1323,12 +1942,22 @@
     },
     "/api/Sector/{id}/photo": {
       "post": {
-        "tags": ["Sector"],
+        "tags": [
+          "Sector"
+        ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "SectorId",
+            "in": "query",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -1341,10 +1970,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "SectorId": {
-                    "type": "string",
-                    "format": "uuid"
-                  },
                   "Photo": {
                     "type": "string",
                     "format": "binary"
@@ -1352,9 +1977,6 @@
                 }
               },
               "encoding": {
-                "SectorId": {
-                  "style": "form"
-                },
                 "Photo": {
                   "style": "form"
                 }
@@ -1364,24 +1986,21 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CragDetailedDto"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request",
             "content": {
-              "text/plain": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1389,19 +2008,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "text/plain": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1409,19 +2018,9 @@
           "404": {
             "description": "Not Found",
             "content": {
-              "text/plain": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1431,7 +2030,9 @@
     },
     "/api/User/logAscent": {
       "post": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1443,14 +2044,21 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfileDto"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1458,9 +2066,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1468,9 +2076,9 @@
           "404": {
             "description": "Not Found",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1480,7 +2088,9 @@
     },
     "/api/User/searchHistory": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "parameters": [
           {
             "name": "count",
@@ -1509,9 +2119,9 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1519,9 +2129,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1531,7 +2141,9 @@
     },
     "/api/User/recentlyAscendedRoutes": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1549,9 +2161,9 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1559,9 +2171,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1571,7 +2183,9 @@
     },
     "/api/User/user/{profileUserId}": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "parameters": [
           {
             "name": "profileUserId",
@@ -1597,9 +2211,9 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1607,9 +2221,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1617,9 +2231,9 @@
           "404": {
             "description": "Not Found",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1629,7 +2243,9 @@
     },
     "/api/User/photo": {
       "put": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -1659,24 +2275,21 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfileDto"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request",
             "content": {
-              "text/plain": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1684,19 +2297,9 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "text/plain": {
+              "application/problem+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
                 }
               }
             }
@@ -1707,6 +2310,36 @@
   },
   "components": {
     "schemas": {
+      "AllRoutePhotoDto": {
+        "required": [
+          "combinedPhoto",
+          "id",
+          "image",
+          "pathLine",
+          "routeId"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "routeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "image": {
+            "$ref": "#/components/schemas/PhotoDto"
+          },
+          "pathLine": {
+            "$ref": "#/components/schemas/PhotoDto"
+          },
+          "combinedPhoto": {
+            "$ref": "#/components/schemas/PhotoDto"
+          }
+        },
+        "additionalProperties": false
+      },
       "AscentCountDto": {
         "type": "object",
         "properties": {
@@ -1788,11 +2421,20 @@
         "additionalProperties": false
       },
       "AscentType": {
-        "enum": ["Onsight", "Flash", "Redpoint", "Aid"],
+        "enum": [
+          "Onsight",
+          "Flash",
+          "Redpoint",
+          "Aid"
+        ],
         "type": "string"
       },
       "ClimbType": {
-        "enum": ["Endurance", "Powerful", "Technical"],
+        "enum": [
+          "Endurance",
+          "Powerful",
+          "Technical"
+        ],
         "type": "string"
       },
       "ClimbingGrade": {
@@ -1886,30 +2528,18 @@
               "$ref": "#/components/schemas/PhotoDto"
             },
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CreateCragCommand": {
-        "required": ["name"],
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
           },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "location": {
-            "$ref": "#/components/schemas/PointDto"
+          "canModify": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
       },
       "CreateRouteCommand": {
-        "required": ["name", "sectorId"],
+        "required": [
+          "name",
+          "sectorId"
+        ],
         "type": "object",
         "properties": {
           "name": {
@@ -1976,6 +2606,40 @@
         },
         "additionalProperties": false
       },
+      "CustomProblemDetailsResponse": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorInfoDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
       "DailyWeatherDto": {
         "type": "object",
         "properties": {
@@ -2034,8 +2698,238 @@
         },
         "additionalProperties": false
       },
+      "DetectRoutePhotoDto": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "routeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "image": {
+            "$ref": "#/components/schemas/PhotoDto"
+          },
+          "pathLine": {
+            "$ref": "#/components/schemas/PhotoDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DownloadCragResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "locationName": {
+            "type": "string",
+            "nullable": true
+          },
+          "sectors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DownloadSectorResponse"
+            },
+            "nullable": true
+          },
+          "photos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PhotoDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DownloadRouteResponse": {
+        "required": [
+          "cragId",
+          "cragName",
+          "id",
+          "name",
+          "sectorId",
+          "sectorName"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "grade": {
+            "$ref": "#/components/schemas/ClimbingGrade"
+          },
+          "createdAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "routeType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RouteType"
+            },
+            "nullable": true
+          },
+          "length": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "sectorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sectorName": {
+            "type": "string",
+            "nullable": true
+          },
+          "cragId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "cragName": {
+            "type": "string",
+            "nullable": true
+          },
+          "routePhotos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AllRoutePhotoDto"
+            },
+            "nullable": true
+          },
+          "routeCategories": {
+            "$ref": "#/components/schemas/RouteCategoriesDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DownloadSectorResponse": {
+        "required": [
+          "id",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "location": {
+            "$ref": "#/components/schemas/PointDto"
+          },
+          "photos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PhotoDto"
+            },
+            "nullable": true
+          },
+          "routes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DownloadRouteResponse"
+            },
+            "nullable": true
+          },
+          "cragId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "cragName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EditRouteCommand": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "grade": {
+            "$ref": "#/components/schemas/ClimbingGrade"
+          },
+          "routeType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RouteType"
+            },
+            "nullable": true
+          },
+          "length": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "photosToRemove": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ErrorInfoDto": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "ExploreDto": {
-        "required": ["id"],
+        "required": [
+          "id"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -2078,27 +2972,6 @@
             "type": "integer",
             "format": "int32",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ExtendedRoutePhotoDto": {
-        "required": ["id"],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "routeId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "image": {
-            "$ref": "#/components/schemas/PhotoDto"
-          },
-          "pathLine": {
-            "$ref": "#/components/schemas/PhotoDto"
           }
         },
         "additionalProperties": false
@@ -2175,7 +3048,14 @@
         "additionalProperties": false
       },
       "HoldType": {
-        "enum": ["Crack", "Crimps", "Slopers", "Pinches", "Jugs", "Pockets"],
+        "enum": [
+          "Crack",
+          "Crimps",
+          "Slopers",
+          "Pinches",
+          "Jugs",
+          "Pockets"
+        ],
         "type": "string"
       },
       "HourlyWeatherDto": {
@@ -2217,7 +3097,9 @@
         "additionalProperties": false
       },
       "LogAscentCommand": {
-        "required": ["routeId"],
+        "required": [
+          "routeId"
+        ],
         "type": "object",
         "properties": {
           "routeId": {
@@ -2273,7 +3155,11 @@
         "additionalProperties": false
       },
       "LoggedInUserDto": {
-        "required": ["email", "id", "username"],
+        "required": [
+          "email",
+          "id",
+          "username"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -2288,13 +3174,11 @@
             "type": "string",
             "nullable": true
           },
-          "profilePhotoUrl": {
-            "type": "string",
-            "nullable": true
+          "profilePhoto": {
+            "$ref": "#/components/schemas/PhotoDto"
           },
           "role": {
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/components/schemas/UserRole"
           },
           "token": {
             "type": "string",
@@ -2304,7 +3188,10 @@
         "additionalProperties": false
       },
       "LoginCommand": {
-        "required": ["emailOrUsername", "password"],
+        "required": [
+          "emailOrUsername",
+          "password"
+        ],
         "type": "object",
         "properties": {
           "emailOrUsername": {
@@ -2319,7 +3206,10 @@
         "additionalProperties": false
       },
       "PhotoDto": {
-        "required": ["id", "url"],
+        "required": [
+          "id",
+          "url"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -2338,7 +3228,10 @@
         "additionalProperties": false
       },
       "PointDto": {
-        "required": ["latitude", "longitude"],
+        "required": [
+          "latitude",
+          "longitude"
+        ],
         "type": "object",
         "properties": {
           "latitude": {
@@ -2352,35 +3245,15 @@
         },
         "additionalProperties": false
       },
-      "ProblemDetails": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "nullable": true
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "status": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "detail": {
-            "type": "string",
-            "nullable": true
-          },
-          "instance": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": {}
-      },
       "RecentlyAscendedRouteDto": {
-        "required": ["cragId", "cragName", "id", "name", "sectorId", "sectorName"],
+        "required": [
+          "cragId",
+          "cragName",
+          "id",
+          "name",
+          "sectorId",
+          "sectorName"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -2434,7 +3307,14 @@
         "additionalProperties": false
       },
       "RockType": {
-        "enum": ["Vertical", "Overhang", "Roof", "Slab", "Arete", "Dihedral"],
+        "enum": [
+          "Vertical",
+          "Overhang",
+          "Roof",
+          "Slab",
+          "Arete",
+          "Dihedral"
+        ],
         "type": "string"
       },
       "RouteCategoriesDto": {
@@ -2465,7 +3345,14 @@
         "additionalProperties": false
       },
       "RouteDetailedDto": {
-        "required": ["cragId", "cragName", "id", "name", "sectorId", "sectorName"],
+        "required": [
+          "cragId",
+          "cragName",
+          "id",
+          "name",
+          "sectorId",
+          "sectorName"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -2531,12 +3418,17 @@
               "$ref": "#/components/schemas/AscentDto"
             },
             "nullable": true
+          },
+          "canModify": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
       },
       "RoutePhotoDto": {
-        "required": ["id"],
+        "required": [
+          "id"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -2554,7 +3446,17 @@
         "additionalProperties": false
       },
       "RouteType": {
-        "enum": ["Boulder", "Sport", "Trad", "MultiPitch", "Ice", "BigWall", "Mixed", "Aid", "ViaFerrata"],
+        "enum": [
+          "Boulder",
+          "Sport",
+          "Trad",
+          "MultiPitch",
+          "Ice",
+          "BigWall",
+          "Mixed",
+          "Aid",
+          "ViaFerrata"
+        ],
         "type": "string"
       },
       "RouteTypeAscentCountDto": {
@@ -2574,7 +3476,9 @@
         "additionalProperties": false
       },
       "SearchQueryCommand": {
-        "required": ["query"],
+        "required": [
+          "query"
+        ],
         "type": "object",
         "properties": {
           "query": {
@@ -2703,11 +3607,19 @@
         "additionalProperties": false
       },
       "SearchResultItemType": {
-        "enum": ["Crag", "Sector", "Route", "UserProfile"],
+        "enum": [
+          "Crag",
+          "Sector",
+          "Route",
+          "UserProfile"
+        ],
         "type": "string"
       },
       "SectorDetailedDto": {
-        "required": ["id", "name"],
+        "required": [
+          "id",
+          "name"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -2746,12 +3658,18 @@
           "cragName": {
             "type": "string",
             "nullable": true
+          },
+          "canModify": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
       },
       "SectorRouteDto": {
-        "required": ["id", "name"],
+        "required": [
+          "id",
+          "name"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -2826,9 +3744,8 @@
             "type": "string",
             "nullable": true
           },
-          "profilePhotoUrl": {
-            "type": "string",
-            "nullable": true
+          "profilePhoto": {
+            "$ref": "#/components/schemas/PhotoDto"
           },
           "cragsVisited": {
             "type": "integer",
@@ -2858,6 +3775,14 @@
           }
         },
         "additionalProperties": false
+      },
+      "UserRole": {
+        "enum": [
+          "User",
+          "Admin",
+          "Creator"
+        ],
+        "type": "string"
       },
       "WeatherResponseDto": {
         "type": "object",
@@ -2894,7 +3819,7 @@
   },
   "security": [
     {
-      "Bearer": []
+      "Bearer": [ ]
     }
   ]
 }

@@ -8,9 +8,12 @@ import RouteList from "./RouteList";
 
 interface SectorRoutesProps {
   sector: SectorDetailedDto;
+  canModify?: boolean;
+  onEditRoute?: (routeId: string) => void;
+  onDeleteRoute?: (routeId: string) => void;
 }
 
-const SectorRoutes = ({ sector }: SectorRoutesProps) => {
+const SectorRoutes = ({ sector, canModify, onEditRoute, onDeleteRoute }: SectorRoutesProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [selectedRouteId, setSelectedRouteId] = useState<string | undefined>(
@@ -66,6 +69,9 @@ const SectorRoutes = ({ sector }: SectorRoutesProps) => {
               selectedRouteId={selectedRouteId}
               onRouteSelect={setSelectedRouteId}
               onAscentClick={handleAscentClick}
+              canModify={canModify}
+              onEditRoute={onEditRoute}
+              onDeleteRoute={onDeleteRoute}
             />
           </div>
         </CardContent>

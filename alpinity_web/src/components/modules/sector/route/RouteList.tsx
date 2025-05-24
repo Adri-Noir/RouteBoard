@@ -6,9 +6,20 @@ interface RouteListProps {
   selectedRouteId: string | undefined;
   onRouteSelect: (routeId: string) => void;
   onAscentClick: (routeId: string) => void;
+  canModify?: boolean;
+  onEditRoute?: (routeId: string) => void;
+  onDeleteRoute?: (routeId: string) => void;
 }
 
-const RouteList = ({ routes, selectedRouteId, onRouteSelect, onAscentClick }: RouteListProps) => {
+const RouteList = ({
+  routes,
+  selectedRouteId,
+  onRouteSelect,
+  onAscentClick,
+  canModify,
+  onEditRoute,
+  onDeleteRoute,
+}: RouteListProps) => {
   return (
     <div className="order-1 flex max-h-[75vh] flex-col overflow-y-auto lg:order-2">
       <div className="divide-y rounded-lg border">
@@ -19,6 +30,9 @@ const RouteList = ({ routes, selectedRouteId, onRouteSelect, onAscentClick }: Ro
             isSelected={selectedRouteId === route.id}
             onSelect={() => onRouteSelect(route.id)}
             onAscentClick={() => onAscentClick(route.id)}
+            canModify={canModify}
+            onEditRoute={() => onEditRoute?.(route.id)}
+            onDeleteRoute={() => onDeleteRoute?.(route.id)}
           />
         ))}
       </div>

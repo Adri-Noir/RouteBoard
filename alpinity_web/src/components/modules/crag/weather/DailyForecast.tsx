@@ -17,7 +17,7 @@ const DailyForecast = ({ dailyData, hourlyData, selectedDayIndex, onSelectDay }:
   const selectedDay = dailyData[selectedDayIndex];
 
   return (
-    <Card className="mt-[-1px] border-t-0 pt-2">
+    <Card className="mt-[-1px] pt-2">
       <CardHeader className="pb-2">
         <CardTitle className="text-lg font-medium">Daily Forecast</CardTitle>
       </CardHeader>

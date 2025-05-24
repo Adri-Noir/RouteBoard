@@ -11,7 +11,7 @@ import { GradeBadge, TypeBadge } from "@/components/ui/library/Badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { SectorRouteDto } from "@/lib/api/types.gen";
 import { formatRouteType } from "@/lib/utils/formatters";
-import { MoreVertical } from "lucide-react";
+import { Edit, MoreVertical, Plus, Trash2 } from "lucide-react";
 
 interface RouteTableProps {
   routes: { route: SectorRouteDto; sectorName: string | null }[];
@@ -19,9 +19,21 @@ interface RouteTableProps {
   sortDirection: "asc" | "desc";
   handleSort: (column: "name" | "grade" | "ascents" | "sector") => void;
   handleAscentClick: (routeId: string) => void;
+  canModify?: boolean;
+  onEditRoute?: (routeId: string) => void;
+  onDeleteRoute?: (routeId: string) => void;
 }
 
-const RouteTable = ({ routes, sortBy, sortDirection, handleSort, handleAscentClick }: RouteTableProps) => {
+const RouteTable = ({
+  routes,
+  sortBy,
+  sortDirection,
+  handleSort,
+  handleAscentClick,
+  canModify,
+  onEditRoute,
+  onDeleteRoute,
+}: RouteTableProps) => {
   return (
     <div className="rounded-md border">
       <Table>
@@ -73,7 +85,22 @@ const RouteTable = ({ routes, sortBy, sortDirection, handleSort, handleAscentCli
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => handleAscentClick(route.id)}>Log Ascent</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleAscentClick(route.id)}>
+                        <Plus className="mr-2 h-4 w-4" />
+                        Log Ascent
+                      </DropdownMenuItem>
+                      {canModify && (
+                        <>
+                          <DropdownMenuItem onClick={() => onEditRoute?.(route.id)}>
+                            <Edit className="mr-2 h-4 w-4" />
+                            Edit Route
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => onDeleteRoute?.(route.id)} className="text-destructive">
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            Delete Route
+                          </DropdownMenuItem>
+                        </>
+                      )}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

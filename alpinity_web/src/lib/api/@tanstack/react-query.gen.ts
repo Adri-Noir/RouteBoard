@@ -6,21 +6,29 @@ import {
   postApiAuthenticationRegister,
   postApiAuthenticationAuthenticated,
   postApiAuthenticationMe,
+  deleteApiCragById,
   getApiCragById,
+  putApiCragById,
   postApiCrag,
   postApiCragByIdPhoto,
+  getApiDownloadCragById,
+  getApiDownloadRouteById,
   getApiMapExplore,
   getApiMapWeatherByCragId,
   postApiMapGlobe,
   getApiMapGlobeSectorsByCragId,
+  deleteApiRouteById,
   getApiRouteById,
+  putApiRouteById,
   postApiRoute,
   postAddPhoto,
   getRouteAscentsById,
   getRoutePhotosByRouteId,
   postApiSearch,
   postApiSector,
+  deleteApiSectorById,
   getApiSectorById,
+  putApiSectorById,
   getApiSectorSectorCragById,
   postApiSectorByIdPhoto,
   postApiUserLogAscent,
@@ -42,19 +50,31 @@ import type {
   PostApiAuthenticationMeData,
   PostApiAuthenticationMeError,
   PostApiAuthenticationMeResponse,
+  DeleteApiCragByIdData,
+  DeleteApiCragByIdError,
   GetApiCragByIdData,
+  PutApiCragByIdData,
+  PutApiCragByIdError,
+  PutApiCragByIdResponse,
   PostApiCragData,
   PostApiCragError,
   PostApiCragResponse,
   PostApiCragByIdPhotoData,
   PostApiCragByIdPhotoError,
+  GetApiDownloadCragByIdData,
+  GetApiDownloadRouteByIdData,
   GetApiMapExploreData,
   GetApiMapWeatherByCragIdData,
   PostApiMapGlobeData,
   PostApiMapGlobeError,
   PostApiMapGlobeResponse,
   GetApiMapGlobeSectorsByCragIdData,
+  DeleteApiRouteByIdData,
+  DeleteApiRouteByIdError,
   GetApiRouteByIdData,
+  PutApiRouteByIdData,
+  PutApiRouteByIdError,
+  PutApiRouteByIdResponse,
   PostApiRouteData,
   PostApiRouteError,
   PostApiRouteResponse,
@@ -68,17 +88,25 @@ import type {
   PostApiSectorData,
   PostApiSectorError,
   PostApiSectorResponse,
+  DeleteApiSectorByIdData,
+  DeleteApiSectorByIdError,
   GetApiSectorByIdData,
+  PutApiSectorByIdData,
+  PutApiSectorByIdError,
+  PutApiSectorByIdResponse,
   GetApiSectorSectorCragByIdData,
   PostApiSectorByIdPhotoData,
   PostApiSectorByIdPhotoError,
+  PostApiSectorByIdPhotoResponse,
   PostApiUserLogAscentData,
   PostApiUserLogAscentError,
+  PostApiUserLogAscentResponse,
   GetApiUserSearchHistoryData,
   GetApiUserRecentlyAscendedRoutesData,
   GetApiUserUserByProfileUserIdData,
   PutApiUserPhotoData,
   PutApiUserPhotoError,
+  PutApiUserPhotoResponse,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -152,10 +180,10 @@ export const postApiAuthenticationLoginMutation = (options?: Partial<Options<Pos
   return mutationOptions;
 };
 
-export const postApiAuthenticationRegisterQueryKey = (options: Options<PostApiAuthenticationRegisterData>) =>
+export const postApiAuthenticationRegisterQueryKey = (options?: Options<PostApiAuthenticationRegisterData>) =>
   createQueryKey("postApiAuthenticationRegister", options);
 
-export const postApiAuthenticationRegisterOptions = (options: Options<PostApiAuthenticationRegisterData>) => {
+export const postApiAuthenticationRegisterOptions = (options?: Options<PostApiAuthenticationRegisterData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
       const { data } = await postApiAuthenticationRegister({
@@ -266,6 +294,20 @@ export const postApiAuthenticationMeMutation = (options?: Partial<Options<PostAp
   return mutationOptions;
 };
 
+export const deleteApiCragByIdMutation = (options?: Partial<Options<DeleteApiCragByIdData>>) => {
+  const mutationOptions: UseMutationOptions<unknown, DeleteApiCragByIdError, Options<DeleteApiCragByIdData>> = {
+    mutationFn: async (localOptions) => {
+      const { data } = await deleteApiCragById({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
 export const getApiCragByIdQueryKey = (options: Options<GetApiCragByIdData>) =>
   createQueryKey("getApiCragById", options);
 
@@ -282,6 +324,24 @@ export const getApiCragByIdOptions = (options: Options<GetApiCragByIdData>) => {
     },
     queryKey: getApiCragByIdQueryKey(options),
   });
+};
+
+export const putApiCragByIdMutation = (options?: Partial<Options<PutApiCragByIdData>>) => {
+  const mutationOptions: UseMutationOptions<
+    PutApiCragByIdResponse,
+    PutApiCragByIdError,
+    Options<PutApiCragByIdData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await putApiCragById({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };
 
 export const postApiCragQueryKey = (options?: Options<PostApiCragData>) => createQueryKey("postApiCrag", options);
@@ -345,6 +405,42 @@ export const postApiCragByIdPhotoMutation = (options?: Partial<Options<PostApiCr
     },
   };
   return mutationOptions;
+};
+
+export const getApiDownloadCragByIdQueryKey = (options: Options<GetApiDownloadCragByIdData>) =>
+  createQueryKey("getApiDownloadCragById", options);
+
+export const getApiDownloadCragByIdOptions = (options: Options<GetApiDownloadCragByIdData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getApiDownloadCragById({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getApiDownloadCragByIdQueryKey(options),
+  });
+};
+
+export const getApiDownloadRouteByIdQueryKey = (options: Options<GetApiDownloadRouteByIdData>) =>
+  createQueryKey("getApiDownloadRouteById", options);
+
+export const getApiDownloadRouteByIdOptions = (options: Options<GetApiDownloadRouteByIdData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getApiDownloadRouteById({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getApiDownloadRouteByIdQueryKey(options),
+  });
 };
 
 export const getApiMapExploreQueryKey = (options?: Options<GetApiMapExploreData>) =>
@@ -437,6 +533,20 @@ export const getApiMapGlobeSectorsByCragIdOptions = (options: Options<GetApiMapG
   });
 };
 
+export const deleteApiRouteByIdMutation = (options?: Partial<Options<DeleteApiRouteByIdData>>) => {
+  const mutationOptions: UseMutationOptions<unknown, DeleteApiRouteByIdError, Options<DeleteApiRouteByIdData>> = {
+    mutationFn: async (localOptions) => {
+      const { data } = await deleteApiRouteById({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
 export const getApiRouteByIdQueryKey = (options: Options<GetApiRouteByIdData>) =>
   createQueryKey("getApiRouteById", options);
 
@@ -453,6 +563,24 @@ export const getApiRouteByIdOptions = (options: Options<GetApiRouteByIdData>) =>
     },
     queryKey: getApiRouteByIdQueryKey(options),
   });
+};
+
+export const putApiRouteByIdMutation = (options?: Partial<Options<PutApiRouteByIdData>>) => {
+  const mutationOptions: UseMutationOptions<
+    PutApiRouteByIdResponse,
+    PutApiRouteByIdError,
+    Options<PutApiRouteByIdData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await putApiRouteById({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };
 
 export const postApiRouteQueryKey = (options?: Options<PostApiRouteData>) => createQueryKey("postApiRoute", options);
@@ -654,9 +782,9 @@ export const postApiSearchMutation = (options?: Partial<Options<PostApiSearchDat
   return mutationOptions;
 };
 
-export const postApiSectorQueryKey = (options: Options<PostApiSectorData>) => createQueryKey("postApiSector", options);
+export const postApiSectorQueryKey = (options?: Options<PostApiSectorData>) => createQueryKey("postApiSector", options);
 
-export const postApiSectorOptions = (options: Options<PostApiSectorData>) => {
+export const postApiSectorOptions = (options?: Options<PostApiSectorData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
       const { data } = await postApiSector({
@@ -685,6 +813,20 @@ export const postApiSectorMutation = (options?: Partial<Options<PostApiSectorDat
   return mutationOptions;
 };
 
+export const deleteApiSectorByIdMutation = (options?: Partial<Options<DeleteApiSectorByIdData>>) => {
+  const mutationOptions: UseMutationOptions<unknown, DeleteApiSectorByIdError, Options<DeleteApiSectorByIdData>> = {
+    mutationFn: async (localOptions) => {
+      const { data } = await deleteApiSectorById({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
 export const getApiSectorByIdQueryKey = (options: Options<GetApiSectorByIdData>) =>
   createQueryKey("getApiSectorById", options);
 
@@ -701,6 +843,24 @@ export const getApiSectorByIdOptions = (options: Options<GetApiSectorByIdData>) 
     },
     queryKey: getApiSectorByIdQueryKey(options),
   });
+};
+
+export const putApiSectorByIdMutation = (options?: Partial<Options<PutApiSectorByIdData>>) => {
+  const mutationOptions: UseMutationOptions<
+    PutApiSectorByIdResponse,
+    PutApiSectorByIdError,
+    Options<PutApiSectorByIdData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await putApiSectorById({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };
 
 export const getApiSectorSectorCragByIdQueryKey = (options: Options<GetApiSectorSectorCragByIdData>) =>
@@ -741,7 +901,7 @@ export const postApiSectorByIdPhotoOptions = (options: Options<PostApiSectorById
 
 export const postApiSectorByIdPhotoMutation = (options?: Partial<Options<PostApiSectorByIdPhotoData>>) => {
   const mutationOptions: UseMutationOptions<
-    unknown,
+    PostApiSectorByIdPhotoResponse,
     PostApiSectorByIdPhotoError,
     Options<PostApiSectorByIdPhotoData>
   > = {
@@ -776,7 +936,11 @@ export const postApiUserLogAscentOptions = (options?: Options<PostApiUserLogAsce
 };
 
 export const postApiUserLogAscentMutation = (options?: Partial<Options<PostApiUserLogAscentData>>) => {
-  const mutationOptions: UseMutationOptions<unknown, PostApiUserLogAscentError, Options<PostApiUserLogAscentData>> = {
+  const mutationOptions: UseMutationOptions<
+    PostApiUserLogAscentResponse,
+    PostApiUserLogAscentError,
+    Options<PostApiUserLogAscentData>
+  > = {
     mutationFn: async (localOptions) => {
       const { data } = await postApiUserLogAscent({
         ...options,
@@ -844,7 +1008,11 @@ export const getApiUserUserByProfileUserIdOptions = (options: Options<GetApiUser
 };
 
 export const putApiUserPhotoMutation = (options?: Partial<Options<PutApiUserPhotoData>>) => {
-  const mutationOptions: UseMutationOptions<unknown, PutApiUserPhotoError, Options<PutApiUserPhotoData>> = {
+  const mutationOptions: UseMutationOptions<
+    PutApiUserPhotoResponse,
+    PutApiUserPhotoError,
+    Options<PutApiUserPhotoData>
+  > = {
     mutationFn: async (localOptions) => {
       const { data } = await putApiUserPhoto({
         ...options,

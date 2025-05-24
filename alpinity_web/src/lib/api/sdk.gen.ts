@@ -18,14 +18,25 @@ import type {
   PostApiAuthenticationMeData,
   PostApiAuthenticationMeResponse,
   PostApiAuthenticationMeError,
+  DeleteApiCragByIdData,
+  DeleteApiCragByIdError,
   GetApiCragByIdData,
   GetApiCragByIdResponse,
   GetApiCragByIdError,
+  PutApiCragByIdData,
+  PutApiCragByIdResponse,
+  PutApiCragByIdError,
   PostApiCragData,
   PostApiCragResponse,
   PostApiCragError,
   PostApiCragByIdPhotoData,
   PostApiCragByIdPhotoError,
+  GetApiDownloadCragByIdData,
+  GetApiDownloadCragByIdResponse,
+  GetApiDownloadCragByIdError,
+  GetApiDownloadRouteByIdData,
+  GetApiDownloadRouteByIdResponse,
+  GetApiDownloadRouteByIdError,
   GetApiMapExploreData,
   GetApiMapExploreResponse,
   GetApiMapExploreError,
@@ -38,9 +49,14 @@ import type {
   GetApiMapGlobeSectorsByCragIdData,
   GetApiMapGlobeSectorsByCragIdResponse,
   GetApiMapGlobeSectorsByCragIdError,
+  DeleteApiRouteByIdData,
+  DeleteApiRouteByIdError,
   GetApiRouteByIdData,
   GetApiRouteByIdResponse,
   GetApiRouteByIdError,
+  PutApiRouteByIdData,
+  PutApiRouteByIdResponse,
+  PutApiRouteByIdError,
   PostApiRouteData,
   PostApiRouteResponse,
   PostApiRouteError,
@@ -58,15 +74,22 @@ import type {
   PostApiSectorData,
   PostApiSectorResponse,
   PostApiSectorError,
+  DeleteApiSectorByIdData,
+  DeleteApiSectorByIdError,
   GetApiSectorByIdData,
   GetApiSectorByIdResponse,
   GetApiSectorByIdError,
+  PutApiSectorByIdData,
+  PutApiSectorByIdResponse,
+  PutApiSectorByIdError,
   GetApiSectorSectorCragByIdData,
   GetApiSectorSectorCragByIdResponse,
   GetApiSectorSectorCragByIdError,
   PostApiSectorByIdPhotoData,
+  PostApiSectorByIdPhotoResponse,
   PostApiSectorByIdPhotoError,
   PostApiUserLogAscentData,
+  PostApiUserLogAscentResponse,
   PostApiUserLogAscentError,
   GetApiUserSearchHistoryData,
   GetApiUserSearchHistoryResponse,
@@ -78,6 +101,7 @@ import type {
   GetApiUserUserByProfileUserIdResponse,
   GetApiUserUserByProfileUserIdError,
   PutApiUserPhotoData,
+  PutApiUserPhotoResponse,
   PutApiUserPhotoError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
@@ -123,9 +147,9 @@ export const postApiAuthenticationLogin = <ThrowOnError extends boolean = false>
 };
 
 export const postApiAuthenticationRegister = <ThrowOnError extends boolean = false>(
-  options: Options<PostApiAuthenticationRegisterData, ThrowOnError>,
+  options?: Options<PostApiAuthenticationRegisterData, ThrowOnError>,
 ) => {
-  return (options.client ?? _heyApiClient).post<
+  return (options?.client ?? _heyApiClient).post<
     PostApiAuthenticationRegisterResponse,
     PostApiAuthenticationRegisterError,
     ThrowOnError
@@ -180,6 +204,21 @@ export const postApiAuthenticationMe = <ThrowOnError extends boolean = false>(
   });
 };
 
+export const deleteApiCragById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteApiCragByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<unknown, DeleteApiCragByIdError, ThrowOnError>({
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/Crag/{id}",
+    ...options,
+  });
+};
+
 export const getApiCragById = <ThrowOnError extends boolean = false>(
   options: Options<GetApiCragByIdData, ThrowOnError>,
 ) => {
@@ -195,8 +234,29 @@ export const getApiCragById = <ThrowOnError extends boolean = false>(
   });
 };
 
+export const putApiCragById = <ThrowOnError extends boolean = false>(
+  options: Options<PutApiCragByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).put<PutApiCragByIdResponse, PutApiCragByIdError, ThrowOnError>({
+    ...formDataBodySerializer,
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/Crag/{id}",
+    ...options,
+    headers: {
+      "Content-Type": null,
+      ...options?.headers,
+    },
+  });
+};
+
 export const postApiCrag = <ThrowOnError extends boolean = false>(options?: Options<PostApiCragData, ThrowOnError>) => {
   return (options?.client ?? _heyApiClient).post<PostApiCragResponse, PostApiCragError, ThrowOnError>({
+    ...formDataBodySerializer,
     security: [
       {
         name: "Authorization",
@@ -206,7 +266,7 @@ export const postApiCrag = <ThrowOnError extends boolean = false>(options?: Opti
     url: "/api/Crag",
     ...options,
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": null,
       ...options?.headers,
     },
   });
@@ -229,6 +289,44 @@ export const postApiCragByIdPhoto = <ThrowOnError extends boolean = false>(
       "Content-Type": null,
       ...options?.headers,
     },
+  });
+};
+
+export const getApiDownloadCragById = <ThrowOnError extends boolean = false>(
+  options: Options<GetApiDownloadCragByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiDownloadCragByIdResponse,
+    GetApiDownloadCragByIdError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/Download/crag/{id}",
+    ...options,
+  });
+};
+
+export const getApiDownloadRouteById = <ThrowOnError extends boolean = false>(
+  options: Options<GetApiDownloadRouteByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiDownloadRouteByIdResponse,
+    GetApiDownloadRouteByIdError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/Download/route/{id}",
+    ...options,
   });
 };
 
@@ -304,6 +402,21 @@ export const getApiMapGlobeSectorsByCragId = <ThrowOnError extends boolean = fal
   });
 };
 
+export const deleteApiRouteById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteApiRouteByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<unknown, DeleteApiRouteByIdError, ThrowOnError>({
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/Route/{id}",
+    ...options,
+  });
+};
+
 export const getApiRouteById = <ThrowOnError extends boolean = false>(
   options: Options<GetApiRouteByIdData, ThrowOnError>,
 ) => {
@@ -316,6 +429,25 @@ export const getApiRouteById = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/Route/{id}",
     ...options,
+  });
+};
+
+export const putApiRouteById = <ThrowOnError extends boolean = false>(
+  options: Options<PutApiRouteByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).put<PutApiRouteByIdResponse, PutApiRouteByIdError, ThrowOnError>({
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/Route/{id}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -412,9 +544,9 @@ export const postApiSearch = <ThrowOnError extends boolean = false>(
 };
 
 export const postApiSector = <ThrowOnError extends boolean = false>(
-  options: Options<PostApiSectorData, ThrowOnError>,
+  options?: Options<PostApiSectorData, ThrowOnError>,
 ) => {
-  return (options.client ?? _heyApiClient).post<PostApiSectorResponse, PostApiSectorError, ThrowOnError>({
+  return (options?.client ?? _heyApiClient).post<PostApiSectorResponse, PostApiSectorError, ThrowOnError>({
     ...formDataBodySerializer,
     security: [
       {
@@ -431,6 +563,21 @@ export const postApiSector = <ThrowOnError extends boolean = false>(
   });
 };
 
+export const deleteApiSectorById = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteApiSectorByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<unknown, DeleteApiSectorByIdError, ThrowOnError>({
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/Sector/{id}",
+    ...options,
+  });
+};
+
 export const getApiSectorById = <ThrowOnError extends boolean = false>(
   options: Options<GetApiSectorByIdData, ThrowOnError>,
 ) => {
@@ -443,6 +590,26 @@ export const getApiSectorById = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/Sector/{id}",
     ...options,
+  });
+};
+
+export const putApiSectorById = <ThrowOnError extends boolean = false>(
+  options: Options<PutApiSectorByIdData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).put<PutApiSectorByIdResponse, PutApiSectorByIdError, ThrowOnError>({
+    ...formDataBodySerializer,
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/Sector/{id}",
+    ...options,
+    headers: {
+      "Content-Type": null,
+      ...options?.headers,
+    },
   });
 };
 
@@ -468,7 +635,11 @@ export const getApiSectorSectorCragById = <ThrowOnError extends boolean = false>
 export const postApiSectorByIdPhoto = <ThrowOnError extends boolean = false>(
   options: Options<PostApiSectorByIdPhotoData, ThrowOnError>,
 ) => {
-  return (options.client ?? _heyApiClient).post<unknown, PostApiSectorByIdPhotoError, ThrowOnError>({
+  return (options.client ?? _heyApiClient).post<
+    PostApiSectorByIdPhotoResponse,
+    PostApiSectorByIdPhotoError,
+    ThrowOnError
+  >({
     ...formDataBodySerializer,
     security: [
       {
@@ -488,20 +659,22 @@ export const postApiSectorByIdPhoto = <ThrowOnError extends boolean = false>(
 export const postApiUserLogAscent = <ThrowOnError extends boolean = false>(
   options?: Options<PostApiUserLogAscentData, ThrowOnError>,
 ) => {
-  return (options?.client ?? _heyApiClient).post<unknown, PostApiUserLogAscentError, ThrowOnError>({
-    security: [
-      {
-        name: "Authorization",
-        type: "apiKey",
+  return (options?.client ?? _heyApiClient).post<PostApiUserLogAscentResponse, PostApiUserLogAscentError, ThrowOnError>(
+    {
+      security: [
+        {
+          name: "Authorization",
+          type: "apiKey",
+        },
+      ],
+      url: "/api/User/logAscent",
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        ...options?.headers,
       },
-    ],
-    url: "/api/User/logAscent",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
     },
-  });
+  );
 };
 
 export const getApiUserSearchHistory = <ThrowOnError extends boolean = false>(
@@ -564,7 +737,7 @@ export const getApiUserUserByProfileUserId = <ThrowOnError extends boolean = fal
 export const putApiUserPhoto = <ThrowOnError extends boolean = false>(
   options?: Options<PutApiUserPhotoData, ThrowOnError>,
 ) => {
-  return (options?.client ?? _heyApiClient).put<unknown, PutApiUserPhotoError, ThrowOnError>({
+  return (options?.client ?? _heyApiClient).put<PutApiUserPhotoResponse, PutApiUserPhotoError, ThrowOnError>({
     ...formDataBodySerializer,
     security: [
       {

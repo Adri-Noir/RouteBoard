@@ -1,7 +1,7 @@
 "use client";
 
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { PhotoDto } from "@/lib/api/types.gen";
 import Image from "next/image";
 import { useState } from "react";
@@ -39,7 +39,8 @@ const CragPhotos = ({ photos }: CragPhotosProps) => {
       </Carousel>
 
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogContent className="max-w-4xl">
+        <DialogContent className="max-w-4xl" aria-describedby={"crag-photos"}>
+          <DialogTitle>Crag Photos</DialogTitle>
           {currentPhoto && (
             <div className="relative aspect-video overflow-hidden rounded-md">
               <Image

@@ -10,9 +10,12 @@ import SectorRoutes from "./SectorRoutes";
 
 interface SectorDetailsProps {
   sector: SectorDetailedDto;
+  canModify?: boolean;
+  onEditRoute?: (routeId: string) => void;
+  onDeleteRoute?: (routeId: string) => void;
 }
 
-const SectorDetails = ({ sector }: SectorDetailsProps) => {
+const SectorDetails = ({ sector, canModify, onEditRoute, onDeleteRoute }: SectorDetailsProps) => {
   const [selectedGrade, setSelectedGrade] = useState<string | null>(null);
 
   // Filter routes by the selected grade
@@ -59,7 +62,12 @@ const SectorDetails = ({ sector }: SectorDetailsProps) => {
 
       {/* Routes section with filtered routes */}
       {filteredRoutes && filteredRoutes.length > 0 ? (
-        <SectorRoutes sector={filteredSector} />
+        <SectorRoutes
+          sector={filteredSector}
+          canModify={canModify}
+          onEditRoute={onEditRoute}
+          onDeleteRoute={onDeleteRoute}
+        />
       ) : (
         selectedGrade && (
           <Card>

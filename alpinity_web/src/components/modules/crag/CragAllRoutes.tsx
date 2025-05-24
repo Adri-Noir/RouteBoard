@@ -11,6 +11,8 @@ import RouteTable from "./RouteTable";
 
 interface CragAllRoutesProps {
   crag: CragDetailedDto;
+  onEditRoute?: (routeId: string) => void;
+  onDeleteRoute?: (routeId: string) => void;
 }
 
 // Helper function to get the value for sorting
@@ -35,7 +37,7 @@ const getSortValue = (
   }
 };
 
-const CragAllRoutes = ({ crag }: CragAllRoutesProps) => {
+const CragAllRoutes = ({ crag, onEditRoute, onDeleteRoute }: CragAllRoutesProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedGrade, setSelectedGrade] = useState<string | null>(null);
   const [selectedRouteType, setSelectedRouteType] = useState<RouteType | null>(null);
@@ -217,6 +219,9 @@ const CragAllRoutes = ({ crag }: CragAllRoutesProps) => {
           sortDirection={sortDirection}
           handleSort={handleSort}
           handleAscentClick={handleAscentClick}
+          canModify={crag.canModify}
+          onEditRoute={onEditRoute}
+          onDeleteRoute={onDeleteRoute}
         />
       </CardContent>
 
