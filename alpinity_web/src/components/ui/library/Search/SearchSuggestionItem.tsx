@@ -28,7 +28,7 @@ const getHref = (suggestion: SearchResultDto) => {
     case "route":
       return `/crag/${routeCragId}?sectorId=${routeSectorId}&routeId=${routeId}`;
     case "user":
-      return `/user/${profileUserId}`;
+      return `/profile/${profileUserId}`;
     default:
       return "#";
   }

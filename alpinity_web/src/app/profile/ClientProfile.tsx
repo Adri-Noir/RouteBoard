@@ -15,11 +15,17 @@ import useAuth from "@/lib/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
-export default function ClientProfile() {
+interface ClientProfileProps {
+  userId?: string;
+}
+
+export default function ClientProfile({ userId: propUserId }: ClientProfileProps = {}) {
   const { user, isAuthenticated, isUserLoading } = useAuth();
   const [selectedRouteType, setSelectedRouteType] = useState<string | null>(null);
 
-  const userId = user?.id ?? "";
+  // Use provided userId or fall back to current user's ID
+  const userId = propUserId ?? user?.id ?? "";
+  const isOwnProfile = !propUserId || propUserId === user?.id;
 
   const {
     data: profile,
@@ -27,7 +33,7 @@ export default function ClientProfile() {
     error: profileError,
   } = useQuery({
     ...getApiUserUserByProfileUserIdOptions({ path: { profileUserId: userId } }),
-    enabled: isAuthenticated,
+    enabled: !!userId && (isOwnProfile ? isAuthenticated : true),
   });
 
   const {
@@ -36,7 +42,7 @@ export default function ClientProfile() {
     error: recentError,
   } = useQuery({
     ...getApiUserRecentlyAscendedRoutesOptions(),
-    enabled: isAuthenticated,
+    enabled: isAuthenticated && isOwnProfile, // Only load recent ascents for own profile
   });
 
   const handleSelectRouteType = (routeType: string | null) => {
@@ -58,7 +64,7 @@ export default function ClientProfile() {
   return (
     <div className="space-y-8 p-4">
       <ProfileStats profile={profile} />
-      {recentAscents && <ProfileRecentlyAscended routes={recentAscents} />}
+      {isOwnProfile && recentAscents && <ProfileRecentlyAscended routes={recentAscents} />}
 
       {profile.routeTypeAscentCount && profile.routeTypeAscentCount.length > 0 && (
         <Card>

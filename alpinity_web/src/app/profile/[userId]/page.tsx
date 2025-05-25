@@ -1,0 +1,19 @@
+import ProfileDetailsSkeleton from "@/components/modules/profile/me-profile/ProfileDetailsSkeleton";
+import { Suspense } from "react";
+import ClientProfile from "../ClientProfile";
+
+interface ProfilePageProps {
+  params: {
+    userId: string;
+  };
+}
+
+export default function ProfilePage({ params }: ProfilePageProps) {
+  return (
+    <div className="container mx-auto space-y-8 md:p-4">
+      <Suspense fallback={<ProfileDetailsSkeleton />}>
+        <ClientProfile userId={params.userId} />
+      </Suspense>
+    </div>
+  );
+}
