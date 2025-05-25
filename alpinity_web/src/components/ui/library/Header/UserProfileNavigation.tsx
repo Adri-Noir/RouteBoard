@@ -1,19 +1,27 @@
 "use client";
 
+import CreateCragForm from "@/components/modules/crag/create-crag/CreateCragForm";
+import { CragDetailedDto } from "@/lib/api";
 import useAuth from "@/lib/hooks/useAuth";
-import { LogOut, Settings, User } from "lucide-react";
+import { LogOut, Plus, Settings, User } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../../avatar";
 import { Button } from "../../button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../../dropdown-menu";
 
@@ -27,53 +35,87 @@ const DynamicSmallLoadingSpinner = dynamic(
 const UserProfileNavigation = () => {
   const pathname = usePathname();
   const router = useRouter();
+  const [isCragCreationOpen, setIsCragCreationOpen] = useState(false);
 
-  const { isAuthenticated, isUserLoading, logout } = useAuth();
+  const { user, isAuthenticated, isUserLoading, logout } = useAuth();
 
   const onProfileClick = () => {
     router.push("/profile");
   };
 
+  const onCreateCragClick = () => {
+    setIsCragCreationOpen(true);
+  };
+
+  const handleCragCreateSuccess = (crag: CragDetailedDto) => {
+    setIsCragCreationOpen(false);
+    router.push(`/crag/${crag.id}`);
+  };
+
   return (
-    <DynamicSmallLoadingSpinner isLoading={isUserLoading}>
-      {isAuthenticated ? (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="z-10000 w-56">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem onClick={onProfileClick}>
-                <User />
-                <span>Profile</span>
+    <>
+      <DynamicSmallLoadingSpinner isLoading={isUserLoading}>
+        {isAuthenticated ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Avatar>
+                <AvatarImage src={user?.profilePhoto?.url ?? undefined} />
+                <AvatarFallback>{user?.profilePhoto?.url ? "A" : user?.username?.charAt(0)}</AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="z-10000 w-56">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem onClick={onProfileClick}>
+                  <User size={16} />
+                  <span>Profile</span>
+                </DropdownMenuItem>
+                {(user?.role === "Admin" || user?.role === "Creator") && (
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger>
+                      <Settings size={16} className="mr-2" />
+                      <span>Settings</span>
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuPortal>
+                      <DropdownMenuSubContent>
+                        <DropdownMenuItem onClick={onCreateCragClick}>
+                          <Plus size={16} />
+                          <span>Create Crag</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuSubContent>
+                    </DropdownMenuPortal>
+                  </DropdownMenuSub>
+                )}
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={logout}>
+                <LogOut size={16} />
+                <span>Log out</span>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Settings />
-                <span>Settings</span>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={logout}>
-              <LogOut />
-              <span>Log out</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ) : (
-        <>
-          {pathname !== "/login" && (
-            <Link href="/login">
-              <Button>Login</Button>
-            </Link>
-          )}
-        </>
-      )}
-    </DynamicSmallLoadingSpinner>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <>
+            {pathname !== "/login" && (
+              <Link href="/login">
+                <Button>Login</Button>
+              </Link>
+            )}
+          </>
+        )}
+      </DynamicSmallLoadingSpinner>
+
+      {/* Create Crag Dialog */}
+      <Dialog open={isCragCreationOpen} onOpenChange={setIsCragCreationOpen}>
+        <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto" aria-describedby="create-crag-description">
+          <DialogHeader>
+            <DialogTitle>Create New Crag</DialogTitle>
+          </DialogHeader>
+          <CreateCragForm onSuccess={handleCragCreateSuccess} />
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 

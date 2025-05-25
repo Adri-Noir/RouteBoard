@@ -8,11 +8,13 @@ interface ProfilePageProps {
   };
 }
 
-export default function ProfilePage({ params }: ProfilePageProps) {
+export default async function ProfilePage({ params }: ProfilePageProps) {
+  const { userId } = await params;
+
   return (
     <div className="container mx-auto space-y-8 md:p-4">
       <Suspense fallback={<ProfileDetailsSkeleton />}>
-        <ClientProfile userId={params.userId} />
+        <ClientProfile userId={userId} />
       </Suspense>
     </div>
   );
