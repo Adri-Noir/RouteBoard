@@ -1614,5 +1614,5 @@ export type PutApiUserPhotoResponses = {
 export type PutApiUserPhotoResponse = PutApiUserPhotoResponses[keyof PutApiUserPhotoResponses];
 
 export type ClientOptions = {
-  baseUrl: "https://192.168.50.175:7244" | "https://localhost:7244" | (string & {});
+  baseUrl: "https://localhost:7244" | (string & {});
 };

@@ -6,10 +6,6 @@
   },
   "servers": [
     {
-      "url": "https://192.168.50.175:7244",
-      "description": "Local Dev server"
-    },
-    {
       "url": "https://localhost:7244",
       "description": "Dev server"
     }

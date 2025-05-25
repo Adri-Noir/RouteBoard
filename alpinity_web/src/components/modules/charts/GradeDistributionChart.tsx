@@ -20,9 +20,17 @@ interface GradeChartProps {
   chartConfig: ChartConfig;
   selectedGrade: string | null;
   onSelectGrade: (grade: string) => void;
+  enableFilter?: boolean;
 }
 
-const GradeChart = ({ distribution, chartWidth, chartConfig, selectedGrade, onSelectGrade }: GradeChartProps) => {
+const GradeChart = ({
+  distribution,
+  chartWidth,
+  chartConfig,
+  selectedGrade,
+  onSelectGrade,
+  enableFilter = true,
+}: GradeChartProps) => {
   // Find the index of the selected grade in the distribution array
   const activeGradeIndex = selectedGrade ? distribution.findIndex((item) => item.grade === selectedGrade) : -1;
 
@@ -56,9 +64,9 @@ const GradeChart = ({ distribution, chartWidth, chartConfig, selectedGrade, onSe
         <Bar
           dataKey="count"
           radius={20}
-          cursor="pointer"
+          cursor={enableFilter ? "pointer" : undefined}
           onClick={(data) => {
-            if (data && data.grade) {
+            if (data && data.grade && enableFilter) {
               onSelectGrade(data.grade);
             }
           }}
@@ -163,6 +171,7 @@ interface GradeDistributionCardProps {
   onSelectGrade: (grade: string | null) => void;
   itemName?: string;
   asContainer?: boolean;
+  enableFilter?: boolean;
 }
 
 export const GradeDistributionCard = ({
@@ -174,6 +183,7 @@ export const GradeDistributionCard = ({
   onSelectGrade,
   itemName = "sector",
   asContainer = false,
+  enableFilter = true,
 }: GradeDistributionCardProps) => {
   const chartConfig = {
     count: {
@@ -207,9 +217,11 @@ export const GradeDistributionCard = ({
 
   const content = (
     <>
-      <div className="text-muted-foreground mb-4 text-sm">
-        Click on a bar to filter by grade {selectedGrade && `• ${selectedGrade} selected`}
-      </div>
+      {enableFilter && (
+        <div className="text-muted-foreground mb-4 text-sm">
+          Click on a bar to filter by grade {selectedGrade && `• ${selectedGrade} selected`}
+        </div>
+      )}
       <div className="flex w-full items-center justify-center overflow-x-auto">
         <GradeChart
           distribution={distribution}
@@ -217,6 +229,7 @@ export const GradeDistributionCard = ({
           chartConfig={chartConfig}
           selectedGrade={selectedGrade}
           onSelectGrade={handleGradeSelection}
+          enableFilter={enableFilter}
         />
       </div>
       {selectedGrade && (

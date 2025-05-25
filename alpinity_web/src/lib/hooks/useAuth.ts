@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { postApiAuthenticationLoginMutation, postApiAuthenticationMeOptions } from "../api/@tanstack/react-query.gen";
 import { client } from "../api/client.gen";
 
-const PROTECTED_ROUTES = ["/crag", "/sector", "/route", "/user", "/explore", "/map"];
+const PROTECTED_ROUTES = ["/crag", "/sector", "/route", "/user", "/explore", "/map", "/profile"];
 
 const getToken = () => {
   return Cookies.get("token") ?? null;

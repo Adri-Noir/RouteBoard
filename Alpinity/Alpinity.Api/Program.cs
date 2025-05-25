@@ -44,15 +44,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-
-// app.UseCors(corsBuilder => corsBuilder
-// .WithOrigins("http://192.168.1.186:7244")
-// .AllowAnyHeader()
-// .AllowAnyMethod()
-// .AllowCredentials());
-
 app.UseCors("AllowAll");
-
 
 app.Run();
 

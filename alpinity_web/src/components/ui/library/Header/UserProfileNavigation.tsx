@@ -4,7 +4,7 @@ import useAuth from "@/lib/hooks/useAuth";
 import { LogOut, Settings, User } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "../../avatar";
 import { Button } from "../../button";
 import {
@@ -26,8 +26,13 @@ const DynamicSmallLoadingSpinner = dynamic(
 
 const UserProfileNavigation = () => {
   const pathname = usePathname();
+  const router = useRouter();
 
   const { isAuthenticated, isUserLoading, logout } = useAuth();
+
+  const onProfileClick = () => {
+    router.push("/profile");
+  };
 
   return (
     <DynamicSmallLoadingSpinner isLoading={isUserLoading}>
@@ -43,7 +48,7 @@ const UserProfileNavigation = () => {
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={onProfileClick}>
                 <User />
                 <span>Profile</span>
               </DropdownMenuItem>

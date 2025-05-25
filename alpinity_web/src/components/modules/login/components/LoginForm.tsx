@@ -80,7 +80,7 @@ const LoginForm = () => {
             </div>
           )}
         </form.Field>
-        <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
+        <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting, isLoginLoading]}>
           {([canSubmit, isSubmitting]) => (
             <>
               <Button type="submit" className="w-full" variant="default" disabled={!canSubmit}>
@@ -92,7 +92,9 @@ const LoginForm = () => {
                   "Login"
                 )}
               </Button>
-              {isError ? <p className="text-center text-sm text-red-500">{error?.detail}</p> : null}
+              {isError ? (
+                <p className="text-center text-sm text-red-500">{error?.detail ?? "An error occurred"}</p>
+              ) : null}
             </>
           )}
         </form.Subscribe>
