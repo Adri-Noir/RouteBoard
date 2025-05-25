@@ -1,10 +1,17 @@
 "use client";
 
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi,
+} from "@/components/ui/carousel";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { PhotoDto } from "@/lib/api/types.gen";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface CragPhotosProps {
   photos: PhotoDto[];
@@ -12,12 +19,20 @@ interface CragPhotosProps {
 
 const CragPhotos = ({ photos }: CragPhotosProps) => {
   const [openDialog, setOpenDialog] = useState(false);
-  const [currentPhoto, setCurrentPhoto] = useState<PhotoDto | null>(null);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+  const [dialogCarouselApi, setDialogCarouselApi] = useState<CarouselApi>();
 
   const handlePhotoClick = (photo: PhotoDto) => {
-    setCurrentPhoto(photo);
+    const index = photos.findIndex((p) => p.id === photo.id);
+    setCurrentPhotoIndex(index);
     setOpenDialog(true);
   };
+
+  useEffect(() => {
+    if (dialogCarouselApi && openDialog) {
+      dialogCarouselApi.scrollTo(currentPhotoIndex, true);
+    }
+  }, [dialogCarouselApi, openDialog, currentPhotoIndex]);
 
   return (
     <>
@@ -39,18 +54,23 @@ const CragPhotos = ({ photos }: CragPhotosProps) => {
       </Carousel>
 
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogContent className="max-w-4xl" aria-describedby={"crag-photos"}>
+        <DialogContent className="sm:max-w-7xl" aria-describedby={"crag-photos"}>
           <DialogTitle>Crag Photos</DialogTitle>
-          {currentPhoto && (
-            <div className="relative aspect-video overflow-hidden rounded-md">
-              <Image
-                src={currentPhoto.url || ""}
-                alt={`Crag photo ${currentPhoto.id}`}
-                fill
-                className="object-contain"
-              />
-            </div>
-          )}
+          <div className="flex flex-col gap-4 px-12">
+            <Carousel setApi={setDialogCarouselApi} className="w-full">
+              <CarouselContent>
+                {photos.map((photo) => (
+                  <CarouselItem key={photo.id}>
+                    <div className="relative aspect-video overflow-hidden rounded-md">
+                      <Image src={photo.url || ""} alt={`Crag photo ${photo.id}`} fill className="object-contain" />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
+          </div>
         </DialogContent>
       </Dialog>
     </>

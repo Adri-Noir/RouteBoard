@@ -46,7 +46,7 @@ export const SearchDialog = ({
     enabled: shouldFetch && open && isAuthenticated,
     refetchOnWindowFocus: false,
   });
-  const { data: searchHistoryData = [] } = useQuery({
+  const { data: searchHistoryData = [], isLoading: isLoadingSearchHistory } = useQuery({
     ...getApiUserSearchHistoryOptions(),
     enabled: open && isAuthenticated,
     refetchOnWindowFocus: false,
@@ -104,7 +104,7 @@ export const SearchDialog = ({
     <CommandDialog open={open} onOpenChange={onOpenChange}>
       <CommandInput placeholder={inputPlaceholder} value={inputValue} onValueChange={handleInputChange} autoFocus />
       <CommandList>
-        {isLoadingSearch && shouldFetch && (
+        {(isLoadingSearch || isLoadingSearchHistory) && (
           <div className="flex items-center justify-center py-6">
             <div className="border-primary h-4 w-4 animate-spin rounded-full border-2 border-t-transparent"></div>
           </div>
