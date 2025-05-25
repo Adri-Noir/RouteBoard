@@ -55,7 +55,9 @@ const SectorDetails = ({ sector, canModify, onEditRoute, onDeleteRoute }: Sector
             <CardTitle>Sector Photos</CardTitle>
           </CardHeader>
           <CardContent>
-            <SectorPhotos photos={sector.photos} />
+            <div className="px-10">
+              <SectorPhotos photos={sector.photos} />
+            </div>
           </CardContent>
         </Card>
       )}

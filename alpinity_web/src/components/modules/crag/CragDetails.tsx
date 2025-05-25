@@ -277,7 +277,9 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
       {crag.photos && crag.photos.length > 0 && (
         <section className="rounded-lg p-4 md:border">
           <h2 className="mb-4 text-2xl font-semibold">Photos</h2>
-          <CragPhotos photos={crag.photos} />
+          <div className="relative flex justify-between px-12">
+            <CragPhotos photos={crag.photos} />
+          </div>
         </section>
       )}
 
