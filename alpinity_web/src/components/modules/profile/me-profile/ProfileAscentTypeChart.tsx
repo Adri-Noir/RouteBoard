@@ -45,7 +45,7 @@ export function ProfileAscentTypeChart({ data, onSelectRouteType }: ProfileAscen
   const chartWidth = useMemo(() => {
     const routeTypeCount = chartData.length;
     const barWidth = 80; // Width per route type group
-    const pixelWidth = Math.max(routeTypeCount * barWidth, 400); // Minimum width of 400px
+    const pixelWidth = routeTypeCount * barWidth; // Minimum width of 400px
     return `${pixelWidth}px`;
   }, [chartData]);
 
