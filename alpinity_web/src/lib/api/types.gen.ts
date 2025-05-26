@@ -191,6 +191,15 @@ export type EditRouteCommand = {
   photosToRemove?: Array<string> | null;
 };
 
+export type EditUserCommand = {
+  username?: string | null;
+  email?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  dateOfBirth?: string | null;
+  password?: string | null;
+};
+
 export type ErrorInfoDto = {
   statusCode?: number;
   message?: string | null;
@@ -267,6 +276,9 @@ export type LoggedInUserDto = {
   profilePhoto?: PhotoDto;
   role?: UserRole;
   token?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  dateOfBirth?: string | null;
 };
 
 export type LoginCommand = {
@@ -1673,6 +1685,39 @@ export type GetApiUserUserByProfileUserIdResponses = {
 export type GetApiUserUserByProfileUserIdResponse =
   GetApiUserUserByProfileUserIdResponses[keyof GetApiUserUserByProfileUserIdResponses];
 
+export type GetApiUserUserByProfileUserIdRecentlyAscendedRoutesData = {
+  body?: never;
+  path: {
+    profileUserId: string;
+  };
+  query?: never;
+  url: "/api/User/user/{profileUserId}/recentlyAscendedRoutes";
+};
+
+export type GetApiUserUserByProfileUserIdRecentlyAscendedRoutesErrors = {
+  /**
+   * Bad Request
+   */
+  400: CustomProblemDetailsResponse;
+  /**
+   * Unauthorized
+   */
+  401: CustomProblemDetailsResponse;
+};
+
+export type GetApiUserUserByProfileUserIdRecentlyAscendedRoutesError =
+  GetApiUserUserByProfileUserIdRecentlyAscendedRoutesErrors[keyof GetApiUserUserByProfileUserIdRecentlyAscendedRoutesErrors];
+
+export type GetApiUserUserByProfileUserIdRecentlyAscendedRoutesResponses = {
+  /**
+   * OK
+   */
+  200: Array<RecentlyAscendedRouteDto>;
+};
+
+export type GetApiUserUserByProfileUserIdRecentlyAscendedRoutesResponse =
+  GetApiUserUserByProfileUserIdRecentlyAscendedRoutesResponses[keyof GetApiUserUserByProfileUserIdRecentlyAscendedRoutesResponses];
+
 export type PutApiUserPhotoData = {
   body?: {
     UserId?: string;
@@ -1741,6 +1786,39 @@ export type GetApiUserAllResponses = {
 };
 
 export type GetApiUserAllResponse = GetApiUserAllResponses[keyof GetApiUserAllResponses];
+
+export type PutApiUserEditData = {
+  body?: EditUserCommand;
+  path?: never;
+  query?: never;
+  url: "/api/User/edit";
+};
+
+export type PutApiUserEditErrors = {
+  /**
+   * Bad Request
+   */
+  400: CustomProblemDetailsResponse;
+  /**
+   * Unauthorized
+   */
+  401: CustomProblemDetailsResponse;
+  /**
+   * Not Found
+   */
+  404: CustomProblemDetailsResponse;
+};
+
+export type PutApiUserEditError = PutApiUserEditErrors[keyof PutApiUserEditErrors];
+
+export type PutApiUserEditResponses = {
+  /**
+   * OK
+   */
+  200: UserProfileDto;
+};
+
+export type PutApiUserEditResponse = PutApiUserEditResponses[keyof PutApiUserEditResponses];
 
 export type ClientOptions = {
   baseUrl: "https://192.168.50.175:7244" | "https://localhost:7244" | (string & {});

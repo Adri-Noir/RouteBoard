@@ -105,12 +105,18 @@ import type {
   GetApiUserUserByProfileUserIdData,
   GetApiUserUserByProfileUserIdResponse,
   GetApiUserUserByProfileUserIdError,
+  GetApiUserUserByProfileUserIdRecentlyAscendedRoutesData,
+  GetApiUserUserByProfileUserIdRecentlyAscendedRoutesResponse,
+  GetApiUserUserByProfileUserIdRecentlyAscendedRoutesError,
   PutApiUserPhotoData,
   PutApiUserPhotoResponse,
   PutApiUserPhotoError,
   GetApiUserAllData,
   GetApiUserAllResponse,
   GetApiUserAllError,
+  PutApiUserEditData,
+  PutApiUserEditResponse,
+  PutApiUserEditError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -776,6 +782,25 @@ export const getApiUserUserByProfileUserId = <ThrowOnError extends boolean = fal
   });
 };
 
+export const getApiUserUserByProfileUserIdRecentlyAscendedRoutes = <ThrowOnError extends boolean = false>(
+  options: Options<GetApiUserUserByProfileUserIdRecentlyAscendedRoutesData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiUserUserByProfileUserIdRecentlyAscendedRoutesResponse,
+    GetApiUserUserByProfileUserIdRecentlyAscendedRoutesError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/User/user/{profileUserId}/recentlyAscendedRoutes",
+    ...options,
+  });
+};
+
 export const putApiUserPhoto = <ThrowOnError extends boolean = false>(
   options?: Options<PutApiUserPhotoData, ThrowOnError>,
 ) => {
@@ -808,5 +833,24 @@ export const getApiUserAll = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/User/all",
     ...options,
+  });
+};
+
+export const putApiUserEdit = <ThrowOnError extends boolean = false>(
+  options?: Options<PutApiUserEditData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).put<PutApiUserEditResponse, PutApiUserEditError, ThrowOnError>({
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/User/edit",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };

@@ -1,9 +1,10 @@
 "use client";
 
 import CreateCragForm from "@/components/modules/crag/create-crag/CreateCragForm";
+import EditProfileDialog from "@/components/modules/profile/edit-profile/EditProfileDialog";
 import { CragDetailedDto } from "@/lib/api";
 import useAuth from "@/lib/hooks/useAuth";
-import { LogOut, Plus, Settings, User } from "lucide-react";
+import { Edit, LogOut, Plus, Settings, User } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -36,6 +37,7 @@ const UserProfileNavigation = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [isCragCreationOpen, setIsCragCreationOpen] = useState(false);
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 
   const { user, isAuthenticated, isUserLoading, logout } = useAuth();
 
@@ -47,9 +49,18 @@ const UserProfileNavigation = () => {
     setIsCragCreationOpen(true);
   };
 
+  const onEditProfileClick = () => {
+    setIsEditProfileOpen(true);
+  };
+
   const handleCragCreateSuccess = (crag: CragDetailedDto) => {
     setIsCragCreationOpen(false);
     router.push(`/crag/${crag.id}`);
+  };
+
+  const handleEditProfileSuccess = () => {
+    setIsEditProfileOpen(false);
+    // The user data will be automatically updated through the query invalidation
   };
 
   return (
@@ -70,6 +81,10 @@ const UserProfileNavigation = () => {
                 <DropdownMenuItem onClick={onProfileClick}>
                   <User size={16} />
                   <span>Profile</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={onEditProfileClick}>
+                  <Edit size={16} />
+                  <span>Edit Profile</span>
                 </DropdownMenuItem>
                 {(user?.role === "Admin" || user?.role === "Creator") && (
                   <DropdownMenuSub>
@@ -115,6 +130,13 @@ const UserProfileNavigation = () => {
           <CreateCragForm onSuccess={handleCragCreateSuccess} />
         </DialogContent>
       </Dialog>
+
+      {/* Edit Profile Dialog */}
+      <EditProfileDialog
+        open={isEditProfileOpen}
+        onOpenChange={setIsEditProfileOpen}
+        onSuccess={handleEditProfileSuccess}
+      />
     </>
   );
 };

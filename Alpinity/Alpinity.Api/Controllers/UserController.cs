@@ -8,6 +8,7 @@ using Alpinity.Application.UseCases.Users.Commands.LogAscent;
 using Alpinity.Application.UseCases.Users.Commands.RecentlyAscendedRoutes;
 using Alpinity.Application.UseCases.Users.Commands.UpdatePhoto;
 using Alpinity.Application.UseCases.Users.Commands.GetAllUsers;
+using Alpinity.Application.UseCases.Users.Commands.Edit;
 using Alpinity.Application.UseCases.Users.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -87,6 +88,22 @@ public class UserController(
         return Ok(result);
     }
 
+    [HttpGet("user/{profileUserId}/recentlyAscendedRoutes")]
+    [Authorize]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ICollection<RecentlyAscendedRouteDto>), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    public async Task<ActionResult<ICollection<RecentlyAscendedRouteDto>>> GetUserRecentlyAscendedRoutes(Guid profileUserId, CancellationToken cancellationToken = default)
+    {
+        var command = new RecentlyAscendedRoutesCommand
+        {
+            UserId = profileUserId
+        };
+
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
+
     [HttpPut("photo")]
     [Authorize]
     [Consumes(MediaTypeNames.Multipart.FormData)]
@@ -118,6 +135,20 @@ public class UserController(
             PageSize = pageSize,
             Search = search
         };
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpPut("edit")]
+    [Authorize]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(UserProfileDto), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    public async Task<ActionResult<UserProfileDto>> EditUser(EditUserCommand command, CancellationToken cancellationToken)
+    {
+        command.UserId = (Guid)authenticationContext.GetUserId()!;
         var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }

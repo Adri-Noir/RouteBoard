@@ -37,8 +37,10 @@ import {
   getApiUserSearchHistory,
   getApiUserRecentlyAscendedRoutes,
   getApiUserUserByProfileUserId,
+  getApiUserUserByProfileUserIdRecentlyAscendedRoutes,
   putApiUserPhoto,
   getApiUserAll,
+  putApiUserEdit,
 } from "../sdk.gen";
 import { queryOptions, type UseMutationOptions, infiniteQueryOptions, type InfiniteData } from "@tanstack/react-query";
 import type {
@@ -110,12 +112,16 @@ import type {
   GetApiUserSearchHistoryData,
   GetApiUserRecentlyAscendedRoutesData,
   GetApiUserUserByProfileUserIdData,
+  GetApiUserUserByProfileUserIdRecentlyAscendedRoutesData,
   PutApiUserPhotoData,
   PutApiUserPhotoError,
   PutApiUserPhotoResponse,
   GetApiUserAllData,
   GetApiUserAllError,
   GetApiUserAllResponse,
+  PutApiUserEditData,
+  PutApiUserEditError,
+  PutApiUserEditResponse,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -1048,6 +1054,27 @@ export const getApiUserUserByProfileUserIdOptions = (options: Options<GetApiUser
   });
 };
 
+export const getApiUserUserByProfileUserIdRecentlyAscendedRoutesQueryKey = (
+  options: Options<GetApiUserUserByProfileUserIdRecentlyAscendedRoutesData>,
+) => createQueryKey("getApiUserUserByProfileUserIdRecentlyAscendedRoutes", options);
+
+export const getApiUserUserByProfileUserIdRecentlyAscendedRoutesOptions = (
+  options: Options<GetApiUserUserByProfileUserIdRecentlyAscendedRoutesData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getApiUserUserByProfileUserIdRecentlyAscendedRoutes({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getApiUserUserByProfileUserIdRecentlyAscendedRoutesQueryKey(options),
+  });
+};
+
 export const putApiUserPhotoMutation = (options?: Partial<Options<PutApiUserPhotoData>>) => {
   const mutationOptions: UseMutationOptions<
     PutApiUserPhotoResponse,
@@ -1119,4 +1146,22 @@ export const getApiUserAllInfiniteOptions = (options?: Options<GetApiUserAllData
       queryKey: getApiUserAllInfiniteQueryKey(options),
     },
   );
+};
+
+export const putApiUserEditMutation = (options?: Partial<Options<PutApiUserEditData>>) => {
+  const mutationOptions: UseMutationOptions<
+    PutApiUserEditResponse,
+    PutApiUserEditError,
+    Options<PutApiUserEditData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await putApiUserEdit({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };
