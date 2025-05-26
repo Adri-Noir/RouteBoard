@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   getApiUserRecentlyAscendedRoutesOptions,
   getApiUserUserByProfileUserIdOptions,
+  getApiUserUserByProfileUserIdRecentlyAscendedRoutesOptions,
 } from "@/lib/api/@tanstack/react-query.gen";
 import useAuth from "@/lib/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
@@ -42,7 +43,16 @@ export default function ClientProfile({ userId: propUserId }: ClientProfileProps
     error: recentError,
   } = useQuery({
     ...getApiUserRecentlyAscendedRoutesOptions(),
-    enabled: isAuthenticated && isOwnProfile, // Only load recent ascents for own profile
+    enabled: isAuthenticated && isOwnProfile,
+  });
+
+  const {
+    data: recentAscentsOther,
+    isLoading: isOtherRecentLoading,
+    error: otherRecentError,
+  } = useQuery({
+    ...getApiUserUserByProfileUserIdRecentlyAscendedRoutesOptions({ path: { profileUserId: userId } }),
+    enabled: isAuthenticated && !isOwnProfile,
   });
 
   const handleSelectRouteType = (routeType: string | null) => {
@@ -53,11 +63,11 @@ export default function ClientProfile({ userId: propUserId }: ClientProfileProps
     }
   };
 
-  if (isUserLoading || isProfileLoading || isRecentLoading || !profile) {
+  if (isUserLoading || isProfileLoading || isRecentLoading || isOtherRecentLoading || !profile) {
     return <ProfileDetailsSkeleton />;
   }
 
-  if (profileError || recentError) {
+  if (profileError || recentError || otherRecentError) {
     return <div className="text-destructive p-4">Error loading profile.</div>;
   }
 
@@ -65,6 +75,7 @@ export default function ClientProfile({ userId: propUserId }: ClientProfileProps
     <div className="space-y-8 p-4">
       <ProfileStats profile={profile} />
       {isOwnProfile && recentAscents && <ProfileRecentlyAscended routes={recentAscents} />}
+      {!isOwnProfile && recentAscentsOther && <ProfileRecentlyAscended routes={recentAscentsOther} />}
 
       {profile.routeTypeAscentCount && profile.routeTypeAscentCount.length > 0 && (
         <Card>
