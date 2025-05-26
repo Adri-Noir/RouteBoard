@@ -31,6 +31,11 @@ import type {
   PostApiCragError,
   PostApiCragByIdPhotoData,
   PostApiCragByIdPhotoError,
+  GetApiCragByIdUsersData,
+  GetApiCragByIdUsersResponse,
+  GetApiCragByIdUsersError,
+  PutApiCragByIdUsersData,
+  PutApiCragByIdUsersError,
   GetApiDownloadCragByIdData,
   GetApiDownloadCragByIdResponse,
   GetApiDownloadCragByIdError,
@@ -103,6 +108,9 @@ import type {
   PutApiUserPhotoData,
   PutApiUserPhotoResponse,
   PutApiUserPhotoError,
+  GetApiUserAllData,
+  GetApiUserAllResponse,
+  GetApiUserAllError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -287,6 +295,40 @@ export const postApiCragByIdPhoto = <ThrowOnError extends boolean = false>(
     ...options,
     headers: {
       "Content-Type": null,
+      ...options?.headers,
+    },
+  });
+};
+
+export const getApiCragByIdUsers = <ThrowOnError extends boolean = false>(
+  options: Options<GetApiCragByIdUsersData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<GetApiCragByIdUsersResponse, GetApiCragByIdUsersError, ThrowOnError>({
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/Crag/{id}/users",
+    ...options,
+  });
+};
+
+export const putApiCragByIdUsers = <ThrowOnError extends boolean = false>(
+  options: Options<PutApiCragByIdUsersData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).put<unknown, PutApiCragByIdUsersError, ThrowOnError>({
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/Crag/{id}/users",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
       ...options?.headers,
     },
   });
@@ -751,5 +793,20 @@ export const putApiUserPhoto = <ThrowOnError extends boolean = false>(
       "Content-Type": null,
       ...options?.headers,
     },
+  });
+};
+
+export const getApiUserAll = <ThrowOnError extends boolean = false>(
+  options?: Options<GetApiUserAllData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<GetApiUserAllResponse, GetApiUserAllError, ThrowOnError>({
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/User/all",
+    ...options,
   });
 };

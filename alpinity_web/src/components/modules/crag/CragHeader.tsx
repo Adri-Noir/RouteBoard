@@ -5,9 +5,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Edit, MapPin, MoreHorizontal, Plus, Trash2 } from "lucide-react";
+import useAuth from "@/lib/hooks/useAuth";
+import { Edit, MapPin, MoreHorizontal, Plus, Trash2, Users } from "lucide-react";
+import { useState } from "react";
+import UserSelectionDialog from "./user-selection/UserSelectionDialog";
 
 interface CragHeaderProps {
+  cragId: string;
   name: string;
   description?: string | null;
   locationName?: string | null;
@@ -18,6 +22,7 @@ interface CragHeaderProps {
 }
 
 const CragHeader = ({
+  cragId,
   name,
   description,
   locationName,
@@ -26,6 +31,9 @@ const CragHeader = ({
   onCreateSector,
   onDeleteCrag,
 }: CragHeaderProps) => {
+  const [isUserSelectionOpen, setIsUserSelectionOpen] = useState(false);
+  const { user } = useAuth();
+
   return (
     <div className="space-y-4 p-4">
       <div>
@@ -48,6 +56,12 @@ const CragHeader = ({
                   <Plus className="mr-2 h-4 w-4" />
                   Create Sector
                 </DropdownMenuItem>
+                {(user?.role === "Admin" || user?.role === "Creator") && (
+                  <DropdownMenuItem onClick={() => setIsUserSelectionOpen(true)}>
+                    <Users className="mr-2 h-4 w-4" />
+                    Manage Users
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuItem onClick={onDeleteCrag} className="text-destructive">
                   <Trash2 className="mr-2 h-4 w-4" />
                   Delete Crag
@@ -68,6 +82,8 @@ const CragHeader = ({
           <p>{description}</p>
         </div>
       )}
+
+      <UserSelectionDialog cragId={cragId} isOpen={isUserSelectionOpen} onOpenChange={setIsUserSelectionOpen} />
     </div>
   );
 };

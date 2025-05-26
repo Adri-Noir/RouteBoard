@@ -129,4 +129,27 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
                         .ThenInclude(photo => photo.PathLine)
             .FirstOrDefaultAsync(crag => crag.Id == cragId, cancellationToken);
     }
+
+    public async Task<ICollection<User>> GetCragCreatorsAsync(Guid cragId, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.CragCreators
+            .Where(cc => cc.CragId == cragId)
+            .Include(cc => cc.User)
+            .ThenInclude(u => u.ProfilePhoto)
+            .Select(cc => cc.User)
+            .OrderBy(u => u.Username)
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task RemoveCragCreator(Guid cragId, Guid userId, CancellationToken cancellationToken = default)
+    {
+        var cragCreator = await dbContext.CragCreators
+            .FirstOrDefaultAsync(cc => cc.CragId == cragId && cc.UserId == userId, cancellationToken);
+
+        if (cragCreator != null)
+        {
+            dbContext.CragCreators.Remove(cragCreator);
+            await dbContext.SaveChangesAsync(cancellationToken);
+        }
+    }
 }

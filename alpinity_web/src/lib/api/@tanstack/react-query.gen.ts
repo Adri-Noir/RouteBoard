@@ -11,6 +11,8 @@ import {
   putApiCragById,
   postApiCrag,
   postApiCragByIdPhoto,
+  getApiCragByIdUsers,
+  putApiCragByIdUsers,
   getApiDownloadCragById,
   getApiDownloadRouteById,
   getApiMapExplore,
@@ -36,6 +38,7 @@ import {
   getApiUserRecentlyAscendedRoutes,
   getApiUserUserByProfileUserId,
   putApiUserPhoto,
+  getApiUserAll,
 } from "../sdk.gen";
 import { queryOptions, type UseMutationOptions, infiniteQueryOptions, type InfiniteData } from "@tanstack/react-query";
 import type {
@@ -61,6 +64,9 @@ import type {
   PostApiCragResponse,
   PostApiCragByIdPhotoData,
   PostApiCragByIdPhotoError,
+  GetApiCragByIdUsersData,
+  PutApiCragByIdUsersData,
+  PutApiCragByIdUsersError,
   GetApiDownloadCragByIdData,
   GetApiDownloadRouteByIdData,
   GetApiMapExploreData,
@@ -107,6 +113,9 @@ import type {
   PutApiUserPhotoData,
   PutApiUserPhotoError,
   PutApiUserPhotoResponse,
+  GetApiUserAllData,
+  GetApiUserAllError,
+  GetApiUserAllResponse,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -397,6 +406,38 @@ export const postApiCragByIdPhotoMutation = (options?: Partial<Options<PostApiCr
   const mutationOptions: UseMutationOptions<unknown, PostApiCragByIdPhotoError, Options<PostApiCragByIdPhotoData>> = {
     mutationFn: async (localOptions) => {
       const { data } = await postApiCragByIdPhoto({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const getApiCragByIdUsersQueryKey = (options: Options<GetApiCragByIdUsersData>) =>
+  createQueryKey("getApiCragByIdUsers", options);
+
+export const getApiCragByIdUsersOptions = (options: Options<GetApiCragByIdUsersData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getApiCragByIdUsers({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getApiCragByIdUsersQueryKey(options),
+  });
+};
+
+export const putApiCragByIdUsersMutation = (options?: Partial<Options<PutApiCragByIdUsersData>>) => {
+  const mutationOptions: UseMutationOptions<unknown, PutApiCragByIdUsersError, Options<PutApiCragByIdUsersData>> = {
+    mutationFn: async (localOptions) => {
+      const { data } = await putApiCragByIdUsers({
         ...options,
         ...localOptions,
         throwOnError: true,
@@ -1023,4 +1064,59 @@ export const putApiUserPhotoMutation = (options?: Partial<Options<PutApiUserPhot
     },
   };
   return mutationOptions;
+};
+
+export const getApiUserAllQueryKey = (options?: Options<GetApiUserAllData>) => createQueryKey("getApiUserAll", options);
+
+export const getApiUserAllOptions = (options?: Options<GetApiUserAllData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getApiUserAll({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getApiUserAllQueryKey(options),
+  });
+};
+
+export const getApiUserAllInfiniteQueryKey = (
+  options?: Options<GetApiUserAllData>,
+): QueryKey<Options<GetApiUserAllData>> => createQueryKey("getApiUserAll", options, true);
+
+export const getApiUserAllInfiniteOptions = (options?: Options<GetApiUserAllData>) => {
+  return infiniteQueryOptions<
+    GetApiUserAllResponse,
+    GetApiUserAllError,
+    InfiniteData<GetApiUserAllResponse>,
+    QueryKey<Options<GetApiUserAllData>>,
+    number | Pick<QueryKey<Options<GetApiUserAllData>>[0], "body" | "headers" | "path" | "query">
+  >(
+    // @ts-ignore
+    {
+      queryFn: async ({ pageParam, queryKey, signal }) => {
+        // @ts-ignore
+        const page: Pick<QueryKey<Options<GetApiUserAllData>>[0], "body" | "headers" | "path" | "query"> =
+          typeof pageParam === "object"
+            ? pageParam
+            : {
+                query: {
+                  page: pageParam,
+                },
+              };
+        const params = createInfiniteParams(queryKey, page);
+        const { data } = await getApiUserAll({
+          ...options,
+          ...params,
+          signal,
+          throwOnError: true,
+        });
+        return data;
+      },
+      queryKey: getApiUserAllInfiniteQueryKey(options),
+    },
+  );
 };

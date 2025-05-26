@@ -19,4 +19,6 @@ public interface ICragRepository
     Task<bool> IsUserCreatorOfCrag(Guid cragId, Guid userId, CancellationToken cancellationToken = default);
     Task AddCragCreator(Guid cragId, Guid userId, CancellationToken cancellationToken = default);
     Task<Crag?> GetCragForDownload(Guid cragId, CancellationToken cancellationToken = default);
+    Task<ICollection<User>> GetCragCreatorsAsync(Guid cragId, CancellationToken cancellationToken = default);
+    Task RemoveCragCreator(Guid cragId, Guid userId, CancellationToken cancellationToken = default);
 }

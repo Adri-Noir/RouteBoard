@@ -14,4 +14,7 @@ public interface IUserRepository
     Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
     Task ChangePhotoAsync(Guid userId, Photo photo, CancellationToken cancellationToken = default);
     Task<User?> GetUserProfileAsync(Guid userId, CancellationToken cancellationToken = default);
+    Task<ICollection<User>> GetAllUsersAsync(SearchOptionsDto searchOptions, CancellationToken cancellationToken = default);
+    Task<(ICollection<User> Users, int TotalCount)> GetAllUsersWithCountAsync(SearchOptionsDto searchOptions, CancellationToken cancellationToken = default);
+    Task<bool> UserExistsAsync(Guid userId, CancellationToken cancellationToken = default);
 }

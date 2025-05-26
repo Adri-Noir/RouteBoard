@@ -7,6 +7,7 @@ using Alpinity.Application.UseCases.Users.Commands.GetUserProfile;
 using Alpinity.Application.UseCases.Users.Commands.LogAscent;
 using Alpinity.Application.UseCases.Users.Commands.RecentlyAscendedRoutes;
 using Alpinity.Application.UseCases.Users.Commands.UpdatePhoto;
+using Alpinity.Application.UseCases.Users.Commands.GetAllUsers;
 using Alpinity.Application.UseCases.Users.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -97,5 +98,27 @@ public class UserController(
         command.UserId = (Guid)authenticationContext.GetUserId()!;
         await mediator.Send(command, cancellationToken);
         return Ok();
+    }
+
+    [HttpGet("all")]
+    [Authorize]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(PaginatedUsersDto), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status403Forbidden, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    public async Task<ActionResult<PaginatedUsersDto>> GetAllUsers(
+        [FromQuery] int page = 0,
+        [FromQuery] int pageSize = 20,
+        [FromQuery] string? search = null,
+        CancellationToken cancellationToken = default)
+    {
+        var command = new GetAllUsersCommand
+        {
+            Page = page,
+            PageSize = pageSize,
+            Search = search
+        };
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
     }
 }

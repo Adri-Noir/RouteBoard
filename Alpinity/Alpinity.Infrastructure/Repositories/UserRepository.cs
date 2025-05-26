@@ -79,4 +79,46 @@ public class UserRepository(
             .ThenInclude(s => s.Crag!)
             .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
     }
+
+    public async Task<ICollection<User>> GetAllUsersAsync(SearchOptionsDto searchOptions, CancellationToken cancellationToken = default)
+    {
+        var query = dbContext.Users
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(searchOptions.Query))
+        {
+            query = query.Where(user => EF.Functions.ILike(user.Username, $"%{searchOptions.Query}%"));
+        }
+
+        return await query
+            .OrderBy(u => u.Username)
+            .Skip(searchOptions.Page * searchOptions.PageSize)
+            .Take(searchOptions.PageSize)
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<(ICollection<User> Users, int TotalCount)> GetAllUsersWithCountAsync(SearchOptionsDto searchOptions, CancellationToken cancellationToken = default)
+    {
+        var query = dbContext.Users.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(searchOptions.Query))
+        {
+            query = query.Where(user => EF.Functions.ILike(user.Username, $"%{searchOptions.Query}%"));
+        }
+
+        var totalCount = await query.CountAsync(cancellationToken);
+
+        var users = await query
+            .OrderBy(u => u.Username)
+            .Skip(searchOptions.Page * searchOptions.PageSize)
+            .Take(searchOptions.PageSize)
+            .ToListAsync(cancellationToken);
+
+        return (users, totalCount);
+    }
+
+    public async Task<bool> UserExistsAsync(Guid userId, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Users.AnyAsync(u => u.Id == userId, cancellationToken);
+    }
 }

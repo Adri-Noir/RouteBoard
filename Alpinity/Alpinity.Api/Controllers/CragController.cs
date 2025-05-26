@@ -4,7 +4,10 @@ using Alpinity.Application.UseCases.Crags.Commands.Create;
 using Alpinity.Application.UseCases.Crags.Commands.Get;
 using Alpinity.Application.UseCases.Crags.Commands.UploadPhoto;
 using Alpinity.Application.UseCases.Crags.Commands.Edit;
+using Alpinity.Application.UseCases.Crags.Commands.GetCragCreators;
+using Alpinity.Application.UseCases.Crags.Commands.UpdateCragCreators;
 using Alpinity.Application.UseCases.Crags.Dtos;
+using Alpinity.Application.UseCases.Users.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -82,6 +85,43 @@ public class CragController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> DeleteCrag(Guid id, CancellationToken cancellationToken)
     {
         await mediator.Send(new DeleteCragCommand { CragId = id }, cancellationToken);
+        return Ok();
+    }
+
+    [HttpGet("{id:guid}/users")]
+    [Authorize]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ICollection<UserRestrictedDto>), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status403Forbidden, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    public async Task<ActionResult<ICollection<UserRestrictedDto>>> GetCragCreators(
+        Guid id,
+        CancellationToken cancellationToken = default)
+    {
+        var command = new GetCragCreatorsCommand
+        {
+            CragId = id
+        };
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpPut("{id:guid}/users")]
+    [Authorize]
+    [SwaggerResponse(StatusCodes.Status200OK)]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status403Forbidden, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    public async Task<IActionResult> UpdateCragCreators(Guid id, [FromBody] UpdateCragCreatorsDto request, CancellationToken cancellationToken)
+    {
+        var command = new UpdateCragCreatorsCommand
+        {
+            CragId = id,
+            UserIds = request.UserIds
+        };
+        await mediator.Send(command, cancellationToken);
         return Ok();
     }
 }

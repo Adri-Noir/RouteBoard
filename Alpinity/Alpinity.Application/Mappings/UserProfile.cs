@@ -12,6 +12,8 @@ public class UserProfile : Profile
     {
         CreateMap<User, UserDto>();
 
+        CreateMap<User, UserRestrictedDto>();
+
         CreateMap<User, LoggedInUserDto>()
             .ForMember(t => t.Role, opt => opt.MapFrom(s => s.UserRole));
 

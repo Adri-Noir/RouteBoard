@@ -274,6 +274,11 @@ export type LoginCommand = {
   password: string | null;
 };
 
+export type PaginatedUsersDto = {
+  users?: Array<UserRestrictedDto> | null;
+  totalCount?: number;
+};
+
 export type PhotoDto = {
   id: string;
   url: string | null;
@@ -407,6 +412,10 @@ export type SectorRouteDto = {
   ascentsCount?: number | null;
 };
 
+export type UpdateCragCreatorsDto = {
+  userIds?: Array<string> | null;
+};
+
 export type UserProfileDto = {
   id?: string;
   username?: string | null;
@@ -418,6 +427,13 @@ export type UserProfileDto = {
   routeTypeAscentCount?: Array<RouteTypeAscentCountDto> | null;
   climbingGradeAscentCount?: Array<ClimbingGradeAscentCountDto> | null;
   photos?: Array<PhotoDto> | null;
+};
+
+export type UserRestrictedDto = {
+  id?: string;
+  username?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
 };
 
 export type UserRole = "User" | "Admin" | "Creator";
@@ -737,6 +753,82 @@ export type PostApiCragByIdPhotoErrors = {
 export type PostApiCragByIdPhotoError = PostApiCragByIdPhotoErrors[keyof PostApiCragByIdPhotoErrors];
 
 export type PostApiCragByIdPhotoResponses = {
+  /**
+   * OK
+   */
+  200: unknown;
+};
+
+export type GetApiCragByIdUsersData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/api/Crag/{id}/users";
+};
+
+export type GetApiCragByIdUsersErrors = {
+  /**
+   * Bad Request
+   */
+  400: CustomProblemDetailsResponse;
+  /**
+   * Unauthorized
+   */
+  401: CustomProblemDetailsResponse;
+  /**
+   * Forbidden
+   */
+  403: CustomProblemDetailsResponse;
+  /**
+   * Not Found
+   */
+  404: CustomProblemDetailsResponse;
+};
+
+export type GetApiCragByIdUsersError = GetApiCragByIdUsersErrors[keyof GetApiCragByIdUsersErrors];
+
+export type GetApiCragByIdUsersResponses = {
+  /**
+   * OK
+   */
+  200: Array<UserRestrictedDto>;
+};
+
+export type GetApiCragByIdUsersResponse = GetApiCragByIdUsersResponses[keyof GetApiCragByIdUsersResponses];
+
+export type PutApiCragByIdUsersData = {
+  body?: UpdateCragCreatorsDto;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/api/Crag/{id}/users";
+};
+
+export type PutApiCragByIdUsersErrors = {
+  /**
+   * Bad Request
+   */
+  400: CustomProblemDetailsResponse;
+  /**
+   * Unauthorized
+   */
+  401: CustomProblemDetailsResponse;
+  /**
+   * Forbidden
+   */
+  403: CustomProblemDetailsResponse;
+  /**
+   * Not Found
+   */
+  404: CustomProblemDetailsResponse;
+};
+
+export type PutApiCragByIdUsersError = PutApiCragByIdUsersErrors[keyof PutApiCragByIdUsersErrors];
+
+export type PutApiCragByIdUsersResponses = {
   /**
    * OK
    */
@@ -1613,6 +1705,43 @@ export type PutApiUserPhotoResponses = {
 
 export type PutApiUserPhotoResponse = PutApiUserPhotoResponses[keyof PutApiUserPhotoResponses];
 
+export type GetApiUserAllData = {
+  body?: never;
+  path?: never;
+  query?: {
+    page?: number;
+    pageSize?: number;
+    search?: string;
+  };
+  url: "/api/User/all";
+};
+
+export type GetApiUserAllErrors = {
+  /**
+   * Bad Request
+   */
+  400: CustomProblemDetailsResponse;
+  /**
+   * Unauthorized
+   */
+  401: CustomProblemDetailsResponse;
+  /**
+   * Forbidden
+   */
+  403: CustomProblemDetailsResponse;
+};
+
+export type GetApiUserAllError = GetApiUserAllErrors[keyof GetApiUserAllErrors];
+
+export type GetApiUserAllResponses = {
+  /**
+   * OK
+   */
+  200: PaginatedUsersDto;
+};
+
+export type GetApiUserAllResponse = GetApiUserAllResponses[keyof GetApiUserAllResponses];
+
 export type ClientOptions = {
-  baseUrl: "https://localhost:7244" | (string & {});
+  baseUrl: "https://192.168.50.175:7244" | "https://localhost:7244" | (string & {});
 };
