@@ -41,6 +41,8 @@ const useAuth = () => {
   const { data: user, isLoading: isUserLoading } = useQuery({
     ...postApiAuthenticationMeOptions(),
     enabled: !!token,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 
   const {

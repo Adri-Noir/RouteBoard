@@ -23,7 +23,7 @@ export function ProfileStats({ profile }: ProfileStatsProps) {
           <div className="flex items-center space-x-4">
             <Avatar className="h-16 w-16">
               {profile.profilePhoto?.url ? (
-                <AvatarImage src={profile.profilePhoto.url} alt={profile.username ?? ""} />
+                <AvatarImage src={profile.profilePhoto.url} alt={profile.username ?? ""} className="object-cover" />
               ) : (
                 <AvatarFallback className="text-lg">{profile.username?.[0] ?? "?"}</AvatarFallback>
               )}
