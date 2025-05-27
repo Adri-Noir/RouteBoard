@@ -14,6 +14,7 @@ import {
   deleteApiRouteByIdMutation,
   deleteApiSectorByIdMutation,
   getApiCragByIdOptions,
+  getApiMapWeatherByCragIdOptions,
 } from "@/lib/api/@tanstack/react-query.gen";
 import { CragDetailedDto } from "@/lib/api/types.gen";
 import useAuth from "@/lib/hooks/useAuth";
@@ -69,6 +70,14 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
     }),
     initialData: initialData ?? undefined,
     enabled: isAuthenticated,
+  });
+
+  const { data: weatherData } = useQuery({
+    ...getApiMapWeatherByCragIdOptions({
+      path: {
+        cragId,
+      },
+    }),
   });
 
   const { mutate: deleteCrag, isPending: isDeleteLoading } = useMutation({
@@ -229,6 +238,10 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
     [crag?.sectors],
   );
 
+  const hasWeatherData = !!weatherData?.current || !!weatherData?.hourly || !!weatherData?.daily;
+
+  const showNoData = !hasWeatherData && !crag?.location && crag?.photos?.length === 0 && crag?.sectors?.length === 0;
+
   if (cragError) {
     return (
       <Alert variant="destructive">
@@ -256,7 +269,14 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
         onDeleteCrag={handleDeleteCrag}
       />
 
-      {cragId && (
+      {showNoData && (
+        <section className="rounded-lg p-4 md:border">
+          <h2 className="mb-4 text-2xl font-semibold">No data</h2>
+          <p className="text-muted-foreground">No data available for this crag.</p>
+        </section>
+      )}
+
+      {cragId && hasWeatherData && (
         <section className="rounded-lg p-4 md:border">
           <h2 className="mb-4 text-2xl font-semibold">Weather</h2>
           <CragWeather cragId={cragId} />
