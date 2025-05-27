@@ -289,7 +289,7 @@ const EditProfileForm = ({ onSuccess }: EditProfileFormProps) => {
                 className="flex w-full items-center justify-center space-x-2"
               >
                 <Camera className="h-4 w-4" />
-                <span>Edit Photo Only</span>
+                <span>Edit Photo</span>
               </Button>
 
               <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
