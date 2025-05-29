@@ -25,6 +25,7 @@ enum NavigationPaths: Hashable {
   case offlineMode
   case offlineRoute(routeId: String)
   case offlineCrag(cragId: String)
+  case editUser
 }
 
 enum Routes {
@@ -72,6 +73,8 @@ enum Routes {
       return AnyView(OfflineRouteView(routeId: routeId))
     case .offlineCrag(let cragId):
       return AnyView(CragView(cragId: cragId).offlineMode(true))
+    case .editUser:
+      return AnyView(EditUserView())
     }
   }
 }

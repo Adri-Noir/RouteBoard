@@ -1821,5 +1821,5 @@ export type PutApiUserEditResponses = {
 export type PutApiUserEditResponse = PutApiUserEditResponses[keyof PutApiUserEditResponses];
 
 export type ClientOptions = {
-  baseUrl: "https://192.168.50.175:7244" | "https://localhost:7244" | (string & {});
+  baseUrl: "https://192.168.1.158:7244" | "https://localhost:7244" | (string & {});
 };

@@ -9,6 +9,7 @@ struct RegisteredUserView: View {
   @State private var headerVisibleRatio: CGFloat = 1
   @EnvironmentObject var authViewModel: AuthViewModel
   @Environment(\.dismiss) var dismiss
+  @EnvironmentObject var navigationManager: NavigationManager
 
   @State private var userProfile: UserProfile?
   @State private var isLoading = false
@@ -72,6 +73,21 @@ struct RegisteredUserView: View {
           if authViewModel.isCreator {
             AddNewCragButtonView()
           }
+
+          Button(action: {
+            navigationManager.pushView(.editUser)
+          }) {
+            HStack {
+              Spacer()
+              Text("Edit User")
+              Spacer()
+            }
+          }
+          .background(Color.newBackgroundGray)
+          .foregroundColor(Color.newTextColor)
+          .cornerRadius(10)
+          .padding(.horizontal, 20)
+          .padding(.bottom, 20)
 
           LogoutButton()
 

@@ -107,7 +107,7 @@ public class UserController(
     [HttpPut("photo")]
     [Authorize]
     [Consumes(MediaTypeNames.Multipart.FormData)]
-    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(UserProfileDto), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status200OK)]
     [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     [SwaggerResponse(StatusCodes.Status401Unauthorized, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     public async Task<ActionResult> UpdateUserPhoto([FromForm] UpdateUserPhotoCommand command, CancellationToken cancellationToken)

@@ -18,6 +18,10 @@ public struct UserModel: Codable {
   public let username: String
   public let token: String
   public let role: UserRole
+  public let firstName: String
+  public let lastName: String
+  public let dateOfBirth: Date
+  public let profilePhoto: String
 }
 
 public class AuthViewModel: ObservableObject {
@@ -61,7 +65,10 @@ public class AuthViewModel: ObservableObject {
     await MainActor.run {
       withAnimation {
         user = UserModel(
-          id: loggedInUser.id, email: email, username: username, token: token, role: role)
+          id: loggedInUser.id, email: email, username: username, token: token, role: role,
+          firstName: loggedInUser.firstName ?? "", lastName: loggedInUser.lastName ?? "",
+          dateOfBirth: loggedInUser.dateOfBirth ?? Date(),
+          profilePhoto: loggedInUser.profilePhoto?.url ?? "")
       }
     }
   }
