@@ -89,13 +89,17 @@ struct OfflineRouteBackgroundView: View {
     GeometryReader { geometry in
       ZStack {
         if let photoUrl = route.photos.first?.combinedImagePhoto?.url,
-          let url = URL(string: photoUrl),
-          let uiImage = UIImage(contentsOfFile: url.path)
+          let url = URL(string: photoUrl)
         {
-          Image(uiImage: uiImage)
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+          AsyncImage(url: url) { image in
+            image
+              .resizable()
+              .aspectRatio(contentMode: .fill)
+              .frame(maxWidth: .infinity, maxHeight: .infinity)
+          } placeholder: {
+            PlaceholderImage()
+              .frame(width: geometry.size.width, height: geometry.size.height)
+          }
         } else {
           PlaceholderImage()
             .frame(width: geometry.size.width, height: geometry.size.height)
