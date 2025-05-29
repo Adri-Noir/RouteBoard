@@ -5,6 +5,7 @@
 //  Created with <3 on 29.06.2024..
 //
 
+import SwiftData
 import SwiftUI
 
 enum RouteFinderType {
@@ -20,6 +21,8 @@ enum RouteDetectionLOD {
 
 struct RouteFinderView: View {
   @EnvironmentObject var authViewModel: AuthViewModel
+  @Environment(\.isOfflineMode) private var isOfflineMode
+  @Environment(\.modelContext) private var modelContext
   @Environment(\.dismiss) var dismiss
 
   var routeId: String? = nil
@@ -135,8 +138,38 @@ struct RouteFinderView: View {
       isLoading = true
       defer { isLoading = false }
       if let routeId = routeId {
-        routeSamples = await PhotoDownloader.downloadRoutePhotos(
-          routeId: routeId, authViewModel: authViewModel)
+        if isOfflineMode {
+          // Load samples from local storage
+          let fetchedRoutes = try? modelContext.fetch(
+            FetchDescriptor<DownloadedRoute>(
+              predicate: #Predicate<DownloadedRoute> { $0.id == routeId })
+          )
+          if let localRoute = fetchedRoutes?.first {
+            var samples: [DetectSample] = []
+            for photo in localRoute.photos {
+              if let imageUrlString = photo.imagePhoto?.url,
+                let pathUrlString = photo.pathLinePhoto?.url,
+                let imageUrl = URL(string: imageUrlString),
+                let pathUrl = URL(string: pathUrlString),
+                imageUrl.isFileURL,
+                pathUrl.isFileURL,
+                let uiRouteImage = UIImage(contentsOfFile: imageUrl.path),
+                let uiPathImage = UIImage(contentsOfFile: pathUrl.path),
+                let routeIdString = localRoute.id
+              {
+                let sample = DetectSample(
+                  route: uiRouteImage, path: uiPathImage, routeId: routeIdString)
+                samples.append(sample)
+              }
+            }
+            routeSamples = samples
+          } else {
+            routeSamples = []
+          }
+        } else {
+          routeSamples = await PhotoDownloader.downloadRoutePhotos(
+            routeId: routeId, authViewModel: authViewModel)
+        }
         routeImageModel.processSamples(samples: routeSamples, routeDetectionLOD: routeDetectionLOD)
         return
       }

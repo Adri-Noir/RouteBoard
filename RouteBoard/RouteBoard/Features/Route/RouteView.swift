@@ -177,6 +177,7 @@ struct RouteView: View {
     }
     .fullScreenCover(isPresented: $isPresentingRouteARView) {
       RouteFinderView(routeId: routeId)
+        .offlineMode(false)
     }
     .task {
       await getRoute(value: routeId)

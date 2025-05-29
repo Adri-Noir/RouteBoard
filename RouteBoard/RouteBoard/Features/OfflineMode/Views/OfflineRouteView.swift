@@ -71,6 +71,7 @@ struct OfflineRouteView: View {
       .ignoresSafeArea()
       .fullScreenCover(isPresented: $isPresentingRouteARView) {
         RouteFinderView(routeId: route.id ?? "")
+          .offlineMode(true)
       }
       .navigationBarHidden(true)
     } else {
