@@ -31,6 +31,7 @@ struct CragHeaderView<Content: View>: View {
   @State private var isAlreadyDownloadedCrag: Bool = false
   @State private var showDeleteConfirmation: Bool = false
   @State private var deleteError: String? = nil
+  @State private var isPresentingCragCreators: Bool = false
 
   private let deleteCragClient = DeleteCragClient()
   private let downloadCragClient = DownloadCragClient()
@@ -222,6 +223,17 @@ struct CragHeaderView<Content: View>: View {
                     .padding(.horizontal, 12)
                     .foregroundColor(Color.newTextColor)
                 }
+
+                if authViewModel.user?.role == .Admin || authViewModel.user?.role == .Creator {
+                  Button(action: {
+                    isCompactMenuPresented = false
+                    isPresentingCragCreators = true
+                  }) {
+                    Label("Crag Creators", systemImage: "person.3")
+                      .padding(.horizontal, 12)
+                      .foregroundColor(Color.newTextColor)
+                  }
+                }
               }
             }
 
@@ -295,6 +307,11 @@ struct CragHeaderView<Content: View>: View {
       headerHeight: 300
     ) {
       content
+    }
+    .sheet(isPresented: $isPresentingCragCreators) {
+      if let cragId = crag?.id {
+        CragCreatorsView(cragId: cragId)
+      }
     }
   }
 

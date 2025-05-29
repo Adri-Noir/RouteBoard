@@ -111,6 +111,7 @@
 		AF9184FB2D9DC5B500484F7D /* MapLocationPickerField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9184FA2D9DC5AE00484F7D /* MapLocationPickerField.swift */; };
 		AF98A7FC2DDFBB2200B57A4F /* OfflineModeEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF98A7FB2DDFBB1B00B57A4F /* OfflineModeEnvironment.swift */; };
 		AF98A8122DE67DD700B57A4F /* EditUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF98A8112DE67DD400B57A4F /* EditUserView.swift */; };
+		AF98A8392DE8C13300B57A4F /* CragCreatorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF98A8382DE8C12E00B57A4F /* CragCreatorsView.swift */; };
 		AF998AB42D9B340400949E12 /* AddNewCragButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF998AB32D9B33F900949E12 /* AddNewCragButtonView.swift */; };
 		AF998AC22D9B35D100949E12 /* CreateCragView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF998AC02D9B35CE00949E12 /* CreateCragView.swift */; };
 		AF9B62512C349484003762B0 /* ImageCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B62502C349484003762B0 /* ImageCarouselView.swift */; };
@@ -315,6 +316,7 @@
 		AF9184FA2D9DC5AE00484F7D /* MapLocationPickerField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLocationPickerField.swift; sourceTree = "<group>"; };
 		AF98A7FB2DDFBB1B00B57A4F /* OfflineModeEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineModeEnvironment.swift; sourceTree = "<group>"; };
 		AF98A8112DE67DD400B57A4F /* EditUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserView.swift; sourceTree = "<group>"; };
+		AF98A8382DE8C12E00B57A4F /* CragCreatorsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CragCreatorsView.swift; sourceTree = "<group>"; };
 		AF998AB32D9B33F900949E12 /* AddNewCragButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCragButtonView.swift; sourceTree = "<group>"; };
 		AF998AC02D9B35CE00949E12 /* CreateCragView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCragView.swift; sourceTree = "<group>"; };
 		AF9B62502C349484003762B0 /* ImageCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarouselView.swift; sourceTree = "<group>"; };
@@ -852,6 +854,22 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		AF98A8372DE8C12500B57A4F /* CragCreators */ = {
+			isa = PBXGroup;
+			children = (
+				AF98A83C2DE8C13700B57A4F /* Views */,
+				AF98A8382DE8C12E00B57A4F /* CragCreatorsView.swift */,
+			);
+			path = CragCreators;
+			sourceTree = "<group>";
+		};
+		AF98A83C2DE8C13700B57A4F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		AF998ABD2D9B35C800949E12 /* CreateCrag */ = {
 			isa = PBXGroup;
 			children = (
@@ -1147,6 +1165,7 @@
 		AFD931372D25DBBC00B68D92 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AF98A8372DE8C12500B57A4F /* CragCreators */,
 				AF62D5B02D8F4F8000F6F122 /* SectorViews */,
 				AF0761862D7F9E7B003BB9BA /* CragSectorRouteSelection.swift */,
 				AF62E0DE2D777F470039B67F /* CragHeaderView.swift */,
@@ -1561,6 +1580,7 @@
 				AF3D95222D6B96E2003FAF90 /* NavigationSearchResultsView.swift in Sources */,
 				AF62D5BF2D8F540900F6F122 /* RouteTabView.swift in Sources */,
 				AF9184EC2D9DC42500484F7D /* InputField.swift in Sources */,
+				AF98A8392DE8C13300B57A4F /* CragCreatorsView.swift in Sources */,
 				AF9184F22D9DC42C00484F7D /* TextAreaField.swift in Sources */,
 				AFB322572D87413B003A60F7 /* MapDetails.swift in Sources */,
 				AF1824362DDD22ED001CDF92 /* DownloadedPhoto.swift in Sources */,
