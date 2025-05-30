@@ -176,8 +176,10 @@ struct RouteView: View {
       AllAscentsView(route: route)
     }
     .fullScreenCover(isPresented: $isPresentingRouteARView) {
-      RouteFinderView(routeId: routeId)
-        .offlineMode(false)
+      if let route = route {
+        RouteFinderView(route: route)
+          .offlineMode(false)
+      }
     }
     .task {
       await getRoute(value: routeId)
@@ -192,7 +194,9 @@ struct RouteView: View {
 }
 
 #Preview {
-  AuthInjectionMock {
-    RouteView(routeId: "33501545-18d2-4491-2110-08dd60e356b0")
+  Navigator { _ in
+    AuthInjectionMock {
+      RouteView(routeId: "33501545-18d2-4491-2110-08dd60e356b0")
+    }
   }
 }

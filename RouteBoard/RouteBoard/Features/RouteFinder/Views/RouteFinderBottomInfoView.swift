@@ -14,7 +14,14 @@ struct RouteFinderBottomInfoView: View {
   var body: some View {
     HStack {
       Spacer()
-      Text("Looking at route: \(routeImageModel.closestRouteId ?? -1)")
+      if let route = routeImageModel.detectedRoute {
+        Text("Looking at route: \(route.name ?? route.id)")
+      } else if let downloadedRoute = routeImageModel.detectedDownloadedRoute {
+        Text("Looking at route: \(downloadedRoute.name ?? downloadedRoute.id ?? "Unknown")")
+      } else {
+        Text("No route found")
+      }
+      Spacer()
     }
     .background(.black)
     .opacity(0.8)

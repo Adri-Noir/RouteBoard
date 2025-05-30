@@ -6,12 +6,22 @@
 //
 
 import AVFoundation
+import GeneratedClient
 import SwiftUI
 
 @MainActor
 final class RouteImageModel: ObservableObject {
   @Published var viewfinderImage: Image?
-  @Published var closestRouteId: Int? = nil
+  @Published var closestRouteId: String? = nil
+
+  @Published var detectedRoute: RouteDetails? = nil
+  @Published var detectedDownloadedRoute: DownloadedRoute? = nil
+
+  var allRoutes: [RouteDetails] = []
+  var allDownloadedRoutes: [DownloadedRoute] = []
+
+  private var routeIdToRoute: [String: RouteDetails] = [:]
+  private var downloadedRouteIdToRoute: [String: DownloadedRoute] = [:]
 
   var routeDetectionLOD: RouteDetectionLOD = .medium
 
@@ -20,10 +30,15 @@ final class RouteImageModel: ObservableObject {
 
   init() {}
 
-  init(routeSamples: [DetectSample], routeDetectionLOD: RouteDetectionLOD) {
+  init(
+    routeSamples: [DetectSample], routeDetectionLOD: RouteDetectionLOD,
+    allRoutes: [RouteDetails] = [], allDownloadedRoutes: [DownloadedRoute] = []
+  ) {
     processInputSamples = ProcessInputSamples(samples: DetectInputSamples(samples: routeSamples))
     camera.isPreviewPaused = true
     self.routeDetectionLOD = routeDetectionLOD
+    self.allRoutes = allRoutes
+    self.allDownloadedRoutes = allDownloadedRoutes
     Task {
       await handleCameraPreviewsProcessEveryFrame()
     }
@@ -38,7 +53,19 @@ final class RouteImageModel: ObservableObject {
         let processedImage = processInputSamples.detectRoutesAndAddOverlay(
           inputFrame: image, options: DetectOptions(routeDetectionLOD: routeDetectionLOD))
         self.viewfinderImage = Image(uiImage: processedImage.frame)
-        self.closestRouteId = Int(processedImage.routeId)
+        self.closestRouteId = processedImage.routeId
+
+        let detectedId = processedImage.routeId
+        if let foundRoute = routeIdToRoute[detectedId] {
+          self.detectedRoute = foundRoute
+          self.detectedDownloadedRoute = nil
+        } else if let foundDownloadedRoute = downloadedRouteIdToRoute[detectedId] {
+          self.detectedDownloadedRoute = foundDownloadedRoute
+          self.detectedRoute = nil
+        } else {
+          self.detectedRoute = nil
+          self.detectedDownloadedRoute = nil
+        }
       }
     }
   }
@@ -67,6 +94,49 @@ final class RouteImageModel: ObservableObject {
   func processSamples(samples: [DetectSample], routeDetectionLOD: RouteDetectionLOD) {
     processInputSamples = ProcessInputSamples(
       samples: DetectInputSamples(samples: samples), routeDetectionLOD: routeDetectionLOD)
+  }
+
+  func setAvailableRoutes(routes: [RouteDetails], downloadedRoutes: [DownloadedRoute]) {
+    self.allRoutes = routes
+    self.allDownloadedRoutes = downloadedRoutes
+    self.routeIdToRoute = Dictionary(
+      uniqueKeysWithValues: routes.compactMap { route in
+        return (route.id, route)
+      })
+    self.downloadedRouteIdToRoute = Dictionary(
+      uniqueKeysWithValues: downloadedRoutes.compactMap { route in
+        guard let id = route.id else { return nil }
+        return (id, route)
+      })
+  }
+
+  func takePhotoAndDetectRoute(routeDetectionLOD: RouteDetectionLOD) async -> UIImage? {
+    guard let uiImage = await camera.takePhoto() else { return nil }
+
+    let processed = processInputSamples.detectRoutesAndAddOverlay(
+      inputFrame: uiImage,
+      options: DetectOptions(
+        shouldAddFrameToOutput: true,
+        routeDetectionLOD: routeDetectionLOD
+      )
+    )
+
+    // Update the detected route properties
+    let detectedId = processed.routeId
+    self.closestRouteId = detectedId
+
+    if let foundRoute = routeIdToRoute[detectedId] {
+      self.detectedRoute = foundRoute
+      self.detectedDownloadedRoute = nil
+    } else if let foundDownloadedRoute = downloadedRouteIdToRoute[detectedId] {
+      self.detectedDownloadedRoute = foundDownloadedRoute
+      self.detectedRoute = nil
+    } else {
+      self.detectedRoute = nil
+      self.detectedDownloadedRoute = nil
+    }
+
+    return processed.frame
   }
 }
 

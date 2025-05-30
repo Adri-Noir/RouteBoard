@@ -10,7 +10,7 @@ struct RouteLocationSection: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 8) {
       HStack(spacing: 6) {
-        Image(systemName: "mappin.circle.fill")
+        Image(systemName: "mountain.2.circle.fill")
           .foregroundColor(.white.opacity(0.8))
 
         CragLink(cragId: route?.cragId ?? "") {

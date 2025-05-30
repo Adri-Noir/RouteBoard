@@ -5,6 +5,7 @@
 //  Created with <3 on 29.06.2024..
 //
 
+import GeneratedClient
 import SwiftData
 import SwiftUI
 
@@ -25,16 +26,23 @@ struct RouteFinderView: View {
   @Environment(\.modelContext) private var modelContext
   @Environment(\.dismiss) var dismiss
 
-  var routeId: String? = nil
+  var route: RouteDetails? = nil
+  var offlineRoute: DownloadedRoute? = nil
 
   @State var routeFinderType: RouteFinderType = .manual
-  @State var routeDetectionLOD: RouteDetectionLOD = .medium
+  @State var routeDetectionLOD: RouteDetectionLOD = .high
   @State var routeSamples: [DetectSample] = []
   @State private var isLoading = false
 
   @StateObject private var routeImageModel = RouteImageModel()
-  @State private var manualCapturedImage: Image? = nil
-  @State private var manualClosestRouteId: Int? = nil
+
+  init(route: RouteDetails) {
+    self.route = route
+  }
+
+  init(offlineRoute: DownloadedRoute) {
+    self.offlineRoute = offlineRoute
+  }
 
   var body: some View {
     VStack(spacing: 12) {
@@ -48,14 +56,20 @@ struct RouteFinderView: View {
           Spacer()
 
           Menu {
-            Button(action: { routeFinderType = .auto }) {
+            Button(action: {
+              routeFinderType = .auto
+              routeDetectionLOD = .medium
+            }) {
               if routeFinderType == .auto {
                 Label("Auto", systemImage: "checkmark")
               } else {
                 Text("Auto")
               }
             }
-            Button(action: { routeFinderType = .manual }) {
+            Button(action: {
+              routeFinderType = .manual
+              routeDetectionLOD = .high
+            }) {
               if routeFinderType == .manual {
                 Label("Manual", systemImage: "checkmark")
               } else {
@@ -109,11 +123,11 @@ struct RouteFinderView: View {
         } else {
           ManualRouteFinderView(
             routeImageModel: routeImageModel,
-            manualCapturedImage: $manualCapturedImage,
-            manualClosestRouteId: $manualClosestRouteId,
-            routeDetectionLOD: $routeDetectionLOD,
+            routeDetectionLOD: $routeDetectionLOD
           )
         }
+
+        RouteFinderBottomInfoView(routeImageModel: routeImageModel)
       }
 
       if isLoading {
@@ -137,14 +151,43 @@ struct RouteFinderView: View {
     .task {
       isLoading = true
       defer { isLoading = false }
-      if let routeId = routeId {
+      var allRoutes: [RouteDetails] = []
+      var allDownloadedRoutes: [DownloadedRoute] = []
+      if let offlineRoute = offlineRoute {
+        allDownloadedRoutes = [offlineRoute]
+        var samples: [DetectSample] = []
+        for photo in offlineRoute.photos {
+          if let imageUrlString = photo.imagePhoto?.url,
+            let pathUrlString = photo.pathLinePhoto?.url,
+            let imageUrl = URL(string: imageUrlString),
+            let pathUrl = URL(string: pathUrlString),
+            imageUrl.isFileURL,
+            pathUrl.isFileURL,
+            let uiRouteImage = UIImage(contentsOfFile: imageUrl.path),
+            let uiPathImage = UIImage(contentsOfFile: pathUrl.path),
+            let routeIdString = offlineRoute.id
+          {
+            let sample = DetectSample(
+              route: uiRouteImage, path: uiPathImage, routeId: routeIdString)
+            samples.append(sample)
+          }
+        }
+        routeSamples = samples
+        routeImageModel.setAvailableRoutes(routes: allRoutes, downloadedRoutes: allDownloadedRoutes)
+        routeImageModel.processSamples(samples: routeSamples, routeDetectionLOD: routeDetectionLOD)
+        return
+      } else if let route = route {
+        allRoutes = [route]
         if isOfflineMode {
-          // Load samples from local storage
+          let routeId = route.id
           let fetchedRoutes = try? modelContext.fetch(
             FetchDescriptor<DownloadedRoute>(
-              predicate: #Predicate<DownloadedRoute> { $0.id == routeId })
+              predicate: #Predicate<DownloadedRoute> { downloadedRoute in
+                downloadedRoute.id == routeId
+              })
           )
           if let localRoute = fetchedRoutes?.first {
+            allDownloadedRoutes = [localRoute]
             var samples: [DetectSample] = []
             for photo in localRoute.photos {
               if let imageUrlString = photo.imagePhoto?.url,
@@ -168,12 +211,13 @@ struct RouteFinderView: View {
           }
         } else {
           routeSamples = await PhotoDownloader.downloadRoutePhotos(
-            routeId: routeId, authViewModel: authViewModel)
+            routeId: route.id, authViewModel: authViewModel)
         }
+        routeImageModel.setAvailableRoutes(routes: allRoutes, downloadedRoutes: allDownloadedRoutes)
         routeImageModel.processSamples(samples: routeSamples, routeDetectionLOD: routeDetectionLOD)
         return
       }
-
+      routeImageModel.setAvailableRoutes(routes: allRoutes, downloadedRoutes: allDownloadedRoutes)
       routeImageModel.processSamples(samples: routeSamples, routeDetectionLOD: routeDetectionLOD)
     }
     .onAppear {
@@ -186,6 +230,7 @@ struct RouteFinderView: View {
         await routeImageModel.stopCamera()
       }
     }
+
   }
 }
 
@@ -217,17 +262,14 @@ struct AutoRouteFinderView: View {
     .onDisappear {
       routeImageModel.pauseCameraPreviews()
     }
-
-    RouteFinderBottomInfoView(routeImageModel: routeImageModel)
   }
 }
 
 struct ManualRouteFinderView: View {
   @ObservedObject var routeImageModel: RouteImageModel
-  @Binding var manualCapturedImage: Image?
-  @Binding var manualClosestRouteId: Int?
   @Binding var routeDetectionLOD: RouteDetectionLOD
 
+  @State var manualCapturedImage: Image?
   @State var isTakingPhoto: Bool = false
 
   var body: some View {
@@ -250,7 +292,9 @@ struct ManualRouteFinderView: View {
         if manualCapturedImage != nil {
           Button(action: {
             manualCapturedImage = nil
-            manualClosestRouteId = nil
+            // Clear detected routes when retaking
+            routeImageModel.detectedRoute = nil
+            routeImageModel.detectedDownloadedRoute = nil
           }) {
             Text("Retake Image")
               .font(.headline)
@@ -266,14 +310,10 @@ struct ManualRouteFinderView: View {
             PhotoCaptureButton {
               Task {
                 isTakingPhoto = true
-                if let uiImage = await routeImageModel.camera.takePhoto() {
-                  let processed = routeImageModel.processInputSamples
-                    .detectRoutesAndAddOverlay(
-                      inputFrame: uiImage,
-                      options: DetectOptions(
-                        shouldAddFrameToOutput: true, routeDetectionLOD: routeDetectionLOD))
-                  self.manualCapturedImage = Image(uiImage: processed.frame)
-                  self.manualClosestRouteId = Int(processed.routeId)
+                if let processedImage = await routeImageModel.takePhotoAndDetectRoute(
+                  routeDetectionLOD: routeDetectionLOD)
+                {
+                  self.manualCapturedImage = Image(uiImage: processedImage)
                 }
                 isTakingPhoto = false
               }
@@ -291,18 +331,4 @@ struct ManualRouteFinderView: View {
       .frame(maxWidth: .infinity)
     }
   }
-}
-
-#Preview {
-  RouteFinderView(routeSamples: [
-    DetectSample(
-      route: UIImage.init(named: "TestingSamples/limski/pikachu")!,
-      path: UIImage.init(named: "TestingSamples/limski/pikachu_path")!, routeId: "1"),
-    DetectSample(
-      route: UIImage.init(named: "TestingSamples/limski/hobotnica")!,
-      path: UIImage.init(named: "TestingSamples/limski/hobotnica_path")!, routeId: "2"),
-    DetectSample(
-      route: UIImage.init(named: "TestingSamples/limski/list")!,
-      path: UIImage.init(named: "TestingSamples/limski/list_path")!, routeId: "3"),
-  ])
 }

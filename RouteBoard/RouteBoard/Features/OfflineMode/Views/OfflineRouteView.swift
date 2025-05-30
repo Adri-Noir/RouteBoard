@@ -70,7 +70,7 @@ struct OfflineRouteView: View {
       }
       .ignoresSafeArea()
       .fullScreenCover(isPresented: $isPresentingRouteARView) {
-        RouteFinderView(routeId: route.id ?? "")
+        RouteFinderView(offlineRoute: route)
           .offlineMode(true)
       }
       .navigationBarHidden(true)
@@ -191,7 +191,7 @@ struct OfflineRouteLocationSection: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 8) {
       HStack(spacing: 6) {
-        Image(systemName: "mappin.circle.fill")
+        Image(systemName: "mountain.2")
           .foregroundColor(.white.opacity(0.8))
         Text(route.cragName ?? "Unknown Crag")
           .font(.headline)
