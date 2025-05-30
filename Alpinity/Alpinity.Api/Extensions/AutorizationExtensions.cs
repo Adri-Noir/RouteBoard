@@ -27,7 +27,7 @@ public static class AuthorizationExtensions
                 };
                 options.Events = new JwtBearerEvents
                 {
-                    OnTokenValidated = async context =>
+                    OnTokenValidated = context =>
                     {
                         var claims = context.Principal.Claims;
                         var roleClaim = claims.FirstOrDefault(c => c.Type == "role");
@@ -37,6 +37,8 @@ public static class AuthorizationExtensions
                             var claimsIdentity = context.Principal.Identity as ClaimsIdentity;
                             claimsIdentity?.AddClaim(new Claim(ClaimTypes.Role, roleClaim.Value));
                         }
+
+                        return Task.CompletedTask;
                     }
                 };
             });

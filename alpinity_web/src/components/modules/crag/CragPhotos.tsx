@@ -9,8 +9,8 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import ImageWithLoading from "@/components/ui/library/ImageWithLoading/ImageWithLoading";
 import { PhotoDto } from "@/lib/api/types.gen";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 interface CragPhotosProps {
@@ -44,7 +44,13 @@ const CragPhotos = ({ photos }: CragPhotosProps) => {
                 className="relative aspect-video cursor-pointer overflow-hidden rounded-md"
                 onClick={() => handlePhotoClick(photo)}
               >
-                <Image src={photo.url || ""} alt={`Crag photo ${photo.id}`} fill className="object-cover" />
+                <ImageWithLoading
+                  src={photo.url || ""}
+                  alt={`Crag photo ${photo.id}`}
+                  fill
+                  className="object-cover"
+                  containerClassName="aspect-video"
+                />
               </div>
             </CarouselItem>
           ))}
@@ -62,7 +68,13 @@ const CragPhotos = ({ photos }: CragPhotosProps) => {
                 {photos.map((photo) => (
                   <CarouselItem key={photo.id}>
                     <div className="relative aspect-video overflow-hidden rounded-md">
-                      <Image src={photo.url || ""} alt={`Crag photo ${photo.id}`} fill className="object-contain" />
+                      <ImageWithLoading
+                        src={photo.url || ""}
+                        alt={`Crag photo ${photo.id}`}
+                        fill
+                        className="object-contain"
+                        containerClassName="aspect-video"
+                      />
                     </div>
                   </CarouselItem>
                 ))}

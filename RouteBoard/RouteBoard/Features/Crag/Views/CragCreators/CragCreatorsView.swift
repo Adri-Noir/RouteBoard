@@ -1,5 +1,6 @@
 // Created with <3 on 29.05.2025.
 
+import Combine
 import GeneratedClient
 import SwiftUI
 
@@ -10,6 +11,8 @@ struct CragCreatorsView: View {
 
   @State private var selectedUserIds: Set<String> = []
   @State private var searchQuery: String = ""
+  @State private var internalSearchQuery: String = ""
+  @State private var searchQueryPublisher = PassthroughSubject<String, Never>()
   @State private var currentPage: Int = 0
   @State private var pageSize: Int = 20
 
@@ -102,7 +105,10 @@ struct CragCreatorsView: View {
     .task {
       await loadInitialData()
     }
-    .onChange(of: searchQuery) { _, _ in
+    .onReceive(
+      searchQueryPublisher.debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
+    ) { debouncedSearchQuery in
+      searchQuery = debouncedSearchQuery
       currentPage = 0
       Task {
         await loadAllUsers()
@@ -172,7 +178,7 @@ struct CragCreatorsView: View {
         .foregroundColor(Color.newTextColor.opacity(0.6))
 
       TextField(
-        "", text: $searchQuery,
+        "", text: $internalSearchQuery,
         prompt: Text("Search users...").font(.subheadline).foregroundColor(
           Color.newTextColor.opacity(0.5))
       )
@@ -184,10 +190,14 @@ struct CragCreatorsView: View {
       .foregroundColor(Color.newTextColor)
       .cornerRadius(10)
       .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+      .onChange(of: internalSearchQuery) { _, newValue in
+        searchQueryPublisher.send(newValue)
+      }
 
-      if !searchQuery.isEmpty {
+      if !internalSearchQuery.isEmpty {
         Button(action: {
-          searchQuery = ""
+          internalSearchQuery = ""
+          searchQueryPublisher.send("")
         }) {
           Image(systemName: "xmark.circle.fill")
             .foregroundColor(Color.newTextColor.opacity(0.6))

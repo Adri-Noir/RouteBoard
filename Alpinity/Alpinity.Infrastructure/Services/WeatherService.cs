@@ -1,7 +1,6 @@
 using System.Text.Json;
 using Alpinity.Application.Interfaces.Services;
 using Alpinity.Domain.ServiceResponses;
-using Microsoft.Extensions.Configuration;
 
 namespace Alpinity.Infrastructure.Services;
 
@@ -11,7 +10,7 @@ public class WeatherService : IWeatherService
     {
         var client = new HttpClient();
         var response = await client.GetAsync(
-            $"https://api.open-meteo.com/v1/forecast?latitude={lat.ToString("0.00000000", System.Globalization.CultureInfo.InvariantCulture)}&longitude={lon.ToString("0.00000000", System.Globalization.CultureInfo.InvariantCulture)}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,wind_direction_10m,weather_code&hourly=temperature_2m,relative_humidity_2m,rain,precipitation_probability,weather_code,wind_speed_10m,wind_direction_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_max,precipitation_sum,precipitation_probability_max,wind_speed_10m_max,wind_direction_10m_dominant&forecast_days=14");
+            $"https://api.open-meteo.com/v1/forecast?latitude={lat.ToString("0.00000000", System.Globalization.CultureInfo.InvariantCulture)}&longitude={lon.ToString("0.00000000", System.Globalization.CultureInfo.InvariantCulture)}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,wind_direction_10m,weather_code&hourly=temperature_2m,relative_humidity_2m,rain,precipitation_probability,weather_code,wind_speed_10m,wind_direction_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_max,precipitation_sum,precipitation_probability_max,wind_speed_10m_max,wind_direction_10m_dominant&forecast_days=14&timezone=auto");
 
         response.EnsureSuccessStatusCode();
 
@@ -28,7 +27,7 @@ public class WeatherService : IWeatherService
         return weatherInformation;
     }
 
-    private Current MapCurrent(JsonElement jsonData)
+    private static Current MapCurrent(JsonElement jsonData)
     {
         var currentData = jsonData.GetProperty("current");
 
@@ -44,7 +43,7 @@ public class WeatherService : IWeatherService
         };
     }
 
-    private ICollection<Hourly> MapHourly(JsonElement jsonData)
+    private static ICollection<Hourly> MapHourly(JsonElement jsonData)
     {
         var hourlyData = jsonData.GetProperty("hourly");
         var times = hourlyData.GetProperty("time").EnumerateArray().Select(x => x.GetString()).ToArray();
@@ -57,7 +56,8 @@ public class WeatherService : IWeatherService
         var windSpeeds = hourlyData.GetProperty("wind_speed_10m").EnumerateArray().Select(x => x.GetDouble()).ToArray();
         var windDirections = hourlyData.GetProperty("wind_direction_10m").EnumerateArray().Select(x => x.GetInt32())
             .ToArray();
-        var precipitationProbabilities = hourlyData.GetProperty("precipitation_probability").EnumerateArray().Select(x => x.GetInt32()).ToArray();
+        var precipitationProbabilities = hourlyData.GetProperty("precipitation_probability").EnumerateArray()
+            .Select(x => x.GetInt32()).ToArray();
 
         var hourlyItems = new List<Hourly>();
 
@@ -77,7 +77,7 @@ public class WeatherService : IWeatherService
         return hourlyItems;
     }
 
-    private ICollection<Daily> MapDaily(JsonElement jsonData)
+    private static ICollection<Daily> MapDaily(JsonElement jsonData)
     {
         var dailyData = jsonData.GetProperty("daily");
         var dates = dailyData.GetProperty("time").EnumerateArray().Select(x => x.GetString()).ToArray();

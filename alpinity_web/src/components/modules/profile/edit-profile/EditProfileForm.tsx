@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import ImageWithLoading from "@/components/ui/library/ImageWithLoading/ImageWithLoading";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { putApiUserEditMutation, putApiUserPhotoMutation } from "@/lib/api/@tanstack/react-query.gen";
 import type { UserProfileDto } from "@/lib/api/types.gen";
@@ -13,7 +14,6 @@ import { useForm } from "@tanstack/react-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { CalendarIcon, Camera, Loader2, Upload, X } from "lucide-react";
-import Image from "next/image";
 import { useCallback, useState } from "react";
 
 interface EditProfileFormProps {
@@ -340,7 +340,13 @@ const EditProfileForm = ({ onSuccess }: EditProfileFormProps) => {
             <div className="flex flex-col items-center space-y-3">
               <div className="relative h-32 w-32 overflow-hidden rounded-full border-2 border-gray-200">
                 {user?.profilePhoto?.url ? (
-                  <Image src={user.profilePhoto.url} alt="Current profile photo" fill className="object-cover" />
+                  <ImageWithLoading
+                    src={user.profilePhoto.url}
+                    alt="Current profile photo"
+                    fill
+                    className="object-cover"
+                    containerClassName="h-full w-full rounded-full"
+                  />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center bg-gray-100 text-gray-400">
                     <Camera className="h-12 w-12" />
@@ -354,7 +360,13 @@ const EditProfileForm = ({ onSuccess }: EditProfileFormProps) => {
             {photoPreview && (
               <div className="flex flex-col items-center space-y-3">
                 <div className="relative h-32 w-32 overflow-hidden rounded-full border-2 border-blue-200">
-                  <Image src={photoPreview} alt="Photo preview" fill className="object-cover" />
+                  <ImageWithLoading
+                    src={photoPreview}
+                    alt="Photo preview"
+                    fill
+                    className="object-cover"
+                    containerClassName="h-full w-full rounded-full"
+                  />
                 </div>
                 <span className="text-foreground text-sm">New Photo Preview</span>
               </div>

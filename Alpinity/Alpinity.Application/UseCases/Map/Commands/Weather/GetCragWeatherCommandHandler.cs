@@ -1,7 +1,6 @@
 using Alpinity.Application.Interfaces.Repositories;
 using Alpinity.Application.Interfaces.Services;
 using Alpinity.Application.UseCases.Map.Dtos;
-using ApiExceptions.Exceptions;
 using AutoMapper;
 using MediatR;
 
@@ -11,7 +10,7 @@ public class GetCragWeatherCommandHandler(
     ICragRepository cragRepository,
     IWeatherService weatherService,
     ICragWeatherRepository cragWeatherRepository,
-    IMapper mapper) : IRequestHandler<GetCragWeatherCommand, WeatherResponseDto>
+    IMapper mapper) : IRequestHandler<GetCragWeatherCommand, WeatherResponseDto?>
 {
     public async Task<WeatherResponseDto?> Handle(GetCragWeatherCommand request, CancellationToken cancellationToken)
     {

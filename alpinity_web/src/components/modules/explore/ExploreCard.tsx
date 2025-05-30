@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
+import ImageWithLoading from "@/components/ui/library/ImageWithLoading/ImageWithLoading";
 import { ExploreDto } from "@/lib/api/types.gen";
 import { MapPin } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 interface ExploreCardProps {
@@ -14,12 +14,13 @@ export function ExploreCard({ data }: ExploreCardProps) {
       <Card className="group overflow-hidden p-0 transition-all hover:scale-102 hover:shadow-md">
         <div className="relative h-60 w-full">
           {data.photo?.url ? (
-            <Image
+            <ImageWithLoading
               src={data.photo.url}
               alt={data.cragName || "Crag image"}
               className="object-cover"
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              containerClassName="h-60 w-full"
             />
           ) : (
             <div className="bg-gray flex h-full w-full items-center justify-center">

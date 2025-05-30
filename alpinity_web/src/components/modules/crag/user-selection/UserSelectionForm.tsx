@@ -12,6 +12,7 @@ import {
   getApiUserAllOptions,
   putApiCragByIdUsersMutation,
 } from "@/lib/api/@tanstack/react-query.gen";
+import { useDebounce } from "@/lib/hooks/useDebounce";
 import { useForm } from "@tanstack/react-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight, Loader2, Search, Users, X } from "lucide-react";
@@ -30,7 +31,8 @@ const UserSelectionForm = ({ cragId, onSuccess, onCancel }: UserSelectionFormPro
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(20);
 
-  // Fetch all users with search and pagination
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
   const {
     data: usersResponse,
     isLoading: isLoadingAllUsers,
@@ -39,23 +41,21 @@ const UserSelectionForm = ({ cragId, onSuccess, onCancel }: UserSelectionFormPro
   } = useQuery({
     ...getApiUserAllOptions({
       query: {
-        ...(searchQuery.trim() && { search: searchQuery.trim() }),
+        ...(debouncedSearchQuery.trim() && { search: debouncedSearchQuery.trim() }),
         page: currentPage,
         pageSize: pageSize,
       },
     }),
-    staleTime: searchQuery.trim() ? 30 * 1000 : 5 * 60 * 1000, // 30 seconds for search, 5 minutes for all
+    staleTime: debouncedSearchQuery.trim() ? 30 * 1000 : 5 * 60 * 1000, // 30 seconds for search, 5 minutes for all
     gcTime: 10 * 60 * 1000, // 10 minutes
   });
 
-  // Extract users and pagination info from response
   const allUsers = useMemo(() => usersResponse?.users || [], [usersResponse]);
   const totalUsers = usersResponse?.totalCount || 0;
   const totalPages = Math.ceil(totalUsers / pageSize);
   const hasNextPage = currentPage < totalPages;
   const hasPrevPage = currentPage > 1;
 
-  // Fetch current crag users
   const {
     data: cragUsers = [],
     isLoading: isLoadingCragUsers,
@@ -67,7 +67,6 @@ const UserSelectionForm = ({ cragId, onSuccess, onCancel }: UserSelectionFormPro
     gcTime: 5 * 60 * 1000, // 5 minutes
   });
 
-  // Update crag users mutation
   const {
     mutate: updateCragUsers,
     isPending: isUpdating,
@@ -77,45 +76,37 @@ const UserSelectionForm = ({ cragId, onSuccess, onCancel }: UserSelectionFormPro
   } = useMutation({
     ...putApiCragByIdUsersMutation(),
     onMutate: async (variables) => {
-      // Cancel any outgoing refetches
       await queryClient.cancelQueries({
         queryKey: getApiCragByIdUsersQueryKey({ path: { id: cragId } }),
       });
 
-      // Snapshot the previous value
       const previousCragUsers = queryClient.getQueryData(getApiCragByIdUsersQueryKey({ path: { id: cragId } }));
 
-      // Optimistically update to the new value
       if (variables.body?.userIds && allUsers.length > 0) {
         const optimisticUsers = allUsers.filter((user) => variables.body?.userIds?.includes(user.id || ""));
         queryClient.setQueryData(getApiCragByIdUsersQueryKey({ path: { id: cragId } }), optimisticUsers);
       }
 
-      // Return a context object with the snapshotted value
       return { previousCragUsers };
     },
     onError: (err, variables, context) => {
-      // If the mutation fails, use the context returned from onMutate to roll back
       if (context?.previousCragUsers) {
         queryClient.setQueryData(getApiCragByIdUsersQueryKey({ path: { id: cragId } }), context.previousCragUsers);
       }
     },
     onSuccess: () => {
-      // Invalidate and refetch specific queries
       queryClient.invalidateQueries({
         queryKey: getApiCragByIdUsersQueryKey({ path: { id: cragId } }),
       });
       onSuccess?.();
     },
     onSettled: () => {
-      // Always refetch after error or success to ensure we have the latest data
       queryClient.invalidateQueries({
         queryKey: getApiCragByIdUsersQueryKey({ path: { id: cragId } }),
       });
     },
   });
 
-  // Initialize selected users when crag users data is loaded
   useEffect(() => {
     if (cragUsers.length > 0) {
       const cragUserIds = new Set(cragUsers.map((user) => user.id).filter(Boolean) as string[]);
@@ -123,12 +114,10 @@ const UserSelectionForm = ({ cragId, onSuccess, onCancel }: UserSelectionFormPro
     }
   }, [cragUsers]);
 
-  // Reset to first page when search query or page size changes
   useEffect(() => {
     setCurrentPage(0);
-  }, [searchQuery, pageSize]);
+  }, [debouncedSearchQuery, pageSize]);
 
-  // Form setup
   const form = useForm({
     defaultValues: {
       userIds: [] as string[],
@@ -142,7 +131,6 @@ const UserSelectionForm = ({ cragId, onSuccess, onCancel }: UserSelectionFormPro
     },
   });
 
-  // Handle checkbox changes
   const handleUserToggle = (userId: string, checked: boolean) => {
     setSelectedUserIds((prev) => {
       const newSet = new Set(prev);
@@ -155,20 +143,16 @@ const UserSelectionForm = ({ cragId, onSuccess, onCancel }: UserSelectionFormPro
     });
   };
 
-  // Form submission
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
     form.handleSubmit();
   };
 
-  // Loading state
   const isLoading = isLoadingAllUsers || isLoadingCragUsers;
 
-  // Error state
   const hasError = allUsersError || cragUsersError;
 
-  // Memoized user display data
   const userDisplayData = useMemo(() => {
     return allUsers.map((user) => ({
       ...user,
@@ -177,7 +161,6 @@ const UserSelectionForm = ({ cragId, onSuccess, onCancel }: UserSelectionFormPro
     }));
   }, [allUsers, selectedUserIds]);
 
-  // Handle retry functionality
   const handleRetry = async () => {
     resetMutation();
     if (allUsersError) {
@@ -214,7 +197,6 @@ const UserSelectionForm = ({ cragId, onSuccess, onCancel }: UserSelectionFormPro
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Search bar */}
       <div className="relative">
         <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
         <Input
@@ -246,7 +228,7 @@ const UserSelectionForm = ({ cragId, onSuccess, onCancel }: UserSelectionFormPro
           ) : (
             <span className="text-muted-foreground text-sm">
               {selectedUserIds.size} of {allUsers.length} users selected
-              {searchQuery && ` (filtered by "${searchQuery}")`}
+              {debouncedSearchQuery && ` (filtered by "${debouncedSearchQuery}")`}
             </span>
           )}
         </div>

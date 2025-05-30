@@ -9,8 +9,8 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import ImageWithLoading from "@/components/ui/library/ImageWithLoading/ImageWithLoading";
 import { PhotoDto } from "@/lib/api/types.gen";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 interface SectorPhotosProps {
@@ -45,12 +45,13 @@ const SectorPhotos = ({ photos }: SectorPhotosProps) => {
                 onClick={() => handlePhotoClick(photo)}
               >
                 {photo.url && (
-                  <Image
+                  <ImageWithLoading
                     src={photo.url}
                     alt={`Sector photo ${photo.id}`}
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    containerClassName="aspect-video"
                   />
                 )}
               </div>
@@ -70,7 +71,13 @@ const SectorPhotos = ({ photos }: SectorPhotosProps) => {
                 {photos.map((photo) => (
                   <CarouselItem key={photo.id}>
                     <div className="relative aspect-video overflow-hidden rounded-md">
-                      <Image src={photo.url || ""} alt={`Sector photo ${photo.id}`} fill className="object-contain" />
+                      <ImageWithLoading
+                        src={photo.url || ""}
+                        alt={`Sector photo ${photo.id}`}
+                        fill
+                        className="object-contain"
+                        containerClassName="aspect-video"
+                      />
                     </div>
                   </CarouselItem>
                 ))}

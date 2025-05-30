@@ -1,17 +1,20 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import ImageWithLoading from "@/components/ui/library/ImageWithLoading/ImageWithLoading";
 import { getApiMapGlobeSectorsByCragIdOptions, postApiMapGlobeMutation } from "@/lib/api/@tanstack/react-query.gen";
 import { PointDto } from "@/lib/api/types.gen";
 import { useDebounce } from "@/lib/hooks/useDebounce";
 import { useInteractiveMap } from "@/lib/hooks/useInteractiveMap";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { MapIcon, Maximize2, Minimize2, X } from "lucide-react";
+import { ExternalLink, Grid3X3, MapIcon, MapPin, Maximize2, Minimize2, X } from "lucide-react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+
 // Define a type for crag data matching GlobeResponseDto
 interface CragData {
   id?: string;
@@ -22,6 +25,52 @@ interface CragData {
 
 // Replace with your actual Mapbox token from env
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || "";
+
+const defaultZoom = 14;
+
+// Function to calculate the distance between two points in kilometers
+const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+  const R = 6371; // Earth's radius in kilometers
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+};
+
+// Function to calculate optimal zoom level based on sector spread
+const calculateOptimalZoom = (centerLocation: PointDto, sectors: { location?: PointDto }[]): number => {
+  if (!sectors.length) return defaultZoom;
+
+  // Calculate the maximum distance from center to any sector
+  let maxDistance = 0;
+  sectors.forEach((sector) => {
+    if (sector.location?.latitude && sector.location?.longitude) {
+      const distance = calculateDistance(
+        centerLocation.latitude,
+        centerLocation.longitude,
+        sector.location.latitude,
+        sector.location.longitude,
+      );
+      maxDistance = Math.max(maxDistance, distance);
+    }
+  });
+
+  // If all sectors are very close to center, use default zoom
+  if (maxDistance < 0.1) return defaultZoom;
+
+  // Calculate zoom level based on maximum distance
+  // These values are empirically determined for good visual coverage
+  if (maxDistance < 0.5) return 15; // Very close sectors
+  if (maxDistance < 1) return 14; // Close sectors
+  if (maxDistance < 2) return 13; // Medium distance
+  if (maxDistance < 5) return 12; // Default for moderate spread
+  if (maxDistance < 10) return 11; // Wider spread
+  if (maxDistance < 20) return 10; // Very wide spread
+  return 9; // Extremely wide spread
+};
 
 export function MapGlobe() {
   const mapContainer = useRef<HTMLDivElement>(null);
@@ -153,16 +202,30 @@ export function MapGlobe() {
       // Add unclustered point layer
       newMap.addLayer({
         id: "unclustered-point",
-        type: "circle",
+        type: "symbol",
         source: "crags",
         filter: ["!", ["has", "point_count"]],
-        paint: {
-          "circle-color": "#11b4da",
-          "circle-radius": 10,
-          "circle-stroke-width": 2,
-          "circle-stroke-color": "#ffffff",
+        layout: {
+          "icon-image": "mountain-marker",
+          "icon-size": 1,
+          "icon-allow-overlap": true,
         },
       });
+
+      // Add mountain marker image
+      const mountainSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+        <circle cx="20" cy="20" r="18" fill="#dc2626" stroke="white" stroke-width="3"/>
+        <svg x="12" y="12" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m8 3 4 8 5-5 5 15H2L8 3z"/>
+        </svg>
+      </svg>`;
+
+      const mountainImg = new Image(40, 40);
+      mountainImg.onload = () => {
+        if (newMap.hasImage("mountain-marker")) return;
+        newMap.addImage("mountain-marker", mountainImg);
+      };
+      mountainImg.src = `data:image/svg+xml;base64,${btoa(mountainSvg)}`;
 
       // Add source for sectors
       newMap.addSource("sectors", {
@@ -176,16 +239,37 @@ export function MapGlobe() {
       // Add sector points layer with zoom-dependent visibility
       newMap.addLayer({
         id: "sector-points",
-        type: "circle",
+        type: "symbol",
         source: "sectors",
         minzoom: 12, // Only show sectors when zoomed in close enough
-        paint: {
-          "circle-radius": 6,
-          "circle-color": "#f28cb1",
-          "circle-stroke-width": 2,
-          "circle-stroke-color": "#ffffff",
+        layout: {
+          "icon-image": "sector-marker",
+          "icon-size": 1,
+          "icon-allow-overlap": true,
         },
       });
+
+      // Add sector marker image
+      const sectorSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+        <circle cx="16" cy="16" r="14" fill="#2563eb" stroke="white" stroke-width="2"/>
+        <svg x="8" y="8" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="18" height="18" x="3" y="3" rx="2"/>
+          <path d="M12 9v6"/>
+          <path d="M16 15v6"/>
+          <path d="M16 3v6"/>
+          <path d="M3 15h18"/>
+          <path d="M3 9h18"/>
+          <path d="M8 15v6"/>
+          <path d="M8 3v6"/>
+        </svg>
+      </svg>`;
+
+      const sectorImg = new Image(32, 32);
+      sectorImg.onload = () => {
+        if (newMap.hasImage("sector-marker")) return;
+        newMap.addImage("sector-marker", sectorImg);
+      };
+      sectorImg.src = `data:image/svg+xml;base64,${btoa(sectorSvg)}`;
 
       // Add sector labels layer with zoom-dependent visibility
       newMap.addLayer({
@@ -340,13 +424,21 @@ export function MapGlobe() {
   useEffect(() => {
     if (!map.current || !selectedCrag || !selectedCrag.location) return;
 
-    // Zoom to the crag
+    if (!sectors || !sectors.length)
+      map.current.flyTo({
+        center: [selectedCrag.location.longitude, selectedCrag.location.latitude],
+        zoom: defaultZoom,
+        duration: 1000,
+      });
+
+    const optimalZoom = calculateOptimalZoom(selectedCrag.location, sectors || []);
+
     map.current.flyTo({
       center: [selectedCrag.location.longitude, selectedCrag.location.latitude],
-      zoom: 14,
+      zoom: Math.min(optimalZoom + 1, 16),
       duration: 1000,
     });
-  }, [selectedCrag]);
+  }, [selectedCrag, sectors]);
 
   // Update map interactivity when isInteractive changes
   useEffect(() => {
@@ -542,52 +634,96 @@ export function MapGlobe() {
 
       {/* Crag detail panel */}
       {isInteractive && selectedCrag && (
-        <div
-          className="bg-background/95 absolute bottom-4 left-1/2 w-auto max-w-md -translate-x-1/2 transform overflow-hidden rounded-md border
-            shadow-lg transition-all duration-300"
-        >
-          <div className="p-4">
-            <div className="mb-2 flex items-center justify-between">
-              <Link href={`/crag/${selectedCrag.id}`}>
-                <h3 className="text-lg font-semibold hover:underline">{selectedCrag.name || "Unnamed Crag"}</h3>
-              </Link>
-              <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setSelectedCrag(null)}>
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-
-            {selectedCrag.imageUrl && (
-              <div className="mb-3">
-                <Image
-                  src={selectedCrag.imageUrl}
-                  alt={selectedCrag.name || "Crag image"}
-                  className="rounded-md object-cover"
-                  width={100}
-                  height={100}
-                />
-              </div>
-            )}
-
-            {sectors && sectors.length > 0 ? (
-              <div>
-                <p className="text-muted-foreground mb-2 text-sm">This crag has {sectors.length} sectors</p>
-                <div className="flex flex-wrap gap-2">
-                  {sectors.slice(0, 5).map((sector) => (
-                    <div key={sector.id} className="bg-muted text-muted-foreground rounded-full px-2 py-1 text-xs">
-                      {sector.name || "Unnamed sector"}
-                    </div>
-                  ))}
-                  {sectors.length > 5 && (
-                    <div className="bg-muted text-muted-foreground rounded-full px-2 py-1 text-xs">
-                      +{sectors.length - 5} more
+        <div className="absolute bottom-4 left-1/2 w-full max-w-sm -translate-x-1/2 transform px-4 transition-all duration-300">
+          <Card className="bg-background/95 border shadow-xl backdrop-blur-sm">
+            <CardHeader className="pb-3">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0 flex-1">
+                  <Link href={`/crag/${selectedCrag.id}`} className="group">
+                    <h3 className="group-hover:text-primary text-lg leading-tight font-semibold transition-colors">
+                      {selectedCrag.name || "Unnamed Crag"}
+                    </h3>
+                  </Link>
+                  {selectedCrag.location && (
+                    <div className="text-muted-foreground mt-1 flex items-center gap-1 text-sm">
+                      <MapPin className="h-3 w-3" />
+                      <span>
+                        {selectedCrag.location.latitude.toFixed(4)}, {selectedCrag.location.longitude.toFixed(4)}
+                      </span>
                     </div>
                   )}
                 </div>
+                <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" onClick={() => setSelectedCrag(null)}>
+                  <X className="h-4 w-4" />
+                </Button>
               </div>
-            ) : (
-              <p className="text-muted-foreground text-sm">Loading sectors...</p>
-            )}
-          </div>
+            </CardHeader>
+
+            <CardContent className="pt-0">
+              {selectedCrag.imageUrl && (
+                <div className="mb-4">
+                  <ImageWithLoading
+                    src={selectedCrag.imageUrl}
+                    alt={selectedCrag.name || "Crag image"}
+                    className="w-full rounded-lg object-cover"
+                    width={400}
+                    height={200}
+                    containerClassName="w-full h-32 overflow-hidden rounded-lg"
+                  />
+                </div>
+              )}
+
+              {/* Sectors section */}
+              <div className="space-y-3">
+                {sectors && sectors.length > 0 ? (
+                  <>
+                    <div className="flex items-center gap-2">
+                      <Grid3X3 className="text-muted-foreground h-4 w-4" />
+                      <span className="text-sm font-medium">
+                        {sectors.length} {sectors.length === 1 ? "Sector" : "Sectors"}
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {sectors.slice(0, 6).map((sector) => (
+                        <Link
+                          key={sector.id}
+                          href={`/crag/${selectedCrag.id}?sectorId=${sector.id}`}
+                          className="transition-transform hover:scale-105"
+                        >
+                          <Badge
+                            variant="secondary"
+                            className="hover:bg-secondary/80 cursor-pointer px-2 py-1 text-xs font-normal transition-colors"
+                          >
+                            {sector.name || "Unnamed"}
+                          </Badge>
+                        </Link>
+                      ))}
+                      {sectors.length > 6 && (
+                        <Badge variant="outline" className="px-2 py-1 text-xs font-normal">
+                          +{sectors.length - 6} more
+                        </Badge>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-muted-foreground flex items-center gap-2">
+                    <Grid3X3 className="h-4 w-4" />
+                    <span className="text-sm">{isSectorsLoading ? "Loading sectors..." : "No sectors available"}</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Action buttons */}
+              <div className="mt-4 flex gap-2 border-t pt-3">
+                <Button asChild size="sm" className="flex-1">
+                  <Link href={`/crag/${selectedCrag.id}`}>
+                    <ExternalLink className="mr-1.5 h-3 w-3" />
+                    View Details
+                  </Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       )}
 
@@ -603,7 +739,7 @@ export function MapGlobe() {
       )}
 
       {isInteractive && (
-        <div className="absolute top-4 right-4 space-y-2">
+        <div className="absolute top-4 left-4 flex gap-2 space-y-2">
           <Button variant="outline" size="icon" onClick={toggleFullScreen} className="bg-background rounded-full">
             {isFullScreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
           </Button>

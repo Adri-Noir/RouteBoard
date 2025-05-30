@@ -43,6 +43,7 @@ const useAuth = () => {
     enabled: !!token,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
+    retry: false,
   });
 
   const {

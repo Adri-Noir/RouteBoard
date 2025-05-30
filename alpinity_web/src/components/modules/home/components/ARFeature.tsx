@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import ImageWithLoading from "@/components/ui/library/ImageWithLoading/ImageWithLoading";
 import Link from "next/link";
 
 export const ARFeature = () => {
@@ -20,12 +20,13 @@ export const ARFeature = () => {
           </div>
 
           <div className="relative h-[600px] overflow-hidden">
-            <Image
+            <ImageWithLoading
               src="/images/ar_feature.jpg"
               alt="AR Feature"
               fill
               className="rounded-lg object-scale-down"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              containerClassName="h-[600px]"
             />
           </div>
         </div>

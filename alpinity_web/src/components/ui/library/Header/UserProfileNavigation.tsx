@@ -82,26 +82,26 @@ const UserProfileNavigation = () => {
                   <User size={16} />
                   <span>Profile</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={onEditProfileClick}>
-                  <Edit size={16} />
-                  <span>Edit Profile</span>
-                </DropdownMenuItem>
-                {(user?.role === "Admin" || user?.role === "Creator") && (
-                  <DropdownMenuSub>
-                    <DropdownMenuSubTrigger>
-                      <Settings size={16} className="mr-2" />
-                      <span>Settings</span>
-                    </DropdownMenuSubTrigger>
-                    <DropdownMenuPortal>
-                      <DropdownMenuSubContent>
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>
+                    <Settings size={16} className="mr-2" />
+                    <span>Settings</span>
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuPortal>
+                    <DropdownMenuSubContent>
+                      {(user?.role === "Admin" || user?.role === "Creator") && (
                         <DropdownMenuItem onClick={onCreateCragClick}>
                           <Plus size={16} />
                           <span>Create Crag</span>
                         </DropdownMenuItem>
-                      </DropdownMenuSubContent>
-                    </DropdownMenuPortal>
-                  </DropdownMenuSub>
-                )}
+                      )}
+                      <DropdownMenuItem onClick={onEditProfileClick}>
+                        <Edit size={16} />
+                        <span>Edit Profile</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuPortal>
+                </DropdownMenuSub>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={logout}>

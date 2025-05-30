@@ -3,13 +3,13 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import ImageWithLoading from "@/components/ui/library/ImageWithLoading/ImageWithLoading";
 import { Textarea } from "@/components/ui/textarea";
 import { postApiCragMutation, putApiCragByIdMutation } from "@/lib/api/@tanstack/react-query.gen";
 import type { CragDetailedDto } from "@/lib/api/types.gen";
 import { useForm } from "@tanstack/react-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2, Upload, X } from "lucide-react";
-import Image from "next/image";
 import { useCallback, useState } from "react";
 
 interface CreateCragFormProps {
@@ -17,7 +17,7 @@ interface CreateCragFormProps {
   onSuccess?: (crag: CragDetailedDto) => void;
 }
 
-const CreateCragForm = ({ crag, onSuccess }: CreateCragFormProps) => {
+export function CreateCragForm({ crag, onSuccess }: CreateCragFormProps) {
   const queryClient = useQueryClient();
   const [photos, setPhotos] = useState<File[]>([]);
   const [photosToRemove, setPhotosToRemove] = useState<string[]>([]);
@@ -179,13 +179,13 @@ const CreateCragForm = ({ crag, onSuccess }: CreateCragFormProps) => {
                 {crag.photos
                   .filter((photo) => !photosToRemove.includes(photo.id))
                   .map((photo) => (
-                    <div key={photo.id} className="group relative">
-                      <Image
+                    <div key={photo.id} className="group relative h-40 w-full">
+                      <ImageWithLoading
                         src={photo.url || ""}
                         alt="Crag photo"
-                        width={200}
-                        height={96}
-                        className="h-24 w-full rounded-md object-cover"
+                        fill
+                        className="rounded-md object-contain"
+                        containerClassName="h-full w-full"
                       />
                       <Button
                         type="button"
@@ -208,13 +208,13 @@ const CreateCragForm = ({ crag, onSuccess }: CreateCragFormProps) => {
               <p className="text-muted-foreground text-sm">New Photos</p>
               <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
                 {photos.map((photo, index) => (
-                  <div key={index} className="group relative">
-                    <Image
+                  <div key={index} className="group relative h-40 w-full">
+                    <ImageWithLoading
                       src={URL.createObjectURL(photo)}
                       alt="New crag photo"
-                      width={200}
-                      height={96}
-                      className="h-24 w-full rounded-md object-cover"
+                      fill
+                      className="rounded-md object-contain"
+                      containerClassName="h-full w-full"
                     />
                     <Button
                       type="button"
@@ -278,6 +278,6 @@ const CreateCragForm = ({ crag, onSuccess }: CreateCragFormProps) => {
       </form>
     </div>
   );
-};
+}
 
 export default CreateCragForm;

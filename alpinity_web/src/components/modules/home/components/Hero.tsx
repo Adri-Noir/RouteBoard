@@ -1,4 +1,4 @@
-import Image from "next/image";
+import ImageWithLoading from "@/components/ui/library/ImageWithLoading/ImageWithLoading";
 import HeroInput from "./HeroInput";
 
 export const Hero = () => {
@@ -6,7 +6,14 @@ export const Hero = () => {
     <div className="relative h-[600px] w-full">
       {/* Hero Image */}
       <div className="absolute inset-0 z-0">
-        <Image src="/images/hero_image.jpg" alt="Mountain landscape" fill priority className="object-cover" />
+        <ImageWithLoading
+          src="/images/hero_image.jpg"
+          alt="Mountain landscape"
+          fill
+          priority
+          className="h-full w-full object-cover"
+          containerClassName="h-full w-full"
+        />
         <div className="absolute inset-0 bg-black/70" /> {/* Overlay for better text visibility */}
       </div>
 

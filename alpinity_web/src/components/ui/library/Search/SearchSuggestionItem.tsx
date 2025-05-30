@@ -1,12 +1,12 @@
 "use client";
 
 import { CommandItem } from "@/components/ui/command";
+import ImageWithLoading from "@/components/ui/library/ImageWithLoading/ImageWithLoading";
 import { SearchResultDto } from "@/lib/api/types.gen";
 import { cn } from "@/lib/utils";
 import { Clock, MapPin, Route, User } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { getFormattedEntityData, mapEntityTypeToUiType } from "./utils";
 
 interface SearchSuggestionItemProps {
@@ -17,14 +17,14 @@ interface SearchSuggestionItemProps {
 }
 
 const getHref = (suggestion: SearchResultDto) => {
-  const { entityType, cragId, sectorId, routeId, profileUserId, sectorCragId, routeCragId, routeSectorId } = suggestion;
+  const { entityType, cragId, sectorId, routeId, profileUserId, routeCragId, routeSectorId } = suggestion;
   const type = entityType ? mapEntityTypeToUiType(entityType) : "crag";
 
   switch (type) {
     case "crag":
       return `/crag/${cragId}`;
     case "sector":
-      return `/crag/${sectorCragId}?sectorId=${sectorId}`;
+      return `/crag/${cragId}?sectorId=${sectorId}`;
     case "route":
       return `/crag/${routeCragId}?sectorId=${routeSectorId}&routeId=${routeId}`;
     case "user":
@@ -52,7 +52,6 @@ export const SearchSuggestionItem = ({
   className,
   onClick,
 }: SearchSuggestionItemProps) => {
-  const [isLoading, setIsLoading] = useState(true);
   const { entityType, cragName, sectorName, routeName, profileUsername } = suggestion;
   const type = entityType ? mapEntityTypeToUiType(entityType) : "crag";
 
@@ -77,29 +76,16 @@ export const SearchSuggestionItem = ({
     <LinkWrapper href={href} onClick={onClick}>
       <CommandItem value={`${type}_${text}`} className={cn("flex items-center gap-3", className)}>
         {/* Image or Icon Container */}
-        <div className="relative h-8 w-8 flex-shrink-0">
+        <div className="relative h-12 w-12 flex-shrink-0">
           {imageUrl ? (
-            <>
-              {/* Loading Skeleton */}
-              {isLoading && (
-                <div className="bg-muted absolute inset-0 flex items-center justify-center rounded-full">
-                  <div className="bg-muted-foreground/20 h-4 w-4 animate-pulse rounded-full"></div>
-                </div>
-              )}
-              {/* Actual Image */}
-              <Image
-                src={imageUrl}
-                alt={`${text || type} image`}
-                width={32}
-                height={32}
-                className={cn(
-                  "h-full w-full rounded-full object-cover",
-                  isLoading ? "opacity-0" : "opacity-100 transition-opacity duration-300", // Fade in
-                )}
-                onLoad={() => setIsLoading(false)}
-                onError={() => setIsLoading(false)} // Handle potential image loading errors
-              />
-            </>
+            <ImageWithLoading
+              src={imageUrl}
+              alt={`${text || type} image`}
+              fill
+              className="h-full w-full rounded-full object-cover"
+              containerClassName="w-full h-full rounded-full bg-muted"
+              loadingSize="tiny"
+            />
           ) : (
             // Fallback Icon
             <div className="bg-muted flex h-full w-full items-center justify-center rounded-full">{icon}</div>

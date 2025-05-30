@@ -3,8 +3,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { GradeBadge } from "@/components/ui/library/Badge/GradeBadge";
+import ImageWithLoading from "@/components/ui/library/ImageWithLoading/ImageWithLoading";
 import { RecentlyAscendedRouteDto } from "@/lib/api/types.gen";
-import Image from "next/image";
 import Link from "next/link";
 
 interface ProfileRecentlyAscendedProps {
@@ -37,12 +37,13 @@ export function ProfileRecentlyAscended({ routes }: ProfileRecentlyAscendedProps
                         <div className="hover:border-primary/50 flex cursor-pointer gap-4 rounded-lg border p-4 transition-all duration-200 hover:shadow-lg">
                           <div className="bg-muted relative h-32 w-24 flex-shrink-0 overflow-hidden rounded-md md:h-64 md:w-48">
                             {photoUrl ? (
-                              <Image
+                              <ImageWithLoading
                                 src={photoUrl}
                                 alt={route.name ?? "Route photo"}
-                                className="absolute inset-0 h-full w-full object-cover"
+                                className="object-cover"
                                 fill
-                                sizes="256px"
+                                sizes="(max-width: 768px) 24vw, 48vw"
+                                containerClassName="h-full w-full"
                               />
                             ) : (
                               <div className="text-muted-foreground flex h-full w-full items-center justify-center">
