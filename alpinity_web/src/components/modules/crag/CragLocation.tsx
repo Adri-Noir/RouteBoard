@@ -14,6 +14,7 @@ const defaultZoom = 12;
 
 interface LocationWithId extends PointDto {
   id?: string;
+  name?: string;
 }
 
 interface CragLocationProps {
@@ -69,7 +70,6 @@ const CragLocation = ({ location, sectors = [], onSectorClick, selectedSectorId 
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapWrapperRef = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
-  const markersRef = useRef<{ [key: string]: mapboxgl.Marker }>({});
 
   const { isInteractive, handleActivateMap, handleDeactivateMap } = useInteractiveMap({
     mapRef: map,
@@ -115,24 +115,136 @@ const CragLocation = ({ location, sectors = [], onSectorClick, selectedSectorId 
     newMap.doubleClickZoom.disable();
     newMap.touchZoomRotate.disable();
 
-    // Create a marker element for the main location
-    const el = document.createElement("div");
-    el.className = "marker";
-    el.style.width = "40px";
-    el.style.height = "40px";
-    el.style.borderRadius = "50%";
-    el.style.backgroundColor = "#dc2626";
-    el.style.display = "flex";
-    el.style.alignItems = "center";
-    el.style.justifyContent = "center";
-    el.style.border = "3px solid white";
-    el.style.boxShadow = "0 2px 8px rgba(0,0,0,0.3)";
+    newMap.on("load", () => {
+      // Create a marker element for the main location
+      const el = document.createElement("div");
+      el.className = "marker";
+      el.style.width = "40px";
+      el.style.height = "40px";
+      el.style.borderRadius = "50%";
+      el.style.backgroundColor = "#dc2626";
+      el.style.display = "flex";
+      el.style.alignItems = "center";
+      el.style.justifyContent = "center";
+      el.style.border = "3px solid white";
+      el.style.boxShadow = "0 2px 8px rgba(0,0,0,0.3)";
 
-    // Add the mountain icon inside
-    el.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>`;
+      // Add the mountain icon inside
+      el.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>`;
 
-    // Add the main marker
-    new mapboxgl.Marker(el).setLngLat([location.longitude, location.latitude]).addTo(newMap);
+      // Add the main marker
+      new mapboxgl.Marker(el).setLngLat([location.longitude, location.latitude]).addTo(newMap);
+
+      // Add source for sectors
+      newMap.addSource("sectors", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: [],
+        },
+      });
+
+      // Add sector marker image
+      const sectorSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+        <circle cx="16" cy="16" r="14" fill="#2563eb" stroke="white" stroke-width="2"/>
+        <svg x="8" y="8" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="18" height="18" x="3" y="3" rx="2"/>
+          <path d="M12 9v6"/>
+          <path d="M16 15v6"/>
+          <path d="M16 3v6"/>
+          <path d="M3 15h18"/>
+          <path d="M3 9h18"/>
+          <path d="M8 15v6"/>
+          <path d="M8 3v6"/>
+        </svg>
+      </svg>`;
+
+      const sectorImg = new Image(32, 32);
+      sectorImg.onload = () => {
+        if (newMap.hasImage("sector-marker")) return;
+        newMap.addImage("sector-marker", sectorImg);
+      };
+      sectorImg.src = `data:image/svg+xml;base64,${btoa(sectorSvg)}`;
+
+      // Add selected sector marker image (green)
+      const selectedSectorSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+        <circle cx="16" cy="16" r="14" fill="#22c55e" stroke="white" stroke-width="2"/>
+        <svg x="8" y="8" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="18" height="18" x="3" y="3" rx="2"/>
+          <path d="M12 9v6"/>
+          <path d="M16 15v6"/>
+          <path d="M16 3v6"/>
+          <path d="M3 15h18"/>
+          <path d="M3 9h18"/>
+          <path d="M8 15v6"/>
+          <path d="M8 3v6"/>
+        </svg>
+      </svg>`;
+
+      const selectedSectorImg = new Image(32, 32);
+      selectedSectorImg.onload = () => {
+        if (newMap.hasImage("selected-sector-marker")) return;
+        newMap.addImage("selected-sector-marker", selectedSectorImg);
+      };
+      selectedSectorImg.src = `data:image/svg+xml;base64,${btoa(selectedSectorSvg)}`;
+
+      // Add sector points layer
+      newMap.addLayer({
+        id: "sector-points",
+        type: "symbol",
+        source: "sectors",
+        layout: {
+          "icon-image": ["case", ["==", ["get", "selected"], true], "selected-sector-marker", "sector-marker"],
+          "icon-size": 1,
+          "icon-allow-overlap": true,
+        },
+      });
+
+      // Add sector labels layer
+      newMap.addLayer({
+        id: "sector-labels",
+        type: "symbol",
+        source: "sectors",
+        layout: {
+          "text-field": ["get", "name"],
+          "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+          "text-size": 12,
+          "text-offset": [0, 1.5],
+          "text-anchor": "top",
+        },
+        paint: {
+          "text-color": "#333",
+          "text-halo-color": "#fff",
+          "text-halo-width": 1,
+        },
+      });
+
+      // Add click handler for sectors
+      if (onSectorClick) {
+        newMap.on("click", "sector-points", (e) => {
+          if (!isInteractive) return;
+
+          const features = e.features;
+          if (features && features.length > 0) {
+            const sectorId = features[0].properties?.id;
+            if (sectorId) {
+              onSectorClick(sectorId);
+            }
+          }
+        });
+
+        // Add cursor pointer on hover
+        newMap.on("mouseenter", "sector-points", () => {
+          if (isInteractive) {
+            newMap.getCanvas().style.cursor = "pointer";
+          }
+        });
+
+        newMap.on("mouseleave", "sector-points", () => {
+          newMap.getCanvas().style.cursor = "";
+        });
+      }
+    });
 
     return () => {
       if (map.current) {
@@ -140,67 +252,34 @@ const CragLocation = ({ location, sectors = [], onSectorClick, selectedSectorId 
         map.current = null;
       }
     };
-  }, [location, location.latitude, location.longitude, sectors]);
+  }, [location, location.latitude, location.longitude, sectors, onSectorClick, isInteractive]);
 
-  // Handle sector markers separately
+  // Update sector data when sectors or selectedSectorId changes
   useEffect(() => {
     if (!map.current || !sectors.length) return;
 
-    // Clear existing markers
-    Object.values(markersRef.current).forEach((marker) => marker.remove());
-    markersRef.current = {};
+    const source = map.current.getSource("sectors") as mapboxgl.GeoJSONSource;
+    if (!source) return;
 
-    // Add sector markers
-    sectors.forEach((sector) => {
-      if (!sector.id) return;
-
-      const sectorEl = document.createElement("div");
-      sectorEl.className = "marker";
-      sectorEl.style.width = "32px";
-      sectorEl.style.height = "32px";
-      sectorEl.style.borderRadius = "50%";
-      sectorEl.style.display = "flex";
-      sectorEl.style.alignItems = "center";
-      sectorEl.style.justifyContent = "center";
-      sectorEl.style.border = "2px solid white";
-      sectorEl.style.boxShadow = "0 2px 6px rgba(0,0,0,0.25)";
-
-      // Change background color based on selection state
-      const backgroundColor = sector.id === selectedSectorId ? "#22c55e" : "#2563eb";
-      sectorEl.style.backgroundColor = backgroundColor;
-
-      // Add the brick wall icon inside
-      sectorEl.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 9v6"/><path d="M16 15v6"/><path d="M16 3v6"/><path d="M3 15h18"/><path d="M3 9h18"/><path d="M8 15v6"/><path d="M8 3v6"/></svg>`;
-
-      // Make the marker clickable if it has an id and onSectorClick is provided
-      if (onSectorClick) {
-        sectorEl.style.cursor = "pointer";
-        sectorEl.addEventListener("click", () => {
-          onSectorClick(sector.id as string);
-        });
-      }
-
-      const marker = new mapboxgl.Marker(sectorEl).setLngLat([sector.longitude, sector.latitude]).addTo(map.current!);
-
-      markersRef.current[sector.id] = marker;
+    // Update the source data with the sectors
+    source.setData({
+      type: "FeatureCollection",
+      features: sectors
+        .filter((sector) => sector.latitude && sector.longitude)
+        .map((sector) => ({
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: [sector.longitude, sector.latitude],
+          },
+          properties: {
+            id: sector.id,
+            name: sector.name || "Unnamed",
+            selected: sector.id === selectedSectorId,
+          },
+        })),
     });
-
-    return () => {
-      Object.values(markersRef.current).forEach((marker) => marker.remove());
-      markersRef.current = {};
-    };
-  }, [sectors, onSectorClick, selectedSectorId]);
-
-  useEffect(() => {
-    if (!map.current) return;
-
-    // Update marker colors based on selected state
-    Object.entries(markersRef.current).forEach(([id, marker]) => {
-      const el = marker.getElement();
-      const markerColor = id === selectedSectorId ? "#22c55e" : "#2563eb";
-      el.style.backgroundColor = markerColor;
-    });
-  }, [selectedSectorId]);
+  }, [sectors, selectedSectorId]);
 
   return (
     <div className="relative space-y-4" ref={mapWrapperRef}>

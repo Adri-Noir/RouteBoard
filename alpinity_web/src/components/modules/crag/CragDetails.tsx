@@ -226,6 +226,7 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
       crag?.sectors
         ?.filter(
           (sector) =>
+            sector.name &&
             sector.location &&
             typeof sector.location.latitude === "number" &&
             typeof sector.location.longitude === "number",
@@ -234,6 +235,7 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
           latitude: sector.location!.latitude,
           longitude: sector.location!.longitude,
           id: sector.id,
+          name: sector.name || undefined,
         })),
     [crag?.sectors],
   );
