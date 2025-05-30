@@ -35,9 +35,7 @@ struct UserView: View {
         ProfileHeaderCollapsedView(
           userProfile: userProfile,
           username: userProfile?.username,
-          headerVisibleRatio: headerVisibleRatio,
-          safeAreaInsets: safeAreaInsets,
-          dismiss: dismiss
+          headerVisibleRatio: headerVisibleRatio
         )
       }, headerHeight: 200,
       onScroll: { _, headerVisibleRatio in
@@ -77,10 +75,8 @@ struct UserView: View {
     }
     .background(Color.newPrimaryColor)
     .navigationBarBackButtonHidden()
-    .onAppearOnce {
-      Task {
-        await fetchUserProfile(userId: userId)
-      }
+    .task {
+      await fetchUserProfile(userId: userId)
     }
   }
 

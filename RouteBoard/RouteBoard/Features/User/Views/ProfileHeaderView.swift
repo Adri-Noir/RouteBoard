@@ -69,8 +69,20 @@ struct ProfileHeaderCollapsedView: View {
   let userProfile: UserProfile?
   let username: String?
   let headerVisibleRatio: CGFloat
-  let safeAreaInsets: UIEdgeInsets
-  let dismiss: DismissAction
+
+  @Environment(\.dismiss) var dismiss
+  @EnvironmentObject var navigationManager: NavigationManager
+  @EnvironmentObject var authViewModel: AuthViewModel
+
+  @State private var isMenuPresented: Bool = false
+  @State private var isPresentingCreateCragView: Bool = false
+
+  private var safeAreaInsets: UIEdgeInsets {
+    guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+      let window = windowScene.windows.first
+    else { return .zero }
+    return window.safeAreaInsets
+  }
 
   var body: some View {
     HStack {
@@ -126,6 +138,63 @@ struct ProfileHeaderCollapsedView: View {
       .opacity(1 - headerVisibleRatio)
 
       Spacer()
+
+      Button {
+        isMenuPresented.toggle()
+      } label: {
+        Image(systemName: "ellipsis")
+          .foregroundColor(.white)
+          .font(.system(size: 24))
+          .padding(12)
+          .background(Color.black.opacity(0.75))
+          .clipShape(Circle())
+      }
+      .popover(
+        isPresented: $isMenuPresented,
+        attachmentAnchor: .point(.bottomTrailing),
+        arrowEdge: .top
+      ) {
+        VStack(alignment: .leading, spacing: 12) {
+          VStack(alignment: .leading, spacing: 16) {
+            Button(action: {
+              isMenuPresented = false
+              navigationManager.pushView(.editUser)
+            }) {
+              Label("Edit User", systemImage: "pencil")
+                .padding(.horizontal, 12)
+                .foregroundColor(Color.newTextColor)
+            }
+
+            if authViewModel.isCreator {
+              Button(action: {
+                isMenuPresented = false
+                isPresentingCreateCragView = true
+              }) {
+                Label("Add New Crag", systemImage: "plus")
+                  .padding(.horizontal, 12)
+                  .foregroundColor(Color.newTextColor)
+              }
+            }
+          }
+
+          Divider()
+
+          Button(action: {
+            isMenuPresented = false
+            Task {
+              await authViewModel.logout()
+            }
+          }) {
+            Label("Logout", systemImage: "person.crop.circle.fill.badge.xmark")
+              .padding(.horizontal, 12)
+              .foregroundColor(Color.red)
+          }
+        }
+        .padding(.vertical, 12)
+        .frame(width: 200)
+        .preferredColorScheme(.light)
+        .presentationCompactAdaptation(.popover)
+      }
     }
     .padding(.horizontal, ThemeExtension.horizontalPadding)
     .padding(.bottom, 5)
@@ -136,5 +205,8 @@ struct ProfileHeaderCollapsedView: View {
     .shadow(color: Color.black.opacity(0.15), radius: 2, x: 0, y: 1)
     .animation(.easeInOut(duration: 0.2), value: headerVisibleRatio)
     .padding(.top, safeAreaInsets.top)
+    .fullScreenCover(isPresented: $isPresentingCreateCragView) {
+      CreateCragView()
+    }
   }
 }

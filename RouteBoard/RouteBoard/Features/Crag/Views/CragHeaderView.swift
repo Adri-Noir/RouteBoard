@@ -229,7 +229,7 @@ struct CragHeaderView<Content: View>: View {
                     isCompactMenuPresented = false
                     isPresentingCragCreators = true
                   }) {
-                    Label("Crag Creators", systemImage: "person.3")
+                    Label("Manage Users", systemImage: "person")
                       .padding(.horizontal, 12)
                       .foregroundColor(Color.newTextColor)
                   }

@@ -35,8 +35,6 @@ struct RegisteredUserView: View {
           userProfile: userProfile,
           username: authViewModel.user?.username,
           headerVisibleRatio: headerVisibleRatio,
-          safeAreaInsets: safeAreaInsets,
-          dismiss: dismiss
         )
       }, headerHeight: 200,
       onScroll: { _, headerVisibleRatio in
@@ -70,27 +68,6 @@ struct RegisteredUserView: View {
           PhotosGridView(photos: userProfile?.photos)
           FriendsListView()
 
-          if authViewModel.isCreator {
-            AddNewCragButtonView()
-          }
-
-          Button(action: {
-            navigationManager.pushView(.editUser)
-          }) {
-            HStack {
-              Spacer()
-              Text("Edit User")
-              Spacer()
-            }
-          }
-          .background(Color.newBackgroundGray)
-          .foregroundColor(Color.newTextColor)
-          .cornerRadius(10)
-          .padding(.horizontal, 20)
-          .padding(.bottom, 20)
-
-          LogoutButton()
-
         }
         .padding(.horizontal, ThemeExtension.horizontalPadding)
         .padding(.bottom, 30)
@@ -98,11 +75,9 @@ struct RegisteredUserView: View {
     }
     .background(Color.newPrimaryColor)
     .navigationBarBackButtonHidden()
-    .onAppearOnce {
+    .task {
       if let userId = authViewModel.user?.id {
-        Task {
-          await fetchUserProfile(userId: userId, authData: authViewModel.getAuthData())
-        }
+        await fetchUserProfile(userId: userId, authData: authViewModel.getAuthData())
       }
     }
   }

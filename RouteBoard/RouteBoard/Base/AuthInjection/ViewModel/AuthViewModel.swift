@@ -47,17 +47,11 @@ public class AuthViewModel: ObservableObject {
   }
 
   func saveUser(_ loggedInUser: LoggedInUser) async throws {
-    guard let token = loggedInUser.token else {
-      throw AuthError.loginFailed
-    }
-    guard let email = loggedInUser.email else {
-      throw AuthError.loginFailed
-    }
-    guard let username = loggedInUser.username else {
-      throw AuthError.loginFailed
-    }
-
-    guard let role = loggedInUser.role else {
+    guard let token = loggedInUser.token,
+      let email = loggedInUser.email,
+      let username = loggedInUser.username,
+      let role = loggedInUser.role
+    else {
       throw AuthError.loginFailed
     }
 
@@ -94,8 +88,8 @@ public class AuthViewModel: ObservableObject {
     }
   }
 
-  func loadUserModel() async {
-    if user != nil {
+  func loadUserModel(refresh: Bool = false) async {
+    if user != nil && !refresh {
       return
     }
 

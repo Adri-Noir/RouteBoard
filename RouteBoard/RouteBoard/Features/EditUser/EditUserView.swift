@@ -40,7 +40,6 @@ struct EditUserView: View {
   private var hasChanges: Bool {
     guard let user = authViewModel.user else { return false }
 
-    // Check if any field has changed from the original values
     if firstName != user.firstName { return true }
     if lastName != user.lastName { return true }
     if username != user.username { return true }
@@ -68,7 +67,6 @@ struct EditUserView: View {
     isLoading = true
     defer { isLoading = false }
 
-    // Only include fields that have values and are different from current user data
     let editInput = EditUserInput(
       username: username.isEmpty ? nil : username,
       email: email.isEmpty ? nil : email,
@@ -84,6 +82,7 @@ struct EditUserView: View {
     }
 
     if await editUserClient.call(editInput, authViewModel.getAuthData(), errorHandler) != nil {
+      await authViewModel.loadUserModel(refresh: true)
       dismiss()
     } else {
       if errorMessage.isEmpty {
@@ -115,11 +114,12 @@ struct EditUserView: View {
     }
 
     if await editUserPictureClient.call(
-      editPictureInput, authViewModel.getAuthData(), errorHandler) != nil
+      editPictureInput, authViewModel.getAuthData(), errorHandler)
     {
-      // Clear the selected photo and reset state
       selectedPhoto = nil
       profilePhoto = []
+      await authViewModel.loadUserModel(refresh: true)
+      dismiss()
     } else {
       if errorMessage.isEmpty {
         errorMessage = "Photo update failed"
@@ -415,7 +415,6 @@ struct EditUserView: View {
                 }
               }
             }
-            .padding(.horizontal, ThemeExtension.horizontalPadding)
           }
           .padding(.top, 20)
           .padding(.bottom, safeAreaInsets.bottom)
