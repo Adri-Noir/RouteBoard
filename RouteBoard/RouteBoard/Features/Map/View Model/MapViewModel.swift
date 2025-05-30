@@ -30,7 +30,6 @@ class MapViewModel: ObservableObject {
   @Published var crags: [Components.Schemas.GlobeResponseDto] = []
   @Published var sectors: [Components.Schemas.GlobeSectorResponseDto] = []
   @Published var selectedCrag: Components.Schemas.GlobeResponseDto?
-  @Published var selectedSector: Components.Schemas.GlobeSectorResponseDto?
 
   private var sectorsCache: [String: [Components.Schemas.GlobeSectorResponseDto]] = [:]
 
@@ -222,24 +221,6 @@ class MapViewModel: ObservableObject {
     Task { @MainActor in
       sectorsCache[cragId] = cragSectors
       sectors = cragSectors
-    }
-  }
-
-  func selectSector(_ sector: Components.Schemas.GlobeSectorResponseDto) {
-    Task { @MainActor in
-      if selectedSector?.id == sector.id {
-        selectedSector = nil
-        return
-      }
-
-      selectedSector = sector
-    }
-  }
-
-  func selectCluster(_ cluster: ClusterItem, zoomLevel: Double) {
-    Task { @MainActor in
-      selectedCrag = nil
-      sectors = []
     }
   }
 

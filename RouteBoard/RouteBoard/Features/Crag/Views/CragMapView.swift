@@ -26,6 +26,71 @@ struct CragMapView: View {
   @State private var mapInitialized = false
   @State private var isMapInteractive = false
 
+  // Function to calculate the distance between two points in kilometers
+  func calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double) -> Double {
+    let R = 6371.0  // Earth's radius in kilometers
+    let dLat = (lat2 - lat1) * .pi / 180
+    let dLon = (lon2 - lon1) * .pi / 180
+    let a =
+      sin(dLat / 2) * sin(dLat / 2) + cos(lat1 * .pi / 180) * cos(lat2 * .pi / 180) * sin(dLon / 2)
+      * sin(dLon / 2)
+    let c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    return R * c
+  }
+
+  // Function to calculate optimal span based on sector spread
+  private func calculateOptimalSpan(centerLat: Double, centerLon: Double, locations: [MapLocation])
+    -> MKCoordinateSpan
+  {
+    if locations.isEmpty {
+      return MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+    }
+
+    // Calculate the maximum distance from center to any location
+    var maxDistance = 0.0
+    for location in locations {
+      let distance = calculateDistance(
+        lat1: centerLat,
+        lon1: centerLon,
+        lat2: location.latitude,
+        lon2: location.longitude
+      )
+      maxDistance = max(maxDistance, distance)
+    }
+
+    // If all locations are very close to center, use default span
+    if maxDistance < 0.1 {
+      return MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+    }
+
+    // Calculate span based on maximum distance
+    // Convert distance to appropriate coordinate deltas with some padding
+    let paddingFactor = 2.5  // Add padding around the sectors
+
+    if maxDistance < 0.5 {
+      let delta = maxDistance * paddingFactor * 0.009  // Very close sectors
+      return MKCoordinateSpan(latitudeDelta: max(0.005, delta), longitudeDelta: max(0.005, delta))
+    } else if maxDistance < 1 {
+      let delta = maxDistance * paddingFactor * 0.009  // Close sectors
+      return MKCoordinateSpan(latitudeDelta: max(0.008, delta), longitudeDelta: max(0.008, delta))
+    } else if maxDistance < 2 {
+      let delta = maxDistance * paddingFactor * 0.009  // Medium distance
+      return MKCoordinateSpan(latitudeDelta: max(0.015, delta), longitudeDelta: max(0.015, delta))
+    } else if maxDistance < 5 {
+      let delta = maxDistance * paddingFactor * 0.009  // Moderate spread
+      return MKCoordinateSpan(latitudeDelta: max(0.03, delta), longitudeDelta: max(0.03, delta))
+    } else if maxDistance < 10 {
+      let delta = maxDistance * paddingFactor * 0.009  // Wider spread
+      return MKCoordinateSpan(latitudeDelta: max(0.06, delta), longitudeDelta: max(0.06, delta))
+    } else if maxDistance < 20 {
+      let delta = maxDistance * paddingFactor * 0.009  // Very wide spread
+      return MKCoordinateSpan(latitudeDelta: max(0.12, delta), longitudeDelta: max(0.12, delta))
+    } else {
+      let delta = maxDistance * paddingFactor * 0.009  // Extremely wide spread
+      return MKCoordinateSpan(latitudeDelta: max(0.25, delta), longitudeDelta: max(0.25, delta))
+    }
+  }
+
   private var mapLocations: [MapLocation] {
     var locations: [MapLocation] = []
 
@@ -52,44 +117,27 @@ struct CragMapView: View {
   }
 
   private var mapRegion: MKCoordinateRegion? {
-    guard let locations = mapLocations.first else { return nil }
+    guard !mapLocations.isEmpty else { return nil }
 
-    // Calculate the center point and span to include all locations
-    if mapLocations.count > 1 {
-      let latitudes = mapLocations.map { $0.latitude }
-      let longitudes = mapLocations.map { $0.longitude }
+    // Calculate the center point
+    let latitudes = mapLocations.map { $0.latitude }
+    let longitudes = mapLocations.map { $0.longitude }
 
-      let minLat = latitudes.min() ?? locations.latitude
-      let maxLat = latitudes.max() ?? locations.latitude
-      let minLong = longitudes.min() ?? locations.longitude
-      let maxLong = longitudes.max() ?? locations.longitude
+    let minLat = latitudes.min() ?? 0
+    let maxLat = latitudes.max() ?? 0
+    let minLong = longitudes.min() ?? 0
+    let maxLong = longitudes.max() ?? 0
 
-      let center = CLLocationCoordinate2D(
-        latitude: (minLat + maxLat) / 2,
-        longitude: (minLong + maxLong) / 2
-      )
+    let centerLat = (minLat + maxLat) / 2
+    let centerLon = (minLong + maxLong) / 2
 
-      // Add some padding to the span
-      let latDelta = (maxLat - minLat) * 1.5
-      let longDelta = (maxLong - minLong) * 1.5
+    let center = CLLocationCoordinate2D(latitude: centerLat, longitude: centerLon)
 
-      return MKCoordinateRegion(
-        center: center,
-        span: MKCoordinateSpan(
-          latitudeDelta: max(0.01, latDelta),
-          longitudeDelta: max(0.01, longDelta)
-        )
-      )
-    } else {
-      // If there's only one location, center on it with a default span
-      return MKCoordinateRegion(
-        center: CLLocationCoordinate2D(
-          latitude: locations.latitude,
-          longitude: locations.longitude
-        ),
-        span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-      )
-    }
+    // Calculate optimal span based on sector spread
+    let span = calculateOptimalSpan(
+      centerLat: centerLat, centerLon: centerLon, locations: mapLocations)
+
+    return MKCoordinateRegion(center: center, span: span)
   }
 
   private func recenterMap() {

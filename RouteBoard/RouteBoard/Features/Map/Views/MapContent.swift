@@ -60,7 +60,6 @@ public struct MapContent: View {
               anchor: .bottom
             ) {
               Button {
-                mapViewModel.selectedSector = nil
                 selectCrag(crag)
               } label: {
                 VStack(spacing: 0) {
@@ -90,12 +89,10 @@ public struct MapContent: View {
           }
         }
 
-        // Sector annotations
+        // Sector annotations (display only, not selectable)
         if zoomLevel < sectorZoomLevel {
           ForEach(mapViewModel.sectors, id: \.self) { sector in
             if let location = sector.location, let name = sector.name {
-              let isSelected = mapViewModel.selectedSector?.id == sector.id
-
               Annotation(
                 name,
                 coordinate: CLLocationCoordinate2D(
@@ -104,48 +101,40 @@ public struct MapContent: View {
                 ),
                 anchor: .bottom
               ) {
-                Button {
-                  mapViewModel.selectedCrag = nil
-                  mapViewModel.selectSector(sector)
-                } label: {
-                  VStack(spacing: 0) {
-                    // Photo or placeholder
-                    if let imageUrl = sector.imageUrl, let url = URL(string: imageUrl) {
-                      AsyncImage(url: url) { phase in
-                        switch phase {
-                        case .success(let image):
-                          image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 40, height: 40)
-                            .clipShape(Circle())
-                            .overlay(
-                              Circle()
-                                .stroke(Color.white, lineWidth: isSelected ? 2 : 1.5)
-                            )
-                            .shadow(radius: isSelected ? 3 : 1)
-                            .scaleEffect(isSelected ? 1.1 : 1.0)
-                            .animation(.spring(response: 0.3), value: isSelected)
-                        case .failure:
-                          placeholderImage(isSelected: isSelected)
-                        default:
-                          ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: Color.newTextColor))
-                            .frame(width: 40, height: 40)
-                        }
+                VStack(spacing: 0) {
+                  // Photo or placeholder
+                  if let imageUrl = sector.imageUrl, let url = URL(string: imageUrl) {
+                    AsyncImage(url: url) { phase in
+                      switch phase {
+                      case .success(let image):
+                        image
+                          .resizable()
+                          .aspectRatio(contentMode: .fill)
+                          .frame(width: 40, height: 40)
+                          .clipShape(Circle())
+                          .overlay(
+                            Circle()
+                              .stroke(Color.white, lineWidth: 1.5)
+                          )
+                          .shadow(radius: 1)
+                      case .failure:
+                        placeholderImage()
+                      default:
+                        ProgressView()
+                          .progressViewStyle(CircularProgressViewStyle(tint: Color.newTextColor))
+                          .frame(width: 40, height: 40)
                       }
-                    } else {
-                      placeholderImage(isSelected: isSelected)
                     }
-
-                    // Triangle pointer
-                    Image(systemName: "arrowtriangle.down.fill")
-                      .font(.system(size: 10))
-                      .foregroundColor(isSelected ? Color.blue : Color.green)
-                      .offset(y: -5)
+                  } else {
+                    placeholderImage()
                   }
+
+                  // Triangle pointer
+                  Image(systemName: "arrowtriangle.down.fill")
+                    .font(.system(size: 10))
+                    .foregroundColor(Color.green)
+                    .offset(y: -5)
                 }
-                .buttonStyle(MapScaleButtonStyle())
               }
             }
           }
@@ -157,21 +146,19 @@ public struct MapContent: View {
     .ignoresSafeArea()
   }
 
-  private func placeholderImage(isSelected: Bool) -> some View {
-    Image(systemName: "mappin.circle.fill")
+  private func placeholderImage() -> some View {
+    Image(systemName: "mountain.2.circle.fill")
       .font(.system(size: 20))
       .foregroundColor(.white)
       .padding(6)
       .frame(width: 40, height: 40)
-      .background(isSelected ? Color.blue : Color.green)
+      .background(Color.green)
       .clipShape(Circle())
       .overlay(
         Circle()
-          .stroke(Color.white, lineWidth: isSelected ? 2 : 1.5)
+          .stroke(Color.white, lineWidth: 1.5)
       )
-      .shadow(radius: isSelected ? 3 : 1)
-      .scaleEffect(isSelected ? 1.1 : 1.0)
-      .animation(.spring(response: 0.3), value: isSelected)
+      .shadow(radius: 1)
   }
 }
 
