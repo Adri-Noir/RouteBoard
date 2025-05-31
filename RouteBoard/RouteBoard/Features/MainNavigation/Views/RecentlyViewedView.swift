@@ -139,6 +139,14 @@ struct RecentlyViewedView: View {
       } else {
         cragHistoryView(item)
       }
+    case .UserProfile:
+      if let userId = item.profileUserId {
+        UserLink(userId: userId) {
+          userHistoryView(item)
+        }
+      } else {
+        userHistoryView(item)
+      }
     default:
       EmptyView()
     }
@@ -153,6 +161,8 @@ struct RecentlyViewedView: View {
       sectorHistoryView(item)
     case .Crag:
       cragHistoryView(item)
+    case .UserProfile:
+      userHistoryView(item)
     default:
       EmptyView()
     }
@@ -265,6 +275,44 @@ struct RecentlyViewedView: View {
 
         if let sectorsCount = item.cragSectorsCount, let routesCount = item.cragRoutesCount {
           Text("\(sectorsCount) Sectors, \(routesCount) Routes")
+            .font(.caption)
+            .foregroundColor(.gray)
+        }
+      }
+
+      Spacer()
+
+      Image(systemName: "chevron.right")
+        .foregroundColor(.gray)
+    }
+    .padding(.horizontal, 10)
+    .padding(.vertical, 10)
+    .background(Color.white)
+  }
+
+  @ViewBuilder
+  private func userHistoryView(_ item: SearchHistory) -> some View {
+    HStack {
+      getPhoto(for: item)
+
+      VStack(alignment: .leading) {
+        HStack(spacing: 4) {
+          Text(item.profileUsername ?? "Unknown User")
+            .font(.body)
+            .fontWeight(.bold)
+            .foregroundColor(Color.newTextColor)
+
+          Text("User")
+            .font(.caption2)
+            .foregroundColor(.white)
+            .padding(.horizontal, 6)
+            .padding(.vertical, 2)
+            .background(Color.purple.opacity(0.7))
+            .clipShape(RoundedRectangle(cornerRadius: 4))
+        }
+
+        if let ascentsCount = item.ascentsCount {
+          Text("\(ascentsCount) Ascents")
             .font(.caption)
             .foregroundColor(.gray)
         }
