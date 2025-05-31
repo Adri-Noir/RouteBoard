@@ -106,6 +106,7 @@ public class UserController(
     }
 
     [HttpGet("user/{profileUserId}/ascents")]
+    [Authorize]
     [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(PaginatedUserAscentsDto), ContentTypes = new[] { "application/json" })]
     [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
     [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
