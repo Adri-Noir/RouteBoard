@@ -57,4 +57,23 @@ public class AscentRepository(
             await dbContext.SaveChangesAsync(cancellationToken);
         }
     }
+
+    public async Task<(ICollection<Ascent> Ascents, int TotalCount)> GetPaginatedByUserIdAsync(Guid userId, int page, int pageSize, CancellationToken cancellationToken = default)
+    {
+        var query = dbContext.Ascents
+            .Include(a => a.Route)
+            .Include(a => a.Route!.Sector)
+            .Include(a => a.Route!.Sector!.Crag)
+            .Where(a => a.UserId == userId);
+
+        var totalCount = await query.CountAsync(cancellationToken);
+
+        var ascents = await query
+            .OrderByDescending(a => a.AscentDate)
+            .Skip(page * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+
+        return (ascents, totalCount);
+    }
 }

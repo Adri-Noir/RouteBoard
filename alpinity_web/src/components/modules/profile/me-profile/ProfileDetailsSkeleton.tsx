@@ -105,6 +105,48 @@ export default function ProfileDetailsSkeleton() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Ascents History Table */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Ascents History</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {[...Array(3)].map((_, groupIndex) => (
+              <div key={groupIndex} className="space-y-2">
+                {/* Date Header Skeleton */}
+                <div className="bg-muted/30 rounded-md p-3">
+                  <Skeleton className="mx-auto h-6 w-32" />
+                </div>
+                {/* Ascent Rows Skeleton */}
+                <div className="space-y-2">
+                  {[...Array(2)].map((_, ascentIndex) => (
+                    <div key={ascentIndex} className="grid grid-cols-6 gap-4 rounded-md border p-2">
+                      <div className="space-y-1">
+                        <Skeleton className="h-4 w-full" /> {/* Route name */}
+                        <Skeleton className="h-3 w-3/4" /> {/* Crag/Sector */}
+                      </div>
+                      <div className="space-y-1">
+                        <Skeleton className="h-3 w-full" /> {/* Notes line 1 */}
+                        <Skeleton className="h-3 w-2/3" /> {/* Notes line 2 */}
+                      </div>
+                      <Skeleton className="h-6 w-12 rounded-md" /> {/* Grade badge */}
+                      <Skeleton className="h-6 w-16 rounded-md" /> {/* Ascent type badge */}
+                      <Skeleton className="h-4 w-full" /> {/* Attempts */}
+                      <div className="flex space-x-1">
+                        {[...Array(5)].map((_, starIndex) => (
+                          <Skeleton key={starIndex} className="h-3 w-3" /> /* Stars */
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

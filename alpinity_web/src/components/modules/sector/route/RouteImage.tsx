@@ -20,7 +20,7 @@ const RouteImage = ({ selectedRoute }: RouteImageProps) => {
           fill
           sizes="(max-width: 1024px) 100vw, 66vw"
           priority
-          containerClassName="h-[75vh] max-h-[900px] w-full rounded-lg border"
+          containerClassName="h-[75vh] max-h-[900px] w-full rounded-lg border bg-muted"
         />
       ) : (
         <div className="bg-muted text-muted-foreground flex h-[75vh] max-h-[900px] w-full items-center justify-center rounded-lg border">

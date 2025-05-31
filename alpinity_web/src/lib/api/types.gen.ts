@@ -286,6 +286,11 @@ export type LoginCommand = {
   password: string | null;
 };
 
+export type PaginatedUserAscentsDto = {
+  ascents?: Array<UserAscentDto> | null;
+  totalCount?: number;
+};
+
 export type PaginatedUsersDto = {
   users?: Array<UserRestrictedDto> | null;
   totalCount?: number;
@@ -426,6 +431,29 @@ export type SectorRouteDto = {
 
 export type UpdateCragCreatorsDto = {
   userIds?: Array<string> | null;
+};
+
+export type UserAscentDto = {
+  climbTypes?: Array<ClimbType> | null;
+  rockTypes?: Array<RockType> | null;
+  holdTypes?: Array<HoldType> | null;
+  id?: string;
+  ascentDate?: string | null;
+  notes?: string | null;
+  ascentType?: AscentType;
+  numberOfAttempts?: number | null;
+  proposedGrade?: ClimbingGrade;
+  rating?: number | null;
+  routeId?: string;
+  routeName?: string | null;
+  routeGrade?: ClimbingGrade;
+  routeDescription?: string | null;
+  routeLength?: number | null;
+  routeType?: Array<RouteType> | null;
+  sectorId?: string;
+  sectorName?: string | null;
+  cragId?: string;
+  cragName?: string | null;
 };
 
 export type UserProfileDto = {
@@ -1718,6 +1746,42 @@ export type GetApiUserUserByProfileUserIdRecentlyAscendedRoutesResponses = {
 export type GetApiUserUserByProfileUserIdRecentlyAscendedRoutesResponse =
   GetApiUserUserByProfileUserIdRecentlyAscendedRoutesResponses[keyof GetApiUserUserByProfileUserIdRecentlyAscendedRoutesResponses];
 
+export type GetApiUserUserByProfileUserIdAscentsData = {
+  body?: never;
+  path: {
+    profileUserId: string;
+  };
+  query?: {
+    page?: number;
+    pageSize?: number;
+  };
+  url: "/api/User/user/{profileUserId}/ascents";
+};
+
+export type GetApiUserUserByProfileUserIdAscentsErrors = {
+  /**
+   * Bad Request
+   */
+  400: CustomProblemDetailsResponse;
+  /**
+   * Not Found
+   */
+  404: CustomProblemDetailsResponse;
+};
+
+export type GetApiUserUserByProfileUserIdAscentsError =
+  GetApiUserUserByProfileUserIdAscentsErrors[keyof GetApiUserUserByProfileUserIdAscentsErrors];
+
+export type GetApiUserUserByProfileUserIdAscentsResponses = {
+  /**
+   * OK
+   */
+  200: PaginatedUserAscentsDto;
+};
+
+export type GetApiUserUserByProfileUserIdAscentsResponse =
+  GetApiUserUserByProfileUserIdAscentsResponses[keyof GetApiUserUserByProfileUserIdAscentsResponses];
+
 export type PutApiUserPhotoData = {
   body?: {
     UserId?: string;
@@ -1745,10 +1809,8 @@ export type PutApiUserPhotoResponses = {
   /**
    * OK
    */
-  200: UserProfileDto;
+  200: unknown;
 };
-
-export type PutApiUserPhotoResponse = PutApiUserPhotoResponses[keyof PutApiUserPhotoResponses];
 
 export type GetApiUserAllData = {
   body?: never;

@@ -17,6 +17,7 @@ interface SearchSuggestionItemProps {
 }
 
 const getHref = (suggestion: SearchResultDto) => {
+  console.log("suggestion", suggestion);
   const { entityType, cragId, sectorId, routeId, profileUserId, routeCragId, routeSectorId } = suggestion;
   const type = entityType ? mapEntityTypeToUiType(entityType) : "crag";
 

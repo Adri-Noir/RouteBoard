@@ -2,6 +2,7 @@
 
 import { ProfileAscentTypeChart } from "@/components/modules/profile/me-profile/ProfileAscentTypeChart";
 import { ProfileAscentTypeTable } from "@/components/modules/profile/me-profile/ProfileAscentTypeTable";
+import { ProfileAscentsTable } from "@/components/modules/profile/me-profile/ProfileAscentsTable";
 import ProfileDetailsSkeleton from "@/components/modules/profile/me-profile/ProfileDetailsSkeleton";
 import { ProfileGradeDistribution } from "@/components/modules/profile/me-profile/ProfileGradeDistribution";
 import { ProfileRecentlyAscended } from "@/components/modules/profile/me-profile/ProfileRecentlyAscended";
@@ -96,6 +97,9 @@ export default function ClientProfile({ userId: propUserId }: ClientProfileProps
       {profile.climbingGradeAscentCount && profile.climbingGradeAscentCount.length > 0 && (
         <ProfileGradeDistribution data={profile.climbingGradeAscentCount} filterRouteType={selectedRouteType} />
       )}
+
+      {/* Ascents History Table */}
+      <ProfileAscentsTable userId={userId} />
     </div>
   );
 }

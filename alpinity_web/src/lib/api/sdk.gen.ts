@@ -108,8 +108,10 @@ import type {
   GetApiUserUserByProfileUserIdRecentlyAscendedRoutesData,
   GetApiUserUserByProfileUserIdRecentlyAscendedRoutesResponse,
   GetApiUserUserByProfileUserIdRecentlyAscendedRoutesError,
+  GetApiUserUserByProfileUserIdAscentsData,
+  GetApiUserUserByProfileUserIdAscentsResponse,
+  GetApiUserUserByProfileUserIdAscentsError,
   PutApiUserPhotoData,
-  PutApiUserPhotoResponse,
   PutApiUserPhotoError,
   GetApiUserAllData,
   GetApiUserAllResponse,
@@ -801,10 +803,29 @@ export const getApiUserUserByProfileUserIdRecentlyAscendedRoutes = <ThrowOnError
   });
 };
 
+export const getApiUserUserByProfileUserIdAscents = <ThrowOnError extends boolean = false>(
+  options: Options<GetApiUserUserByProfileUserIdAscentsData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetApiUserUserByProfileUserIdAscentsResponse,
+    GetApiUserUserByProfileUserIdAscentsError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        name: "Authorization",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/User/user/{profileUserId}/ascents",
+    ...options,
+  });
+};
+
 export const putApiUserPhoto = <ThrowOnError extends boolean = false>(
   options?: Options<PutApiUserPhotoData, ThrowOnError>,
 ) => {
-  return (options?.client ?? _heyApiClient).put<PutApiUserPhotoResponse, PutApiUserPhotoError, ThrowOnError>({
+  return (options?.client ?? _heyApiClient).put<unknown, PutApiUserPhotoError, ThrowOnError>({
     ...formDataBodySerializer,
     security: [
       {

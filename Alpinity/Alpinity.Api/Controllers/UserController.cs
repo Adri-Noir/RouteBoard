@@ -9,6 +9,7 @@ using Alpinity.Application.UseCases.Users.Commands.RecentlyAscendedRoutes;
 using Alpinity.Application.UseCases.Users.Commands.UpdatePhoto;
 using Alpinity.Application.UseCases.Users.Commands.GetAllUsers;
 using Alpinity.Application.UseCases.Users.Commands.Edit;
+using Alpinity.Application.UseCases.Users.Commands.GetUserAscents;
 using Alpinity.Application.UseCases.Users.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -98,6 +99,27 @@ public class UserController(
         var command = new RecentlyAscendedRoutesCommand
         {
             UserId = profileUserId
+        };
+
+        var result = await mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("user/{profileUserId}/ascents")]
+    [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(PaginatedUserAscentsDto), ContentTypes = new[] { "application/json" })]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    [SwaggerResponse(StatusCodes.Status404NotFound, Type = typeof(CustomProblemDetailsResponse), ContentTypes = new[] { "application/problem+json" })]
+    public async Task<ActionResult<PaginatedUserAscentsDto>> GetUserAscents(
+        Guid profileUserId,
+        [FromQuery] int page = 0,
+        [FromQuery] int pageSize = 20,
+        CancellationToken cancellationToken = default)
+    {
+        var command = new GetUserAscentsCommand
+        {
+            UserId = profileUserId,
+            Page = page,
+            PageSize = pageSize
         };
 
         var result = await mediator.Send(command, cancellationToken);

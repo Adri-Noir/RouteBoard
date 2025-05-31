@@ -12,5 +12,18 @@ public class AscentProfile : Profile
             .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.Username))
             .ForMember(dest => dest.UserProfilePhotoUrl, opt =>
                 opt.MapFrom(src => src.User.ProfilePhoto != null ? src.User.ProfilePhoto.Url : null));
+
+        CreateMap<Ascent, UserAscentDto>()
+            .ForMember(dest => dest.AscentDate, opt => opt.MapFrom(src => src.AscentDate.ToString("yyyy-MM-dd")))
+            .ForMember(dest => dest.RouteId, opt => opt.MapFrom(src => src.Route!.Id))
+            .ForMember(dest => dest.RouteName, opt => opt.MapFrom(src => src.Route!.Name))
+            .ForMember(dest => dest.RouteGrade, opt => opt.MapFrom(src => src.Route!.Grade))
+            .ForMember(dest => dest.RouteDescription, opt => opt.MapFrom(src => src.Route!.Description))
+            .ForMember(dest => dest.RouteLength, opt => opt.MapFrom(src => src.Route!.Length))
+            .ForMember(dest => dest.RouteType, opt => opt.MapFrom(src => src.Route!.RouteType))
+            .ForMember(dest => dest.SectorId, opt => opt.MapFrom(src => src.Route!.Sector!.Id))
+            .ForMember(dest => dest.SectorName, opt => opt.MapFrom(src => src.Route!.Sector!.Name))
+            .ForMember(dest => dest.CragId, opt => opt.MapFrom(src => src.Route!.Sector!.Crag!.Id))
+            .ForMember(dest => dest.CragName, opt => opt.MapFrom(src => src.Route!.Sector!.Crag!.Name));
     }
 }

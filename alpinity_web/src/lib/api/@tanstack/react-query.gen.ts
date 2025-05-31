@@ -38,6 +38,7 @@ import {
   getApiUserRecentlyAscendedRoutes,
   getApiUserUserByProfileUserId,
   getApiUserUserByProfileUserIdRecentlyAscendedRoutes,
+  getApiUserUserByProfileUserIdAscents,
   putApiUserPhoto,
   getApiUserAll,
   putApiUserEdit,
@@ -113,9 +114,11 @@ import type {
   GetApiUserRecentlyAscendedRoutesData,
   GetApiUserUserByProfileUserIdData,
   GetApiUserUserByProfileUserIdRecentlyAscendedRoutesData,
+  GetApiUserUserByProfileUserIdAscentsData,
+  GetApiUserUserByProfileUserIdAscentsError,
+  GetApiUserUserByProfileUserIdAscentsResponse,
   PutApiUserPhotoData,
   PutApiUserPhotoError,
-  PutApiUserPhotoResponse,
   GetApiUserAllData,
   GetApiUserAllError,
   GetApiUserAllResponse,
@@ -1075,12 +1078,73 @@ export const getApiUserUserByProfileUserIdRecentlyAscendedRoutesOptions = (
   });
 };
 
+export const getApiUserUserByProfileUserIdAscentsQueryKey = (
+  options: Options<GetApiUserUserByProfileUserIdAscentsData>,
+) => createQueryKey("getApiUserUserByProfileUserIdAscents", options);
+
+export const getApiUserUserByProfileUserIdAscentsOptions = (
+  options: Options<GetApiUserUserByProfileUserIdAscentsData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getApiUserUserByProfileUserIdAscents({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getApiUserUserByProfileUserIdAscentsQueryKey(options),
+  });
+};
+
+export const getApiUserUserByProfileUserIdAscentsInfiniteQueryKey = (
+  options: Options<GetApiUserUserByProfileUserIdAscentsData>,
+): QueryKey<Options<GetApiUserUserByProfileUserIdAscentsData>> =>
+  createQueryKey("getApiUserUserByProfileUserIdAscents", options, true);
+
+export const getApiUserUserByProfileUserIdAscentsInfiniteOptions = (
+  options: Options<GetApiUserUserByProfileUserIdAscentsData>,
+) => {
+  return infiniteQueryOptions<
+    GetApiUserUserByProfileUserIdAscentsResponse,
+    GetApiUserUserByProfileUserIdAscentsError,
+    InfiniteData<GetApiUserUserByProfileUserIdAscentsResponse>,
+    QueryKey<Options<GetApiUserUserByProfileUserIdAscentsData>>,
+    number | Pick<QueryKey<Options<GetApiUserUserByProfileUserIdAscentsData>>[0], "body" | "headers" | "path" | "query">
+  >(
+    // @ts-ignore
+    {
+      queryFn: async ({ pageParam, queryKey, signal }) => {
+        // @ts-ignore
+        const page: Pick<
+          QueryKey<Options<GetApiUserUserByProfileUserIdAscentsData>>[0],
+          "body" | "headers" | "path" | "query"
+        > =
+          typeof pageParam === "object"
+            ? pageParam
+            : {
+                query: {
+                  page: pageParam,
+                },
+              };
+        const params = createInfiniteParams(queryKey, page);
+        const { data } = await getApiUserUserByProfileUserIdAscents({
+          ...options,
+          ...params,
+          signal,
+          throwOnError: true,
+        });
+        return data;
+      },
+      queryKey: getApiUserUserByProfileUserIdAscentsInfiniteQueryKey(options),
+    },
+  );
+};
+
 export const putApiUserPhotoMutation = (options?: Partial<Options<PutApiUserPhotoData>>) => {
-  const mutationOptions: UseMutationOptions<
-    PutApiUserPhotoResponse,
-    PutApiUserPhotoError,
-    Options<PutApiUserPhotoData>
-  > = {
+  const mutationOptions: UseMutationOptions<unknown, PutApiUserPhotoError, Options<PutApiUserPhotoData>> = {
     mutationFn: async (localOptions) => {
       const { data } = await putApiUserPhoto({
         ...options,

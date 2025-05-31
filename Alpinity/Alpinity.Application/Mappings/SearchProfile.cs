@@ -51,7 +51,7 @@ public class SearchProfile : Profile
             .ForMember(dest => dest.RouteSectorName, opt => opt.MapFrom(src =>
                 src.Sector != null ? src.Sector.Name : null))
             .ForMember(dest => dest.RouteCragId, opt => opt.MapFrom(src =>
-                src.Sector != null && src.Sector.Crag != null ? src.Sector.Crag.Id : (Guid?)null))
+                src.Sector != null ? src.Sector.CragId : (Guid?)null))
             .ForMember(dest => dest.RouteCragName, opt => opt.MapFrom(src =>
                 src.Sector != null && src.Sector.Crag != null ? src.Sector.Crag.Name : null))
             .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => src.RoutePhotos != null && src.RoutePhotos.Any() ? src.RoutePhotos.First().CombinedPhoto : null));

@@ -47,6 +47,7 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
             .Include(route => route.RoutePhotos!.Take(1))
             .ThenInclude(photo => photo.CombinedPhoto)
             .Include(route => route.Ascents!)
+            .Include(route => route.Sector)
             .Where(route => EF.Functions.ILike(route.Name, $"%{query}%"))
             // TODO: Implement a better search algorithm method like indexing
             // .OrderByDescending(route => EF.Functions.FreeText(route.Name, query))
