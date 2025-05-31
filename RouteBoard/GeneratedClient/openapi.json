@@ -2447,6 +2447,74 @@
         }
       }
     },
+    "/api/User/user/{profileUserId}/ascents": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "profileUserId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedUserAscentsDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomProblemDetailsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/User/photo": {
       "put": {
         "tags": [
@@ -3582,6 +3650,23 @@
         },
         "additionalProperties": false
       },
+      "PaginatedUserAscentsDto": {
+        "type": "object",
+        "properties": {
+          "ascents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserAscentDto"
+            },
+            "nullable": true
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "PaginatedUsersDto": {
         "type": "object",
         "properties": {
@@ -4124,6 +4209,104 @@
               "type": "string",
               "format": "uuid"
             },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserAscentDto": {
+        "type": "object",
+        "properties": {
+          "climbTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClimbType"
+            },
+            "nullable": true
+          },
+          "rockTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RockType"
+            },
+            "nullable": true
+          },
+          "holdTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HoldType"
+            },
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "ascentDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "ascentType": {
+            "$ref": "#/components/schemas/AscentType"
+          },
+          "numberOfAttempts": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "proposedGrade": {
+            "$ref": "#/components/schemas/ClimbingGrade"
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "routeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "routeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "routeGrade": {
+            "$ref": "#/components/schemas/ClimbingGrade"
+          },
+          "routeDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "routeLength": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "routeType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RouteType"
+            },
+            "nullable": true
+          },
+          "sectorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sectorName": {
+            "type": "string",
+            "nullable": true
+          },
+          "cragId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "cragName": {
+            "type": "string",
             "nullable": true
           }
         },

@@ -66,8 +66,7 @@ struct RegisteredUserView: View {
             selectedAscentType: selectedAscentType
           )
           PhotosGridView(photos: userProfile?.photos)
-          FriendsListView()
-
+          AllUserAscentsView(userId: authViewModel.user?.id ?? "")
         }
         .padding(.horizontal, ThemeExtension.horizontalPadding)
         .padding(.bottom, 30)

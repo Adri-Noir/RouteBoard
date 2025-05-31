@@ -52,6 +52,7 @@
 		AF2991F62D078D3400BB7907 /* CameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2991F32D078D3400BB7907 /* CameraModel.swift */; };
 		AF29920B2D07BEB300BB7907 /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF29920A2D07BEB300BB7907 /* CameraPreview.swift */; };
 		AF2B56812DB1A410003071FE /* ThemeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2B56802DB1A400003071FE /* ThemeExtension.swift */; };
+		AF34AA592DEB8C35002B13BB /* AllUserAscentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF34AA582DEB8C30002B13BB /* AllUserAscentsView.swift */; };
 		AF3829C42D9F35C600F3DAD0 /* CreateSectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3829C32D9F35C200F3DAD0 /* CreateSectorView.swift */; };
 		AF382A412DA07D4200F3DAD0 /* SectorViewModeSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF382A402DA07D3A00F3DAD0 /* SectorViewModeSwitcher.swift */; };
 		AF382A462DA0817100F3DAD0 /* CreateRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF382A452DA0816D00F3DAD0 /* CreateRouteView.swift */; };
@@ -254,6 +255,7 @@
 		AF2991F32D078D3400BB7907 /* CameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModel.swift; sourceTree = "<group>"; };
 		AF29920A2D07BEB300BB7907 /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
 		AF2B56802DB1A400003071FE /* ThemeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeExtension.swift; sourceTree = "<group>"; };
+		AF34AA582DEB8C30002B13BB /* AllUserAscentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllUserAscentsView.swift; sourceTree = "<group>"; };
 		AF35C6AD2CD80B5000FEBC40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF3829C32D9F35C200F3DAD0 /* CreateSectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSectorView.swift; sourceTree = "<group>"; };
 		AF382A402DA07D3A00F3DAD0 /* SectorViewModeSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorViewModeSwitcher.swift; sourceTree = "<group>"; };
@@ -841,17 +843,9 @@
 		AF98A8102DE67DCE00B57A4F /* EditUser */ = {
 			isa = PBXGroup;
 			children = (
-				AF98A8162DE67DE100B57A4F /* Views */,
 				AF98A8112DE67DD400B57A4F /* EditUserView.swift */,
 			);
 			path = EditUser;
-			sourceTree = "<group>";
-		};
-		AF98A8162DE67DE100B57A4F /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		AF98A8372DE8C12500B57A4F /* CragCreators */ = {
@@ -1224,6 +1218,7 @@
 		AFE4C4982D8756FA00A09302 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AF34AA582DEB8C30002B13BB /* AllUserAscentsView.swift */,
 				AF12710B2D87605E0009D70F /* UserLink.swift */,
 				AF1271012D875A910009D70F /* ClimbingGradesGraphView.swift */,
 				AFE4C4A62D8758DF00A09302 /* FriendsListView.swift */,
@@ -1452,6 +1447,7 @@
 				AF8DA64B2CD56C1300751865 /* GeneralSearchView.swift in Sources */,
 				AF2B56812DB1A410003071FE /* ThemeExtension.swift in Sources */,
 				AF8DA6482CD5671E00751865 /* ApplyBackgroundColor.swift in Sources */,
+				AF34AA592DEB8C35002B13BB /* AllUserAscentsView.swift in Sources */,
 				AFE4C4A52D8758CD00A09302 /* UserPhotosGridView.swift in Sources */,
 				AF0760C52D7CEC71003BB9BA /* RouteTypeConverter.swift in Sources */,
 				AF869CD22C307D870092E371 /* RouteImageModel.swift in Sources */,
