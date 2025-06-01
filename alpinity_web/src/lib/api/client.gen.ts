@@ -7,6 +7,7 @@ import {
   createClient,
   createConfig,
 } from "@hey-api/client-fetch";
+import { createClientConfig } from "../hey-api";
 
 /**
  * The `createClientConfig()` function will be called on client initialization
@@ -21,7 +22,9 @@ export type CreateClientConfig<T extends DefaultClientOptions = ClientOptions> =
 ) => Config<Required<DefaultClientOptions> & T>;
 
 export const client = createClient(
-  createConfig<ClientOptions>({
-    baseUrl: "https://192.168.1.158:7244",
-  }),
+  createClientConfig(
+    createConfig<ClientOptions>({
+      baseUrl: "https://192.168.1.158:7244",
+    }),
+  ),
 );

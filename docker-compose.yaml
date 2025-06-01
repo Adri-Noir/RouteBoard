@@ -1,0 +1,82 @@
+services:
+  # PostgreSQL Database
+  db:
+    image: postgis/postgis:17-3.5
+    container_name: alpinity-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Passw0rd_
+      - POSTGRES_DB=alpinity
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - alpinity-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # .NET API Backend
+  api:
+    build:
+      context: ./Alpinity
+      dockerfile: Alpinity.Api/Dockerfile
+    container_name: alpinity-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5268
+      - ConnectionStrings__DefaultConnection=Host=db;Database=alpinity;Username=postgres;Password=Passw0rd_
+      - ConnectionStrings__BlobConnection=DefaultEndpointsProtocol=https;AccountName=alpinitydev;AccountKey=qiDdG7Tt5RlH6dheidfXb0SscryfoFWZ+fLngNdVWo6JBCay4H3zoplKTxs32hdDRZ6JFkvDkJXy+AStRS+E9w==;EndpointSuffix=core.windows.net
+      - Jwt__Key=11EFA3E8-0738-4460-8623-A10A8CEC3BB6
+      - Jwt__Issuer=CoreIdentity
+      - Jwt__Audience=CoreIdentityUser
+      - Jwt__DurationInMinutes=1440
+      - Mapbox__AccessToken=pk.eyJ1IjoiYWN2aWphbm92aWMiLCJhIjoiY203czJva21nMGI1NTJrcXlncHVzamFlZyJ9.BWbBtvOAwoKp36zaSwEhYg
+    ports:
+      - "5268:5268"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - alpinity-network
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "timeout 10s bash -c '</dev/tcp/localhost/5268' || exit 1",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  # Next.js Frontend
+  web:
+    build:
+      context: ./alpinity_web
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=http://localhost:5268
+        - NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoiYWN2aWphbm92aWMiLCJhIjoiY204ZjIybHliMDJ1NzJqczdnZ2x6anNyYSJ9.Al_mIU3oCSJ63y_VF-Utog
+    container_name: alpinity-web
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://localhost:5268
+      - NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoiYWN2aWphbm92aWMiLCJhIjoiY204ZjIybHliMDJ1NzJqczdnZ2x6anNyYSJ9.Al_mIU3oCSJ63y_VF-Utog
+    ports:
+      - "3000:3000"
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - alpinity-network
+
+networks:
+  alpinity-network:
+    driver: bridge
+
+volumes:
+  pgdata:

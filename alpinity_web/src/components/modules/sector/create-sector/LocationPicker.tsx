@@ -30,19 +30,15 @@ const LocationPicker = ({ latitude, longitude, onLocationChange, cragLocation }:
     wrapperRef: mapWrapperRef,
   });
 
-  // Initialize map
+  // Initialize map (only once)
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
-
-    // Use crag location as center if available, otherwise use current coordinates or default
-    const centerLat = cragLocation?.latitude || latitude || 45.815;
-    const centerLng = cragLocation?.longitude || longitude || 15.9819;
 
     const newMap = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/outdoors-v12",
-      center: [centerLng, centerLat],
-      zoom: cragLocation ? 14 : 10,
+      center: [0, 0], // Will be set in the next effect
+      zoom: 1, // Will be set in the next effect
     });
 
     map.current = newMap;
@@ -50,14 +46,9 @@ const LocationPicker = ({ latitude, longitude, onLocationChange, cragLocation }:
     // Add navigation controls
     newMap.addControl(new mapboxgl.NavigationControl(), "top-right");
 
-    // Disable all interaction initially
-    newMap.dragPan.disable();
-    newMap.scrollZoom.disable();
-    newMap.boxZoom.disable();
-    newMap.dragRotate.disable();
-    newMap.keyboard.disable();
-    newMap.doubleClickZoom.disable();
-    newMap.touchZoomRotate.disable();
+    newMap.on("render", () => {
+      newMap.resize();
+    });
 
     newMap.on("load", () => {
       setIsMapReady(true);
@@ -69,7 +60,20 @@ const LocationPicker = ({ latitude, longitude, onLocationChange, cragLocation }:
         map.current = null;
       }
     };
-  }, []); // Only initialize once
+  }, []); // Empty dependencies - only initialize once
+
+  // Set initial center and zoom when map is ready
+  useEffect(() => {
+    if (!map.current || isMapReady) return;
+
+    // Use crag location as center if available, otherwise use current coordinates or default
+    const centerLat = latitude || cragLocation?.latitude || 45.815;
+    const centerLng = longitude || cragLocation?.longitude || 15.9819;
+    const zoom = cragLocation ? 14 : 10;
+
+    map.current.setCenter([centerLng, centerLat]);
+    map.current.setZoom(zoom);
+  }, [isMapReady, cragLocation, latitude, longitude]);
 
   // Handle click events separately
   useEffect(() => {
@@ -172,7 +176,7 @@ const LocationPicker = ({ latitude, longitude, onLocationChange, cragLocation }:
         )}
       </div>
 
-      <div className="relative space-y-2" ref={mapWrapperRef}>
+      <div className="relative" ref={mapWrapperRef}>
         <div ref={mapContainer} className="bg-muted h-[300px] overflow-hidden rounded-md border" />
 
         {!isInteractive && (

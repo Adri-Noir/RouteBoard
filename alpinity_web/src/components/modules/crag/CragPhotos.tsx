@@ -50,6 +50,8 @@ const CragPhotos = ({ photos }: CragPhotosProps) => {
                   fill
                   className="object-cover"
                   containerClassName="aspect-video"
+                  priority={false}
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
             </CarouselItem>

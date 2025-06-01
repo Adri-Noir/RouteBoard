@@ -78,6 +78,7 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
         cragId,
       },
     }),
+    refetchOnWindowFocus: false,
   });
 
   const { mutate: deleteCrag, isPending: isDeleteLoading } = useMutation({

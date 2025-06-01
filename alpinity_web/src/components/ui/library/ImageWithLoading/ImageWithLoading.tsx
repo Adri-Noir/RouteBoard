@@ -55,6 +55,10 @@ const ImageWithLoading = ({
           }
         }}
         {...props}
+        onError={(e) => {
+          console.error("Image failed to load", e);
+          setIsLoading(false);
+        }}
       />
     </div>
   );

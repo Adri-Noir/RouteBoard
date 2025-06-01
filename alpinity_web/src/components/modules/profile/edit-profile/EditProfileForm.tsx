@@ -17,7 +17,7 @@ import { CalendarIcon, Camera, Loader2, Upload, X } from "lucide-react";
 import { useCallback, useState } from "react";
 
 interface EditProfileFormProps {
-  onSuccess?: (user: UserProfileDto) => void;
+  onSuccess?: (user?: UserProfileDto) => void;
 }
 
 const EditProfileForm = ({ onSuccess }: EditProfileFormProps) => {
@@ -50,12 +50,12 @@ const EditProfileForm = ({ onSuccess }: EditProfileFormProps) => {
     error: photoError,
   } = useMutation({
     ...putApiUserPhotoMutation(),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries();
       setSelectedPhoto(null);
       setPhotoPreview(null);
       if (onSuccess) {
-        onSuccess(data);
+        onSuccess();
       }
     },
   });

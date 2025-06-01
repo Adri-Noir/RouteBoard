@@ -10,15 +10,6 @@ services:
     ports:
       - "5432:5432"
     container_name: alpinity-api-db
-  
-  azurite:
-    image: mcr.microsoft.com/azure-storage/azurite
-    command: azurite --blobHost 0.0.0.0 --blobPort 10000
-    ports:
-      - "10000:10000"
-    volumes:
-      - azuritedata:/data
-    container_name: alpinity-api-azurite
 
 volumes:
   pgdata:

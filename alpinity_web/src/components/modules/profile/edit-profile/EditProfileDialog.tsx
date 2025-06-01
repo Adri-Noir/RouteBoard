@@ -11,9 +11,11 @@ interface EditProfileDialogProps {
 }
 
 const EditProfileDialog = ({ open, onOpenChange, onSuccess }: EditProfileDialogProps) => {
-  const handleSuccess = (user: UserProfileDto) => {
+  const handleSuccess = (user?: UserProfileDto) => {
     onOpenChange(false);
-    onSuccess?.(user);
+    if (user) {
+      onSuccess?.(user);
+    }
   };
 
   return (

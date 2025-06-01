@@ -3,9 +3,9 @@ import CragDetailsSkeleton from "@/components/modules/crag/CragDetailsSkeleton";
 import { Suspense } from "react";
 
 interface CragPageProps {
-  params: {
+  params: Promise<{
     cragId: string;
-  };
+  }>;
 }
 
 const CragPage = async ({ params }: CragPageProps) => {

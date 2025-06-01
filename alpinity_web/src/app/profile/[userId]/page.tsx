@@ -3,9 +3,9 @@ import { Suspense } from "react";
 import ClientProfile from "../ClientProfile";
 
 interface ProfilePageProps {
-  params: {
+  params: Promise<{
     userId: string;
-  };
+  }>;
 }
 
 export default async function ProfilePage({ params }: ProfilePageProps) {

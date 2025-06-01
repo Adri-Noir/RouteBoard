@@ -8,29 +8,30 @@ interface UseInteractiveMapOptions {
 export function useInteractiveMap({ mapRef, wrapperRef }: UseInteractiveMapOptions) {
   const [isInteractive, setIsInteractive] = useState(false);
 
-  // Toggle map interactivity when isInteractive changes
+  // Toggle map interactivity when isInteractive changes or when the map instance is initialized
   useEffect(() => {
-    if (!mapRef.current) return;
+    const mapInstance = mapRef.current;
+    if (!mapInstance) return;
 
     if (isInteractive) {
-      mapRef.current.dragPan.enable();
-      mapRef.current.scrollZoom.enable();
-      mapRef.current.boxZoom.enable();
-      mapRef.current.dragRotate.enable();
-      mapRef.current.keyboard.enable();
-      mapRef.current.doubleClickZoom.enable();
-      mapRef.current.touchZoomRotate.enable();
+      mapInstance.dragPan.enable();
+      mapInstance.scrollZoom.enable();
+      mapInstance.boxZoom.enable();
+      mapInstance.dragRotate.enable();
+      mapInstance.keyboard.enable();
+      mapInstance.doubleClickZoom.enable();
+      mapInstance.touchZoomRotate.enable();
     } else {
-      mapRef.current.dragPan.disable();
-      mapRef.current.scrollZoom.disable();
-      mapRef.current.boxZoom.disable();
-      mapRef.current.dragRotate.disable();
-      mapRef.current.keyboard.disable();
-      mapRef.current.doubleClickZoom.disable();
-      mapRef.current.touchZoomRotate.disable();
+      mapInstance.dragPan.disable();
+      mapInstance.scrollZoom.disable();
+      mapInstance.boxZoom.disable();
+      mapInstance.dragRotate.disable();
+      mapInstance.keyboard.disable();
+      mapInstance.doubleClickZoom.disable();
+      mapInstance.touchZoomRotate.disable();
     }
 
-    // Re-enable controls when interactive, disable when not
+    // Update control styles
     const controls = document.querySelectorAll(".mapboxgl-ctrl");
     controls.forEach((control) => {
       if (isInteractive) {

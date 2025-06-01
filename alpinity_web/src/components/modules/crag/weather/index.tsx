@@ -17,6 +17,7 @@ const CragWeather = ({ cragId }: CragWeatherProps) => {
         cragId,
       },
     }),
+    refetchOnWindowFocus: false,
   });
 
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);

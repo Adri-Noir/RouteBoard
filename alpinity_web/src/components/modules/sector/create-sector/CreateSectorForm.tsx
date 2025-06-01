@@ -88,8 +88,8 @@ const CreateSectorForm = ({ sector, cragId, cragLocation, onSuccess }: CreateSec
             Name: data.value.name !== sector.name ? data.value.name : undefined,
             Description:
               data.value.description !== sector.description ? data.value.description || undefined : undefined,
-            "Location.Latitude": latitude.toLocaleString("pt-BR") as unknown as number,
-            "Location.Longitude": longitude.toLocaleString("pt-BR") as unknown as number,
+            "Location.Latitude": latitude,
+            "Location.Longitude": longitude,
             Photos: photos.length > 0 ? photos : undefined,
             PhotosToRemove: photosToRemove.length > 0 ? photosToRemove : undefined,
           },
@@ -105,8 +105,8 @@ const CreateSectorForm = ({ sector, cragId, cragLocation, onSuccess }: CreateSec
           body: {
             Name: data.value.name,
             Description: data.value.description || undefined,
-            "Location.Latitude": latitude.toLocaleString("pt-BR") as unknown as number,
-            "Location.Longitude": longitude.toLocaleString("pt-BR") as unknown as number,
+            "Location.Latitude": latitude,
+            "Location.Longitude": longitude,
             CragId: targetCragId,
             Photos: photos.length > 0 ? photos : undefined,
           },

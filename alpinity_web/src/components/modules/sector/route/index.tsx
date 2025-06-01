@@ -32,7 +32,6 @@ const SectorRoutes = ({ sector, canModify, onEditRoute, onDeleteRoute }: SectorR
       if (!selectedRouteId) {
         setSelectedRouteId(sector.routes[0].id);
       } else if (!sector.routes.some((route) => route.id === selectedRouteId)) {
-        // If the selected route doesn't exist in this sector, reset to first route
         setSelectedRouteId(sector.routes[0].id);
       }
     }
@@ -42,10 +41,11 @@ const SectorRoutes = ({ sector, canModify, onEditRoute, onDeleteRoute }: SectorR
   useEffect(() => {
     if (selectedRouteId) {
       const params = new URLSearchParams(searchParams.toString());
+      params.set("sectorId", sector.id);
       params.set("routeId", selectedRouteId);
       router.replace(`?${params.toString()}`, { scroll: false });
     }
-  }, [selectedRouteId, router, searchParams]);
+  }, [selectedRouteId, router, searchParams, sector.id]);
 
   if (!sector.routes || sector.routes.length === 0) {
     return null;
