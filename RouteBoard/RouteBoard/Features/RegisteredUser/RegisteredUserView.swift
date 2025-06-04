@@ -49,7 +49,11 @@ struct RegisteredUserView: View {
         ErrorView(errorMessage: errorMessage)
       } else {
         VStack(spacing: 20) {
-          UserStatsView(cragsVisited: Int(userProfile?.cragsVisited ?? 0))
+          UserStatsView(
+            cragsVisited: Int(userProfile?.cragsVisited ?? 0),
+            totalAscents: totalAscents,
+            totalPhotos: totalPhotos
+          )
           AscentTypeSelectorView(
             selectedAscentType: $selectedAscentType
           )
@@ -117,6 +121,22 @@ struct RegisteredUserView: View {
       selectedAscentType: selectedAscentType,
       gradeSystem: authViewModel.getGradeSystem()
     )
+  }
+
+  private var totalAscents: Int {
+    // Break into two steps to aid type-checking
+    let perTypeTotals =
+      userProfile?.routeTypeAscentCount?.map { routeData in
+        (routeData.ascentCount ?? []).reduce(0) { runningTotal, ascent in
+          runningTotal + Int(ascent.count ?? 0)
+        }
+      } ?? []
+    return perTypeTotals.reduce(0, +)
+  }
+
+  private var totalPhotos: Int {
+    // Count photos array directly
+    (userProfile?.photos ?? []).count
   }
 }
 

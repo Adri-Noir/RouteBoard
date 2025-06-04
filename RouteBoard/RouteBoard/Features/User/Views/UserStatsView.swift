@@ -4,14 +4,16 @@ import SwiftUI
 
 struct UserStatsView: View {
   let cragsVisited: Int
+  let totalAscents: Int
+  let totalPhotos: Int
 
   var body: some View {
     HStack(spacing: 30) {
       StatItem(value: "\(cragsVisited)", label: "Crags")
       Divider().frame(height: 40)
-      StatItem(value: "0", label: "Followers")  // API doesn't provide followers count yet
+      StatItem(value: "\(totalAscents)", label: "Ascents")
       Divider().frame(height: 40)
-      StatItem(value: "0", label: "Following")  // API doesn't provide following count yet
+      StatItem(value: "\(totalPhotos)", label: "Photos")
     }
     .padding(.vertical)
     .padding(.horizontal, ThemeExtension.horizontalPadding)
