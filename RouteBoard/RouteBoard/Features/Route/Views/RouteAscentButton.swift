@@ -14,16 +14,17 @@ struct RouteAscentButton: View {
     HStack {
       Spacer()
 
-      if userHasAscended {
-        Text(
-          "Ascended on: \(userAscentDate?.formatted(date: .long, time: .omitted) ?? "Unknown")"
-        )
-        .foregroundColor(.white)
-        .padding(.horizontal, 16)
-        .padding(.vertical, 12)
-        .background(Color.black.opacity(0.75))
-        .clipShape(RoundedRectangle(cornerRadius: 20))
-      } else {
+      VStack(spacing: 8) {
+        if userHasAscended {
+          Text(
+            "Ascended on: \(userAscentDate?.formatted(date: .long, time: .omitted) ?? "Unknown")"
+          )
+          .foregroundColor(.white)
+          .padding(.horizontal, 16)
+          .padding(.vertical, 12)
+          .background(Color.black.opacity(0.75))
+          .clipShape(RoundedRectangle(cornerRadius: 20))
+        }
         Button(action: {
           navigationManager.pushView(.routeLogAscent(routeId: route.id, routeGrade: route.grade))
         }) {
