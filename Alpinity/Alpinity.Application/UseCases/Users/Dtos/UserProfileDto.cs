@@ -21,12 +21,6 @@ public class RouteTypeAscentCountDto
     public List<AscentCountDto> AscentCount { get; set; } = new List<AscentCountDto>();
 }
 
-public class ClimbingGradeAscentCountDto
-{
-    public RouteType RouteType { get; set; }
-    public List<GradeCountDto> GradeCount { get; set; } = new List<GradeCountDto>();
-}
-
 public class UserProfileDto
 {
     public Guid Id { get; set; }
@@ -37,8 +31,6 @@ public class UserProfileDto
     public PhotoDto? ProfilePhoto { get; set; }
     public int? CragsVisited { get; set; }
     public ICollection<RouteTypeAscentCountDto> RouteTypeAscentCount { get; set; } = new List<RouteTypeAscentCountDto>();
-    public ICollection<ClimbingGradeAscentCountDto> ClimbingGradeAscentCount { get; set; } = new List<ClimbingGradeAscentCountDto>();
+    public ICollection<GradeCountDto> ClimbingGradeAscentCount { get; set; } = new List<GradeCountDto>();
     public ICollection<PhotoDto> Photos { get; set; } = new List<PhotoDto>();
-
-    // TODO: Add friends support
 }

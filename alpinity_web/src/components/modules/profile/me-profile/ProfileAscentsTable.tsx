@@ -206,7 +206,7 @@ export function ProfileAscentsTable({ userId }: ProfileAscentsTableProps) {
                       <TableCell>
                         <div className="space-y-1">
                           <Link
-                            href={`/crag/${ascent.cragId}?sectorId=${ascent.sectorId}`}
+                            href={`/crag/${ascent.cragId}?sectorId=${ascent.sectorId}?routeId=${ascent.routeId}`}
                             className="block truncate font-medium hover:underline"
                           >
                             {ascent.routeName || "Unknown Route"}

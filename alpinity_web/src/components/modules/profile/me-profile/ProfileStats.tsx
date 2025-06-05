@@ -9,11 +9,7 @@ interface ProfileStatsProps {
 }
 
 export function ProfileStats({ profile }: ProfileStatsProps) {
-  const totalAscents =
-    profile.routeTypeAscentCount?.reduce(
-      (sum, item) => sum + (item.ascentCount?.reduce((s2, ac) => s2 + (ac.count ?? 0), 0) ?? 0),
-      0,
-    ) ?? 0;
+  const totalAscents = profile.climbingGradeAscentCount?.reduce((sum, item) => sum + (item.count ?? 0), 0) ?? 0;
 
   return (
     <Card>

@@ -2,28 +2,22 @@
 
 import type { GradeDistributionItem } from "@/components/modules/charts/GradeDistributionChart";
 import { GradeDistributionCard } from "@/components/modules/charts/GradeDistributionChart";
-import type { ClimbingGradeAscentCountDto } from "@/lib/api/types.gen";
+import type { GradeCountDto } from "@/lib/api/types.gen";
 import { formatClimbingGrade } from "@/lib/utils/formatters";
 import { useState } from "react";
 
 interface ProfileGradeDistributionProps {
-  data: ClimbingGradeAscentCountDto[];
-  filterRouteType?: string | null;
+  data: GradeCountDto[];
 }
 
-export function ProfileGradeDistribution({ data, filterRouteType }: ProfileGradeDistributionProps) {
+export function ProfileGradeDistribution({ data }: ProfileGradeDistributionProps) {
   const [selectedGrade, setSelectedGrade] = useState<string | null>(null);
 
-  // Aggregate counts by grade, optionally filtering by route type
   const countsMap: Record<string, number> = {};
-  data.forEach((item) => {
-    if (!filterRouteType || item.routeType === filterRouteType) {
-      item.gradeCount?.forEach((gc) => {
-        if (gc.climbingGrade) {
-          const grade = formatClimbingGrade(gc.climbingGrade);
-          countsMap[grade] = (countsMap[grade] || 0) + (gc.count ?? 0);
-        }
-      });
+  data.forEach((gc) => {
+    if (gc.climbingGrade) {
+      const grade = formatClimbingGrade(gc.climbingGrade);
+      countsMap[grade] = (countsMap[grade] || 0) + (gc.count ?? 0);
     }
   });
 
@@ -37,8 +31,8 @@ export function ProfileGradeDistribution({ data, filterRouteType }: ProfileGrade
       totalRoutes={totalRoutes}
       selectedGrade={selectedGrade}
       onSelectGrade={setSelectedGrade}
-      itemName={filterRouteType ? filterRouteType : "all routes"}
-      title={filterRouteType ? `Grade Distribution for ${filterRouteType}` : "Grade Distribution"}
+      itemName="user's ascents"
+      title="Grade Distribution"
       enableFilter={false}
     />
   );

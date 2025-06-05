@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "https://192.168.1.158:7244",
+      "url": "https://192.168.50.253:7244",
       "description": "Local Dev server"
     },
     {
@@ -2766,22 +2766,6 @@
         ],
         "type": "string"
       },
-      "ClimbingGradeAscentCountDto": {
-        "type": "object",
-        "properties": {
-          "routeType": {
-            "$ref": "#/components/schemas/RouteType"
-          },
-          "gradeCount": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GradeCountDto"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "CragDetailedDto": {
         "type": "object",
         "properties": {
@@ -4156,7 +4140,7 @@
           "climbingGradeAscentCount": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ClimbingGradeAscentCountDto"
+              "$ref": "#/components/schemas/GradeCountDto"
             },
             "nullable": true
           },

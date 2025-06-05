@@ -2878,22 +2878,6 @@
         ],
         "type": "string"
       },
-      "ClimbingGradeAscentCountDto": {
-        "type": "object",
-        "properties": {
-          "routeType": {
-            "$ref": "#/components/schemas/RouteType"
-          },
-          "gradeCount": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GradeCountDto"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "CragDetailedDto": {
         "type": "object",
         "properties": {
@@ -4353,7 +4337,7 @@
           "climbingGradeAscentCount": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ClimbingGradeAscentCountDto"
+              "$ref": "#/components/schemas/GradeCountDto"
             },
             "nullable": true
           },

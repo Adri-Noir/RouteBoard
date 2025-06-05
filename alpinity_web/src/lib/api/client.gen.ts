@@ -24,7 +24,7 @@ export type CreateClientConfig<T extends DefaultClientOptions = ClientOptions> =
 export const client = createClient(
   createClientConfig(
     createConfig<ClientOptions>({
-      baseUrl: "https://192.168.1.158:7244",
+      baseUrl: "https://192.168.50.253:7244",
     }),
   ),
 );

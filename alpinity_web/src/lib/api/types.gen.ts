@@ -70,11 +70,6 @@ export type ClimbingGrade =
   | "F_10a"
   | "PROJECT";
 
-export type ClimbingGradeAscentCountDto = {
-  routeType?: RouteType;
-  gradeCount?: Array<GradeCountDto> | null;
-};
-
 export type CragDetailedDto = {
   id?: string;
   name?: string | null;
@@ -465,7 +460,7 @@ export type UserProfileDto = {
   profilePhoto?: PhotoDto;
   cragsVisited?: number | null;
   routeTypeAscentCount?: Array<RouteTypeAscentCountDto> | null;
-  climbingGradeAscentCount?: Array<ClimbingGradeAscentCountDto> | null;
+  climbingGradeAscentCount?: Array<GradeCountDto> | null;
   photos?: Array<PhotoDto> | null;
 };
 
@@ -1883,5 +1878,5 @@ export type PutApiUserEditResponses = {
 export type PutApiUserEditResponse = PutApiUserEditResponses[keyof PutApiUserEditResponses];
 
 export type ClientOptions = {
-  baseUrl: "https://192.168.1.158:7244" | "https://localhost:7244" | (string & {});
+  baseUrl: "https://192.168.50.253:7244" | "https://localhost:7244" | (string & {});
 };

@@ -32,8 +32,11 @@ export function ProfileRecentlyAscended({ routes }: ProfileRecentlyAscendedProps
                 {routes.map((route) => {
                   const photoUrl = route.routePhotos?.[0]?.combinedPhoto?.url;
                   return (
-                    <CarouselItem key={route.id} className="pl-2 md:basis-1/2 md:pl-4">
-                      <Link href={`/crag/${route.cragId}?sectorId=${route.sectorId}`} className="block h-full">
+                    <CarouselItem key={route.id} className="pl-2 md:pl-4 lg:basis-1/2">
+                      <Link
+                        href={`/crag/${route.cragId}?sectorId=${route.sectorId}?routeId=${route.id}`}
+                        className="block h-full"
+                      >
                         <div className="hover:border-primary/50 flex cursor-pointer gap-4 rounded-lg border p-4 transition-all duration-200 hover:shadow-lg">
                           <div className="bg-muted relative h-32 w-24 flex-shrink-0 overflow-hidden rounded-md md:h-64 md:w-48">
                             {photoUrl ? (

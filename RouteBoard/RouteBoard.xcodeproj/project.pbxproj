@@ -32,7 +32,6 @@
 		AF07624F2D82164B003BB9BA /* RouteDetailsCacheClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07624E2D821646003BB9BA /* RouteDetailsCacheClient.swift */; };
 		AF1271022D875A970009D70F /* ClimbingGradesGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1271012D875A910009D70F /* ClimbingGradesGraphView.swift */; };
 		AF1271062D875C640009D70F /* AscentTypeStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1271052D875C5D0009D70F /* AscentTypeStatistics.swift */; };
-		AF1271082D875C6F0009D70F /* ClmbingGradeStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1271072D875C6B0009D70F /* ClmbingGradeStatistics.swift */; };
 		AF12710C2D8760600009D70F /* UserLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF12710B2D87605E0009D70F /* UserLink.swift */; };
 		AF1824132DDD07F2001CDF92 /* OfflineRouteTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1824122DDD07E7001CDF92 /* OfflineRouteTabView.swift */; };
 		AF1824192DDD07FC001CDF92 /* OfflineCragTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1824162DDD07F4001CDF92 /* OfflineCragTabView.swift */; };
@@ -236,7 +235,6 @@
 		AF07624E2D821646003BB9BA /* RouteDetailsCacheClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteDetailsCacheClient.swift; sourceTree = "<group>"; };
 		AF1271012D875A910009D70F /* ClimbingGradesGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimbingGradesGraphView.swift; sourceTree = "<group>"; };
 		AF1271052D875C5D0009D70F /* AscentTypeStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AscentTypeStatistics.swift; sourceTree = "<group>"; };
-		AF1271072D875C6B0009D70F /* ClmbingGradeStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClmbingGradeStatistics.swift; sourceTree = "<group>"; };
 		AF12710B2D87605E0009D70F /* UserLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLink.swift; sourceTree = "<group>"; };
 		AF1824122DDD07E7001CDF92 /* OfflineRouteTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineRouteTabView.swift; sourceTree = "<group>"; };
 		AF1824162DDD07F4001CDF92 /* OfflineCragTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineCragTabView.swift; sourceTree = "<group>"; };
@@ -517,7 +515,6 @@
 		AF1271042D875C090009D70F /* ClimbingStatistics */ = {
 			isa = PBXGroup;
 			children = (
-				AF1271072D875C6B0009D70F /* ClmbingGradeStatistics.swift */,
 				AF1271052D875C5D0009D70F /* AscentTypeStatistics.swift */,
 			);
 			path = ClimbingStatistics;
@@ -1477,7 +1474,6 @@
 				AF00C6E92DDA55D800B0945C /* DownloadedRoute.swift in Sources */,
 				AF9184F72D9DC43500484F7D /* PhotoPickerField.swift in Sources */,
 				AF8A76852D45AFE70029BE40 /* RouteAscentsView.swift in Sources */,
-				AF1271082D875C6F0009D70F /* ClmbingGradeStatistics.swift in Sources */,
 				AF9E0C782C38BE1800984C58 /* CreateRouteOverlayView.swift in Sources */,
 				AFD9316D2D29EF6B00B68D92 /* AuthViewModel.swift in Sources */,
 				AF07624F2D82164B003BB9BA /* RouteDetailsCacheClient.swift in Sources */,

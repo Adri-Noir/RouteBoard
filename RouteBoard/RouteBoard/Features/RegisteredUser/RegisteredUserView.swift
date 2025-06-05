@@ -66,8 +66,7 @@ struct RegisteredUserView: View {
             selectedAscentType: selectedAscentType
           )
           ClimbingGradesGraphView(
-            climbingGradesStats: climbingGradesStats,
-            selectedAscentType: selectedAscentType
+            climbingGradeAscentCount: userProfile?.climbingGradeAscentCount
           )
           PhotosGridView(photos: userProfile?.photos)
           AllUserAscentsView(userId: authViewModel.user?.id ?? "")
@@ -115,27 +114,18 @@ struct RegisteredUserView: View {
     )
   }
 
-  private var climbingGradesStats: [GradeStat] {
-    return ClimbingGradeStatistics.calculateGradeStats(
-      climbingGradeAscentCount: userProfile?.climbingGradeAscentCount,
-      selectedAscentType: selectedAscentType,
-      gradeSystem: authViewModel.getGradeSystem()
-    )
-  }
-
   private var totalAscents: Int {
-    // Break into two steps to aid type-checking
-    let perTypeTotals =
-      userProfile?.routeTypeAscentCount?.map { routeData in
-        (routeData.ascentCount ?? []).reduce(0) { runningTotal, ascent in
-          runningTotal + Int(ascent.count ?? 0)
-        }
-      } ?? []
-    return perTypeTotals.reduce(0, +)
+    guard let climbingGradeAscentCount = userProfile?.climbingGradeAscentCount else { return 0 }
+    var total = 0
+    for gradeCount in climbingGradeAscentCount {
+      if let count = gradeCount.count {
+        total += Int(count)
+      }
+    }
+    return total
   }
 
   private var totalPhotos: Int {
-    // Count photos array directly
     (userProfile?.photos ?? []).count
   }
 }

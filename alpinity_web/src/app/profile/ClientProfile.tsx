@@ -15,7 +15,6 @@ import {
 } from "@/lib/api/@tanstack/react-query.gen";
 import useAuth from "@/lib/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
 
 interface ClientProfileProps {
   userId?: string;
@@ -23,7 +22,6 @@ interface ClientProfileProps {
 
 export default function ClientProfile({ userId: propUserId }: ClientProfileProps = {}) {
   const { user, isAuthenticated, isUserLoading } = useAuth();
-  const [selectedRouteType, setSelectedRouteType] = useState<string | null>(null);
 
   // Use provided userId or fall back to current user's ID
   const userId = propUserId ?? user?.id ?? "";
@@ -56,14 +54,6 @@ export default function ClientProfile({ userId: propUserId }: ClientProfileProps
     enabled: isAuthenticated && !isOwnProfile,
   });
 
-  const handleSelectRouteType = (routeType: string | null) => {
-    if (routeType === selectedRouteType) {
-      setSelectedRouteType(null);
-    } else {
-      setSelectedRouteType(routeType);
-    }
-  };
-
   if (isUserLoading || isProfileLoading || isRecentLoading || isOtherRecentLoading || !profile) {
     return <ProfileDetailsSkeleton />;
   }
@@ -84,18 +74,14 @@ export default function ClientProfile({ userId: propUserId }: ClientProfileProps
             <CardTitle>Ascents by Route Type</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <ProfileAscentTypeTable
-              data={profile.routeTypeAscentCount}
-              selectedRouteType={selectedRouteType}
-              onSelectRouteType={handleSelectRouteType}
-            />
-            <ProfileAscentTypeChart data={profile.routeTypeAscentCount} onSelectRouteType={handleSelectRouteType} />
+            <ProfileAscentTypeTable data={profile.routeTypeAscentCount} />
+            <ProfileAscentTypeChart data={profile.routeTypeAscentCount} />
           </CardContent>
         </Card>
       )}
 
       {profile.climbingGradeAscentCount && profile.climbingGradeAscentCount.length > 0 && (
-        <ProfileGradeDistribution data={profile.climbingGradeAscentCount} filterRouteType={selectedRouteType} />
+        <ProfileGradeDistribution data={profile.climbingGradeAscentCount} />
       )}
 
       {/* Ascents History Table */}

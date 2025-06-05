@@ -33,16 +33,9 @@ public class UserProfile : Profile
                 })
                 .ToList()))
             .ForMember(dest => dest.ClimbingGradeAscentCount, opt => opt.MapFrom(src => src.Ascents!
-                .Where(a => a.Route != null && a.Route.RouteType != null && a.Route.RouteType.Any())
-                .SelectMany(a => a.Route!.RouteType!.Select(rt => new { RouteType = rt, Ascent = a }))
-                .GroupBy(x => x.RouteType)
-                .Select(g => new ClimbingGradeAscentCountDto
-                {
-                    RouteType = g.Key,
-                    GradeCount = g.GroupBy(x => x.Ascent.Route!.Grade ?? ClimbingGrade.PROJECT)
-                        .Select(ga => new GradeCountDto { ClimbingGrade = ga.Key, Count = ga.Count() })
-                        .ToList()
-                })
+                .Where(a => a.Route != null)
+                .GroupBy(a => a.Route!.Grade ?? ClimbingGrade.PROJECT)
+                .Select(g => new GradeCountDto { ClimbingGrade = g.Key, Count = g.Count() })
                 .ToList()))
             .ForMember(dest => dest.Photos,
                 opt => opt.MapFrom(src => src.UserPhotoGallery!.Select(p => p.Url).ToList()));
