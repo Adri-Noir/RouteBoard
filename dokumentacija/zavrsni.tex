@@ -1,8 +1,9 @@
-\documentclass[times, utf8, diplomski]{fer}
+\documentclass[times, utf8, diplomski, numeric]{fer}
 \usepackage{booktabs}
 \usepackage{pdfpages}
 \usepackage{subfiles}
 \usepackage{float}
+\usepackage{url}
 
 \begin{document}
 
@@ -26,12 +27,14 @@
 \tableofcontents
 
 \include{sections/Uvod/uvod}
-
+\include{sections/Analiza/analiza}
+\include{sections/Arhitektura/arhitektura}
+\include{sections/Implementacija/implementacija}
+\include{sections/Testiranje/testiranje}
 \include{sections/Zakljucak/zakljucak}
 
-
-% \bibliography{literatura}
-% \bibliographystyle{fer}
+\bibliography{literatura}
+\bibliographystyle{plainnat}
 
 % \include{sections/Literatura/literatura}
 
