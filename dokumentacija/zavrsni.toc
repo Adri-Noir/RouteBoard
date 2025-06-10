@@ -10,30 +10,32 @@
 \contentsline {subsection}{\numberline {2.1.2}Digitalne platforme}{7}{}%
 \contentsline {subsubsection}{8a.nu}{8}{}%
 \contentsline {subsubsection}{27crags}{9}{}%
-\contentsline {section}{\numberline {2.2}Računalni vid u prepoznavanju objekata}{11}{}%
+\contentsline {section}{\numberline {2.2}Računalni vid u prepoznavanju penjačkog smjera}{10}{}%
 \contentsline {subsection}{\numberline {2.2.1}Detekcija i opis značajki (engl. feature detection and description)}{11}{}%
-\contentsline {subsection}{\numberline {2.2.2}Uparivanje značajki (engl. feature matching)}{11}{}%
-\contentsline {subsection}{\numberline {2.2.3}Transformacija perspektive i homografija}{11}{}%
-\contentsline {section}{\numberline {2.3}Tehnologije za razvoj sustava}{11}{}%
-\contentsline {subsection}{\numberline {2.3.1}Razvoj za iOS platformu}{11}{}%
-\contentsline {subsection}{\numberline {2.3.2}Tehnologije pozadinskog sustava}{11}{}%
-\contentsline {subsection}{\numberline {2.3.3}Tehnologije web aplikacije}{11}{}%
-\contentsline {chapter}{\numberline {3}Arhitektura i dizajn sustava "Alpinity"}{12}{}%
-\contentsline {section}{\numberline {3.1}Arhitektura sustava}{12}{}%
-\contentsline {section}{\numberline {3.2}Dizajn baze podataka}{12}{}%
-\contentsline {section}{\numberline {3.3}Dizajn pozadinskog sustava}{12}{}%
-\contentsline {section}{\numberline {3.4}Dizajn procesa prepoznavanja smjera}{12}{}%
-\contentsline {chapter}{\numberline {4}Implementacija rješenja}{13}{}%
-\contentsline {section}{\numberline {4.1}Implementacija pozadinskog sustava}{13}{}%
-\contentsline {section}{\numberline {4.2}Implementacija iOS aplikacije}{13}{}%
-\contentsline {subsection}{\numberline {4.2.1}Korisničko sučelje u SwiftUI}{13}{}%
-\contentsline {subsection}{\numberline {4.2.2}Integracija s bibliotekom OpenCV}{13}{}%
-\contentsline {section}{\numberline {4.3}Implementacija web aplikacije}{13}{}%
-\contentsline {chapter}{\numberline {5}Testiranje i vrednovanje rješenja}{14}{}%
-\contentsline {section}{\numberline {5.1}Funkcionalno testiranje}{14}{}%
-\contentsline {section}{\numberline {5.2}Vrednovanje performansi prepoznavanja}{14}{}%
-\contentsline {section}{\numberline {5.3}Analiza ograničenja}{14}{}%
-\contentsline {chapter}{\numberline {6}Zaključak}{15}{}%
-\contentsline {section}{\numberline {6.1}Sažetak ostvarenih rezultata}{15}{}%
-\contentsline {section}{\numberline {6.2}Smjernice za budući razvoj}{15}{}%
-\contentsline {chapter}{Literatura}{16}{}%
+\contentsline {subsubsection}{Odabir algoritma detekcije značajki}{11}{}%
+\contentsline {subsubsection}{SIFT algoritam}{12}{}%
+\contentsline {subsection}{\numberline {2.2.2}Uparivanje značajki (engl. feature matching)}{13}{}%
+\contentsline {subsection}{\numberline {2.2.3}Transformacija perspektive i homografija}{13}{}%
+\contentsline {section}{\numberline {2.3}Tehnologije za razvoj sustava}{13}{}%
+\contentsline {subsection}{\numberline {2.3.1}Razvoj za iOS platformu}{13}{}%
+\contentsline {subsection}{\numberline {2.3.2}Tehnologije pozadinskog sustava}{13}{}%
+\contentsline {subsection}{\numberline {2.3.3}Tehnologije web aplikacije}{13}{}%
+\contentsline {chapter}{\numberline {3}Arhitektura i dizajn sustava "Alpinity"}{14}{}%
+\contentsline {section}{\numberline {3.1}Arhitektura sustava}{14}{}%
+\contentsline {section}{\numberline {3.2}Dizajn baze podataka}{14}{}%
+\contentsline {section}{\numberline {3.3}Dizajn pozadinskog sustava}{14}{}%
+\contentsline {section}{\numberline {3.4}Dizajn procesa prepoznavanja smjera}{14}{}%
+\contentsline {chapter}{\numberline {4}Implementacija rješenja}{15}{}%
+\contentsline {section}{\numberline {4.1}Implementacija pozadinskog sustava}{15}{}%
+\contentsline {section}{\numberline {4.2}Implementacija iOS aplikacije}{15}{}%
+\contentsline {subsection}{\numberline {4.2.1}Korisničko sučelje u SwiftUI}{15}{}%
+\contentsline {subsection}{\numberline {4.2.2}Integracija s bibliotekom OpenCV}{15}{}%
+\contentsline {section}{\numberline {4.3}Implementacija web aplikacije}{15}{}%
+\contentsline {chapter}{\numberline {5}Testiranje i vrednovanje rješenja}{16}{}%
+\contentsline {section}{\numberline {5.1}Funkcionalno testiranje}{16}{}%
+\contentsline {section}{\numberline {5.2}Vrednovanje performansi prepoznavanja}{16}{}%
+\contentsline {section}{\numberline {5.3}Analiza ograničenja}{16}{}%
+\contentsline {chapter}{\numberline {6}Zaključak}{17}{}%
+\contentsline {section}{\numberline {6.1}Sažetak ostvarenih rezultata}{17}{}%
+\contentsline {section}{\numberline {6.2}Smjernice za budući razvoj}{17}{}%
+\contentsline {chapter}{Literatura}{18}{}%
