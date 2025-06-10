@@ -18,4 +18,4 @@ Svaki unos u histogram uključuje u račun magnitudu gradijenta te udaljenost od
 
 Poslijednji korak je stvaranje jedistvenog numeričkog deskriptora za svaku ključnu točku. Oko ključne točke uzima se 16x16 piksela te se rotira u skladu s dominantnom orijentacijom čime se postiže nezavisnost rotacije. Rotirana okolina se zatim dijeli na 4x4 podregije. U svakoj podregiji računa se histogram orijentacija gradijenta s 8 spremnika i vrijednosti iz svih 16 histograma spaja se u jedan 128-dimenzionalni vektor te se vektor normalizira kako bi se smanjila ovisnost o osvjetljenju.
 
-Izlaz iz SIFT algoritma je skup detektiranih značajki, tj. njen položaj, skala, orijentacija i 128-dimenzionalni deskriptor.
+Izlaz iz SIFT algoritma je skup detektiranih značajki, tj. njen položaj, skala, orijentacija i 128-dimenzionalni deskriptor. Cijeli proces SIFT algoritma provodi se za refrentnu sliku penjačkog smjera te slike dobivene sa kamere mobilnog uređaja.
