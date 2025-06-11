@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.10.26)  11 JUN 2025 01:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.10.26)  12 JUN 2025 01:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -283,7 +283,7 @@ File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 File: l3backend-pdftex.def 2022-02-07 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count293
 \l__pdf_internal_box=\box57
-) (./zavrsni.aux (./sections/Uvod/uvod.aux) (./sections/Analiza/analiza.aux) (./sections/Arhitektura/arhitektura.aux) (./sections/Implementacija/implementacija.aux) (./sections/Testiranje/testiranje.aux) (./sections/Zakljucak/zakljucak.aux))
+) (./zavrsni.aux (./sections/Uvod/uvod.aux) (./sections/Analiza/analiza.aux) (./sections/RacunalniVid/racunalni_vid.aux) (./sections/Arhitektura/arhitektura.aux) (./sections/Implementacija/implementacija.aux) (./sections/Testiranje/testiranje.aux) (./sections/Zakljucak/zakljucak.aux))
 \openout1 = `zavrsni.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
@@ -388,75 +388,85 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
  (./sections/Uvod/uvod.tex
 Poglavlje 1.
-(./sections/Uvod/subsections/kontekst_popularnost.tex) (./sections/Uvod/subsections/problem_tradicionalni_alati.tex [1
+[1
 
 
-]
-<images/uvod/tradicionalni_vodic.jpg, id=23, 421.3341pt x 421.3341pt>
-File: images/uvod/tradicionalni_vodic.jpg Graphic file (type jpg)
-<use images/uvod/tradicionalni_vodic.jpg>
-Package pdftex.def Info: images/uvod/tradicionalni_vodic.jpg  used on input line 7.
-(pdftex.def)             Requested size: 330.05322pt x 330.06651pt.
-) (./sections/Uvod/subsections/ogranicenja_digitalni_alati.tex [2 <./images/uvod/tradicionalni_vodic.jpg>]
-<images/uvod/27crags_cikola.jpeg, id=27, 3537.215pt x 2214.2725pt>
-File: images/uvod/27crags_cikola.jpeg Graphic file (type jpg)
-<use images/uvod/27crags_cikola.jpeg>
-Package pdftex.def Info: images/uvod/27crags_cikola.jpeg  used on input line 8.
-(pdftex.def)             Requested size: 309.42372pt x 193.66728pt.
-) (./sections/Uvod/subsections/cilj_doprinos_rada.tex)) [3 <./images/uvod/27crags_cikola.jpeg>] [4]
+]) [2]
 \openout2 = `sections/Analiza/analiza.aux'.
 
  (./sections/Analiza/analiza.tex
 Poglavlje 2.
-(./sections/Analiza/subsections/postojece_aplikacije.tex [5
+(./sections/Analiza/subsections/postojece_aplikacije.tex [3
 
 
 
 
 ]
-<images/analiza/vodic_paklenica.jpeg, id=38, 1084.05pt x 1354.05875pt>
+<images/analiza/vodic_paklenica.jpeg, id=30, 1084.05pt x 1354.05875pt>
 File: images/analiza/vodic_paklenica.jpeg Graphic file (type jpg)
 <use images/analiza/vodic_paklenica.jpeg>
 Package pdftex.def Info: images/analiza/vodic_paklenica.jpeg  used on input line 16.
 (pdftex.def)             Requested size: 247.54149pt x 309.19554pt.
- [6] [7 <./images/analiza/vodic_paklenica.jpeg>]
-<images/analiza/8anu_logbook.png, id=45, 2455.1725pt x 2039.62pt>
+ [4 <./images/analiza/vodic_paklenica.jpeg>]
+<images/analiza/8anu_logbook.png, id=34, 2455.1725pt x 2039.62pt>
 File: images/analiza/8anu_logbook.png Graphic file (type png)
 <use images/analiza/8anu_logbook.png>
 Package pdftex.def Info: images/analiza/8anu_logbook.png  used on input line 35.
 (pdftex.def)             Requested size: 330.05322pt x 274.1853pt.
-<images/analiza/8anu_mobile.jpg, id=47, 394.47375pt x 801.99625pt>
+ [5 <./images/analiza/8anu_logbook.png>]
+<images/analiza/8anu_mobile.jpg, id=40, 394.47375pt x 801.99625pt>
 File: images/analiza/8anu_mobile.jpg Graphic file (type jpg)
 <use images/analiza/8anu_mobile.jpg>
 Package pdftex.def Info: images/analiza/8anu_mobile.jpg  used on input line 45.
 (pdftex.def)             Requested size: 165.02347pt x 335.50224pt.
- [8 <./images/analiza/8anu_logbook.png>] [9 <./images/analiza/8anu_mobile.jpg>]
-<images/analiza/cikola_27crags_topo.jpeg, id=56, 2318.6625pt x 813.0375pt>
+ [6 <./images/analiza/8anu_mobile.jpg>]
+<images/analiza/cikola_27crags_topo.jpeg, id=44, 2318.6625pt x 813.0375pt>
 File: images/analiza/cikola_27crags_topo.jpeg Graphic file (type jpg)
 <use images/analiza/cikola_27crags_topo.jpeg>
 Package pdftex.def Info: images/analiza/cikola_27crags_topo.jpeg  used on input line 60.
-(pdftex.def)             Requested size: 309.42372pt x 108.48991pt.
-<images/analiza/cikola_fizicka_slika.jpg, id=57, 971.3088pt x 728.4816pt>
+(pdftex.def)             Requested size: 412.56497pt x 144.66563pt.
+ [7 <./images/analiza/cikola_27crags_topo.jpeg>]
+Overfull \hbox (4.72583pt too wide) in paragraph at lines 72--72
+[]\T1/ptm/b/n/17.28 Problem iden-ti-fi-ka-cije pe-nja£-kog smjera: prak-ti£ni
+ []
+
+<images/analiza/cikola_27crags_map.jpeg, id=48, 3532.19624pt x 2200.22pt>
+File: images/analiza/cikola_27crags_map.jpeg Graphic file (type jpg)
+<use images/analiza/cikola_27crags_map.jpeg>
+Package pdftex.def Info: images/analiza/cikola_27crags_map.jpeg  used on input line 77.
+(pdftex.def)             Requested size: 371.30595pt x 231.28171pt.
+[8 <./images/analiza/cikola_27crags_map.jpeg>]
+<images/analiza/cikola_fizicka_slika.jpg, id=52, 971.3088pt x 728.4816pt>
 File: images/analiza/cikola_fizicka_slika.jpg Graphic file (type jpg)
 <use images/analiza/cikola_fizicka_slika.jpg>
-Package pdftex.def Info: images/analiza/cikola_fizicka_slika.jpg  used on input line 66.
-(pdftex.def)             Requested size: 268.1647pt x 201.12784pt.
-) [10 <./images/analiza/cikola_27crags_topo.jpeg> <./images/analiza/cikola_fizicka_slika.jpg>]
-Overfull \hbox (1.20027pt too wide) in paragraph at lines 19--22
+Package pdftex.def Info: images/analiza/cikola_fizicka_slika.jpg  used on input line 87.
+(pdftex.def)             Requested size: 330.05322pt x 247.53596pt.
+)) [9 <./images/analiza/cikola_fizicka_slika.jpg>]
+\openout2 = `sections/RacunalniVid/racunalni_vid.aux'.
+
+ (./sections/RacunalniVid/racunalni_vid.tex
+Poglavlje 3.
+
+Overfull \hbox (1.20027pt too wide) in paragraph at lines 5--8
 []\T1/ptm/m/n/12 Cjelokupni pro-ces pre-poz-na-va-nja pe-nja£-kog smjera po-mo¢u de-tek-cije zna-£ajki zah-
  []
 
-(./sections/Analiza/subsections/detekcija_znacajki.tex [11] [12]) (./sections/Analiza/subsections/uparivanje_znacajki.tex
+(./sections/RacunalniVid/subsections/detekcija_znacajki.tex [10
+
+
+
+
+] [11]) (./sections/RacunalniVid/subsections/uparivanje_znacajki.tex [12]
 Overfull \hbox (24.17929pt too wide) in paragraph at lines 5--6
 []\T1/ptm/m/n/12 Prva me-toda je ko-ri-²te-nje \T1/ptm/m/it/12 brute force \T1/ptm/m/n/12 al-go-ritma. Sli£-nost iz-mežu dva 128-dimenzionalna
  []
 
-[13]) (./sections/Analiza/subsections/homografija.tex [14] [15]) (./sections/Analiza/subsections/ios_razvoj.tex) (./sections/Analiza/subsections/backend_tehnologije.tex) (./sections/Analiza/subsections/web_tehnologije.tex)) [16]
+) (./sections/RacunalniVid/subsections/homografija.tex [13] [14])) [15]
 \openout2 = `sections/Arhitektura/arhitektura.aux'.
 
  (./sections/Arhitektura/arhitektura.tex
-Poglavlje 3.
-) [17
+Poglavlje 4.
+) [16
 
 
 
@@ -465,8 +475,8 @@ Poglavlje 3.
 \openout2 = `sections/Implementacija/implementacija.aux'.
 
  (./sections/Implementacija/implementacija.tex
-Poglavlje 4.
-(./sections/Implementacija/subsections/swiftui.tex) (./sections/Implementacija/subsections/opencv.tex)) [18
+Poglavlje 5.
+(./sections/Implementacija/subsections/swiftui.tex) (./sections/Implementacija/subsections/opencv.tex)) [17
 
 
 
@@ -475,8 +485,8 @@ Poglavlje 4.
 \openout2 = `sections/Testiranje/testiranje.aux'.
 
  (./sections/Testiranje/testiranje.tex
-Poglavlje 5.
-) [19
+Poglavlje 6.
+) [18
 
 
 
@@ -485,8 +495,8 @@ Poglavlje 5.
 \openout2 = `sections/Zakljucak/zakljucak.aux'.
 
  (./sections/Zakljucak/zakljucak.tex
-Poglavlje 6.
-) [20
+Poglavlje 7.
+) [19
 
 
 
@@ -510,24 +520,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 9--15
 \T1/pcr/m/n/12 why-[]does-[]everyone-[]suddenly-[]want-[]to-[]rock-[]climb/$\T1/ptm/m/n/12 , si-je-£anj
  []
 
-) [21
+) [20
 
 
 
-] (./zavrsni.aux (./sections/Uvod/uvod.aux) (./sections/Analiza/analiza.aux) (./sections/Arhitektura/arhitektura.aux) (./sections/Implementacija/implementacija.aux) (./sections/Testiranje/testiranje.aux) (./sections/Zakljucak/zakljucak.aux)) ) 
+] (./zavrsni.aux (./sections/Uvod/uvod.aux) (./sections/Analiza/analiza.aux) (./sections/RacunalniVid/racunalni_vid.aux) (./sections/Arhitektura/arhitektura.aux) (./sections/Implementacija/implementacija.aux) (./sections/Testiranje/testiranje.aux) (./sections/Zakljucak/zakljucak.aux)) ) 
 Here is how much of TeX's memory you used:
- 8621 strings out of 478268
- 146644 string characters out of 5846346
- 447712 words of memory out of 5000000
- 26584 multiletter control sequences out of 15000+600000
+ 8610 strings out of 478268
+ 146392 string characters out of 5846346
+ 449101 words of memory out of 5000000
+ 26588 multiletter control sequences out of 15000+600000
  524355 words of font info for 91 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 70i,7n,77p,1206b,398s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 70i,7n,77p,1181b,397s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on zavrsni.pdf (25 pages, 8318456 bytes).
+Output written on zavrsni.pdf (24 pages, 7444425 bytes).
 PDF statistics:
- 160 PDF objects out of 1000 (max. 8388607)
- 98 compressed objects within 1 object stream
+ 155 PDF objects out of 1000 (max. 8388607)
+ 95 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 36 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

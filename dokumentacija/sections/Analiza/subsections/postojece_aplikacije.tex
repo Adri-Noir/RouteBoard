@@ -1,7 +1,7 @@
 
 Za razmijevanje potreba penjača potrebno je analizirati alate koje penjači koriste. Ta rješenja mogu se podijeliti u dvije glavne kategorije: tradicionalne tiskane vodiče i moderne digitalne platforme koje su odgovorile na neka od ograničenja tiskanih vodiča.
 
-\subsection{Tradicionalni tiskani penjački vodiči}
+\section{Tradicionalni tiskani penjački vodiči}
 
 Desetljećima su tiskani vodiči bili jedini dostupni izvor informacija za snalaženje na stijenama. Njihova temeljna vrijednost leži u detaljnom i strukturiranom prikazu informacija koje kreiraju iskusni penjači. 
 
@@ -22,11 +22,11 @@ Dodatnu složenost unose i izdanja stranih izdavača poput "Istra" autora Jurija
 
 
 
-\subsection{Digitalne platforme}
+\section{Digitalne platforme}
 
 Ograničenja u tiskanim vodičima dovela su do pojave digitalnih platformi koje su omogućile veću dostupnost i ažurnost podataka. Dvije platforme, 8a.nu i 27crags, ističu se kao primjer rezličitih pristupa unutar digitalnog penjačkog svijeta. 
 
-\subsubsection{8a.nu}
+\subsection{8a.nu}
 
 Platforma 8a.nu pokrenuta je 2000.\ godine i predstavlja jednu od najstarijih digitalnih platformi za penjanje. Njena glavna svrha nije funkcija terenskog vodiča, već uloga globalnog dnevnika uspona i sustava za rangiranje. Korisnici koriste platformu kako bi bilježili svoje ispenjane smjerove, navodeći stil uspona, predlagajući težine i komentare za smjerove. Time se stvara velika, iako često nestrukturirana, baza podataka koja služi kao arhiv i statički resurs.
 
@@ -49,20 +49,44 @@ S nedavnim razvojem mobilne aplikacije, platforma je modernizirala korisničko s
 
 Analizirajući 8a.nu kao alata za snalaženje na stijeni, njeni nedostaci u kontekstu vizalne navigacije su i dalje prisutni. Temeljni problem leži u samoj prirodi vizalnih prikaza. \textit{Topo} fotografije su često snimljene s velike udaljenosti kako bi obuhvatile cijeli sektor, zbog čega su ucrtane linije smjerova malene i nejasne. Ovaj problem postaje posebno izražen na sektorima s velikom gustoćom smjerova, kao što je prikazano na primjeru sektora PredOsoje, gdje je teško precizno raspoznati pojedinačne linije i njihove početke. Dodatni problem predstavlja i neujednačena pokrivenost. Dok su međunarodno popularna penjališta dobro dokumentirana, manje ili lokalne penjačke lokacije, poput Kalnika u Hrvatskoj, nemaju dostupne \textit{topo} prikaze. Unatoč svojoj važnosti kao arhiva, 8a.nu nije pouzdano rješenje za problem identifikacije smjerova na stijeni.
 
-\subsubsection{27crags}
+\subsection{27crags}
 
 27crags predstavlja digitalnu platformu za penjače koje je izrađeno primarno s ciljem pružanja informacija o penjačkim lokacijama i smjerovima. Ideja platforme 27crags je popisati što više penjačkih lokacija i smjerova, a manji fokus je stavljen na društveni aspekt. \textit{Topo} skice su napravljene na sličan način kao i kod 8a.nu, no društveni aspekt po pitanju uspona drugih penjača nije toliko u fokusu kao kod 8a.nu. Aplikacija nudi više informacija o penjačkoj lokaciji, poput parking lokacije sa detaljnim kartografskim prikazom.
 
-Unatoč boljoj pokrivenosti penjačkih lokacija, 27crags također ima limitacije po pitanju dvodimenzionalnog \textit{topo} prikaza čime se ne riješava problem identifikacije penjačkih smjerova.
+Unatoč boljoj pokrivenosti penjačkih lokacija, 27crags također ima ograničenja po pitanju dvodimenzionalnog \textit{topo} prikaza čime se ne riješava problem identifikacije penjačkih smjerova.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{images/analiza/cikola_27crags_topo.jpeg}
+    \includegraphics[width=1\textwidth]{images/analiza/cikola_27crags_topo.jpeg}
     \caption{Prikaz dvodimenzionalne \textit{topo} skice sa 27Crags za penjalište Čikola sektora Osoje}
+    \label{fig:cikola_27crags_topo}
 \end{figure}
 
+\subsection{Ostale značajne digitalne platforme}
+
+Uz navedene platforme, postoje i druge značajne digitalne platforme poput Mountain Project i KAYA. Mountain Project funkcionira kao sveobuhvatna, korisnički generirana baza podataka koja pokriva penjanje, planiniranje i druge aktivnost u prirodi. Razlika između Mountain Project i drugih aplikacija je što je izraziti fokus na rad bez internetske veze. Aplikacija zahtjeva od korisnika da unaprijed preuzme podatke za cijelu regiju kako bi mogao pristupiti sadržaju. Unatoč što to osigurava rad na lokacijama bez signala, platforma se i dalje oslanja na statične fotografije i korisničke opise.
+
+KAYA je primjer novije platforme koja je popularna u svijetu \textit{bouldering} penjanja. Osim standardnih funkcionalnosti dnevnika uspona, KAYA omogućuje korisnicima objavu video sadržaja gdje pokazuju kako se penju određeni smjerovi, poznato pod nazivom \textit{beta} video.  Platforma je primarno usmjerena na američko tržište i dvoransko penjanje, zbog čega je njena pokrivenost manja od ostalih platformi, specifčno za penjališta u Hrvatskoj. Unatoč inovativnom pristupu dijeljenja video sadržaja, KAYA ne nudi rješenje za identifikaciju penjačkog smjera na stijeni.
+
+
+\section{Problem identifikacije penjačkog smjera: praktični izazovi}
+
+Teorijska analiza nedostataka postojećih digitalnih aplikacija dobiva dodatno značenje kada se promotri stvarni proces identifikacije penjačkog smjera na terenu. Proces odabira penjačkog smjera može se podijeliti u dvije faze. Prva faza je identifikacija sektora u kojem se korisnik nalazi. Ova faza se generalno odvija prije nego što penjač dolazi ispred stijene. Penjač odabire sektor na temelju penjačkih smjerova koji se nalaze u sektoru, primjerice gleda težine smjerova, traži dulje penjačke smjerove ili traži sektor sa mnogo penjačkih smjerova.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.65\textwidth]{images/analiza/cikola_fizicka_slika.jpg}
-    \caption{Stvarna stijena na penjalištu Čikola sektora Osoje}
+    \includegraphics[width=0.9\textwidth]{images/analiza/cikola_27crags_map.jpeg}
+    \caption{Prikaz geografske karte penjačke lokacije Čikola na 27crags}
+    \label{fig:cikola_27crags_map}
 \end{figure} 
+Problem odabira i pronalaženja sektora fizički i digitalni vodiči uspješno rješavaju. Svaka penjačka lokacija sadrži geografsku kartu sa prikazom lokacija sektora. Slika~\ref{fig:cikola_27crags_map} prikazuje kako taj problem riješava 27crags. Na karti su označeni sektori te prelaskom miša preko ikone pojavljuje se ime tog sektora. Fizički vodiči također sadrže kartu, no nije interaktivna kao što je na 27crags. Svaki sektor sadrži listu penjačkih smjerova kojom penjač može odlučiti koji sektor želi posjetiti.
+
+Dolaskom ispred stijene sektora kreće druga faza odabira penjačkog smjera i pojavljuje se problem identifikacije penjačkog smjera. Slika~\ref{fig:cikola_27crags_topo} predstavlja \textit{topo} sliku kojom se penjač koristi kako bi identificirao penjački smjer na stijeni.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/analiza/cikola_fizicka_slika.jpg}
+    \caption{Stvarna stijena na penjačkoj lokaciji Čikola sektora Osoje}
+    \label{fig:cikola_fizicka_slika}
+\end{figure} 
+
+ Gledajući sliku~\ref{fig:cikola_fizicka_slika} teško je rasaznati gdje se penjač nalazi u odnosu na topo sliku i time je teško odrediti u koji penjački smjer penjač gleda. Često se traže distinktni elementi na stijeni poput velike rupe, nagle promjene u boji ili vegetacije, no ako je slika slikana iz velike udaljenost, to nije uvijek moguće. Cjelokupni proces je zahtjevan i podložan pogreškama te oduzima vrijeme koje bi se moglo iskoristiti za penjanje. Čak i uz pomoć fizičkih i digitalnih vodiča problem ostaje neriješen. Ta neefikasnost i nedostatak informacija predstavlja ključnu motivaciju za izradu sustava koji automatizira proces i pruža korisniku nedvosmislenu informaciju.

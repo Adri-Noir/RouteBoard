@@ -1,33 +1,5 @@
-\chapter{Analiza postojećih rješenja, tehnologija i tehnika}
+\chapter{Analiza postojećih izvora informacija za penjače}
 
-Nakon postavljanja motivacije te definiranja problema identifikacije penjačkog smjera slijedi analiza postojećih rješenja te definiranje tehnologija i tehnika za razvoj novih funkcionalnosti. 
-
-Prvi dio poglavlja bavi se detaljnim pregledom postojećih rješenja namijenjenih penjačima. Cilj je identificirati njihove temeljne funkcionalnosti te analizirati njihove prednosti i nedostatke. Poseban naglasak stavljen je na način na koji ti alati rješavaju, ili ne uspijevaju rješiti, razne probleme navedene u prethodnom poglavlju. Ova komparativna analiza omogućuje bolje razumijevanje problema čime se stvara osnova za razvoj novog rješenja.
-
-Drugi dio poglavlja posvećen je tehnološkoj podlozi koja omogućuje implementaciju funkcionalnosti prepoznavanja penjačkih smjerova. Budući da se rješenje temelji na primjerni računalnog vida, ovaj dio obrađuje osnove relevantnih algoritama i metoda. Objašnjavaju se koncepti poput detekcije i opisa značajki (eng. \textit{feature detection and description}), s posebnim fokusom na algoritam SIFT (eng. \textit{Scale-Invariant Feature Transform}) te metoda za transformaciju perspektive temeljenih na homografiji. Razumijevanje ovih koncepta omogućuje bolje razumijevanje kako precrtati liniju penjačkog smjera na sliku stvarne stijene dobivene kamerom mobilnog uređaja.
-
-Treći i završni dio poglavlja analizira i obrazlaže odabir specifičnih tehnoloških okvira i platformi korištenih za razvoj sustava. Detljano se opisuju odabrane tehnologije za iOS aplikaciju, pozadiniski (eng. \textit{backend}) sustav te web aplikaciju čime se postavlja tehnički temelj sustava.
-
-\section{Postojeće aplikacije za penjače}
+Nakon postavljanja motivacije te definiranja problema identifikacije penjačkog smjera slijedi analiza postojećih izvora informacija namijenjenih penjačima. Cilj je identificirati njihove temeljne funkcionalnosti te analizirati njihove prednosti i nedostatke. Poseban naglasak stavljen je na način na koji ti alati rješavaju, ili ne uspijevaju rješiti, razne probleme navedene u prethodnom poglavlju. Ova komparativna analiza omogućuje bolje razumijevanje problema čime se stvara osnova za razvoj novog rješenja.
 
 \input{sections/Analiza/subsections/postojece_aplikacije.tex}
-
-\section{Računalni vid u prepoznavanju penjačkog smjera}
-
-Prepoznavanje specifičnih objekata sa slike, u ovom slučaju prepoznavanje penjačkih smjerova na slici stijene, zahtijeva primjenu metoda koje su otporne na promjene u osvjetljenju, udaljenosti i kutu gledanja. Pristupi koji se temelje na uspoređivanju piksela slike su neefikasni i nepouzdani jer su osjetljivi na spomenute varijacije. Zbog toga se koriste robusnije metode temeljene na detekciji i opisu lokalnih značajki (eng. \textit{feature-based methods}). Temeljna ideja je pronaći jedinstvene, stabilne i ponovljive točke na slici, značajke, te ih iskoristiti za usporedbu i prepoznavanje.
-
-Cjelokupni proces prepoznavanja penjačkog smjera pomoću detekcije značajki zahtijeva tri komponente, referentnu sliku penjačkog smjera, referentnu sliku linije penjačkog smjera te sliku stijene dobivene sa kamere mobilnog uređaja. Referentna slika penjačkog smjera te referentna slika linije penjačkog smjera moraju biti iste dimenzije. Proces se može se raščlaniti na sljedeće korake.
-Prvi korak je detekcija i opis značajki, gdje se na referentnoj slici, unaprijed pripremljenoj slici stijene, i slici dobivenoj s kamere pronalaze ključne točke te se za svaku ključnu točku generira jedistveni numerički opis, odnosno deskriptor. Potom se uparuju značajke između slika uspoređujući deskriptore, tipično koristeći algoritam poput \textit{FLANN Matcher}. 
-Te uparene značajke koriste se u trećem koraku, gdje se računa procjena geometrijske transformacije. Računa se matematički model - homografija, koja opisuje kako je slika stijene dobivene sa kamera rotirana, skalirana i perspektivno izobličena u odnosu na referentnu sliku. Konačno provodi se primjena transformacije, gdje se izračunati model koristi kako bi se referentna slika linije penjačkog smjera preslikala na sliku dobivenu sa kamere. Time se postiže željeni efekt vizualizacije penjačkog smjera u stvarnom vremenu.
-
-U ovom poglavlju detaljno se obrađuju svi koraci procesa prepoznavanja penjačkog smjera, od detekcije značajki, preko uparivanja značajki do transformacije perspektive, koristeći prave slike penjačkog smjera i OpenCV biblioteku.
-
-\input{sections/Analiza/subsections/detekcija_znacajki.tex}
-\input{sections/Analiza/subsections/uparivanje_znacajki.tex}
-\input{sections/Analiza/subsections/homografija.tex}
-
-\section{Tehnologije za razvoj sustava}
-
-\input{sections/Analiza/subsections/ios_razvoj.tex}
-\input{sections/Analiza/subsections/backend_tehnologije.tex}
-\input{sections/Analiza/subsections/web_tehnologije.tex} 
