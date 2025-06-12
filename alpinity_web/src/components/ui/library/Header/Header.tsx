@@ -3,6 +3,8 @@ import Link from "next/link";
 import HeaderLinks from "./HeaderLinks";
 import HeaderSearch from "./HeaderSearch";
 import MobileMenu from "./MobileMenu";
+
+import MobileSearch from "./MobileSearch";
 import UserProfileNavigation from "./UserProfileNavigation";
 
 const Header = () => {
@@ -29,20 +31,22 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Middle section - search centered on mobile only */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 sm:hidden">
-          <HeaderSearch />
-        </div>
-
-        {/* Right section - on desktop, contains search and user profile */}
+        {/* Right section - on desktop contains search & user profile. On mobile shows the search icon */}
         <div className="flex items-center gap-4">
           {/* Search - visible on desktop only, next to user profile */}
           <div className="hidden sm:block">
             <HeaderSearch />
           </div>
 
-          {/* User profile */}
-          <UserProfileNavigation />
+          {/* Search icon - visible on mobile only */}
+          <div className="block sm:hidden">
+            <MobileSearch />
+          </div>
+
+          {/* User profile - hidden on mobile */}
+          <div className="hidden sm:block">
+            <UserProfileNavigation />
+          </div>
         </div>
       </div>
     </header>

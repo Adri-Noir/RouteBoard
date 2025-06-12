@@ -6,6 +6,7 @@ import { SearchResultDto } from "@/lib/api/types.gen";
 import { cn } from "@/lib/utils";
 import { Clock, MapPin, Route, User } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ReactNode } from "react";
 import { getFormattedEntityData, mapEntityTypeToUiType } from "./utils";
 
@@ -54,6 +55,7 @@ export const SearchSuggestionItem = ({
 }: SearchSuggestionItemProps) => {
   const { entityType, cragName, sectorName, routeName, profileUsername } = suggestion;
   const type = entityType ? mapEntityTypeToUiType(entityType) : "crag";
+  const router = useRouter();
 
   // Determine the display text based on entity type
   const text =
@@ -72,9 +74,20 @@ export const SearchSuggestionItem = ({
   const imageUrl = suggestion.photo?.url;
   const icon = isRecent ? <Clock className="text-muted-foreground h-4 w-4" /> : getIconForType(type);
 
+  const handleSelect = () => {
+    onClick?.();
+    if (href !== "#") {
+      router.push(href);
+    }
+  };
+
   return (
     <LinkWrapper href={href} onClick={onClick}>
-      <CommandItem value={`${type}_${text}`} className={cn("flex items-center gap-3", className)}>
+      <CommandItem
+        value={`${type}_${text}`}
+        className={cn("flex items-center gap-3", className)}
+        onSelect={handleSelect}
+      >
         {/* Image or Icon Container */}
         <div className="relative h-12 w-12 flex-shrink-0">
           {imageUrl ? (

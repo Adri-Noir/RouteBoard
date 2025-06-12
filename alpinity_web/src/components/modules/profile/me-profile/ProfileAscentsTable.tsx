@@ -1,13 +1,15 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { TypeBadge } from "@/components/ui/library/Badge";
 import { GradeBadge } from "@/components/ui/library/Badge/GradeBadge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { getApiUserUserByProfileUserIdAscentsInfiniteOptions } from "@/lib/api/@tanstack/react-query.gen";
 import type { UserAscentDto } from "@/lib/api/types.gen";
+import { formatClimbType, formatHoldType, formatRockType } from "@/lib/utils/formatters";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { format, isValid, parseISO } from "date-fns";
+import { CalendarIcon, Star } from "lucide-react";
 import Link from "next/link";
 import { Fragment, useCallback, useEffect, useMemo } from "react";
 
@@ -93,19 +95,10 @@ export function ProfileAscentsTable({ userId }: ProfileAscentsTableProps) {
     return "Unknown date";
   };
 
-  const getAscentTypeColor = (ascentType?: string) => {
-    switch (ascentType) {
-      case "Onsight":
-        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
-      case "Flash":
-        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
-      case "Redpoint":
-        return "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200";
-      case "Aid":
-        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
-      default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
-    }
+  // Simple ascent type badge styling similar to AscentDialog
+  const renderAscentTypeBadge = (ascentType?: string) => {
+    if (!ascentType) return null;
+    return <span className="bg-primary/10 text-primary rounded-md px-2 py-0.5 text-xs">{ascentType}</span>;
   };
 
   if (isLoading) {
@@ -171,120 +164,95 @@ export function ProfileAscentsTable({ userId }: ProfileAscentsTableProps) {
         <CardTitle>Ascents History</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="overflow-x-auto">
-          <Table className="w-full min-w-[800px]">
-            <TableHeader className="sr-only">
-              <TableRow>
-                <TableHead className="w-[25%] min-w-[150px]">Route</TableHead>
-                <TableHead className="w-[47%] min-w-[240px]">Notes</TableHead>
-                <TableHead className="w-[9%] min-w-[70px]">Grade</TableHead>
-                <TableHead className="w-[8%] min-w-[70px]">Ascent Type</TableHead>
-                <TableHead className="w-[6%] min-w-[60px]">Attempts</TableHead>
-                <TableHead className="w-[7%] min-w-[60px]">Rating</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {groupedAscents.map((group, groupIndex) => (
-                <Fragment key={`date-${group.date}`}>
-                  {/* Spacing between groups */}
-                  {groupIndex > 0 && (
-                    <TableRow className="bg-transparent hover:bg-transparent">
-                      <TableCell colSpan={6} className="h-8 border-0 p-0">
-                        <div className="h-8" />
-                      </TableCell>
-                    </TableRow>
-                  )}
-                  {/* Date Header Row */}
-                  <TableRow className="bg-muted/30 hover:bg-muted/30">
-                    <TableCell colSpan={6} className="py-3 text-lg font-semibold md:text-center">
-                      {formatAscentDate(group.date)}
-                    </TableCell>
-                  </TableRow>
-                  {/* Ascent Rows */}
-                  {group.ascents.map((ascent) => (
-                    <TableRow key={ascent.id} className="hover:bg-muted/50">
-                      <TableCell>
-                        <div className="space-y-1">
-                          <Link
-                            href={`/crag/${ascent.cragId}?sectorId=${ascent.sectorId}?routeId=${ascent.routeId}`}
-                            className="block truncate font-medium hover:underline"
-                          >
-                            {ascent.routeName || "Unknown Route"}
-                          </Link>
-                          <div className="text-muted-foreground truncate text-sm">
-                            {ascent.cragName}
-                            {ascent.sectorName && ` - ${ascent.sectorName}`}
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="text-sm">
-                          {ascent.notes ? (
-                            <div className="text-muted-foreground whitespace-normal italic" title={ascent.notes}>
-                              {ascent.notes}
-                            </div>
-                          ) : (
-                            <span className="text-muted-foreground">-</span>
-                          )}
-                        </div>
-                      </TableCell>
-                      <TableCell>{ascent.proposedGrade && <GradeBadge grade={ascent.proposedGrade} />}</TableCell>
-                      <TableCell>
-                        {ascent.ascentType && (
-                          <span
-                            className={`inline-block rounded-md px-2 py-1 text-xs font-medium ${getAscentTypeColor(ascent.ascentType)}`}
-                          >
-                            {ascent.ascentType}
-                          </span>
-                        )}
-                      </TableCell>
-                      <TableCell className="whitespace-normal">
-                        {ascent.numberOfAttempts
-                          ? `Number of attempts: ${ascent.numberOfAttempts}`
-                          : "Number of attempts: N/A"}
-                      </TableCell>
-                      <TableCell>
-                        {ascent.rating && ascent.rating > 0 ? (
-                          <div className="flex items-center justify-start">
-                            {Array.from({ length: 5 }).map((_, index) => (
-                              <span
-                                key={index}
-                                className={`text-xs leading-none ${index < ascent.rating! ? "text-yellow-500" : "text-gray-300"}`}
-                              >
-                                ★
-                              </span>
-                            ))}
-                          </div>
-                        ) : (
-                          <span className="block text-center">-</span>
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </Fragment>
+        {groupedAscents.map((group, groupIndex) => (
+          <Fragment key={`date-${group.date}`}>
+            {/* Spacing between groups */}
+            {groupIndex > 0 && <div className="h-8" />}
+
+            {/* Date Header */}
+            <div className="bg-muted/30 rounded-md py-3 text-center text-lg font-semibold">
+              {formatAscentDate(group.date)}
+            </div>
+
+            <div className="mt-3 space-y-3">
+              {group.ascents.map((ascent) => (
+                <div
+                  key={ascent.id}
+                  className="flex flex-col gap-3 rounded-lg border p-3 sm:grid sm:grid-cols-4 sm:items-center sm:gap-4"
+                >
+                  {/* Part 1: Route name + ascent type */}
+                  <div className="space-y-1">
+                    <h4 className="leading-none font-medium">
+                      <Link
+                        href={`/crag/${ascent.cragId}?sectorId=${ascent.sectorId}?routeId=${ascent.routeId}`}
+                        className="hover:underline"
+                      >
+                        {ascent.routeName || "Unknown Route"}
+                      </Link>
+                    </h4>
+                    {renderAscentTypeBadge(ascent.ascentType)}
+                  </div>
+
+                  {/* Part 2: Date, note, and route types */}
+                  <div className="text-muted-foreground space-y-2 text-sm">
+                    {ascent.ascentDate && (
+                      <div className="flex items-center justify-start gap-2">
+                        <CalendarIcon className="h-4 w-4" />
+                        <span>{formatAscentDate(ascent.ascentDate)}</span>
+                      </div>
+                    )}
+
+                    {ascent.notes && <p className="whitespace-pre-line italic">{ascent.notes}</p>}
+
+                    {(ascent.climbTypes?.length || ascent.rockTypes?.length || ascent.holdTypes?.length) && (
+                      <div className="flex flex-wrap gap-1 pt-1">
+                        {ascent.climbTypes?.map((type) => (
+                          <TypeBadge key={`${ascent.id}-climb-${type}`} label={formatClimbType(type)} />
+                        ))}
+                        {ascent.rockTypes?.map((type) => (
+                          <TypeBadge key={`${ascent.id}-rock-${type}`} label={formatRockType(type)} />
+                        ))}
+                        {ascent.holdTypes?.map((type) => (
+                          <TypeBadge key={`${ascent.id}-hold-${type}`} label={formatHoldType(type)} />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Part 3: Proposed grade */}
+                  <div className="flex justify-start sm:justify-end">
+                    <div className="flex items-center gap-2">
+                      <span className="text-muted-foreground text-sm">Proposed Grade:</span>
+                      {ascent.proposedGrade ? <GradeBadge grade={ascent.proposedGrade} /> : <span>-</span>}
+                    </div>
+                  </div>
+
+                  {/* Part 4: Rating */}
+                  <div className="flex justify-start sm:justify-end">
+                    {ascent.rating && ascent.rating > 0 ? (
+                      <div className="flex items-center">
+                        {Array.from({ length: 5 }).map((_, index) => (
+                          <Star
+                            key={`star-${ascent.id}-${index}`}
+                            className={`h-4 w-4 ${index < (ascent.rating ?? 0) ? "fill-yellow-500 text-yellow-500" : "text-gray-300"}`}
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                      <span>-</span>
+                    )}
+                  </div>
+                </div>
               ))}
-            </TableBody>
-          </Table>
-        </div>
+            </div>
+          </Fragment>
+        ))}
 
         {isFetchingNextPage && (
-          <div className="space-y-2 py-4">
-            <div className="grid grid-cols-6 gap-4">
-              <Skeleton className="h-4" />
-              <Skeleton className="h-4" />
-              <Skeleton className="h-4" />
-              <Skeleton className="h-4" />
-              <Skeleton className="h-4" />
-              <Skeleton className="h-4" />
-            </div>
-            <div className="grid grid-cols-6 gap-4">
-              <Skeleton className="h-4" />
-              <Skeleton className="h-4" />
-              <Skeleton className="h-4" />
-              <Skeleton className="h-4" />
-              <Skeleton className="h-4" />
-              <Skeleton className="h-4" />
-            </div>
+          <div className="space-y-3 py-4">
+            {[...Array(2)].map((_, idx) => (
+              <Skeleton key={`skeleton-${idx}`} className="h-32 w-full" />
+            ))}
           </div>
         )}
 

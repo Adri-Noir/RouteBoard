@@ -11,6 +11,8 @@ export const Hero = () => {
           alt="Mountain landscape"
           fill
           priority
+          quality={50}
+          sizes="100vw"
           className="h-full w-full object-cover"
           containerClassName="h-full w-full"
         />

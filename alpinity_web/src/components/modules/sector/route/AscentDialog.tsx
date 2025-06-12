@@ -4,7 +4,7 @@ import { getRouteAscentsByIdOptions } from "@/lib/api/@tanstack/react-query.gen"
 import { AscentDto } from "@/lib/api/types.gen";
 import { formatClimbType, formatHoldType, formatRockType } from "@/lib/utils/formatters";
 import { useQuery } from "@tanstack/react-query";
-import { CalendarIcon, Clock, Star } from "lucide-react";
+import { CalendarIcon, Clock, Loader2, Star } from "lucide-react";
 import Image from "next/image";
 
 interface AscentDialogProps {
@@ -15,7 +15,7 @@ interface AscentDialogProps {
 }
 
 const AscentDialog = ({ open, onOpenChange, routeId, routeName }: AscentDialogProps) => {
-  const { data: ascents = [] } = useQuery({
+  const { data: ascents = [], isLoading } = useQuery({
     ...getRouteAscentsByIdOptions({
       path: { id: routeId || "" },
     }),
@@ -39,7 +39,11 @@ const AscentDialog = ({ open, onOpenChange, routeId, routeName }: AscentDialogPr
           </DialogTitle>
         </DialogHeader>
         <div className="max-h-[60vh] overflow-y-auto pr-1">
-          {ascents.length === 0 ? (
+          {isLoading ? (
+            <div className="flex justify-center py-8">
+              <Loader2 className="text-muted-foreground h-6 w-6 animate-spin" />
+            </div>
+          ) : ascents.length === 0 ? (
             <p className="text-muted-foreground py-8 text-center">No ascents recorded yet.</p>
           ) : (
             <div className="space-y-3">
