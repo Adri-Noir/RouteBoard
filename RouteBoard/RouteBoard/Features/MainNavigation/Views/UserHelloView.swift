@@ -12,6 +12,8 @@ struct UserHelloView: View {
     HStack {
       HStack(spacing: 4) {
         Text("Hi, \(authViewModel.user?.username ?? "")")
+          .lineLimit(1)
+          .truncationMode(.tail)
         Text("👋")
           .waving()
       }

@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import useAuth from "@/lib/hooks/useAuth";
 import { useForm } from "@tanstack/react-form";
 import { Loader2 } from "lucide-react";
+import Link from "next/link";
 import { z } from "zod";
 
 const loginSchema = z.object({
@@ -101,9 +102,9 @@ const LoginForm = () => {
       </div>
       <div className="mt-4 text-center text-sm">
         Don&apos;t have an account?{" "}
-        <a href="#" className="underline underline-offset-4">
+        <Link href="/register" className="underline underline-offset-4">
           Sign up
-        </a>
+        </Link>
       </div>
     </form>
   );

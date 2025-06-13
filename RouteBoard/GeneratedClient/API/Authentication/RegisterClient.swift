@@ -147,6 +147,7 @@ public class RegisterClient: NonAuthenticatedClientProvider {
       case 200:
         do {
           let decoder = JSONDecoder()
+          decoder.dateDecodingStrategy = .iso8601
           return try decoder.decode(RegisteredUser.self, from: responseData)
         } catch {
           errorHandler?("Failed to decode response: \(error.localizedDescription)")
@@ -156,6 +157,7 @@ public class RegisterClient: NonAuthenticatedClientProvider {
       case 400:
         do {
           let decoder = JSONDecoder()
+          decoder.dateDecodingStrategy = .iso8601
           let problemDetails = try decoder.decode(
             Components.Schemas.CustomProblemDetailsResponse.self, from: responseData)
           logBadRequest("RegisterClient")
@@ -168,6 +170,7 @@ public class RegisterClient: NonAuthenticatedClientProvider {
       case 401:
         do {
           let decoder = JSONDecoder()
+          decoder.dateDecodingStrategy = .iso8601
           let problemDetails = try decoder.decode(
             Components.Schemas.CustomProblemDetailsResponse.self, from: responseData)
           errorHandler?(problemDetails.detail ?? "Unauthorized")
@@ -178,6 +181,7 @@ public class RegisterClient: NonAuthenticatedClientProvider {
       case 409:
         do {
           let decoder = JSONDecoder()
+          decoder.dateDecodingStrategy = .iso8601
           let problemDetails = try decoder.decode(
             Components.Schemas.CustomProblemDetailsResponse.self, from: responseData)
           errorHandler?(problemDetails.detail ?? "User already exists")

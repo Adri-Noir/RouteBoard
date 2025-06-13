@@ -48,7 +48,7 @@ public class RegisterCommandHandler(
             PasswordHash = passwordHash,
             FirstName = request.FirstName,
             LastName = request.LastName,
-            DateOfBirth = request.DateOfBirth
+            DateOfBirth = DateTime.SpecifyKind(request.DateOfBirth, DateTimeKind.Utc)
         };
 
         if (photo != null)
