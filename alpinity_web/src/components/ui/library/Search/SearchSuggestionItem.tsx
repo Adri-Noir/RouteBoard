@@ -95,9 +95,12 @@ export const SearchSuggestionItem = ({
               src={imageUrl}
               alt={`${text || type} image`}
               fill
+              sizes="48px"
               className="h-full w-full rounded-full object-cover"
               containerClassName="w-full h-full rounded-full bg-muted"
               loadingSize="tiny"
+              priority
+              quality={30}
             />
           ) : (
             // Fallback Icon
