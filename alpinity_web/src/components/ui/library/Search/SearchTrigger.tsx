@@ -32,14 +32,30 @@ export const SearchTrigger = ({
       {...props}
     >
       <span className="block truncate sm:inline-block">{children ?? placeholder}</span>
-      {showShortcut && (
-        <kbd
-          className="bg-muted text-muted-foreground pointer-events-none inline-flex h-5 items-center gap-1 rounded border px-1.5 font-mono
-            text-[10px] font-medium select-none"
-        >
-          <span className="text-xs">{isMac ? "⌘" : "Ctrl"}</span>K
-        </kbd>
-      )}
+      {showShortcut &&
+        (isMac ? (
+          <kbd
+            className="bg-muted text-muted-foreground pointer-events-none inline-flex h-5 items-center gap-1 rounded border px-1.5 text-[10px]
+              font-medium select-none"
+          >
+            <span className="text-xs">⌘</span>K
+          </kbd>
+        ) : (
+          <span className="pointer-events-none inline-flex items-center gap-1">
+            <kbd
+              className="bg-muted text-muted-foreground inline-flex h-5 items-center justify-center rounded border px-1.5 text-[10px] font-medium
+                tracking-tighter select-none"
+            >
+              Ctrl
+            </kbd>
+            <kbd
+              className="bg-muted text-muted-foreground inline-flex h-5 items-center justify-center rounded border px-1.5 text-[10px] font-medium
+                select-none"
+            >
+              K
+            </kbd>
+          </span>
+        ))}
     </Button>
   );
 };
