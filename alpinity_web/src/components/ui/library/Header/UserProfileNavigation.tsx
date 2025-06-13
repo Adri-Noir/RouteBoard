@@ -4,7 +4,8 @@ import CreateCragForm from "@/components/modules/crag/create-crag/CreateCragForm
 import EditProfileDialog from "@/components/modules/profile/edit-profile/EditProfileDialog";
 import { CragDetailedDto } from "@/lib/api";
 import useAuth from "@/lib/hooks/useAuth";
-import { Edit, LogOut, Plus, Settings, User } from "lucide-react";
+import useTheme from "@/lib/hooks/useTheme";
+import { Edit, LogOut, Moon, Plus, Settings, Sun, User } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -40,6 +41,7 @@ const UserProfileNavigation = () => {
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 
   const { user, isAuthenticated, isUserLoading, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const onProfileClick = () => {
     router.push("/profile");
@@ -98,6 +100,10 @@ const UserProfileNavigation = () => {
                       <DropdownMenuItem onClick={onEditProfileClick}>
                         <Edit size={16} />
                         <span>Edit Profile</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={toggleTheme}>
+                        {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+                        <span>{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>
                       </DropdownMenuItem>
                     </DropdownMenuSubContent>
                   </DropdownMenuPortal>

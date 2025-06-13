@@ -9,7 +9,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Compass, Edit, Home, LogOut, Menu, Plus, Settings, User as UserIcon } from "lucide-react";
+import { Compass, Edit, Home, LogOut, Menu, Moon, Plus, Settings, Sun, User as UserIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { type ElementType, useState } from "react";
@@ -21,6 +21,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Separator } from "@/components/ui/separator";
 import { CragDetailedDto } from "@/lib/api";
 import useAuth from "@/lib/hooks/useAuth";
+import useTheme from "@/lib/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 const MobileMenu = () => {
@@ -31,6 +32,7 @@ const MobileMenu = () => {
   const router = useRouter();
 
   const { isAuthenticated, logout, user } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   // Helper to navigate & close the drawer
   const handleNavigate = (href: string, callback?: () => void) => {
@@ -133,6 +135,15 @@ const MobileMenu = () => {
                       >
                         <Edit className="h-4 w-4" />
                         Edit Profile
+                      </button>
+
+                      <button
+                        onClick={toggleTheme}
+                        className="hover:bg-accent hover:text-accent-foreground flex w-full items-center gap-3 rounded-md px-2 py-2 text-sm font-medium
+                          transition-colors"
+                      >
+                        {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                        {theme === "dark" ? "Light Mode" : "Dark Mode"}
                       </button>
                     </AccordionContent>
                   </AccordionItem>
