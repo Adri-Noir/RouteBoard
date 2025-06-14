@@ -204,7 +204,7 @@ export function ProfileAscentsTable({ userId }: ProfileAscentsTableProps) {
 
                     {ascent.notes && <p className="whitespace-pre-line italic">{ascent.notes}</p>}
 
-                    {(ascent.climbTypes?.length || ascent.rockTypes?.length || ascent.holdTypes?.length) && (
+                    {(!!ascent.climbTypes?.length || !!ascent.rockTypes?.length || !!ascent.holdTypes?.length) && (
                       <div className="flex flex-wrap gap-1 pt-1">
                         {ascent.climbTypes?.map((type) => (
                           <TypeBadge key={`${ascent.id}-climb-${type}`} label={formatClimbType(type)} />

@@ -3,7 +3,6 @@ using Alpinity.Application.Request;
 using Alpinity.Domain.Entities;
 using ApiExceptions.Exceptions;
 using AutoMapper;
-using FluentValidation;
 using MediatR;
 
 namespace Alpinity.Application.UseCases.Crags.Commands.UploadPhoto;
@@ -18,7 +17,7 @@ public class UploadCragPhotoCommandHandler(
     {
         var crag = await cragRepository.GetCragById(request.CragId, cancellationToken) ?? throw new EntityNotFoundException("Crag not found.");
 
-        if (crag.Photos.Count >= 15) throw new ValidationException("Crag already has 15 photos.");
+        if (crag.Photos.Count >= 15) throw new BadRequestException("Crag already has 15 photos.");
 
         var photoFile = mapper.Map<FileRequest>(request.Photo);
 

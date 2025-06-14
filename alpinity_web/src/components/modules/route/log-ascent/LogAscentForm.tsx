@@ -243,34 +243,50 @@ const LogAscentForm = ({ route, onSuccess, onCancel }: LogAscentFormProps) => {
 
         {/* Number of Attempts and Proposed Grade */}
         <div className="grid grid-cols-2 gap-4">
-          <form.Field name="numberOfAttempts">
-            {(field) => (
-              <div className="w-full space-y-2">
-                <Label htmlFor={field.name}>Number of Attempts</Label>
-                <Input
-                  id={field.name}
-                  name={field.name}
-                  type="number"
-                  min="1"
-                  placeholder="1"
-                  value={field.state.value || ""}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    field.handleChange(value ? parseInt(value) : 1);
-                  }}
-                  className="w-full"
-                />
-                {field.state.meta.errors && <p className="text-destructive text-sm">{field.state.meta.errors[0]}</p>}
-              </div>
+          <form.Subscribe selector={(state) => state.values.ascentType}>
+            {(ascentType) => (
+              <form.Field name="numberOfAttempts">
+                {(field) => (
+                  <div className="w-full space-y-2">
+                    <Label htmlFor={field.name}>Number of Attempts</Label>
+                    <Input
+                      id={field.name}
+                      name={field.name}
+                      type="number"
+                      min="1"
+                      placeholder="1"
+                      value={field.state.value || ""}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        field.handleChange(value ? parseInt(value) : 1);
+                      }}
+                      disabled={ascentType === "Onsight" || ascentType === "Flash"}
+                      className="w-full"
+                    />
+                    {field.state.meta.errors && (
+                      <p className="text-destructive text-sm">{field.state.meta.errors[0]}</p>
+                    )}
+                  </div>
+                )}
+              </form.Field>
             )}
-          </form.Field>
+          </form.Subscribe>
 
           <form.Field name="ascentType">
             {(field) => (
               <div className="w-full space-y-2">
                 <Label htmlFor={field.name}>Ascent Type *</Label>
-                <Select value={field.state.value} onValueChange={(value) => field.handleChange(value as AscentType)}>
+                <Select
+                  value={field.state.value}
+                  onValueChange={(value) => {
+                    const atype = value as AscentType;
+                    field.handleChange(atype);
+                    if (atype === "Flash" || atype === "Onsight") {
+                      form.setFieldValue("numberOfAttempts", 1); // Ensure single attempt for flash/onsight
+                    }
+                  }}
+                >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select ascent type" />
                   </SelectTrigger>
@@ -297,7 +313,7 @@ const LogAscentForm = ({ route, onSuccess, onCancel }: LogAscentFormProps) => {
                 key={star}
                 type="button"
                 onClick={() => setRating(star === rating ? 0 : star)}
-                className="p-1 transition-transform hover:scale-110"
+                className="p-1 transition-transform hover:scale-125"
               >
                 <Star
                   className={`h-6 w-6 ${star <= rating ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground hover:text-yellow-400"}`}
@@ -323,7 +339,7 @@ const LogAscentForm = ({ route, onSuccess, onCancel }: LogAscentFormProps) => {
                 type="button"
                 key={type}
                 onClick={() => handleClimbTypeChange(type, !selectedClimbTypes.has(type))}
-                className="hover:underline-0 p-0 hover:no-underline"
+                className="hover:underline-0 cursor-pointer p-0 hover:scale-105 hover:no-underline"
               >
                 <TypeBadge
                   label={formatClimbType(type)}
@@ -346,7 +362,7 @@ const LogAscentForm = ({ route, onSuccess, onCancel }: LogAscentFormProps) => {
                 type="button"
                 key={type}
                 onClick={() => handleRockTypeChange(type, !selectedRockTypes.has(type))}
-                className="hover:underline-0 p-0 hover:no-underline"
+                className="hover:underline-0 cursor-pointer p-0 hover:scale-105 hover:no-underline"
               >
                 <TypeBadge
                   label={formatRockType(type)}
@@ -369,7 +385,7 @@ const LogAscentForm = ({ route, onSuccess, onCancel }: LogAscentFormProps) => {
                 type="button"
                 key={type}
                 onClick={() => handleHoldTypeChange(type, !selectedHoldTypes.has(type))}
-                className="hover:underline-0 p-0 hover:no-underline"
+                className="hover:underline-0 cursor-pointer p-0 hover:scale-105 hover:no-underline"
               >
                 <TypeBadge
                   label={formatHoldType(type)}
@@ -404,7 +420,7 @@ const LogAscentForm = ({ route, onSuccess, onCancel }: LogAscentFormProps) => {
         {isError && (
           <div className="border-destructive/20 bg-destructive/10 rounded-md border p-4">
             <p className="text-destructive text-sm">
-              {error instanceof Error ? error.message : "Failed to log ascent. Please try again."}
+              {error.errors?.[0]?.message || "Failed to log ascent. Please try again."}
             </p>
           </div>
         )}

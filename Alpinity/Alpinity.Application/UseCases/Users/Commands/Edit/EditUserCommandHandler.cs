@@ -49,13 +49,8 @@ public class EditUserCommandHandler(
             user.Email = normalizedEmail;
         }
 
-        // Update password if provided
         if (request.Password != null)
         {
-            if (!signInService.PasswordIsStrong(request.Password))
-            {
-                throw new ValidationException("Password is not strong enough. Password must be at least 8 characters long and contain at least one uppercase letter, one digit, and one special character.");
-            }
             user.PasswordHash = signInService.HashPassword(request.Password);
         }
 

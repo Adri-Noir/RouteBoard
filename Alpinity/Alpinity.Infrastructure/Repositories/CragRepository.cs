@@ -58,6 +58,7 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
     public async Task<ICollection<Crag>> GetCragsFromLocation(double latitude, double longitude, double radius, CancellationToken cancellationToken = default)
     {
         return await dbContext.Crags
+            .Include(crag => crag.Photos.Take(1))
             .Where(crag => crag.Location != null && crag.Location.Distance(new Point(longitude, latitude) { SRID = 4326 }) <= radius)
             .OrderBy(crag => crag.Location != null ? crag.Location.Distance(new Point(longitude, latitude) { SRID = 4326 }) : 0)
             .ToListAsync(cancellationToken);

@@ -1,11 +1,16 @@
 using FluentValidation;
+using Alpinity.Application.Services;
 
 namespace Alpinity.Application.UseCases.Users.Commands.Edit;
 
 public class EditUserCommandValidator : AbstractValidator<EditUserCommand>
 {
-    public EditUserCommandValidator()
+    private readonly ISignInService _signInService;
+
+    public EditUserCommandValidator(ISignInService signInService)
     {
+        _signInService = signInService;
+
         RuleFor(x => x.UserId)
             .NotEmpty()
             .WithMessage("User ID is required.");
@@ -35,6 +40,8 @@ public class EditUserCommandValidator : AbstractValidator<EditUserCommand>
         RuleFor(x => x.Password)
             .MinimumLength(8).WithMessage("Password must be at least 8 characters")
             .MaximumLength(100).WithMessage("Password must not exceed 100 characters")
+            .Must(p => _signInService.PasswordIsStrong(p))
+            .WithMessage("Password must contain at least one uppercase letter, one digit and one special character")
             .When(x => !string.IsNullOrEmpty(x.Password));
     }
 }

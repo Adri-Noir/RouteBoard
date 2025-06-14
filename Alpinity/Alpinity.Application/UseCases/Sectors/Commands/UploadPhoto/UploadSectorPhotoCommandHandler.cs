@@ -3,7 +3,6 @@ using Alpinity.Application.Request;
 using Alpinity.Domain.Entities;
 using ApiExceptions.Exceptions;
 using AutoMapper;
-using FluentValidation;
 using MediatR;
 
 namespace Alpinity.Application.UseCases.Sectors.Commands.UploadPhoto;
@@ -17,7 +16,7 @@ public class UploadSectorPhotoCommandHandler(
     public async Task Handle(UploadSectorPhotoCommand request, CancellationToken cancellationToken)
     {
         var sector = await sectorRepository.GetSectorById(request.SectorId, cancellationToken) ?? throw new EntityNotFoundException("Sector not found.");
-        if (sector.Photos.Count >= 15) throw new ValidationException("Sector already has 15 photos.");
+        if (sector.Photos.Count >= 15) throw new BadRequestException("Sector already has 15 photos.");
         var photoFile = mapper.Map<FileRequest>(request.Photo);
 
         var photoUrl = await fileRepository.UploadPrivateFileAsync(photoFile, cancellationToken);

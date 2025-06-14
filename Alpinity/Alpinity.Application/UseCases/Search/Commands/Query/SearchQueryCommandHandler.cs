@@ -20,10 +20,18 @@ public class SearchQueryCommandHandler(
             Page = request.page,
             PageSize = request.pageSize
         };
-        var routes = await routeRepository.GetRoutesByName(request.query, searchOptions, cancellationToken);
-        var sectors = await sectorRepository.GetSectorsByName(request.query, searchOptions, cancellationToken);
-        var crags = await cragRepository.GetCragsByName(request.query, searchOptions, cancellationToken);
-        var users = await userRepository.GetUsersByUsernameAsync(request.query, searchOptions, cancellationToken);
+
+        var routesTask = routeRepository.GetRoutesByName(request.query, searchOptions, cancellationToken);
+        var sectorsTask = sectorRepository.GetSectorsByName(request.query, searchOptions, cancellationToken);
+        var cragsTask = cragRepository.GetCragsByName(request.query, searchOptions, cancellationToken);
+        var usersTask = userRepository.GetUsersByUsernameAsync(request.query, searchOptions, cancellationToken);
+
+        await Task.WhenAll(routesTask, sectorsTask, cragsTask, usersTask);
+
+        var routes = routesTask.Result;
+        var sectors = sectorsTask.Result;
+        var crags = cragsTask.Result;
+        var users = usersTask.Result;
 
         var items = new List<SearchResultDto>();
         items.AddRange(routes.Select(route => mapper.Map<SearchResultDto>(route)));

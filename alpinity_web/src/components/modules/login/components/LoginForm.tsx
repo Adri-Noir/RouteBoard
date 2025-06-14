@@ -65,9 +65,6 @@ const LoginForm = () => {
             <div className="grid gap-2">
               <div className="flex items-center">
                 <Label htmlFor={field.name}>Password</Label>
-                <a href="#" className="ml-auto inline-block text-sm underline-offset-4 hover:underline">
-                  Forgot your password?
-                </a>
               </div>
               <Input
                 id={field.name}
@@ -77,6 +74,7 @@ const LoginForm = () => {
                 onBlur={field.handleBlur}
                 onChange={(e) => field.handleChange(e.target.value)}
                 required
+                placeholder="********"
               />
             </div>
           )}

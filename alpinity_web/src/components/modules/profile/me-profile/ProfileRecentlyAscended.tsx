@@ -34,7 +34,7 @@ export function ProfileRecentlyAscended({ routes }: ProfileRecentlyAscendedProps
                   return (
                     <CarouselItem key={route.id} className="pl-2 md:pl-4 lg:basis-1/2">
                       <Link
-                        href={`/crag/${route.cragId}?sectorId=${route.sectorId}?routeId=${route.id}`}
+                        href={`/crag/${route.cragId}?sectorId=${route.sectorId}&routeId=${route.id}`}
                         className="block h-full"
                       >
                         <div className="hover:border-primary/50 flex cursor-pointer gap-4 rounded-lg border p-4 transition-all duration-200 hover:shadow-lg">
