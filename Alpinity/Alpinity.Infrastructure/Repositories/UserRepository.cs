@@ -35,7 +35,11 @@ public class UserRepository(
         return await dbContext.Users
             .Include(u => u.ProfilePhoto)
             .Include(u => u.Ascents!)
-            .Where(user => EF.Functions.ILike(user.Username, $"%{username}%"))
+            .Where(user =>
+                EF.Functions.ILike(user.Username, $"%{username}%") ||
+                (user.FirstName != null && EF.Functions.ILike(user.FirstName, $"%{username}%")) ||
+                (user.LastName != null && EF.Functions.ILike(user.LastName, $"%{username}%")))
+            .OrderBy(user => user.Username)
             .Skip(searchOptions.Page * searchOptions.PageSize)
             .Take(searchOptions.PageSize)
             .ToListAsync(cancellationToken);

@@ -47,9 +47,11 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
     {
         return await dbContext.Crags
             .Include(crag => crag.Photos.Take(1))
-            .Where(crag => EF.Functions.ILike(crag.Name, $"%{query}%"))
-            // TODO: Implement a better search algorithm method like indexing
-            // .OrderByDescending(crag => EF.Functions.FreeText(crag.Name, query))
+            .Where(crag =>
+                EF.Functions.ILike(crag.Name, $"%{query}%") ||
+                (crag.LocationName != null && EF.Functions.ILike(crag.LocationName, $"%{query}%")))
+            .OrderBy(crag => crag.Name)
+            // TODO: Implement a better search algorithm method like indexing and ranking instead of alfa ordering
             .Skip(searchOptions.Page * searchOptions.PageSize)
             .Take(searchOptions.PageSize)
             .ToListAsync(cancellationToken);

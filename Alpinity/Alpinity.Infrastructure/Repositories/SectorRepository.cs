@@ -57,8 +57,8 @@ public class SectorRepository(ApplicationDbContext dbContext, ICragRepository cr
         return await dbContext.Sectors
             .Include(sector => sector.Photos.Take(1))
             .Where(sector => EF.Functions.ILike(sector.Name, $"%{query}%"))
-            // TODO: Implement a better search algorithm method like indexing
-            // .OrderByDescending(sector => EF.Functions.FreeText(sector.Name, query))
+            .OrderBy(sector => sector.Name)
+            // TODO: Implement a better search algorithm method like indexing and ranking instead of alfa ordering
             .Skip(searchOptions.Page * searchOptions.PageSize)
             .Take(searchOptions.PageSize)
             .ToListAsync(cancellationToken);

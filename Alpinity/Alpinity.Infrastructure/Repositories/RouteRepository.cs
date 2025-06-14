@@ -49,8 +49,8 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
             .Include(route => route.Ascents!)
             .Include(route => route.Sector)
             .Where(route => EF.Functions.ILike(route.Name, $"%{query}%"))
-            // TODO: Implement a better search algorithm method like indexing
-            // .OrderByDescending(route => EF.Functions.FreeText(route.Name, query))
+            .OrderBy(route => route.Name)
+            // TODO: Implement a better search algorithm method like indexing and ranking instead of alfa ordering
             .Skip(searchOptions.Page * searchOptions.PageSize)
             .Take(searchOptions.PageSize)
             .ToListAsync(cancellationToken);

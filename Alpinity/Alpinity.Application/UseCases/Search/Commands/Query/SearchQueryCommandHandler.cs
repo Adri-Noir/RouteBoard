@@ -3,15 +3,11 @@ using Alpinity.Application.Interfaces.Repositories;
 using Alpinity.Application.UseCases.Search.Dtos;
 using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Alpinity.Application.UseCases.Search.Commands.Query;
 
-public class SearchQueryCommandHandler(
-    ICragRepository cragRepository,
-    ISectorRepository sectorRepository,
-    IRouteRepository routeRepository,
-    IUserRepository userRepository,
-    IMapper mapper) : IRequestHandler<SearchQueryCommand, ICollection<SearchResultDto>>
+public class SearchQueryCommandHandler(IServiceScopeFactory scopeFactory, IMapper mapper) : IRequestHandler<SearchQueryCommand, ICollection<SearchResultDto>>
 {
     public async Task<ICollection<SearchResultDto>> Handle(SearchQueryCommand request, CancellationToken cancellationToken)
     {
@@ -21,23 +17,41 @@ public class SearchQueryCommandHandler(
             PageSize = request.pageSize
         };
 
-        var routesTask = routeRepository.GetRoutesByName(request.query, searchOptions, cancellationToken);
-        var sectorsTask = sectorRepository.GetSectorsByName(request.query, searchOptions, cancellationToken);
-        var cragsTask = cragRepository.GetCragsByName(request.query, searchOptions, cancellationToken);
-        var usersTask = userRepository.GetUsersByUsernameAsync(request.query, searchOptions, cancellationToken);
+        var routesTask = Task.Run(async () =>
+        {
+            using var scope = scopeFactory.CreateScope();
+            var repo = scope.ServiceProvider.GetRequiredService<IRouteRepository>();
+            return await repo.GetRoutesByName(request.query, searchOptions, cancellationToken);
+        }, cancellationToken);
+
+        var sectorsTask = Task.Run(async () =>
+        {
+            using var scope = scopeFactory.CreateScope();
+            var repo = scope.ServiceProvider.GetRequiredService<ISectorRepository>();
+            return await repo.GetSectorsByName(request.query, searchOptions, cancellationToken);
+        }, cancellationToken);
+
+        var cragsTask = Task.Run(async () =>
+        {
+            using var scope = scopeFactory.CreateScope();
+            var repo = scope.ServiceProvider.GetRequiredService<ICragRepository>();
+            return await repo.GetCragsByName(request.query, searchOptions, cancellationToken);
+        }, cancellationToken);
+
+        var usersTask = Task.Run(async () =>
+        {
+            using var scope = scopeFactory.CreateScope();
+            var repo = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+            return await repo.GetUsersByUsernameAsync(request.query, searchOptions, cancellationToken);
+        }, cancellationToken);
 
         await Task.WhenAll(routesTask, sectorsTask, cragsTask, usersTask);
 
-        var routes = routesTask.Result;
-        var sectors = sectorsTask.Result;
-        var crags = cragsTask.Result;
-        var users = usersTask.Result;
-
         var items = new List<SearchResultDto>();
-        items.AddRange(routes.Select(route => mapper.Map<SearchResultDto>(route)));
-        items.AddRange(sectors.Select(sector => mapper.Map<SearchResultDto>(sector)));
-        items.AddRange(crags.Select(crag => mapper.Map<SearchResultDto>(crag)));
-        items.AddRange(users.Select(user => mapper.Map<SearchResultDto>(user)));
+        items.AddRange(routesTask.Result.Select(mapper.Map<SearchResultDto>));
+        items.AddRange(sectorsTask.Result.Select(mapper.Map<SearchResultDto>));
+        items.AddRange(cragsTask.Result.Select(mapper.Map<SearchResultDto>));
+        items.AddRange(usersTask.Result.Select(mapper.Map<SearchResultDto>));
 
         return items;
     }
