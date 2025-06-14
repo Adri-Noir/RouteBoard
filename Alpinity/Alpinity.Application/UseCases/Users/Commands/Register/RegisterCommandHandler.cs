@@ -25,9 +25,6 @@ public class RegisterCommandHandler(
         if (await userRepository.GetByUsernameAsync(request.Username, cancellationToken) != null)
             throw new EntityAlreadyExistsException("User with this username already exists");
 
-        if (!signInService.PasswordIsStrong(request.Password))
-            throw new ValidationException("Password is not strong enough");
-
         var passwordHash = signInService.HashPassword(request.Password);
 
         var photo = null as Photo;

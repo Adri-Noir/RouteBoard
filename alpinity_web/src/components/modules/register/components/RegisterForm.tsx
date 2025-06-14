@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -232,6 +232,9 @@ const RegisterForm = () => {
               <PopoverContent className="w-auto p-0" align="start">
                 <Calendar
                   mode="single"
+                  captionLayout="dropdown"
+                  startMonth={new Date(1900, 0, 1)}
+                  endMonth={new Date(new Date().getFullYear(), 11, 31)}
                   selected={field.state.value}
                   onSelect={(selectedDate: Date | undefined) => {
                     if (selectedDate) {
@@ -249,7 +252,7 @@ const RegisterForm = () => {
 
       {/* Photo Upload */}
       <div className="flex flex-col items-center space-y-3">
-        <div className="relative h-24 w-24 overflow-hidden rounded-full border-2 border-gray-200">
+        <div className="border-input dark:border-input relative h-24 w-24 overflow-hidden rounded-full border">
           {photoPreview ? (
             <ImageWithLoading
               src={photoPreview}
@@ -259,16 +262,12 @@ const RegisterForm = () => {
               containerClassName="h-full w-full rounded-full"
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-gray-100 text-gray-400">
+            <div className="bg-muted text-muted-foreground flex h-full w-full items-center justify-center">
               <Camera className="h-8 w-8" />
             </div>
           )}
         </div>
-        <Label
-          htmlFor="photo-upload"
-          className="flex cursor-pointer items-center space-x-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium
-            text-gray-700 hover:bg-gray-50"
-        >
+        <Label htmlFor="photo-upload" className={cn(buttonVariants({ variant: "outline" }), "cursor-pointer")}>
           <Upload className="h-4 w-4" />
           <span className="text-foreground">{selectedPhoto ? "Change Photo" : "Add Profile Photo"}</span>
           <Input id="photo-upload" type="file" accept="image/*" className="hidden" onChange={handlePhotoUpload} />
@@ -292,8 +291,8 @@ const RegisterForm = () => {
       </form.Subscribe>
 
       {isRegisterError && (
-        <p className="text-center text-sm text-red-500">
-          {registerError?.detail || "An error occurred while creating account"}
+        <p className="text-destructive text-center text-sm">
+          {registerError?.errors?.[0]?.message || registerError?.detail || "An error occurred while creating account"}
         </p>
       )}
 

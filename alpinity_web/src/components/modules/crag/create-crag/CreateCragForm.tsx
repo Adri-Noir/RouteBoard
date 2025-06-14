@@ -235,15 +235,15 @@ export function CreateCragForm({ crag, onSuccess }: CreateCragFormProps) {
           <div className="flex w-full items-center justify-center">
             <Label
               htmlFor="photo-upload"
-              className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300
-                bg-gray-50 hover:bg-gray-100"
+              className="border-input bg-muted/50 text-muted-foreground hover:bg-muted/40 dark:bg-input/30 dark:hover:bg-input/50 flex h-32
+                w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed"
             >
               <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <Upload className="mb-4 h-8 w-8 text-gray-500" />
-                <p className="mb-2 text-sm text-gray-500">
+                <Upload className="text-muted-foreground mb-4 h-8 w-8" />
+                <p className="text-muted-foreground mb-2 text-sm">
                   <span className="font-semibold">Click to upload</span> photos
                 </p>
-                <p className="text-xs text-gray-500">PNG, JPG or JPEG</p>
+                <p className="text-muted-foreground text-xs">PNG, JPG or JPEG</p>
               </div>
               <Input
                 id="photo-upload"

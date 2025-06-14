@@ -195,6 +195,9 @@ const LogAscentForm = ({ route, onSuccess, onCancel }: LogAscentFormProps) => {
                     <div className="pointer-events-auto">
                       <Calendar
                         mode="single"
+                        captionLayout="dropdown"
+                        startMonth={new Date(1900, 0, 1)}
+                        endMonth={new Date(new Date().getFullYear(), 11, 31)}
                         selected={field.state.value}
                         onSelect={(selectedDate) => {
                           if (selectedDate) {

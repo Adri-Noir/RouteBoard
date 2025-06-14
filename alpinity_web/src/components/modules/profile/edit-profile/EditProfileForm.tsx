@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -246,6 +246,9 @@ const EditProfileForm = ({ onSuccess }: EditProfileFormProps) => {
                         <div className="pointer-events-auto">
                           <Calendar
                             mode="single"
+                            captionLayout="dropdown"
+                            startMonth={new Date(1900, 0, 1)}
+                            endMonth={new Date(new Date().getFullYear(), 11, 31)}
                             selected={field.state.value}
                             onSelect={(selectedDate: Date | undefined) => {
                               if (selectedDate) {
@@ -338,7 +341,7 @@ const EditProfileForm = ({ onSuccess }: EditProfileFormProps) => {
           <div className="flex flex-col items-center space-y-6">
             {/* Current Photo - Larger in photo-only view */}
             <div className="flex flex-col items-center space-y-3">
-              <div className="relative h-32 w-32 overflow-hidden rounded-full border-2 border-gray-200">
+              <div className="border-input dark:border-input relative h-32 w-32 overflow-hidden rounded-full border">
                 {user?.profilePhoto?.url ? (
                   <ImageWithLoading
                     src={user.profilePhoto.url}
@@ -348,7 +351,7 @@ const EditProfileForm = ({ onSuccess }: EditProfileFormProps) => {
                     containerClassName="h-full w-full rounded-full"
                   />
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center bg-gray-100 text-gray-400">
+                  <div className="bg-muted text-muted-foreground flex h-full w-full items-center justify-center">
                     <Camera className="h-12 w-12" />
                   </div>
                 )}
@@ -359,7 +362,7 @@ const EditProfileForm = ({ onSuccess }: EditProfileFormProps) => {
             {/* Photo Preview - Larger in photo-only view */}
             {photoPreview && (
               <div className="flex flex-col items-center space-y-3">
-                <div className="relative h-32 w-32 overflow-hidden rounded-full border-2 border-blue-200">
+                <div className="border-primary/40 dark:border-primary/60 relative h-32 w-32 overflow-hidden rounded-full border-2">
                   <ImageWithLoading
                     src={photoPreview}
                     alt="Photo preview"
@@ -377,8 +380,7 @@ const EditProfileForm = ({ onSuccess }: EditProfileFormProps) => {
               {!selectedPhoto ? (
                 <Label
                   htmlFor="photo-upload-only"
-                  className="flex cursor-pointer items-center space-x-2 rounded-md border border-gray-300 bg-white px-6 py-3 text-sm font-medium
-                    text-gray-700 hover:bg-gray-50"
+                  className={cn(buttonVariants({ variant: "outline" }), "cursor-pointer px-6 py-3")}
                 >
                   <Upload className="h-5 w-5" />
                   <span className="text-foreground">Choose New Photo</span>
