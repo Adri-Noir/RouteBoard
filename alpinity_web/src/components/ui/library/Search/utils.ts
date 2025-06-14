@@ -27,6 +27,7 @@ export const getFormattedEntityData = (suggestion: SearchResultDto) => {
     routeSectorName,
     routeCragName,
     routeDifficulty,
+    ascentsCount,
   } = suggestion;
 
   const type = entityType ? mapEntityTypeToUiType(entityType) : "crag";
@@ -47,6 +48,11 @@ export const getFormattedEntityData = (suggestion: SearchResultDto) => {
       return {
         parentName: routeSectorName && routeCragName ? `${routeSectorName}, ${routeCragName}` : undefined,
         difficulty: routeDifficulty ? formatClimbingGrade(routeDifficulty) : undefined,
+      };
+    case "user":
+      return {
+        count: ascentsCount,
+        countLabel: "ascents",
       };
     default:
       return {};

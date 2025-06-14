@@ -1,11 +1,11 @@
 "use client";
 
-import * as React from "react";
 import { Command as CommandPrimitive } from "cmdk";
 import { SearchIcon } from "lucide-react";
+import * as React from "react";
 
-import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 
 function Command({ className, ...props }: React.ComponentProps<typeof CommandPrimitive>) {
   return (
@@ -23,11 +23,13 @@ function Command({ className, ...props }: React.ComponentProps<typeof CommandPri
 function CommandDialog({
   title = "Command Palette",
   description = "Search for a command to run...",
+  filter = () => 1,
   children,
   ...props
 }: React.ComponentProps<typeof Dialog> & {
   title?: string;
   description?: string;
+  filter?: (value: string, search: string, keywords?: string[]) => number;
 }) {
   return (
     <Dialog {...props}>
@@ -37,6 +39,7 @@ function CommandDialog({
       </DialogHeader>
       <DialogContent className="overflow-hidden p-0">
         <Command
+          filter={filter}
           className="[&_[cmdk-group-heading]]:text-muted-foreground **:data-[slot=command-input-wrapper]:h-12 [&_[cmdk-group-heading]]:px-2
             [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0
             [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2
@@ -133,11 +136,11 @@ function CommandShortcut({ className, ...props }: React.ComponentProps<"span">) 
 export {
   Command,
   CommandDialog,
-  CommandInput,
-  CommandList,
   CommandEmpty,
   CommandGroup,
+  CommandInput,
   CommandItem,
-  CommandShortcut,
+  CommandList,
   CommandSeparator,
+  CommandShortcut,
 };

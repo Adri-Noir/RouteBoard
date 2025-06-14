@@ -47,6 +47,8 @@ public class CragRepository(ApplicationDbContext dbContext) : ICragRepository
     {
         return await dbContext.Crags
             .Include(crag => crag.Photos.Take(1))
+            .Include(crag => crag.Sectors)
+            .ThenInclude(sector => sector.Routes)
             .Where(crag =>
                 EF.Functions.ILike(crag.Name, $"%{query}%") ||
                 (crag.LocationName != null && EF.Functions.ILike(crag.LocationName, $"%{query}%")))
