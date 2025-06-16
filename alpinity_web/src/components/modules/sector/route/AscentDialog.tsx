@@ -1,11 +1,11 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { GradeBadge, TypeBadge } from "@/components/ui/library/Badge";
+import ImageWithLoading from "@/components/ui/library/ImageWithLoading/ImageWithLoading";
 import { getRouteAscentsByIdOptions } from "@/lib/api/@tanstack/react-query.gen";
 import { AscentDto } from "@/lib/api/types.gen";
 import { formatClimbType, formatHoldType, formatRockType } from "@/lib/utils/formatters";
 import { useQuery } from "@tanstack/react-query";
 import { CalendarIcon, Clock, Loader2, Star } from "lucide-react";
-import Image from "next/image";
 
 interface AscentDialogProps {
   open: boolean;
@@ -51,12 +51,13 @@ const AscentDialog = ({ open, onOpenChange, routeId, routeName }: AscentDialogPr
                 <div key={ascent.id} className="rounded-lg border p-3">
                   <div className="mb-2 flex items-center gap-3">
                     {ascent.userProfilePhoto?.url ? (
-                      <Image
+                      <ImageWithLoading
                         src={ascent.userProfilePhoto.url}
                         alt={ascent.username || "Climber"}
-                        width={40}
-                        height={40}
-                        className="rounded-full"
+                        fill
+                        className="rounded-full object-cover"
+                        loadingSize="tiny"
+                        containerClassName="w-10 h-10 rounded-full "
                       />
                     ) : (
                       <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-full">
