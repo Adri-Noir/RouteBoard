@@ -30,7 +30,6 @@ public class AscentRepository(
             .Include(a => a.Route)
             .Include(a => a.Route!.Sector)
             .Include(a => a.Route!.Sector!.Crag)
-            .Include(a => a.User)
             .Where(a => a.UserId == userId)
             .OrderByDescending(a => a.AscentDate)
             .ToListAsync(cancellationToken);

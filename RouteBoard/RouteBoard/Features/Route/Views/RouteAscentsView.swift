@@ -105,7 +105,7 @@ private struct RouteAscentRowView: View {
   var body: some View {
     VStack(spacing: 0) {
       HStack(spacing: 15) {
-        if let profilePhotoUrl = ascent.userProfilePhotoUrl, !profilePhotoUrl.isEmpty {
+        if let profilePhotoUrl = ascent.userProfilePhoto?.url, !profilePhotoUrl.isEmpty {
           AsyncImage(url: URL(string: profilePhotoUrl)) { phase in
             switch phase {
             case .success(let image):

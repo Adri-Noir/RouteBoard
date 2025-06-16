@@ -26,7 +26,7 @@ export type AscentDto = {
   rating?: number | null;
   userId?: string;
   username?: string | null;
-  userProfilePhotoUrl?: string | null;
+  userProfilePhoto?: PhotoDto;
 };
 
 export type AscentType = "Onsight" | "Flash" | "Redpoint" | "Aid";

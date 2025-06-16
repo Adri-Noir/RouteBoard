@@ -2814,9 +2814,8 @@
             "type": "string",
             "nullable": true
           },
-          "userProfilePhotoUrl": {
-            "type": "string",
-            "nullable": true
+          "userProfilePhoto": {
+            "$ref": "#/components/schemas/PhotoDto"
           }
         },
         "additionalProperties": false

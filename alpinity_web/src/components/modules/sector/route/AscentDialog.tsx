@@ -50,9 +50,9 @@ const AscentDialog = ({ open, onOpenChange, routeId, routeName }: AscentDialogPr
               {ascents.map((ascent: AscentDto) => (
                 <div key={ascent.id} className="rounded-lg border p-3">
                   <div className="mb-2 flex items-center gap-3">
-                    {ascent.userProfilePhotoUrl ? (
+                    {ascent.userProfilePhoto?.url ? (
                       <Image
-                        src={ascent.userProfilePhotoUrl}
+                        src={ascent.userProfilePhoto.url}
                         alt={ascent.username || "Climber"}
                         width={40}
                         height={40}

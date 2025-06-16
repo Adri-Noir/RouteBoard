@@ -1,3 +1,4 @@
+using Alpinity.Application.UseCases.Photos.Dtos;
 using Alpinity.Application.UseCases.Routes.Dtos;
 using Alpinity.Domain.Enums;
 
@@ -17,5 +18,5 @@ public class AscentDto : RouteCategoriesDto
 
     public Guid UserId { get; set; }
     public string? Username { get; set; }
-    public string? UserProfilePhotoUrl { get; set; }
+    public PhotoDto? UserProfilePhoto { get; set; }
 }
