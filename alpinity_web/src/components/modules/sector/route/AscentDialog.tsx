@@ -60,7 +60,7 @@ const AscentDialog = ({ open, onOpenChange, routeId, routeName }: AscentDialogPr
                       />
                     ) : (
                       <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-full">
-                        <span className="text-xs">{ascent.username?.charAt(0) || "?"}</span>
+                        <span className="text-xs">{ascent.username?.charAt(0)?.toUpperCase() || "?"}</span>
                       </div>
                     )}
                     <div>

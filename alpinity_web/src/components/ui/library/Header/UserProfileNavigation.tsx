@@ -73,7 +73,7 @@ const UserProfileNavigation = () => {
             <DropdownMenuTrigger asChild>
               <Avatar>
                 <AvatarImage src={user?.profilePhoto?.url ?? undefined} className="object-cover" />
-                <AvatarFallback>{user?.profilePhoto?.url ? "A" : user?.username?.charAt(0)}</AvatarFallback>
+                <AvatarFallback>{user?.username?.charAt(0)?.toUpperCase() ?? "?"}</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="z-10000 w-56">
