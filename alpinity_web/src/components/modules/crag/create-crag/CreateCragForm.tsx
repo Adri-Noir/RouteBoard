@@ -9,7 +9,7 @@ import { postApiCragMutation, putApiCragByIdMutation } from "@/lib/api/@tanstack
 import type { CragDetailedDto } from "@/lib/api/types.gen";
 import { useForm } from "@tanstack/react-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Loader2, Upload, X } from "lucide-react";
+import { Loader2, RotateCcw, Trash, Upload, X } from "lucide-react";
 import { useCallback, useState } from "react";
 
 interface CreateCragFormProps {
@@ -95,8 +95,13 @@ export function CreateCragForm({ crag, onSuccess }: CreateCragFormProps) {
     setPhotos((prev) => prev.filter((_, i) => i !== index));
   }, []);
 
-  const removeExistingPhoto = useCallback((photoId: string) => {
-    setPhotosToRemove((prev) => [...prev, photoId]);
+  const toggleExistingPhotoRemoval = useCallback((photoId: string) => {
+    setPhotosToRemove((prev) => {
+      if (prev.includes(photoId)) {
+        return prev.filter((id) => id !== photoId);
+      }
+      return [...prev, photoId];
+    });
   }, []);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -176,28 +181,37 @@ export function CreateCragForm({ crag, onSuccess }: CreateCragFormProps) {
             <div className="space-y-2">
               <p className="text-muted-foreground text-sm">Existing Photos</p>
               <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-                {crag.photos
-                  .filter((photo) => !photosToRemove.includes(photo.id))
-                  .map((photo) => (
-                    <div key={photo.id} className="group relative h-40 w-full">
+                {crag.photos.map((photo) => {
+                  const marked = photosToRemove.includes(photo.id);
+                  return (
+                    <div key={photo.id} className="relative h-40 w-full">
                       <ImageWithLoading
                         src={photo.url || ""}
                         alt="Crag photo"
                         fill
-                        className="rounded-md object-contain"
+                        className={`rounded-md object-contain ${marked ? "opacity-50" : ""}`}
                         containerClassName="h-full w-full"
                       />
+                      {marked && (
+                        <div
+                          className="bg-destructive/60 pointer-events-none absolute inset-0 z-10 flex items-center justify-center rounded-md text-xs
+                            font-semibold text-white"
+                        >
+                          Marked for deletion
+                        </div>
+                      )}
                       <Button
                         type="button"
-                        variant="destructive"
+                        variant={marked ? "secondary" : "destructive"}
                         size="sm"
-                        className="absolute top-1 right-1 opacity-0 transition-opacity group-hover:opacity-100"
-                        onClick={() => removeExistingPhoto(photo.id)}
+                        className="absolute top-1 right-1 z-20"
+                        onClick={() => toggleExistingPhotoRemoval(photo.id)}
                       >
-                        <X className="h-3 w-3" />
+                        {marked ? <RotateCcw className="h-3 w-3" /> : <Trash className="h-3 w-3" />}
                       </Button>
                     </div>
-                  ))}
+                  );
+                })}
               </div>
             </div>
           )}

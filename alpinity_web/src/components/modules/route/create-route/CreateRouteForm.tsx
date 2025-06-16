@@ -4,14 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TypeBadge } from "@/components/ui/library/Badge/TypeBadge";
+import ImageWithLoading from "@/components/ui/library/ImageWithLoading/ImageWithLoading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { postApiRouteMutation, putApiRouteByIdMutation } from "@/lib/api/@tanstack/react-query.gen";
 import type { ClimbingGrade, RouteDetailedDto, RouteType } from "@/lib/api/types.gen";
 import { useForm } from "@tanstack/react-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Loader2, Mountain } from "lucide-react";
-import { useState } from "react";
+import { Loader2, Mountain, RotateCcw, Trash } from "lucide-react";
+import { useCallback, useState } from "react";
 
 const CLIMBING_GRADES: ClimbingGrade[] = [
   "PROJECT",
@@ -90,6 +91,7 @@ interface CreateRouteFormProps {
 const CreateRouteForm = ({ route, sectorId, onSuccess }: CreateRouteFormProps) => {
   const queryClient = useQueryClient();
   const [selectedRouteTypes, setSelectedRouteTypes] = useState<Set<RouteType>>(new Set(route?.routeType || []));
+  const [photosToRemove, setPhotosToRemove] = useState<string[]>([]);
 
   const isEditing = !!route;
 
@@ -150,6 +152,7 @@ const CreateRouteForm = ({ route, sectorId, onSuccess }: CreateRouteFormProps) =
                 : undefined
               : undefined,
             length: data.value.length !== route.length ? data.value.length || undefined : undefined,
+            photosToRemove: photosToRemove.length > 0 ? photosToRemove : undefined,
           },
         });
       } else {
@@ -198,6 +201,15 @@ const CreateRouteForm = ({ route, sectorId, onSuccess }: CreateRouteFormProps) =
   const isLoading = isCreateLoading || isUpdateLoading;
   const isError = isCreateError || isUpdateError;
   const error = createError || updateError;
+
+  const toggleExistingPhotoRemoval = useCallback((photoId: string) => {
+    setPhotosToRemove((prev) => {
+      if (prev.includes(photoId)) {
+        return prev.filter((id) => id !== photoId);
+      }
+      return [...prev, photoId];
+    });
+  }, []);
 
   return (
     <div className="w-full">
@@ -307,6 +319,55 @@ const CreateRouteForm = ({ route, sectorId, onSuccess }: CreateRouteFormProps) =
             ))}
           </div>
         </div>
+
+        {/* Photos Section (Editing Only) */}
+        {isEditing && route?.routePhotos && route.routePhotos.length > 0 && (
+          <div className="space-y-4">
+            <Label>Photos</Label>
+
+            <div className="space-y-2">
+              <p className="text-muted-foreground text-sm">Existing Photos</p>
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+                {route.routePhotos.map((photo) => {
+                  const marked = photosToRemove.includes(photo.id);
+                  return (
+                    <div key={photo.id} className="group relative h-40 w-full">
+                      {photo.combinedPhoto?.url && (
+                        <ImageWithLoading
+                          src={photo.combinedPhoto.url}
+                          alt="Route photo"
+                          fill
+                          className={`rounded-md object-contain ${marked ? "opacity-50" : ""}`}
+                          containerClassName="h-full w-full"
+                        />
+                      )}
+
+                      {/* Overlay indicating deletion */}
+                      {marked && (
+                        <div
+                          className="bg-destructive/60 pointer-events-none absolute inset-0 z-10 flex items-center justify-center rounded-md text-xs
+                            font-semibold text-white"
+                        >
+                          Marked for deletion
+                        </div>
+                      )}
+
+                      <Button
+                        type="button"
+                        variant={marked ? "secondary" : "destructive"}
+                        size="sm"
+                        className="absolute top-1 right-1 z-20"
+                        onClick={() => toggleExistingPhotoRemoval(photo.id)}
+                      >
+                        {marked ? <RotateCcw className="h-3 w-3" /> : <Trash className="h-3 w-3" />}
+                      </Button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
 
         <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
           {([canSubmit, isSubmitting]) => (
