@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.10.26)  12 JUN 2025 01:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.10.26)  16 JUN 2025 02:54
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -275,31 +275,51 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \float@box=\box55
 \@float@everytoks=\toks30
 \@floatcapt=\box56
+) (/usr/local/texlive/2022/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2022/01/07 v1.5 Sub-captions (AR)
+\c@subfigure=\count293
+\c@subtable=\count294
 )
-LaTeX Font Info:    Trying to load font information for T1+ptm on input line 8.
+LaTeX Font Info:    Trying to load font information for T1+ptm on input line 11.
  (/usr/local/texlive/2022/texmf-dist/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 ) (/usr/local/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-02-07 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count293
+\l__color_backend_stack_int=\count295
 \l__pdf_internal_box=\box57
-) (./zavrsni.aux (./sections/Uvod/uvod.aux) (./sections/Analiza/analiza.aux) (./sections/RacunalniVid/racunalni_vid.aux) (./sections/Arhitektura/arhitektura.aux) (./sections/Implementacija/implementacija.aux) (./sections/Testiranje/testiranje.aux) (./sections/Zakljucak/zakljucak.aux))
+) (./zavrsni.aux (./sections/Uvod/uvod.aux) (./sections/Analiza/analiza.aux) (./sections/RacunalniVid/racunalni_vid.aux) (./sections/Implementacija/implementacija.aux
+
+LaTeX Warning: Label `fig:dodavanje_lokacije_mob' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:dodavanje_lokacije_mob' multiply defined.
+
+
+LaTeX Warning: Label `fig:dodavanje_lokacije_web' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:dodavanje_lokacije_web' multiply defined.
+
+
+LaTeX Warning: Label `fig:dodavanje_lokacije' multiply defined.
+
+) (./sections/Arhitektura/arhitektura.aux) (./sections/Testiranje/testiranje.aux) (./sections/Zakljucak/zakljucak.aux))
 \openout1 = `zavrsni.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -337,16 +357,16 @@ LaTeX Font Info:    ... okay on input line 8.
 
 (/usr/local/texlive/2022/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count294
+\scratchcounter=\count296
 \scratchdimen=\dimen189
 \scratchbox=\box58
-\nofMPsegments=\count295
-\nofMParguments=\count296
+\nofMPsegments=\count297
+\nofMParguments=\count298
 \everyMPshowfont=\toks31
-\MPscratchCnt=\count297
+\MPscratchCnt=\count299
 \MPscratchDim=\dimen190
-\MPnumerator=\count298
-\makeMPintoPDFobject=\count299
+\MPnumerator=\count300
+\makeMPintoPDFobject=\count301
 \everyMPtoPDFconversion=\toks32
 ) (/usr/local/texlive/2022/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -364,15 +384,15 @@ Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 )
-LaTeX Font Info:    Trying to load font information for T1+phv on input line 19.
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 22.
  (/usr/local/texlive/2022/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 19.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 22.
  (/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 19.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 22.
  (/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
@@ -462,21 +482,96 @@ Overfull \hbox (24.17929pt too wide) in paragraph at lines 5--6
  []
 
 ) (./sections/RacunalniVid/subsections/homografija.tex [13] [14])) [15]
-\openout2 = `sections/Arhitektura/arhitektura.aux'.
+\openout2 = `sections/Implementacija/implementacija.aux'.
 
- (./sections/Arhitektura/arhitektura.tex
+ (./sections/Implementacija/implementacija.tex
 Poglavlje 4.
-) [16
+(./sections/Implementacija/subsections/editing.tex [16
 
 
 
 
 ]
-\openout2 = `sections/Implementacija/implementacija.aux'.
+<images/implementacija/editing-options/create_crag.png, id=86, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/editing-options/create_crag.png Graphic file (type png)
+<use images/implementacija/editing-options/create_crag.png>
+Package pdftex.def Info: images/implementacija/editing-options/create_crag.png  used on input line 14.
+(pdftex.def)             Requested size: 127.89412pt x 278.05731pt.
+<images/implementacija/web/editing-options/create-crag.png, id=87, 1049.9225pt x 1174.3875pt>
+File: images/implementacija/web/editing-options/create-crag.png Graphic file (type png)
+<use images/implementacija/web/editing-options/create-crag.png>
+Package pdftex.def Info: images/implementacija/web/editing-options/create-crag.png  used on input line 21.
+(pdftex.def)             Requested size: 247.54149pt x 276.87709pt.
+ [17 <./images/implementacija/editing-options/create_crag.png> <./images/implementacija/web/editing-options/create-crag.png>]
+<images/implementacija/editing-options/edit-crag.png, id=92, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/editing-options/edit-crag.png Graphic file (type png)
+<use images/implementacija/editing-options/edit-crag.png>
+Package pdftex.def Info: images/implementacija/editing-options/edit-crag.png  used on input line 35.
+(pdftex.def)             Requested size: 148.52364pt x 322.87418pt.
+<images/implementacija/web/editing-options/edit-crag.png, id=93, 1061.9675pt x 1780.6525pt>
+File: images/implementacija/web/editing-options/edit-crag.png Graphic file (type png)
+<use images/implementacija/web/editing-options/edit-crag.png>
+Package pdftex.def Info: images/implementacija/web/editing-options/edit-crag.png  used on input line 42.
+(pdftex.def)             Requested size: 193.90604pt x 325.12262pt.
+<images/implementacija/editing-options/manage-users.png, id=94, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/editing-options/manage-users.png Graphic file (type png)
+<use images/implementacija/editing-options/manage-users.png>
+Package pdftex.def Info: images/implementacija/editing-options/manage-users.png  used on input line 58.
+(pdftex.def)             Requested size: 148.52364pt x 322.87418pt.
+<images/implementacija/web/editing-options/manage-users.png, id=95, 1055.945pt x 817.0525pt>
+File: images/implementacija/web/editing-options/manage-users.png Graphic file (type png)
+<use images/implementacija/web/editing-options/manage-users.png>
+Package pdftex.def Info: images/implementacija/web/editing-options/manage-users.png  used on input line 65.
+(pdftex.def)             Requested size: 247.54149pt x 191.53362pt.
+ [18 <./images/implementacija/editing-options/edit-crag.png> <./images/implementacija/web/editing-options/edit-crag.png>]
+<images/implementacija/editing-options/create-sector.png, id=100, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/editing-options/create-sector.png Graphic file (type png)
+<use images/implementacija/editing-options/create-sector.png>
+Package pdftex.def Info: images/implementacija/editing-options/create-sector.png  used on input line 82.
+(pdftex.def)             Requested size: 148.52364pt x 322.87418pt.
+<images/implementacija/web/editing-options/create-sector.png, id=101, 1055.945pt x 1840.8775pt>
+File: images/implementacija/web/editing-options/create-sector.png Graphic file (type png)
+<use images/implementacija/web/editing-options/create-sector.png>
+Package pdftex.def Info: images/implementacija/web/editing-options/create-sector.png  used on input line 89.
+(pdftex.def)             Requested size: 185.65297pt x 323.64714pt.
+ [19 <./images/implementacija/editing-options/manage-users.png> <./images/implementacija/web/editing-options/manage-users.png>]
+<images/implementacija/editing-options/edit-sector.png, id=106, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/editing-options/edit-sector.png Graphic file (type png)
+<use images/implementacija/editing-options/edit-sector.png>
+Package pdftex.def Info: images/implementacija/editing-options/edit-sector.png  used on input line 103.
+(pdftex.def)             Requested size: 156.7767pt x 340.82501pt.
+<images/implementacija/web/editing-options/edit-sector.png, id=107, 1051.93pt x 2021.5525pt>
+File: images/implementacija/web/editing-options/edit-sector.png Graphic file (type png)
+<use images/implementacija/web/editing-options/edit-sector.png>
+Package pdftex.def Info: images/implementacija/web/editing-options/edit-sector.png  used on input line 110.
+(pdftex.def)             Requested size: 177.3999pt x 340.91405pt.
+ [20 <./images/implementacija/editing-options/create-sector.png> <./images/implementacija/web/editing-options/create-sector.png>]
+<images/implementacija/editing-options/create-route.png, id=112, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/editing-options/create-route.png Graphic file (type png)
+<use images/implementacija/editing-options/create-route.png>
+Package pdftex.def Info: images/implementacija/editing-options/create-route.png  used on input line 127.
+(pdftex.def)             Requested size: 156.7767pt x 340.82501pt.
+File: images/implementacija/web/editing-options/edit-sector.png Graphic file (type png)
+<use images/implementacija/web/editing-options/edit-sector.png>
+Package pdftex.def Info: images/implementacija/web/editing-options/edit-sector.png  used on input line 134.
+(pdftex.def)             Requested size: 177.3999pt x 340.91405pt.
+ [21 <./images/implementacija/editing-options/edit-sector.png> <./images/implementacija/web/editing-options/edit-sector.png>] [22 <./images/implementacija/editing-options/create-route.png>]
+<images/implementacija/editing-options/edit_profile.png, id=121, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/editing-options/edit_profile.png Graphic file (type png)
+<use images/implementacija/editing-options/edit_profile.png>
+Package pdftex.def Info: images/implementacija/editing-options/edit_profile.png  used on input line 154.
+(pdftex.def)             Requested size: 144.40025pt x 313.91882pt.
+<images/implementacija/web/editing-options/edit-user.png, id=122, 1051.93pt x 1326.9575pt>
+File: images/implementacija/web/editing-options/edit-user.png Graphic file (type png)
+<use images/implementacija/web/editing-options/edit-user.png>
+Package pdftex.def Info: images/implementacija/web/editing-options/edit-user.png  used on input line 161.
+(pdftex.def)             Requested size: 226.91199pt x 286.2217pt.
+)) [23 <./images/implementacija/editing-options/edit_profile.png> <./images/implementacija/web/editing-options/edit-user.png>]
+\openout2 = `sections/Arhitektura/arhitektura.aux'.
 
- (./sections/Implementacija/implementacija.tex
+ (./sections/Arhitektura/arhitektura.tex
 Poglavlje 5.
-(./sections/Implementacija/subsections/swiftui.tex) (./sections/Implementacija/subsections/opencv.tex)) [17
+) [24
 
 
 
@@ -486,7 +581,7 @@ Poglavlje 5.
 
  (./sections/Testiranje/testiranje.tex
 Poglavlje 6.
-) [18
+) [25
 
 
 
@@ -496,7 +591,7 @@ Poglavlje 6.
 
  (./sections/Zakljucak/zakljucak.tex
 Poglavlje 7.
-) [19
+) [26
 
 
 
@@ -520,24 +615,28 @@ Underfull \hbox (badness 10000) in paragraph at lines 9--15
 \T1/pcr/m/n/12 why-[]does-[]everyone-[]suddenly-[]want-[]to-[]rock-[]climb/$\T1/ptm/m/n/12 , si-je-£anj
  []
 
-) [20
+) [27
 
 
 
-] (./zavrsni.aux (./sections/Uvod/uvod.aux) (./sections/Analiza/analiza.aux) (./sections/RacunalniVid/racunalni_vid.aux) (./sections/Arhitektura/arhitektura.aux) (./sections/Implementacija/implementacija.aux) (./sections/Testiranje/testiranje.aux) (./sections/Zakljucak/zakljucak.aux)) ) 
+] (./zavrsni.aux (./sections/Uvod/uvod.aux) (./sections/Analiza/analiza.aux) (./sections/RacunalniVid/racunalni_vid.aux) (./sections/Implementacija/implementacija.aux) (./sections/Arhitektura/arhitektura.aux) (./sections/Testiranje/testiranje.aux) (./sections/Zakljucak/zakljucak.aux))
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 8610 strings out of 478268
- 146392 string characters out of 5846346
- 449101 words of memory out of 5000000
- 26588 multiletter control sequences out of 15000+600000
- 524355 words of font info for 91 fonts, out of 8000000 for 9000
+ 8837 strings out of 478268
+ 154164 string characters out of 5846346
+ 451317 words of memory out of 5000000
+ 26803 multiletter control sequences out of 15000+600000
+ 529880 words of font info for 95 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 70i,7n,77p,1181b,397s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 70i,8n,77p,1181b,560s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on zavrsni.pdf (24 pages, 7444425 bytes).
+Output written on zavrsni.pdf (31 pages, 10840372 bytes).
 PDF statistics:
- 155 PDF objects out of 1000 (max. 8388607)
- 95 compressed objects within 1 object stream
+ 198 PDF objects out of 1000 (max. 8388607)
+ 111 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 31 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 96 words of extra memory for PDF output out of 10000 (max. 10000000)
 

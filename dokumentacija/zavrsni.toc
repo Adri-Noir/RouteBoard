@@ -8,27 +8,28 @@
 \contentsline {subsection}{\numberline {2.2.3}Ostale značajne digitalne platforme}{7}{}%
 \contentsline {section}{\numberline {2.3}Problem identifikacije penjačkog smjera: praktični izazovi}{8}{}%
 \contentsline {chapter}{\numberline {3}Računalni vid u prepoznavanju penjačkog smjera}{10}{}%
-\contentsline {subsection}{\numberline {3.0.1}Detekcija i opis značajki (engl. feature detection and description)}{11}{}%
-\contentsline {subsubsection}{Odabir algoritma detekcije značajki}{11}{}%
-\contentsline {subsubsection}{SIFT algoritam}{11}{}%
-\contentsline {subsection}{\numberline {3.0.2}Uparivanje značajki (engl. feature matching)}{13}{}%
-\contentsline {subsection}{\numberline {3.0.3}Homografija i transformacija perspektive}{14}{}%
-\contentsline {chapter}{\numberline {4}Arhitektura i dizajn sustava "Alpinity"}{16}{}%
-\contentsline {section}{\numberline {4.1}Arhitektura sustava}{16}{}%
-\contentsline {section}{\numberline {4.2}Dizajn baze podataka}{16}{}%
-\contentsline {section}{\numberline {4.3}Dizajn pozadinskog sustava}{16}{}%
-\contentsline {section}{\numberline {4.4}Dizajn procesa prepoznavanja smjera}{16}{}%
-\contentsline {chapter}{\numberline {5}Implementacija rješenja}{17}{}%
-\contentsline {section}{\numberline {5.1}Implementacija pozadinskog sustava}{17}{}%
-\contentsline {section}{\numberline {5.2}Implementacija iOS aplikacije}{17}{}%
-\contentsline {subsection}{\numberline {5.2.1}Korisničko sučelje u SwiftUI}{17}{}%
-\contentsline {subsection}{\numberline {5.2.2}Integracija s bibliotekom OpenCV}{17}{}%
-\contentsline {section}{\numberline {5.3}Implementacija web aplikacije}{17}{}%
-\contentsline {chapter}{\numberline {6}Testiranje i vrednovanje rješenja}{18}{}%
-\contentsline {section}{\numberline {6.1}Funkcionalno testiranje}{18}{}%
-\contentsline {section}{\numberline {6.2}Vrednovanje performansi prepoznavanja}{18}{}%
-\contentsline {section}{\numberline {6.3}Analiza ograničenja}{18}{}%
-\contentsline {chapter}{\numberline {7}Zaključak}{19}{}%
-\contentsline {section}{\numberline {7.1}Sažetak ostvarenih rezultata}{19}{}%
-\contentsline {section}{\numberline {7.2}Smjernice za budući razvoj}{19}{}%
-\contentsline {chapter}{Literatura}{20}{}%
+\contentsline {section}{\numberline {3.1}Detekcija i opis značajki (engl. feature detection and description)}{11}{}%
+\contentsline {subsection}{\numberline {3.1.1}Odabir algoritma detekcije značajki}{11}{}%
+\contentsline {subsection}{\numberline {3.1.2}SIFT algoritam}{11}{}%
+\contentsline {section}{\numberline {3.2}Uparivanje značajki (engl. feature matching)}{13}{}%
+\contentsline {section}{\numberline {3.3}Homografija i transformacija perspektive}{14}{}%
+\contentsline {chapter}{\numberline {4}Aplikacija za prepoznavanje penjačkog smjera - Alpinity}{16}{}%
+\contentsline {section}{\numberline {4.1}Unos i uređivanje podataka}{16}{}%
+\contentsline {subsection}{\numberline {4.1.1}Dodavanje i uređivanje penjačkih lokacija}{17}{}%
+\contentsline {subsection}{\numberline {4.1.2}Upravljanje korisničkim ovlastima}{18}{}%
+\contentsline {subsection}{\numberline {4.1.3}Dodavanje i uređivanje sektora}{19}{}%
+\contentsline {subsection}{\numberline {4.1.4}Dodavanje i uređivanje penjačkih smjerova}{21}{}%
+\contentsline {subsection}{\numberline {4.1.5}Uređivanje korisničkog profila}{23}{}%
+\contentsline {chapter}{\numberline {5}Arhitektura i dizajn sustava "Alpinity"}{24}{}%
+\contentsline {section}{\numberline {5.1}Arhitektura sustava}{24}{}%
+\contentsline {section}{\numberline {5.2}Dizajn baze podataka}{24}{}%
+\contentsline {section}{\numberline {5.3}Dizajn pozadinskog sustava}{24}{}%
+\contentsline {section}{\numberline {5.4}Dizajn procesa prepoznavanja smjera}{24}{}%
+\contentsline {chapter}{\numberline {6}Testiranje i vrednovanje rješenja}{25}{}%
+\contentsline {section}{\numberline {6.1}Funkcionalno testiranje}{25}{}%
+\contentsline {section}{\numberline {6.2}Vrednovanje performansi prepoznavanja}{25}{}%
+\contentsline {section}{\numberline {6.3}Analiza ograničenja}{25}{}%
+\contentsline {chapter}{\numberline {7}Zaključak}{26}{}%
+\contentsline {section}{\numberline {7.1}Sažetak ostvarenih rezultata}{26}{}%
+\contentsline {section}{\numberline {7.2}Smjernice za budući razvoj}{26}{}%
+\contentsline {chapter}{Literatura}{27}{}%

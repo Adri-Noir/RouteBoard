@@ -4,8 +4,8 @@ The top-level auxiliary file: zavrsni.aux
 A level-1 auxiliary file: sections/Uvod/uvod.aux
 A level-1 auxiliary file: sections/Analiza/analiza.aux
 A level-1 auxiliary file: sections/RacunalniVid/racunalni_vid.aux
-A level-1 auxiliary file: sections/Arhitektura/arhitektura.aux
 A level-1 auxiliary file: sections/Implementacija/implementacija.aux
+A level-1 auxiliary file: sections/Arhitektura/arhitektura.aux
 A level-1 auxiliary file: sections/Testiranje/testiranje.aux
 A level-1 auxiliary file: sections/Zakljucak/zakljucak.aux
 The style file: plainnat.bst
