@@ -32,7 +32,9 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
             .Include(route => route.RoutePhotos!)
             .ThenInclude(photo => photo.CombinedPhoto)
             .Include(route => route.Ascents!.OrderByDescending(ascent => ascent.AscentDate))
+            // TODO: on ios app we should move to using the ascent repository instead of relying on the route repository
             .ThenInclude(ascent => ascent.User)
+            .ThenInclude(user => user.ProfilePhoto)
             .FirstOrDefaultAsync(route => route.Id == routeId, cancellationToken);
     }
 

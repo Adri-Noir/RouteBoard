@@ -18,7 +18,7 @@ public class ExploreCommandHandler(ICragRepository cragRepository, IMapper mappe
 
             if (ascents.Any())
             {
-                var latestAscent = ascents.OrderByDescending(a => a.AscentDate).FirstOrDefault();
+                var latestAscent = ascents.FirstOrDefault();
                 if (latestAscent?.Route?.Sector?.Crag?.Location != null)
                 {
                     var latestCrag = latestAscent.Route.Sector.Crag;

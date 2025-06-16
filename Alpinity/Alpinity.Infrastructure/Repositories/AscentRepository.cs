@@ -31,8 +31,8 @@ public class AscentRepository(
             .Include(a => a.Route!.Sector)
             .Include(a => a.Route!.Sector!.Crag)
             .Include(a => a.User)
-            .ThenInclude(u => u.ProfilePhoto)
             .Where(a => a.UserId == userId)
+            .OrderByDescending(a => a.AscentDate)
             .ToListAsync(cancellationToken);
     }
 
@@ -68,8 +68,6 @@ public class AscentRepository(
             .Include(a => a.Route)
             .Include(a => a.Route!.Sector)
             .Include(a => a.Route!.Sector!.Crag)
-            .Include(a => a.User)
-            .ThenInclude(u => u.ProfilePhoto)
             .Where(a => a.UserId == userId);
 
         var totalCount = await query.CountAsync(cancellationToken);
