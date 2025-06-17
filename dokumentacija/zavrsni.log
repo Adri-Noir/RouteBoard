@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.10.26)  17 JUN 2025 04:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.10.26)  17 JUN 2025 04:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -579,50 +579,50 @@ Package pdftex.def Info: images/implementacija/web/crag-details/crag-details-top
 <images/implementacija/crag-details/crag-weather-1.png, id=145, 1210.5225pt x 2631.8325pt>
 File: images/implementacija/crag-details/crag-weather-1.png Graphic file (type png)
 <use images/implementacija/crag-details/crag-weather-1.png>
-Package pdftex.def Info: images/implementacija/crag-details/crag-weather-1.png  used on input line 28.
+Package pdftex.def Info: images/implementacija/crag-details/crag-weather-1.png  used on input line 29.
 (pdftex.def)             Requested size: 144.40025pt x 313.91882pt.
 <images/implementacija/web/crag-details/crag-weather.png, id=146, 3001.2125pt x 1836.8625pt>
 File: images/implementacija/web/crag-details/crag-weather.png Graphic file (type png)
 <use images/implementacija/web/crag-details/crag-weather.png>
-Package pdftex.def Info: images/implementacija/web/crag-details/crag-weather.png  used on input line 35.
+Package pdftex.def Info: images/implementacija/web/crag-details/crag-weather.png  used on input line 36.
 (pdftex.def)             Requested size: 371.30595pt x 227.25287pt.
  [28] [29 <./images/implementacija/crag-details/crag-weather-1.png> <./images/implementacija/web/crag-details/crag-weather.png>]
 <images/implementacija/crag-details/crag-map.png, id=154, 1210.5225pt x 2631.8325pt>
 File: images/implementacija/crag-details/crag-map.png Graphic file (type png)
 <use images/implementacija/crag-details/crag-map.png>
-Package pdftex.def Info: images/implementacija/crag-details/crag-map.png  used on input line 52.
+Package pdftex.def Info: images/implementacija/crag-details/crag-map.png  used on input line 53.
 (pdftex.def)             Requested size: 144.40025pt x 313.91882pt.
 <images/implementacija/web/crag-details/crag-map.png, id=155, 3003.22pt x 1043.9pt>
 File: images/implementacija/web/crag-details/crag-map.png Graphic file (type png)
 <use images/implementacija/web/crag-details/crag-map.png>
-Package pdftex.def Info: images/implementacija/web/crag-details/crag-map.png  used on input line 59.
+Package pdftex.def Info: images/implementacija/web/crag-details/crag-map.png  used on input line 60.
 (pdftex.def)             Requested size: 371.30595pt x 129.0536pt.
  [30 <./images/implementacija/crag-details/crag-map.png> <./images/implementacija/web/crag-details/crag-map.png>]
 <images/implementacija/crag-details/crag-all-sectors-tabs.png, id=160, 1210.5225pt x 2631.8325pt>
 File: images/implementacija/crag-details/crag-all-sectors-tabs.png Graphic file (type png)
 <use images/implementacija/crag-details/crag-all-sectors-tabs.png>
-Package pdftex.def Info: images/implementacija/crag-details/crag-all-sectors-tabs.png  used on input line 73.
+Package pdftex.def Info: images/implementacija/crag-details/crag-all-sectors-tabs.png  used on input line 74.
 (pdftex.def)             Requested size: 115.51591pt x 251.11096pt.
 <images/implementacija/web/crag-details/crag-all-sectors.png, id=161, 971.63pt x 1203.49625pt>
 File: images/implementacija/web/crag-details/crag-all-sectors.png Graphic file (type png)
 <use images/implementacija/web/crag-details/crag-all-sectors.png>
-Package pdftex.def Info: images/implementacija/web/crag-details/crag-all-sectors.png  used on input line 80.
+Package pdftex.def Info: images/implementacija/web/crag-details/crag-all-sectors.png  used on input line 81.
 (pdftex.def)             Requested size: 226.91199pt x 281.05873pt.
 <images/implementacija/crag-details/crag-all-sectors-table.png, id=162, 1210.5225pt x 2631.8325pt>
 File: images/implementacija/crag-details/crag-all-sectors-table.png Graphic file (type png)
 <use images/implementacija/crag-details/crag-all-sectors-table.png>
-Package pdftex.def Info: images/implementacija/crag-details/crag-all-sectors-table.png  used on input line 92.
+Package pdftex.def Info: images/implementacija/crag-details/crag-all-sectors-table.png  used on input line 93.
 (pdftex.def)             Requested size: 144.40025pt x 313.91882pt.
  [31 <./images/implementacija/crag-details/crag-all-sectors-tabs.png> <./images/implementacija/web/crag-details/crag-all-sectors.png>]
 <images/implementacija/crag-details/crag-selected-sector.png, id=167, 1210.5225pt x 2631.8325pt>
 File: images/implementacija/crag-details/crag-selected-sector.png Graphic file (type png)
 <use images/implementacija/crag-details/crag-selected-sector.png>
-Package pdftex.def Info: images/implementacija/crag-details/crag-selected-sector.png  used on input line 105.
+Package pdftex.def Info: images/implementacija/crag-details/crag-selected-sector.png  used on input line 106.
 (pdftex.def)             Requested size: 144.40025pt x 313.91882pt.
 <images/implementacija/web/crag-details/crag-selected-sector.png, id=168, 975.645pt x 1819.79875pt>
 File: images/implementacija/web/crag-details/crag-selected-sector.png Graphic file (type png)
 <use images/implementacija/web/crag-details/crag-selected-sector.png>
-Package pdftex.def Info: images/implementacija/web/crag-details/crag-selected-sector.png  used on input line 112.
+Package pdftex.def Info: images/implementacija/web/crag-details/crag-selected-sector.png  used on input line 113.
 (pdftex.def)             Requested size: 247.54149pt x 461.69617pt.
  [32 <./images/implementacija/crag-details/crag-all-sectors-table.png>]) (./sections/Implementacija/subsections/route_details.tex
 <images/implementacija/route-details/route-details.png, id=172, 1210.5225pt x 2631.8325pt>
@@ -865,14 +865,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 9--15
 ] (./zavrsni.aux (./sections/Uvod/uvod.aux) (./sections/Analiza/analiza.aux) (./sections/RacunalniVid/racunalni_vid.aux) (./sections/Implementacija/implementacija.aux) (./sections/Arhitektura/arhitektura.aux) (./sections/Testiranje/testiranje.aux) (./sections/Zakljucak/zakljucak.aux)) ) 
 Here is how much of TeX's memory you used:
  9315 strings out of 478268
- 175117 string characters out of 5846346
+ 175156 string characters out of 5846346
  452525 words of memory out of 5000000
  27214 multiletter control sequences out of 15000+600000
  529880 words of font info for 95 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  70i,8n,77p,1181b,562s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on zavrsni.pdf (60 pages, 44480352 bytes).
+Output written on zavrsni.pdf (60 pages, 44480539 bytes).
 PDF statistics:
  357 PDF objects out of 1000 (max. 8388607)
  175 compressed objects within 2 object streams
