@@ -118,13 +118,17 @@ export const SearchSuggestionItem = ({
         </div>
 
         {/* Metadata */}
-        <div className="ml-auto flex flex-shrink-0 items-center gap-2">
-          {formattedData.count !== undefined && formattedData.countLabel && (
-            <span className="text-muted-foreground text-xs">
-              {formattedData.count} {formattedData.countLabel}
-            </span>
+        <div className="ml-auto flex flex-shrink-0 flex-col items-end gap-1">
+          {formattedData.counts?.map((c, idx) =>
+            c ? (
+              <span key={idx} className="text-muted-foreground text-xs whitespace-nowrap">
+                {c.count} {c.label}
+              </span>
+            ) : null,
           )}
-          {formattedData.difficulty && <span className="text-xs font-medium">{formattedData.difficulty}</span>}
+          {formattedData.difficulty && (
+            <span className="text-xs font-medium whitespace-nowrap">{formattedData.difficulty}</span>
+          )}
         </div>
       </CommandItem>
     </LinkWrapper>

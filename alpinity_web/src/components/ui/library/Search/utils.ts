@@ -28,6 +28,7 @@ export const getFormattedEntityData = (suggestion: SearchResultDto) => {
     routeCragName,
     routeDifficulty,
     ascentsCount,
+    cragSectorsCount,
   } = suggestion;
 
   const type = entityType ? mapEntityTypeToUiType(entityType) : "crag";
@@ -35,25 +36,35 @@ export const getFormattedEntityData = (suggestion: SearchResultDto) => {
   switch (type) {
     case "crag":
       return {
-        count: cragRoutesCount,
-        countLabel: "routes",
-      };
+        counts: [
+          cragSectorsCount !== null && cragSectorsCount !== undefined
+            ? { count: cragSectorsCount, label: "sectors" }
+            : undefined,
+          cragRoutesCount !== null && cragRoutesCount !== undefined
+            ? { count: cragRoutesCount, label: "routes" }
+            : undefined,
+        ].filter(Boolean) as { count: number; label: string }[],
+      } as const;
     case "sector":
       return {
         parentName: sectorCragName,
-        count: sectorRoutesCount,
-        countLabel: "routes",
-      };
+        counts: [
+          sectorRoutesCount !== null && sectorRoutesCount !== undefined
+            ? { count: sectorRoutesCount, label: "routes" }
+            : undefined,
+        ].filter(Boolean) as { count: number; label: string }[],
+      } as const;
     case "route":
       return {
         parentName: routeSectorName && routeCragName ? `${routeSectorName}, ${routeCragName}` : undefined,
         difficulty: routeDifficulty ? formatClimbingGrade(routeDifficulty) : undefined,
-      };
+      } as const;
     case "user":
       return {
-        count: ascentsCount,
-        countLabel: "ascents",
-      };
+        counts: [
+          ascentsCount !== null && ascentsCount !== undefined ? { count: ascentsCount, label: "ascents" } : undefined,
+        ].filter(Boolean) as { count: number; label: string }[],
+      } as const;
     default:
       return {};
   }
