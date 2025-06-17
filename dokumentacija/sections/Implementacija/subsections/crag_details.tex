@@ -1,7 +1,5 @@
 \section{Detalji penjačke lokacije}
 
-Odabirom penjališta iz pretrage, s geografkse karte ili drugih pregleda, korisnik pristupa zaslonu s detaljnim informacijama o penjačkoj lokaciji. Zaslon je podijeljen na nekoliko cjelina. Na vrhu se nalazi istaknuta fotografija penjališta, zajedno s njegovim nazivom i osnovnim podacima o broju sektora i penjačkih smjerova. Na web aplikaciji se nalazi isti prikaz, ali s manjim promjenama. Slika penjačke lokacije nalazi se ispod geografske karte i broj sektora i penjačkih smjerova nalazi se u prikazu sektora i penjačkih smjerova.
-
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{\textwidth}
@@ -21,7 +19,7 @@ Odabirom penjališta iz pretrage, s geografkse karte ili drugih pregleda, korisn
     \label{fig:detalji_penjališta_1}
 \end{figure}
 
-Odmah ispod, nalazi se komponenta s vremenskom prognozom. Ona prikazuje trenutne vremenske uvjete, kao i detaljnu prognozu po satima za sljedećih 14 dana. Detaljna prognoza uključuje temperaturu, vjerojatnost i količina padalina, brzinu vjetra, UV indeks i ostale relevantne podatke. Ova funkcionalnost je važna za planiranje penjačkih izleta.
+Odabirom penjališta iz pretrage, s geografske karte ili drugih pregleda, korisnik pristupa zaslonu s detaljnim informacijama o penjačkoj lokaciji (slika~\ref{fig:detalji_penjališta_1}). Zaslon je podijeljen na nekoliko cjelina. Na vrhu se nalazi istaknuta fotografija penjališta, zajedno s nazivom penjačke lokacije i osnovnim podacima o broju sektora i penjačkih smjerova. Na web aplikaciji nalazi se isti prikaz, ali s manjim promjenama. Slika penjačke lokacije nalaze se ispod geografske karte, a broj sektora i penjačkih smjerova nalazi se u prikazu sektora i penjačkih smjerova.
 
 \begin{figure}[H]
     \centering
@@ -42,8 +40,10 @@ Odmah ispod, nalazi se komponenta s vremenskom prognozom. Ona prikazuje trenutne
     \label{fig:vremenska_prognoza}
 \end{figure}
 
+Odmah ispod, nalazi se komponenta s vremenskom prognozom (slika~\ref{fig:vremenska_prognoza}). Ona prikazuje trenutne vremenske uvjete, kao i detaljnu prognozu po satima za sljedećih 14 dana. Detaljna prognoza uključuje temperaturu, vjerojatnost i količina padalina, brzinu vjetra, UV indeks i ostale relevantne podatke. Ova funkcionalnost je važna za planiranje penjačkih izleta.
 
-Sljedi interaktivna karta penjališta koja prikazuje precizne lokacije svih sektora, omogućujući korisniku lako snalaženje i planiranje kretanja između njih. 
+
+Nakon komponente vremenske prognoze sljedi interaktivna karta penjališta koja prikazuje precizne lokacije svih sektora, omogućujući korisniku lako snalaženje i planiranje kretanja između njih (slika~\ref{fig:interaktivna_karta}). 
 
 \begin{figure}[H]
     \centering
@@ -64,20 +64,20 @@ Sljedi interaktivna karta penjališta koja prikazuje precizne lokacije svih sekt
     \label{fig:interaktivna_karta}
 \end{figure}
 
-Ispod karte nalazi se prikaz detalja za sektore. Prije ikakvih odabira, korisniku se prikazuje popis svih penjačkih smjerova grupirano po sektorima te distribucija težina na penjačkoj lokaciji. Klikom na određenu težinu u grafu filtriraju se svi penjački smjerovi koji pripadaju odabranoj težini. Lista penjačkih smjerova na mobilnoj aplikaciji je horizontalna lista koja prikazuje penjački smjer u većem formatu kako bi se mogla bolje vidjeti slika penjačkog smjera. Preko slike nalaze se detalji o penjačkom smjeru poput naziva, težine, dužine, tipa i broju uspona.
+Ispod karte nalazi se prikaz detalja za sektore. Prije ikakvih odabira, korisniku se prikazuje popis svih penjačkih smjerova grupiranih po sektorima te distribucija težina na penjačkoj lokaciji (slika~\ref{fig:prikaz_detalja_za_sektore}). 
 
 \begin{figure}[H]
     \centering
-    \begin{subfigure}[b]{\textwidth}
+    \begin{subfigure}[b]{0.4\textwidth}
         \centering
-        \includegraphics[width=0.35\textwidth]{images/implementacija/crag-details/crag-all-sectors-tabs.png}
+        \includegraphics[width=0.7\textwidth]{images/implementacija/crag-details/crag-all-sectors-tabs.png}
         \caption{Mobilna aplikacija}
         \label{fig:prikaz_detalja_za_sektore_mob}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{\textwidth}
+    \begin{subfigure}[b]{0.55\textwidth}
         \centering
-        \includegraphics[width=0.9\textwidth]{images/implementacija/web/crag-details/crag-all-sectors.png}
+        \includegraphics[width=1\textwidth]{images/implementacija/web/crag-details/crag-all-sectors.png}
         \caption{Web aplikacija}
         \label{fig:prikaz_detalja_za_sektore_web}
     \end{subfigure}
@@ -85,7 +85,7 @@ Ispod karte nalazi se prikaz detalja za sektore. Prije ikakvih odabira, korisnik
     \label{fig:prikaz_detalja_za_sektore}
 \end{figure}
 
-Ako korisnik preferira tablični prikaz na mobilnoj aplikaciji, može to promijeniti klikom na gumb pored naslova "Sektori" (eng. \textit{Sectors}). Na web aplikaciji tablični prikaz je zadani prikaz. Tablični prikaz omogućuje pregled svih penjačkih smjerova te sortiranje po nazivu, težini, dužini, tipu te broju uspona. S obzirom da na web aplikaciji nije grupiran prikaz po sektorima, postoje filteri koji korisnik može koristiti za filtriranje penjačkih smjerova po imenu, tipu i sektoru.
+Klikom na određenu težinu u grafu filtriraju se svi penjački smjerovi koji pripadaju odabranoj težini. Lista penjačkih smjerova na mobilnoj aplikaciji je horizontalna lista koja prikazuje penjački smjer u većem formatu kako bi se mogla bolje vidjeti slika penjačkog smjera. Preko slike nalaze se detalji o penjačkom smjeru poput naziva, težine, dužine, tipa i broja uspona.
 
 \begin{figure}[H]
     \centering
@@ -94,7 +94,9 @@ Ako korisnik preferira tablični prikaz na mobilnoj aplikaciji, može to promije
     \label{fig:tablični_prikaz_sektora}
 \end{figure}
 
-Klikom na izbornik "Svi sektori" (eng. \textit{All sectors}) korisniku prikazuje se popis svih sektora na penjačkoj lokaciji. Odabirom određenog sektora, korisniku prikazuje se graf težina filtriran po odabranom sektoru, slike sektora te popis svih penjačkih smjerova u tom sektoru. Klikom na određeni stupac na grafu težina, popis penjačkih smjerova se filtrira po označenoj težini. Tablični prikaz je isto dostupan klikom na gumb pored naslova "Sektori" (eng. \textit{Sectors}). Na web aplikaciji nalaze se ista funkcionalnost, ali s različitim prikazom.
+Ako korisnik preferira tablični prikaz na mobilnoj aplikaciji, može to promijeniti klikom na gumb pored naslova "Sektori" (eng. \textit{Sectors}) (slika~\ref{fig:tablični_prikaz_sektora}). Na web aplikaciji tablični prikaz je zadani prikaz. Tablični prikaz omogućuje pregled svih penjačkih smjerova te sortiranje po nazivu, težini, dužini, tipu te broju uspona. S obzirom da na web aplikaciji nije grupiran prikaz po sektorima, postoje filteri koji korisnik može koristiti za filtriranje penjačkih smjerova po imenu, tipu i sektoru.
+
+Klikom na izbornik "Svi sektori" (eng. \textit{All sectors}) korisniku prikazuje se popis svih sektora na penjačkoj lokaciji (slika~\ref{fig:prikaz_detalja_za_odabrani_sektor}). 
 
 \begin{figure}[H]
     \centering
@@ -114,4 +116,8 @@ Klikom na izbornik "Svi sektori" (eng. \textit{All sectors}) korisniku prikazuje
     \caption{Prikaz detalja za odabrani sektor}
     \label{fig:prikaz_detalja_za_odabrani_sektor}
 \end{figure}
+
+Odabirom određenog sektora, korisniku se prikazuje graf težina filtriran po odabranom sektoru, slike sektora te popis svih penjačkih smjerova u tom sektoru. Klikom na određeni stupac na grafu težina, popis penjačkih smjerova se filtrira po označenoj težini. Tablični prikaz je isto dostupan klikom na gumb pored naslova "Sektori" (eng. \textit{Sectors}). Na web aplikaciji nalaze se ista funkcionalnost, ali s različitim prikazom.
+
+
 

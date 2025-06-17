@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.10.26)  16 JUN 2025 02:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.10.26)  17 JUN 2025 03:58
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -287,23 +287,7 @@ File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 File: l3backend-pdftex.def 2022-02-07 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count295
 \l__pdf_internal_box=\box57
-) (./zavrsni.aux (./sections/Uvod/uvod.aux) (./sections/Analiza/analiza.aux) (./sections/RacunalniVid/racunalni_vid.aux) (./sections/Implementacija/implementacija.aux
-
-LaTeX Warning: Label `fig:dodavanje_lokacije_mob' multiply defined.
-
-
-LaTeX Warning: Label `sub@fig:dodavanje_lokacije_mob' multiply defined.
-
-
-LaTeX Warning: Label `fig:dodavanje_lokacije_web' multiply defined.
-
-
-LaTeX Warning: Label `sub@fig:dodavanje_lokacije_web' multiply defined.
-
-
-LaTeX Warning: Label `fig:dodavanje_lokacije' multiply defined.
-
-) (./sections/Arhitektura/arhitektura.aux) (./sections/Testiranje/testiranje.aux) (./sections/Zakljucak/zakljucak.aux))
+) (./zavrsni.aux (./sections/Uvod/uvod.aux) (./sections/Analiza/analiza.aux) (./sections/RacunalniVid/racunalni_vid.aux) (./sections/Implementacija/implementacija.aux) (./sections/Arhitektura/arhitektura.aux) (./sections/Testiranje/testiranje.aux) (./sections/Zakljucak/zakljucak.aux))
 \openout1 = `zavrsni.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
@@ -486,92 +470,351 @@ Overfull \hbox (24.17929pt too wide) in paragraph at lines 5--6
 
  (./sections/Implementacija/implementacija.tex
 Poglavlje 4.
-(./sections/Implementacija/subsections/editing.tex [16
+(./sections/Implementacija/subsections/autentifikacija.tex
+<images/implementacija/first.png, id=83, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/first.png Graphic file (type png)
+<use images/implementacija/first.png>
+Package pdftex.def Info: images/implementacija/first.png  used on input line 7.
+(pdftex.def)             Requested size: 144.40025pt x 313.91882pt.
+ [16
 
 
 
 
 ]
-<images/implementacija/editing-options/create_crag.png, id=86, 1210.5225pt x 2631.8325pt>
+<images/implementacija/web/pocetni_zaslon.jpeg, id=87, 3553.275pt x 2208.25pt>
+File: images/implementacija/web/pocetni_zaslon.jpeg Graphic file (type jpg)
+<use images/implementacija/web/pocetni_zaslon.jpeg>
+Package pdftex.def Info: images/implementacija/web/pocetni_zaslon.jpeg  used on input line 16.
+(pdftex.def)             Requested size: 371.30595pt x 230.74431pt.
+ [17 <./images/implementacija/first.png>]
+<images/implementacija/register.png, id=91, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/register.png Graphic file (type png)
+<use images/implementacija/register.png>
+Package pdftex.def Info: images/implementacija/register.png  used on input line 29.
+(pdftex.def)             Requested size: 144.39711pt x 313.91882pt.
+<images/implementacija/web/register.png, id=92, 1076.02pt x 1808.7575pt>
+File: images/implementacija/web/register.png Graphic file (type png)
+<use images/implementacija/web/register.png>
+Package pdftex.def Info: images/implementacija/web/register.png  used on input line 35.
+(pdftex.def)             Requested size: 206.28249pt x 346.73103pt.
+ [18 <./images/implementacija/web/pocetni_zaslon.jpeg>]
+<images/implementacija/login.png, id=96, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/login.png Graphic file (type png)
+<use images/implementacija/login.png>
+Package pdftex.def Info: images/implementacija/login.png  used on input line 52.
+(pdftex.def)             Requested size: 129.95934pt x 282.5149pt.
+<images/implementacija/web/login.png, id=97, 1162.3425pt x 895.345pt>
+File: images/implementacija/web/login.png Graphic file (type png)
+<use images/implementacija/web/login.png>
+Package pdftex.def Info: images/implementacija/web/login.png  used on input line 58.
+(pdftex.def)             Requested size: 247.54149pt x 190.67839pt.
+ [19 <./images/implementacija/register.png> <./images/implementacija/web/register.png>] [20 <./images/implementacija/login.png> <./images/implementacija/web/login.png>]) (./sections/Implementacija/subsections/pocetni.tex
+<images/implementacija/main_nav_1.png, id=106, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/main_nav_1.png Graphic file (type png)
+<use images/implementacija/main_nav_1.png>
+Package pdftex.def Info: images/implementacija/main_nav_1.png  used on input line 7.
+(pdftex.def)             Requested size: 144.40025pt x 313.91882pt.
+ [21 <./images/implementacija/main_nav_1.png>]
+<images/implementacija/web/explore.jpeg, id=111, 3533.2pt x 2216.28pt>
+File: images/implementacija/web/explore.jpeg Graphic file (type jpg)
+<use images/implementacija/web/explore.jpeg>
+Package pdftex.def Info: images/implementacija/web/explore.jpeg  used on input line 24.
+(pdftex.def)             Requested size: 371.30595pt x 232.90227pt.
+) (./sections/Implementacija/subsections/geo_karta.tex [22 <./images/implementacija/web/explore.jpeg>]
+<images/implementacija/geo_karta.png, id=115, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/geo_karta.png Graphic file (type png)
+<use images/implementacija/geo_karta.png>
+Package pdftex.def Info: images/implementacija/geo_karta.png  used on input line 9.
+(pdftex.def)             Requested size: 123.77074pt x 269.06181pt.
+<images/implementacija/web/map_clusters.jpeg, id=116, 3031.325pt x 1300.86pt>
+File: images/implementacija/web/map_clusters.jpeg Graphic file (type jpg)
+<use images/implementacija/web/map_clusters.jpeg>
+Package pdftex.def Info: images/implementacija/web/map_clusters.jpeg  used on input line 16.
+(pdftex.def)             Requested size: 371.30595pt x 159.33192pt.
+ [23 <./images/implementacija/geo_karta.png> <./images/implementacija/web/map_clusters.jpeg>]
+<images/implementacija/geo_karta_ceuse.png, id=120, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/geo_karta_ceuse.png Graphic file (type png)
+<use images/implementacija/geo_karta_ceuse.png>
+Package pdftex.def Info: images/implementacija/geo_karta_ceuse.png  used on input line 30.
+(pdftex.def)             Requested size: 123.77074pt x 269.06181pt.
+<images/implementacija/web/map_selected.png, id=121, 3035.34pt x 1300.86pt>
+File: images/implementacija/web/map_selected.png Graphic file (type png)
+<use images/implementacija/web/map_selected.png>
+Package pdftex.def Info: images/implementacija/web/map_selected.png  used on input line 37.
+(pdftex.def)             Requested size: 371.30595pt x 159.11359pt.
+) (./sections/Implementacija/subsections/search.tex [24 <./images/implementacija/geo_karta_ceuse.png> <./images/implementacija/web/map_selected.png>]
+<images/implementacija/search_default.png, id=126, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/search_default.png Graphic file (type png)
+<use images/implementacija/search_default.png>
+Package pdftex.def Info: images/implementacija/search_default.png  used on input line 9.
+(pdftex.def)             Requested size: 144.40025pt x 313.91882pt.
+<images/implementacija/web/search_default.png, id=127, 522.95375pt x 357.335pt>
+File: images/implementacija/web/search_default.png Graphic file (type png)
+<use images/implementacija/web/search_default.png>
+Package pdftex.def Info: images/implementacija/web/search_default.png  used on input line 16.
+(pdftex.def)             Requested size: 247.54149pt x 169.14702pt.
+<images/implementacija/search_searching.png, id=128, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/search_searching.png Graphic file (type png)
+<use images/implementacija/search_searching.png>
+Package pdftex.def Info: images/implementacija/search_searching.png  used on input line 30.
+(pdftex.def)             Requested size: 144.40025pt x 313.91882pt.
+<images/implementacija/web/search_searching.png, id=129, 519.9425pt x 162.6075pt>
+File: images/implementacija/web/search_searching.png Graphic file (type png)
+<use images/implementacija/web/search_searching.png>
+Package pdftex.def Info: images/implementacija/web/search_searching.png  used on input line 37.
+(pdftex.def)             Requested size: 247.54149pt x 77.41553pt.
+ [25 <./images/implementacija/search_default.png> <./images/implementacija/web/search_default.png>]) (./sections/Implementacija/subsections/crag_details.tex
+<images/implementacija/crag-details/crag-details-top.png, id=134, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/crag-details/crag-details-top.png Graphic file (type png)
+<use images/implementacija/crag-details/crag-details-top.png>
+Package pdftex.def Info: images/implementacija/crag-details/crag-details-top.png  used on input line 7.
+(pdftex.def)             Requested size: 123.77074pt x 269.06181pt.
+<images/implementacija/web/crag-details/crag-details-top.png, id=135, 3525.17pt x 2202.2275pt>
+File: images/implementacija/web/crag-details/crag-details-top.png Graphic file (type png)
+<use images/implementacija/web/crag-details/crag-details-top.png>
+Package pdftex.def Info: images/implementacija/web/crag-details/crag-details-top.png  used on input line 14.
+(pdftex.def)             Requested size: 371.30595pt x 231.92958pt.
+ [26 <./images/implementacija/search_searching.png> <./images/implementacija/web/search_searching.png>] [27 <./images/implementacija/crag-details/crag-details-top.png> <./images/implementacija/web/crag-details/crag-details-top.png>]
+<images/implementacija/crag-details/crag-weather-1.png, id=145, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/crag-details/crag-weather-1.png Graphic file (type png)
+<use images/implementacija/crag-details/crag-weather-1.png>
+Package pdftex.def Info: images/implementacija/crag-details/crag-weather-1.png  used on input line 28.
+(pdftex.def)             Requested size: 144.40025pt x 313.91882pt.
+<images/implementacija/web/crag-details/crag-weather.png, id=146, 3001.2125pt x 1836.8625pt>
+File: images/implementacija/web/crag-details/crag-weather.png Graphic file (type png)
+<use images/implementacija/web/crag-details/crag-weather.png>
+Package pdftex.def Info: images/implementacija/web/crag-details/crag-weather.png  used on input line 35.
+(pdftex.def)             Requested size: 371.30595pt x 227.25287pt.
+ [28] [29 <./images/implementacija/crag-details/crag-weather-1.png> <./images/implementacija/web/crag-details/crag-weather.png>]
+<images/implementacija/crag-details/crag-map.png, id=154, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/crag-details/crag-map.png Graphic file (type png)
+<use images/implementacija/crag-details/crag-map.png>
+Package pdftex.def Info: images/implementacija/crag-details/crag-map.png  used on input line 52.
+(pdftex.def)             Requested size: 144.40025pt x 313.91882pt.
+<images/implementacija/web/crag-details/crag-map.png, id=155, 3003.22pt x 1043.9pt>
+File: images/implementacija/web/crag-details/crag-map.png Graphic file (type png)
+<use images/implementacija/web/crag-details/crag-map.png>
+Package pdftex.def Info: images/implementacija/web/crag-details/crag-map.png  used on input line 59.
+(pdftex.def)             Requested size: 371.30595pt x 129.0536pt.
+ [30 <./images/implementacija/crag-details/crag-map.png> <./images/implementacija/web/crag-details/crag-map.png>]
+<images/implementacija/crag-details/crag-all-sectors-tabs.png, id=160, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/crag-details/crag-all-sectors-tabs.png Graphic file (type png)
+<use images/implementacija/crag-details/crag-all-sectors-tabs.png>
+Package pdftex.def Info: images/implementacija/crag-details/crag-all-sectors-tabs.png  used on input line 73.
+(pdftex.def)             Requested size: 115.51591pt x 251.11096pt.
+<images/implementacija/web/crag-details/crag-all-sectors.png, id=161, 971.63pt x 1203.49625pt>
+File: images/implementacija/web/crag-details/crag-all-sectors.png Graphic file (type png)
+<use images/implementacija/web/crag-details/crag-all-sectors.png>
+Package pdftex.def Info: images/implementacija/web/crag-details/crag-all-sectors.png  used on input line 80.
+(pdftex.def)             Requested size: 226.91199pt x 281.05873pt.
+<images/implementacija/crag-details/crag-all-sectors-table.png, id=162, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/crag-details/crag-all-sectors-table.png Graphic file (type png)
+<use images/implementacija/crag-details/crag-all-sectors-table.png>
+Package pdftex.def Info: images/implementacija/crag-details/crag-all-sectors-table.png  used on input line 92.
+(pdftex.def)             Requested size: 144.40025pt x 313.91882pt.
+ [31 <./images/implementacija/crag-details/crag-all-sectors-tabs.png> <./images/implementacija/web/crag-details/crag-all-sectors.png>]
+<images/implementacija/crag-details/crag-selected-sector.png, id=167, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/crag-details/crag-selected-sector.png Graphic file (type png)
+<use images/implementacija/crag-details/crag-selected-sector.png>
+Package pdftex.def Info: images/implementacija/crag-details/crag-selected-sector.png  used on input line 105.
+(pdftex.def)             Requested size: 144.40025pt x 313.91882pt.
+<images/implementacija/web/crag-details/crag-selected-sector.png, id=168, 975.645pt x 1819.79875pt>
+File: images/implementacija/web/crag-details/crag-selected-sector.png Graphic file (type png)
+<use images/implementacija/web/crag-details/crag-selected-sector.png>
+Package pdftex.def Info: images/implementacija/web/crag-details/crag-selected-sector.png  used on input line 112.
+(pdftex.def)             Requested size: 247.54149pt x 461.69617pt.
+ [32 <./images/implementacija/crag-details/crag-all-sectors-table.png>]) (./sections/Implementacija/subsections/route_details.tex
+<images/implementacija/route-details/route-details.png, id=172, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/route-details/route-details.png Graphic file (type png)
+<use images/implementacija/route-details/route-details.png>
+Package pdftex.def Info: images/implementacija/route-details/route-details.png  used on input line 5.
+(pdftex.def)             Requested size: 123.77074pt x 269.06181pt.
+ [33 <./images/implementacija/crag-details/crag-selected-sector.png> <./images/implementacija/web/crag-details/crag-selected-sector.png>]
+Overfull \hbox (32.57072pt too wide) in paragraph at lines 10--12
+\T1/ptm/m/n/12 Pristupom de-talj-nom pre-gledu po-je-di-nog pe-nja£-kog smjera na mo-bil-noj apli-ka-ciji (slika 4.17[]),
+ []
+
+<images/implementacija/web/route-details/route-details.png, id=178, 939.51pt x 1094.0875pt>
+File: images/implementacija/web/route-details/route-details.png Graphic file (type png)
+<use images/implementacija/web/route-details/route-details.png>
+Package pdftex.def Info: images/implementacija/web/route-details/route-details.png  used on input line 15.
+(pdftex.def)             Requested size: 330.05322pt x 384.35538pt.
+[34 <./images/implementacija/route-details/route-details.png>]
+<images/implementacija/route-details/log-ascent.png, id=182, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/route-details/log-ascent.png Graphic file (type png)
+<use images/implementacija/route-details/log-ascent.png>
+Package pdftex.def Info: images/implementacija/route-details/log-ascent.png  used on input line 26.
+(pdftex.def)             Requested size: 156.7767pt x 340.82501pt.
+<images/implementacija/web/route-details/log-ascent.png, id=183, 523.9575pt x 789.95125pt>
+File: images/implementacija/web/route-details/log-ascent.png Graphic file (type png)
+<use images/implementacija/web/route-details/log-ascent.png>
+Package pdftex.def Info: images/implementacija/web/route-details/log-ascent.png  used on input line 33.
+(pdftex.def)             Requested size: 226.91199pt x 342.10725pt.
+ [35 <./images/implementacija/web/route-details/route-details.png>]
+<images/implementacija/route-details/view-ascents.png, id=188, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/route-details/view-ascents.png Graphic file (type png)
+<use images/implementacija/route-details/view-ascents.png>
+Package pdftex.def Info: images/implementacija/route-details/view-ascents.png  used on input line 47.
+(pdftex.def)             Requested size: 156.7767pt x 340.82501pt.
+<images/implementacija/web/route-details/view-ascents.png, id=189, 582.175pt x 518.93875pt>
+File: images/implementacija/web/route-details/view-ascents.png Graphic file (type png)
+<use images/implementacija/web/route-details/view-ascents.png>
+Package pdftex.def Info: images/implementacija/web/route-details/view-ascents.png  used on input line 54.
+(pdftex.def)             Requested size: 226.91199pt x 202.2586pt.
+ [36 <./images/implementacija/route-details/log-ascent.png> <./images/implementacija/web/route-details/log-ascent.png>]) (./sections/Implementacija/subsections/route-detection.tex [37 <./images/implementacija/route-details/view-ascents.png> <./images/implementacija/web/route-details/view-ascents.png>]) (./sections/Implementacija/subsections/user-profile.tex
+<images/implementacija/user_profile_1.png, id=198, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/user_profile_1.png Graphic file (type png)
+<use images/implementacija/user_profile_1.png>
+Package pdftex.def Info: images/implementacija/user_profile_1.png  used on input line 9.
+(pdftex.def)             Requested size: 123.77074pt x 269.06181pt.
+<images/implementacija/web/user-profile-1.png, id=199, 1045.9075pt x 1008.76875pt>
+File: images/implementacija/web/user-profile-1.png Graphic file (type png)
+<use images/implementacija/web/user-profile-1.png>
+Package pdftex.def Info: images/implementacija/web/user-profile-1.png  used on input line 16.
+(pdftex.def)             Requested size: 268.1647pt x 258.64105pt.
+ [38]
+<images/implementacija/user_profile_2.png, id=203, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/user_profile_2.png Graphic file (type png)
+<use images/implementacija/user_profile_2.png>
+Package pdftex.def Info: images/implementacija/user_profile_2.png  used on input line 30.
+(pdftex.def)             Requested size: 123.77074pt x 269.06181pt.
+<images/implementacija/web/user-profile-2.png, id=204, 973.6375pt x 1001.7425pt>
+File: images/implementacija/web/user-profile-2.png Graphic file (type png)
+<use images/implementacija/web/user-profile-2.png>
+Package pdftex.def Info: images/implementacija/web/user-profile-2.png  used on input line 37.
+(pdftex.def)             Requested size: 268.1647pt x 275.90038pt.
+ [39 <./images/implementacija/user_profile_1.png> <./images/implementacija/web/user-profile-1.png>]
+<images/implementacija/user_profile_3.png, id=210, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/user_profile_3.png Graphic file (type png)
+<use images/implementacija/user_profile_3.png>
+Package pdftex.def Info: images/implementacija/user_profile_3.png  used on input line 51.
+(pdftex.def)             Requested size: 136.14719pt x 295.96799pt.
+<images/implementacija/web/user-profile-3.png, id=211, 971.63pt x 1079.03125pt>
+File: images/implementacija/web/user-profile-3.png Graphic file (type png)
+<use images/implementacija/web/user-profile-3.png>
+Package pdftex.def Info: images/implementacija/web/user-profile-3.png  used on input line 58.
+(pdftex.def)             Requested size: 268.1647pt x 297.79648pt.
+ [40 <./images/implementacija/user_profile_2.png> <./images/implementacija/web/user-profile-2.png>]
+<images/implementacija/user-profile-other.png, id=216, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/user-profile-other.png Graphic file (type png)
+<use images/implementacija/user-profile-other.png>
+Package pdftex.def Info: images/implementacija/user-profile-other.png  used on input line 77.
+(pdftex.def)             Requested size: 136.14719pt x 295.96799pt.
+<images/implementacija/web/user-profile-other.png, id=217, 1045.9075pt x 1672.2475pt>
+File: images/implementacija/web/user-profile-other.png Graphic file (type png)
+<use images/implementacija/web/user-profile-other.png>
+Package pdftex.def Info: images/implementacija/web/user-profile-other.png  used on input line 84.
+(pdftex.def)             Requested size: 268.1647pt x 428.75223pt.
+) (./sections/Implementacija/subsections/editing.tex [41 <./images/implementacija/user_profile_3.png> <./images/implementacija/web/user-profile-3.png>] [42 <./images/implementacija/user-profile-other.png> <./images/implementacija/web/user-profile-other.png>]
+<images/implementacija/editing-options/create_crag.png, id=226, 1210.5225pt x 2631.8325pt>
 File: images/implementacija/editing-options/create_crag.png Graphic file (type png)
 <use images/implementacija/editing-options/create_crag.png>
-Package pdftex.def Info: images/implementacija/editing-options/create_crag.png  used on input line 14.
+Package pdftex.def Info: images/implementacija/editing-options/create_crag.png  used on input line 13.
 (pdftex.def)             Requested size: 127.89412pt x 278.05731pt.
-<images/implementacija/web/editing-options/create-crag.png, id=87, 1049.9225pt x 1174.3875pt>
+<images/implementacija/web/editing-options/create-crag.png, id=227, 1049.9225pt x 1174.3875pt>
 File: images/implementacija/web/editing-options/create-crag.png Graphic file (type png)
 <use images/implementacija/web/editing-options/create-crag.png>
-Package pdftex.def Info: images/implementacija/web/editing-options/create-crag.png  used on input line 21.
+Package pdftex.def Info: images/implementacija/web/editing-options/create-crag.png  used on input line 20.
 (pdftex.def)             Requested size: 247.54149pt x 276.87709pt.
- [17 <./images/implementacija/editing-options/create_crag.png> <./images/implementacija/web/editing-options/create-crag.png>]
-<images/implementacija/editing-options/edit-crag.png, id=92, 1210.5225pt x 2631.8325pt>
+<images/implementacija/editing-options/edit-crag.png, id=228, 1210.5225pt x 2631.8325pt>
 File: images/implementacija/editing-options/edit-crag.png Graphic file (type png)
 <use images/implementacija/editing-options/edit-crag.png>
-Package pdftex.def Info: images/implementacija/editing-options/edit-crag.png  used on input line 35.
+Package pdftex.def Info: images/implementacija/editing-options/edit-crag.png  used on input line 34.
 (pdftex.def)             Requested size: 148.52364pt x 322.87418pt.
-<images/implementacija/web/editing-options/edit-crag.png, id=93, 1061.9675pt x 1780.6525pt>
+<images/implementacija/web/editing-options/edit-crag.png, id=229, 1061.9675pt x 1780.6525pt>
 File: images/implementacija/web/editing-options/edit-crag.png Graphic file (type png)
 <use images/implementacija/web/editing-options/edit-crag.png>
-Package pdftex.def Info: images/implementacija/web/editing-options/edit-crag.png  used on input line 42.
+Package pdftex.def Info: images/implementacija/web/editing-options/edit-crag.png  used on input line 41.
 (pdftex.def)             Requested size: 193.90604pt x 325.12262pt.
-<images/implementacija/editing-options/manage-users.png, id=94, 1210.5225pt x 2631.8325pt>
+ [43 <./images/implementacija/editing-options/create_crag.png> <./images/implementacija/web/editing-options/create-crag.png>] [44 <./images/implementacija/editing-options/edit-crag.png> <./images/implementacija/web/editing-options/edit-crag.png>]
+<images/implementacija/editing-options/manage-users.png, id=238, 1210.5225pt x 2631.8325pt>
 File: images/implementacija/editing-options/manage-users.png Graphic file (type png)
 <use images/implementacija/editing-options/manage-users.png>
-Package pdftex.def Info: images/implementacija/editing-options/manage-users.png  used on input line 58.
+Package pdftex.def Info: images/implementacija/editing-options/manage-users.png  used on input line 62.
 (pdftex.def)             Requested size: 148.52364pt x 322.87418pt.
-<images/implementacija/web/editing-options/manage-users.png, id=95, 1055.945pt x 817.0525pt>
+<images/implementacija/web/editing-options/manage-users.png, id=239, 1055.945pt x 817.0525pt>
 File: images/implementacija/web/editing-options/manage-users.png Graphic file (type png)
 <use images/implementacija/web/editing-options/manage-users.png>
-Package pdftex.def Info: images/implementacija/web/editing-options/manage-users.png  used on input line 65.
+Package pdftex.def Info: images/implementacija/web/editing-options/manage-users.png  used on input line 69.
 (pdftex.def)             Requested size: 247.54149pt x 191.53362pt.
- [18 <./images/implementacija/editing-options/edit-crag.png> <./images/implementacija/web/editing-options/edit-crag.png>]
-<images/implementacija/editing-options/create-sector.png, id=100, 1210.5225pt x 2631.8325pt>
+<images/implementacija/editing-options/create-sector.png, id=240, 1210.5225pt x 2631.8325pt>
 File: images/implementacija/editing-options/create-sector.png Graphic file (type png)
 <use images/implementacija/editing-options/create-sector.png>
-Package pdftex.def Info: images/implementacija/editing-options/create-sector.png  used on input line 82.
+Package pdftex.def Info: images/implementacija/editing-options/create-sector.png  used on input line 88.
 (pdftex.def)             Requested size: 148.52364pt x 322.87418pt.
-<images/implementacija/web/editing-options/create-sector.png, id=101, 1055.945pt x 1840.8775pt>
+<images/implementacija/web/editing-options/create-sector.png, id=241, 1055.945pt x 1840.8775pt>
 File: images/implementacija/web/editing-options/create-sector.png Graphic file (type png)
 <use images/implementacija/web/editing-options/create-sector.png>
-Package pdftex.def Info: images/implementacija/web/editing-options/create-sector.png  used on input line 89.
+Package pdftex.def Info: images/implementacija/web/editing-options/create-sector.png  used on input line 95.
 (pdftex.def)             Requested size: 185.65297pt x 323.64714pt.
- [19 <./images/implementacija/editing-options/manage-users.png> <./images/implementacija/web/editing-options/manage-users.png>]
-<images/implementacija/editing-options/edit-sector.png, id=106, 1210.5225pt x 2631.8325pt>
+ [45 <./images/implementacija/editing-options/manage-users.png> <./images/implementacija/web/editing-options/manage-users.png>]
+<images/implementacija/editing-options/edit-sector.png, id=247, 1210.5225pt x 2631.8325pt>
 File: images/implementacija/editing-options/edit-sector.png Graphic file (type png)
 <use images/implementacija/editing-options/edit-sector.png>
-Package pdftex.def Info: images/implementacija/editing-options/edit-sector.png  used on input line 103.
+Package pdftex.def Info: images/implementacija/editing-options/edit-sector.png  used on input line 111.
 (pdftex.def)             Requested size: 156.7767pt x 340.82501pt.
-<images/implementacija/web/editing-options/edit-sector.png, id=107, 1051.93pt x 2021.5525pt>
+<images/implementacija/web/editing-options/edit-sector.png, id=248, 1051.93pt x 2021.5525pt>
 File: images/implementacija/web/editing-options/edit-sector.png Graphic file (type png)
 <use images/implementacija/web/editing-options/edit-sector.png>
-Package pdftex.def Info: images/implementacija/web/editing-options/edit-sector.png  used on input line 110.
+Package pdftex.def Info: images/implementacija/web/editing-options/edit-sector.png  used on input line 118.
 (pdftex.def)             Requested size: 177.3999pt x 340.91405pt.
- [20 <./images/implementacija/editing-options/create-sector.png> <./images/implementacija/web/editing-options/create-sector.png>]
-<images/implementacija/editing-options/create-route.png, id=112, 1210.5225pt x 2631.8325pt>
+ [46 <./images/implementacija/editing-options/create-sector.png> <./images/implementacija/web/editing-options/create-sector.png>]
+<images/implementacija/editing-options/create-route.png, id=254, 1210.5225pt x 2631.8325pt>
 File: images/implementacija/editing-options/create-route.png Graphic file (type png)
 <use images/implementacija/editing-options/create-route.png>
-Package pdftex.def Info: images/implementacija/editing-options/create-route.png  used on input line 127.
+Package pdftex.def Info: images/implementacija/editing-options/create-route.png  used on input line 137.
 (pdftex.def)             Requested size: 156.7767pt x 340.82501pt.
-File: images/implementacija/web/editing-options/edit-sector.png Graphic file (type png)
-<use images/implementacija/web/editing-options/edit-sector.png>
-Package pdftex.def Info: images/implementacija/web/editing-options/edit-sector.png  used on input line 134.
-(pdftex.def)             Requested size: 177.3999pt x 340.91405pt.
- [21 <./images/implementacija/editing-options/edit-sector.png> <./images/implementacija/web/editing-options/edit-sector.png>] [22 <./images/implementacija/editing-options/create-route.png>]
-<images/implementacija/editing-options/edit_profile.png, id=121, 1210.5225pt x 2631.8325pt>
+<images/implementacija/web/editing-options/create-route.png, id=255, 519.9425pt x 539.01375pt>
+File: images/implementacija/web/editing-options/create-route.png Graphic file (type png)
+<use images/implementacija/web/editing-options/create-route.png>
+Package pdftex.def Info: images/implementacija/web/editing-options/create-route.png  used on input line 144.
+(pdftex.def)             Requested size: 226.91199pt x 235.23398pt.
+ [47 <./images/implementacija/editing-options/edit-sector.png> <./images/implementacija/web/editing-options/edit-sector.png>]
+<images/implementacija/editing-options/add-route-photo.png, id=260, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/editing-options/add-route-photo.png Graphic file (type png)
+<use images/implementacija/editing-options/add-route-photo.png>
+Package pdftex.def Info: images/implementacija/editing-options/add-route-photo.png  used on input line 157.
+(pdftex.def)             Requested size: 123.77074pt x 269.06181pt.
+ [48 <./images/implementacija/editing-options/create-route.png> <./images/implementacija/web/editing-options/create-route.png>]
+<images/implementacija/editing-options/edit-route.png, id=265, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/editing-options/edit-route.png Graphic file (type png)
+<use images/implementacija/editing-options/edit-route.png>
+Package pdftex.def Info: images/implementacija/editing-options/edit-route.png  used on input line 168.
+(pdftex.def)             Requested size: 156.7767pt x 340.82501pt.
+<images/implementacija/web/editing-options/edit-route.png, id=266, 522.95375pt x 538.01pt>
+File: images/implementacija/web/editing-options/edit-route.png Graphic file (type png)
+<use images/implementacija/web/editing-options/edit-route.png>
+Package pdftex.def Info: images/implementacija/web/editing-options/edit-route.png  used on input line 175.
+(pdftex.def)             Requested size: 226.91199pt x 233.44958pt.
+ [49 <./images/implementacija/editing-options/add-route-photo.png>]
+<images/implementacija/editing-options/edit_profile.png, id=270, 1210.5225pt x 2631.8325pt>
 File: images/implementacija/editing-options/edit_profile.png Graphic file (type png)
 <use images/implementacija/editing-options/edit_profile.png>
-Package pdftex.def Info: images/implementacija/editing-options/edit_profile.png  used on input line 154.
+Package pdftex.def Info: images/implementacija/editing-options/edit_profile.png  used on input line 197.
 (pdftex.def)             Requested size: 144.40025pt x 313.91882pt.
-<images/implementacija/web/editing-options/edit-user.png, id=122, 1051.93pt x 1326.9575pt>
+<images/implementacija/web/editing-options/edit-user.png, id=271, 1051.93pt x 1326.9575pt>
 File: images/implementacija/web/editing-options/edit-user.png Graphic file (type png)
 <use images/implementacija/web/editing-options/edit-user.png>
-Package pdftex.def Info: images/implementacija/web/editing-options/edit-user.png  used on input line 161.
+Package pdftex.def Info: images/implementacija/web/editing-options/edit-user.png  used on input line 204.
 (pdftex.def)             Requested size: 226.91199pt x 286.2217pt.
-)) [23 <./images/implementacija/editing-options/edit_profile.png> <./images/implementacija/web/editing-options/edit-user.png>]
+ [50 <./images/implementacija/editing-options/edit-route.png> <./images/implementacija/web/editing-options/edit-route.png>]) (./sections/Implementacija/subsections/offline-mode.tex
+<images/implementacija/offline-mode/crag-tab.png, id=276, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/offline-mode/crag-tab.png Graphic file (type png)
+<use images/implementacija/offline-mode/crag-tab.png>
+Package pdftex.def Info: images/implementacija/offline-mode/crag-tab.png  used on input line 9.
+(pdftex.def)             Requested size: 115.51591pt x 251.11096pt.
+<images/implementacija/offline-mode/routes-tab.png, id=277, 1210.5225pt x 2631.8325pt>
+File: images/implementacija/offline-mode/routes-tab.png Graphic file (type png)
+<use images/implementacija/offline-mode/routes-tab.png>
+Package pdftex.def Info: images/implementacija/offline-mode/routes-tab.png  used on input line 16.
+(pdftex.def)             Requested size: 115.51591pt x 251.11096pt.
+ [51 <./images/implementacija/editing-options/edit_profile.png> <./images/implementacija/web/editing-options/edit-user.png>])) [52 <./images/implementacija/offline-mode/crag-tab.png> <./images/implementacija/offline-mode/routes-tab.png>]
 \openout2 = `sections/Arhitektura/arhitektura.aux'.
 
  (./sections/Arhitektura/arhitektura.tex
 Poglavlje 5.
-) [24
+) [53
 
 
 
@@ -581,7 +824,7 @@ Poglavlje 5.
 
  (./sections/Testiranje/testiranje.tex
 Poglavlje 6.
-) [25
+) [54
 
 
 
@@ -591,7 +834,7 @@ Poglavlje 6.
 
  (./sections/Zakljucak/zakljucak.tex
 Poglavlje 7.
-) [26
+) [55
 
 
 
@@ -615,28 +858,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 9--15
 \T1/pcr/m/n/12 why-[]does-[]everyone-[]suddenly-[]want-[]to-[]rock-[]climb/$\T1/ptm/m/n/12 , si-je-£anj
  []
 
-) [27
+) [56
 
 
 
-] (./zavrsni.aux (./sections/Uvod/uvod.aux) (./sections/Analiza/analiza.aux) (./sections/RacunalniVid/racunalni_vid.aux) (./sections/Implementacija/implementacija.aux) (./sections/Arhitektura/arhitektura.aux) (./sections/Testiranje/testiranje.aux) (./sections/Zakljucak/zakljucak.aux))
-
-LaTeX Warning: There were multiply-defined labels.
-
- ) 
+] (./zavrsni.aux (./sections/Uvod/uvod.aux) (./sections/Analiza/analiza.aux) (./sections/RacunalniVid/racunalni_vid.aux) (./sections/Implementacija/implementacija.aux) (./sections/Arhitektura/arhitektura.aux) (./sections/Testiranje/testiranje.aux) (./sections/Zakljucak/zakljucak.aux)) ) 
 Here is how much of TeX's memory you used:
- 8837 strings out of 478268
- 154164 string characters out of 5846346
- 451317 words of memory out of 5000000
- 26803 multiletter control sequences out of 15000+600000
+ 9312 strings out of 478268
+ 175061 string characters out of 5846346
+ 452495 words of memory out of 5000000
+ 27211 multiletter control sequences out of 15000+600000
  529880 words of font info for 95 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 70i,8n,77p,1181b,560s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 70i,8n,77p,1181b,562s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on zavrsni.pdf (31 pages, 10840372 bytes).
+Output written on zavrsni.pdf (60 pages, 44480281 bytes).
 PDF statistics:
- 198 PDF objects out of 1000 (max. 8388607)
- 111 compressed objects within 2 object streams
+ 357 PDF objects out of 1000 (max. 8388607)
+ 175 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 96 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 331 words of extra memory for PDF output out of 10000 (max. 10000000)
 
