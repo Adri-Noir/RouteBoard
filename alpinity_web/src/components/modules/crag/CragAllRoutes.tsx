@@ -14,6 +14,7 @@ interface CragAllRoutesProps {
   crag: CragDetailedDto;
   onEditRoute?: (routeId: string) => void;
   onDeleteRoute?: (routeId: string) => void;
+  onSelectRoute?: (sectorId: string, routeId: string) => void;
 }
 
 // Helper function to get the value for sorting
@@ -38,7 +39,7 @@ const getSortValue = (
   }
 };
 
-const CragAllRoutes = ({ crag, onEditRoute, onDeleteRoute }: CragAllRoutesProps) => {
+const CragAllRoutes = ({ crag, onEditRoute, onDeleteRoute, onSelectRoute }: CragAllRoutesProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedGrade, setSelectedGrade] = useState<string | null>(null);
   const [selectedRouteType, setSelectedRouteType] = useState<RouteType | null>(null);
@@ -52,13 +53,14 @@ const CragAllRoutes = ({ crag, onEditRoute, onDeleteRoute }: CragAllRoutesProps)
 
   // Get all routes from all sectors
   const allRoutes = useMemo(() => {
-    const routes: { route: SectorRouteDto; sectorName: string | null }[] = [];
+    const routes: { route: SectorRouteDto; sectorName: string | null; sectorId: string }[] = [];
 
     crag.sectors?.forEach((sector: SectorDetailedDto) => {
       sector.routes?.forEach((route: SectorRouteDto) => {
         routes.push({
           route,
           sectorName: sector.name,
+          sectorId: sector.id,
         });
       });
     });
@@ -232,6 +234,7 @@ const CragAllRoutes = ({ crag, onEditRoute, onDeleteRoute }: CragAllRoutesProps)
           canModify={crag.canModify}
           onEditRoute={onEditRoute}
           onDeleteRoute={onDeleteRoute}
+          onSelectRoute={onSelectRoute}
         />
       </CardContent>
 

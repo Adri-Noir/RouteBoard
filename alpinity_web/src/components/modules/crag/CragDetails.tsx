@@ -139,6 +139,19 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
     [cragId, router],
   );
 
+  const handleRouteSelect = useCallback(
+    (sectorId: string, routeId: string) => {
+      setSelectedSectorId(sectorId);
+
+      const params = new URLSearchParams();
+      if (sectorId) params.set("sectorId", sectorId);
+      if (routeId) params.set("routeId", routeId);
+
+      router.push(`/crag/${cragId}?${params.toString()}`, { scroll: false });
+    },
+    [cragId, router],
+  );
+
   const handleEditCrag = useCallback(() => {
     setIsEditCragModalOpen(true);
   }, []);
@@ -365,7 +378,12 @@ const CragDetails = ({ cragId, initialData }: CragDetailsProps) => {
                 ) : null}
               </>
             ) : (
-              <CragAllRoutes crag={crag} onEditRoute={handleEditRoute} onDeleteRoute={handleDeleteRoute} />
+              <CragAllRoutes
+                crag={crag}
+                onEditRoute={handleEditRoute}
+                onDeleteRoute={handleDeleteRoute}
+                onSelectRoute={handleRouteSelect}
+              />
             )}
           </div>
         </section>
