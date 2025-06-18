@@ -1069,6 +1069,11 @@ INPUT ./sections/Arhitektura/arhitektura.tex
 INPUT sections/Arhitektura/arhitektura.tex
 INPUT ./sections/Arhitektura/arhitektura.tex
 INPUT sections/Arhitektura/arhitektura.tex
+INPUT ./images/arhitektura/general_arch.png
+INPUT ./images/arhitektura/general_arch.png
+INPUT images/arhitektura/general_arch.png
+INPUT ./images/arhitektura/general_arch.png
+INPUT ./images/arhitektura/general_arch.png
 INPUT ./sections/Testiranje/testiranje.tex
 INPUT ./sections/Testiranje/testiranje.tex
 INPUT ./sections/Testiranje/testiranje.tex

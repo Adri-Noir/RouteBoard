@@ -36,15 +36,22 @@
 \contentsline {subsection}{\numberline {4.9.5}Uređivanje korisničkog profila}{50}{}%
 \contentsline {section}{\numberline {4.10}Izvanmrežni način rada}{51}{}%
 \contentsline {chapter}{\numberline {5}Arhitektura i dizajn sustava "Alpinity"}{53}{}%
-\contentsline {section}{\numberline {5.1}Arhitektura sustava}{53}{}%
-\contentsline {section}{\numberline {5.2}Dizajn baze podataka}{53}{}%
-\contentsline {section}{\numberline {5.3}Dizajn pozadinskog sustava}{53}{}%
-\contentsline {section}{\numberline {5.4}Dizajn procesa prepoznavanja smjera}{53}{}%
-\contentsline {chapter}{\numberline {6}Testiranje i vrednovanje rješenja}{54}{}%
-\contentsline {section}{\numberline {6.1}Funkcionalno testiranje}{54}{}%
-\contentsline {section}{\numberline {6.2}Vrednovanje performansi prepoznavanja}{54}{}%
-\contentsline {section}{\numberline {6.3}Analiza ograničenja}{54}{}%
-\contentsline {chapter}{\numberline {7}Zaključak}{55}{}%
-\contentsline {section}{\numberline {7.1}Sažetak ostvarenih rezultata}{55}{}%
-\contentsline {section}{\numberline {7.2}Smjernice za budući razvoj}{55}{}%
-\contentsline {chapter}{Literatura}{56}{}%
+\contentsline {section}{\numberline {5.1}Pozadinski sustav (Backend)}{54}{}%
+\contentsline {subsection}{\numberline {5.1.1}Sloj domene}{55}{}%
+\contentsline {subsection}{\numberline {5.1.2}Aplikacijski sloj}{55}{}%
+\contentsline {subsection}{\numberline {5.1.3}Infrastrukturni sloj}{55}{}%
+\contentsline {subsection}{\numberline {5.1.4}Prezentacijski sloj}{56}{}%
+\contentsline {subsection}{\numberline {5.1.5}Vanjski servisi}{56}{}%
+\contentsline {subsection}{\numberline {5.1.6}Model baze podataka}{56}{}%
+\contentsline {section}{\numberline {5.2}Mobilna aplikacija za iOS}{56}{}%
+\contentsline {subsection}{\numberline {5.2.1}Implementacija prepoznavanja smjerova pomoću OpenCV}{57}{}%
+\contentsline {subsection}{\numberline {5.2.2}Kreiranje referentne slike penjačkog smjera}{58}{}%
+\contentsline {section}{\numberline {5.3}Web aplikacija}{58}{}%
+\contentsline {chapter}{\numberline {6}Testiranje i vrednovanje rješenja}{60}{}%
+\contentsline {section}{\numberline {6.1}Funkcionalno testiranje}{60}{}%
+\contentsline {section}{\numberline {6.2}Vrednovanje performansi prepoznavanja}{60}{}%
+\contentsline {section}{\numberline {6.3}Analiza ograničenja}{60}{}%
+\contentsline {chapter}{\numberline {7}Zaključak}{61}{}%
+\contentsline {section}{\numberline {7.1}Sažetak ostvarenih rezultata}{61}{}%
+\contentsline {section}{\numberline {7.2}Smjernice za budući razvoj}{61}{}%
+\contentsline {chapter}{Literatura}{62}{}%
