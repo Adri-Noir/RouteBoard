@@ -47,7 +47,7 @@ public class EditCragCommandHandler(
 
         if (request.Photos != null && request.Photos.Any())
         {
-            crag.Photos = new List<Photo>();
+            crag.Photos ??= new List<Photo>();
             foreach (var photoFile in request.Photos)
             {
                 var fileRequest = mapper.Map<FileRequest>(photoFile);
