@@ -1,7 +1,26 @@
 \chapter{Zaključak}
 
-\section{Sažetak ostvarenih rezultata}
+\section{Sažetak rada i ostvareni rezultati}
+
+Problem identifikacije penjačkih smjerova na terenu, koji proizlazi iz ograničenja tradicionalnih tiskanih i postojećih digitalnih vodiča, predstavljao je temeljnu motivaciju za ovaj diplomski rad. Cilj je bio implementirati cjelovit softverski sustav "Alpinity" koji koristi tehnologije računalnog vida i proširene stvarnosti kako bi riješio taj problem.
+
+Uz rad razvijen je i funkcionalni digitalni penjački vodič koji se sastoji od pozadinskog sustava, web aplikacije i mobilne aplikacije za iOS. Implementirana je funkcionalnost koja korisniku omogućuje da, usmjeravanjem kamere prema stijeni, u stvarnom vremenu dobije vizualnu informaciju o položaju penjačkog smjera. Testiranje u realnim uvjetima potvrdilo je da je odabrani algoritamski pristup, temeljen na SIFT značajkama i procjeni homografije, funkcionalan i sposoban za prepoznavanje smjerova s različitim vizualnim karakteristikama.
+
+Međutim, testiranje i vrednovanje je također otkrilo i ograničenja implementacije, prvenstveno u vidu latencije i povremene nestabilnosti detekcije, što je posljedica računskog opterećenja na mobilnom uređaju. Unatoč tim ograničenjima, rad je demonstrirao da je koncept vizualizacije smjerova pomoću proširene stvarnosti izvediv i da nudi potencijal za unapređenje korisničkog iskustva digitalnih penjačkih vodiča.
 
 \section{Smjernice za budući razvoj}
 
+\subsection{Poboljšanja procesa prepoznavanja}
 
+Iako je razvijeni sustav funkcionalan, postoji prostor za daljnja poboljšanja. U nastavku se razmatraju područja za budući razvoj, s posebnim naglaskom na unapređenje procesa prepoznavanja.
+
+Uočeni problemi latencije i vizualnog šuma mogu se ublažiti implementacijom optimizacija. Namještanjem SIFT parametara i povećanjem minimalnog broja potrebnih parova značajki mogli bi pojačati preciznost detekcije i smanjiti vizualni šum. Trenutni sustav izračunava homografiju neovisno za svaki obrađeni kadar, što može dovesti do nestabilnosti i pogrešne detekcije. U budućnosti bi se moglo implementirati provjera koeficijenta matrice homografije kako bi se osiguralo da matrica ne transformira sliku u nestvarne oblike ili koristeći druge apstraktnije metode provjere matrice. Ako je dobivena matrica pala te testove onda se ne bi koristila za transformaciju slike i time se ne bi detektirala linija penjačkog smjera.
+
+Nadalje, obrada zamućenih kadrova, nastalih brzim pokretom kamere, bespotrebno troši resurse i može dovesti do pogrešnih podudaranosti. Moguće je implementirati pred-procesni korak za filtriranje zamućenih kadrova. Primjerice, izračunom varijance Laplaceove transformacije slike može se procjeniti razina oštrine, te bi se kadrovi koji ne zadovoljavaju minimalni prag oštrine mogli ne dodati u spremnik kadrova i time ne bi se slali na SIFT obradu.
+
+Konačno, trenutna arhitektura dizajnirana je za prepoznavanje jednog, unaprijed odabranog smjera. Značajno unapređenje bilo bi omogućiti sustavu detekciju više smjerova, recimo jednog sektora, istovremeno. To bi zahtijevalo da se deskriptori s kamere uspoređuju s cjelokupnom bazom deskriptora za sve smjerove u sektoru. Iako je ovo računski znatno zahtjevnije, pružilo bi bolje korisničko iskustvo.
+
+\subsection{Integracija topografskih prikaza}
+
+
+Testiranje je pokazalo da su referentne slike snimljene sa tla korisne za identifikaciju početka smjera, ali često ne mogu obuhvatiti cijeli tijek smjera, pogotovo kod dužih smjerova. S druge strane, klasične topo skice, iako apstraktne, pružaju jasan pregled cijele linije. Budući razvoj mogao bi uključivati hibridni pristup. Nakon što aplikacija uspješno prepozna penjački smjer, korisniku bi se mogla ponuditi opcija prebacivanja na 2D topo prikaz tog sektora, s jasno istaknutim prepoznatim smjerom. Time bi se kombinirale prednosti oba svijeta, precizna identifikacija na terenu i jasan pregled cijelog smjera pomoću topografske skice.
