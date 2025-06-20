@@ -2,9 +2,9 @@
 
 \subsection{Odabir algoritma detekcije značajki}
 
-Za uspješno prepoznavanje objekta potrebno je odabrati algoritam koji može detektirati značajke koje su invarijantne na promjene u okolini. U domeni detekcije značajki postoji nekoliko algoritama, koji se razlikuju po brzini i preciznosti detekcija. Primjerice SURF (eng. \textit{Speeded Up Robust Features}) dizajniran je kao brža aproksimacija SIFT-a, koristeći integralne slike s ubrzanje izračuna. ORB (eng. \textit{Oriented FAST and Rotated BRIEF}), koji kombinira brži detektor kutova FAST s binarnim deskriptorima BRIEF, što ga čini iznimno popularnim za uvjete mobilnih uređaja s ograničenim resursima. Unatoč manjoj brzini, u ovom radu se proučava i koristi SIFT, koji je razvio David Lowe. Odluka se temelji na njegovoj preciznosti i robusnosti u odnosu na ostale algoritme, unatoč što zahtijeva više resursa. SIFT generira visokodimenzionalne deskriptore koji omogućuju pouzdanije prepoznavanje kompleksnih površina poput prirodne stijene. 
+Za uspješno prepoznavanje objekta potrebno je odabrati algoritam koji može detektirati značajke koje su invarijantne na promjene u okolini. U domeni detekcije značajki postoji nekoliko algoritama, koji se razlikuju po brzini i preciznosti detekcija. Primjerice SURF (eng. \textit{Speeded Up Robust Features}) dizajniran je kao brža aproksimacija SIFT-a, koristeći integralne slike s ubrzanje izračuna. ORB (eng. \textit{Oriented FAST and Rotated BRIEF}), koji kombinira brži detektor kutova FAST s binarnim deskriptorima BRIEF, što ga čini iznimno popularnim za uvjete mobilnih uređaja s ograničenim resursima. Unatoč manjoj brzini, u ovom radu se proučava i koristi SIFT, koji je razvio David Lowe~\cite{lowe2004sift}. Odluka se temelji na njegovoj preciznosti i robusnosti u odnosu na ostale algoritme, unatoč što zahtijeva više resursa. SIFT generira visokodimenzionalne deskriptore koji omogućuju pouzdanije prepoznavanje kompleksnih površina poput prirodne stijene. 
 
-Iako su u modernom računalnom vidu pristupi temeljeni na dubokom učenju (eng. \textit{deep learning}) postali dominantniji, njihova primjena u ovom problemu nije praktična radi količine potrebnih podataka za treniranje. U kontekstu ovog rada, to bi značilo da za svaki penjački smjer trebalo bi biti mnogo slika iz različitih kutova, udaljenosti i uvjeta osvjetljenja, te ih ručno kategorizirati. S obzirom da je sustav dinamičan i korisnici su oni koji dodaju penjačke smjerove, za svaki novi unos podatak potrebno bi bilo ponovno trenirati model. Takav proces prikupljanja podataka i treniranja modela je iznimno zahtjevan i nepraktičan. SIFT i drugi algoritmi detekcije značajki funkcioniraju na principu učenja iz jednog primjera, tj. potrebna je samo jedna referentna slika za kasnije prepoznavanje. 
+Iako su u modernom računalnom vidu pristupi temeljeni na dubokom učenju (eng. \textit{deep learning}) postali popularniji, njihova primjena u ovom problemu nije praktična radi količine potrebnih podataka za treniranje. U kontekstu ovog rada, to bi značilo da za svaki penjački smjer trebalo bi biti mnogo slika iz različitih kutova, udaljenosti i uvjeta osvjetljenja, te ih ručno kategorizirati. S obzirom da je sustav dinamičan i korisnici su oni koji dodaju penjačke smjerove, za svaki novi unos podatak potrebno bi bilo ponovno trenirati model. Takav proces prikupljanja podataka i treniranja modela je iznimno zahtjevan i nepraktičan. SIFT i drugi algoritmi detekcije značajki funkcioniraju na principu učenja iz jednog primjera, tj. potrebna je samo jedna referentna slika za kasnije prepoznavanje. 
 
 \subsection{SIFT algoritam}
 
@@ -18,4 +18,24 @@ Svaki unos u histogram uključuje u račun magnitudu gradijenta te udaljenost od
 
 Poslijednji korak je stvaranje jedistvenog numeričkog deskriptora za svaku ključnu točku. Oko ključne točke uzima se 16x16 piksela te se rotira u skladu s dominantnom orijentacijom čime se postiže nezavisnost rotacije. Rotirana okolina se zatim dijeli na 4x4 podregije. U svakoj podregiji računa se histogram orijentacija gradijenta s 8 spremnika i vrijednosti iz svih 16 histograma spaja se u jedan 128-dimenzionalni vektor te se vektor normalizira kako bi se smanjila ovisnost o osvjetljenju.
 
-Izlaz iz SIFT algoritma je skup detektiranih značajki, tj. njen položaj, skala, orijentacija i 128-dimenzionalni deskriptor. Cijeli proces SIFT algoritma provodi se za refrentnu sliku penjačkog smjera te slike dobivene sa kamere mobilnog uređaja.
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/racunalniVid/feature_detection_train.png}
+        \caption{Referentna slika penjačkog smjera}
+        \label{fig:feature_detection_train}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/racunalniVid/feature_detection_frame.png}
+        \caption{Slika s kamere mobilnog uređaja}
+        \label{fig:feature_detection_frame}
+    \end{subfigure}
+    \caption{Detekcija značajki SIFT algoritmom}
+    \label{fig:detekcija_znacajki}
+\end{figure}
+
+Izlaz iz SIFT algoritma je skup detektiranih značajki, tj. njen položaj, skala, orijentacija i 128-dimenzionalni deskriptor. Cijeli proces SIFT algoritma provodi se za refrentnu sliku penjačkog smjera te slike dobivene sa kamere mobilnog uređaja. Na slici~\ref{fig:detekcija_znacajki} prikazan je primjer detekcije značajki SIFT algoritmom za referentnu sliku penjačkog smjera i sliku dobivenu sa kamere mobilnog uređaja. Radi preglednosti prikazuju se samo značajke koje obuhvaćaju veću površinu.
+

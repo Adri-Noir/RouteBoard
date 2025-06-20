@@ -27,4 +27,29 @@ Budući da za izračun homografije potrebno je samo četri para točaka, a iz pr
 Prvo se nasumično odabire minimalni podskup podataka potreban za izračun homografije, odnosno četri para uparenih točaka. Na temelju tih nasumičnih točaka izračunava se preliminarna homografija $H$. Potom se ta preliminarna homografija testira na način da se ta matrica primjenjuje na sve ostale točke iz početnog seta podataka i određuje se udaljenost između izračunate točke i prave točke iz seta. Ako je ta udaljenost manja od predefiniranog praga onda se taj par smatra podudaranim s modelom. Cijeli ovaj postupak se ponavlja veliki broj puta. 
 Na kraju se odabire matrica H koja je u jednoj od iteracija dobila najveći broj podudaranja s modelom. Korištenjem ovog algoritma osigurava se da pogrešne podudaranosti budu efikasno ignorirane jer se neće uklopiti u jedan konzistentan geometrijski model.
 
-Kada je pronađena matrica $H$ s njom se može postići transformacija perspektive između dviju slika. Korištenjem homografije moguće je preslikati referentnu sliku linije penjačkog smjera na sliku dobivenu sa kamere koristeći OpenCV biblioteku te algoritam \textit{warpPerspective}. Kao izlaz, generira se nova slika na kojoj je sadržaj perspektivno izobličen u skladu s matricom $H$. Rezultirajuća slika transformirane linije penjačkog smjera tada se može iscrtati preko slike dobivene sa kamere. Budući da je homografija izračunata na temelju značajki sa stijene, transformirana linija će se precizno poklapati s geometrijom stijene u trenutnom pogledu kamere čime se postiže efekt proširene stvarnosti.
+Primjer matrice homografije dobivene iz procesa uparivanja značajki prikazanog na slici~\ref{fig:uparivanje_znacajki} može izgledati ovako:
+
+\begin{equation}
+    H =
+    \begin{pmatrix}
+        0.6298 & 0.0750 & 412.29 \\
+        0.0065 & 0.7816 & 271.09 \\
+        0.000000280 & 0.0000741 & 1
+    \end{pmatrix}
+\end{equation}
+
+Ova matrica $H$ transformira koordinate točaka s referentne slike penjačkog smjera na sliku dobivenu sa kamere, uzimajući u obzir rotaciju, translaciju, skaliranje i perspektivnu deformaciju. Vrijednosti u matrici su stvarni primjer dobiven iz procesa uparivanja značajki za konkretni slučaj prikazan u prethodnom poglavlju.
+
+
+
+
+Kada je pronađena matrica $H$ s njom se može postići transformacija perspektive između dviju slika. Korištenjem homografije moguće je preslikati referentnu sliku linije penjačkog smjera na sliku dobivenu sa kamere koristeći OpenCV biblioteku te algoritam \textit{warpPerspective}. Kao izlaz, generira se nova slika na kojoj je sadržaj perspektivno izobličen u skladu s matricom $H$. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/racunalniVid/frame_with_route.jpg}
+    \caption{Rezultirajuća slika transformirane linije penjačkog smjera}
+    \label{fig:transformacija_perspektive}
+\end{figure}
+
+Rezultirajuća slika transformirane linije penjačkog smjera tada se može iscrtati preko slike dobivene sa kamere (slika~\ref{fig:transformacija_perspektive}). Budući da je homografija izračunata na temelju značajki sa stijene, transformirana linija će se precizno poklapati s geometrijom stijene u trenutnom pogledu kamere čime se postiže efekt proširene stvarnosti.
