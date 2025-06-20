@@ -2,17 +2,13 @@ This is BibTeX, Version 0.99d (TeX Live 2022)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: zavrsni.aux
 A level-1 auxiliary file: sections/Uvod/uvod.aux
-A level-1 auxiliary file: sections/Analiza/analiza.aux
-A level-1 auxiliary file: sections/RacunalniVid/racunalni_vid.aux
-A level-1 auxiliary file: sections/Implementacija/implementacija.aux
-A level-1 auxiliary file: sections/Arhitektura/arhitektura.aux
 A level-1 auxiliary file: sections/Testiranje/testiranje.aux
 A level-1 auxiliary file: sections/Zakljucak/zakljucak.aux
 The style file: plainnat.bst
 Database file #1: literatura.bib
 You've used 1 entry,
             2773 wiz_defined-function locations,
-            606 strings with 5279 characters,
+            602 strings with 5134 characters,
 and the built_in function-call counts, 338 in all, are:
 = -- 28
 > -- 10

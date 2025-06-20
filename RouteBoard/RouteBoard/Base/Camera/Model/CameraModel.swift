@@ -62,7 +62,7 @@ class CameraModel: NSObject {
   let YIELD_EVERY_N_FRAME = 4
 
   lazy var previewStream: AsyncStream<UIImage> = {
-    AsyncStream(bufferingPolicy: .bufferingOldest(1)) { continuation in
+    AsyncStream(bufferingPolicy: .bufferingNewest(1)) { continuation in
       addToPreviewStream = { uiImage in
         if !self.isPreviewPaused {
           self.frameCounter += 1
