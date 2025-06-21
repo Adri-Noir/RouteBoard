@@ -22,7 +22,7 @@ Sloj domene sadrži temeljnu poslovnu logiku i pravila koja su neovisna o bilo k
 
 \subsection{Aplikacijski sloj}
 
-Aplikacijski sloj orkestrira korištenje domenskih objekata kako bi izvršio specifične korisničke slučajeve (eng. \textit {use cases}), djelujući kao posrednik između vanjskog svijeta i unutarnje poslovne logike. Za organizaciju, ovaj sloj implementira Mediator uzorak (engl. Mediator pattern). Svaki korisnički slučaj implementiran je kao trojka koji se sastoji od naredbe, što je poruka koja opisuje namjeru, validatora koji validira dobivenu naredbut te rukovatelja (engl. handler), klase koja prima poruku i izvršava potrebnu logiku. Ovaj sloj ovisi isključivo o sloju domene i definira logiku aplikacije bez znanja o tome kako će podaci biti prikazani ili pohranjeni.
+Aplikacijski sloj orkestrira korištenje domenskih objekata kako bi izvršio specifične korisničke slučajeve (eng. \textit {use cases}), djelujući kao posrednik između vanjskog svijeta i unutarnje poslovne logike. Za organizaciju, ovaj sloj implementira Mediator uzorak (engl. Mediator pattern). Svaki korisnički slučaj implementiran je kao trojka koji se sastoji od naredbe, što je poruka koja opisuje namjeru, validatora koji validira dobivenu naredbu te rukovatelja (engl. handler), klase koja prima poruku i izvršava potrebnu logiku. Ovaj sloj ovisi isključivo o sloju domene i definira logiku aplikacije bez znanja o tome kako će podaci biti prikazani ili pohranjeni.
 
 
 \subsection{Infrastrukturni sloj}
