@@ -71,23 +71,35 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
 
     public async Task<ICollection<Route>> GetRecentlyAscendedRoutes(Guid userId, CancellationToken cancellationToken = default)
     {
-        return await dbContext.Ascents
-            .Where(ascent => ascent.UserId == userId)
-            .OrderByDescending(ascent => ascent.AscentDate)
-            .Include(ascent => ascent.Route!.Sector)
-            .Include(ascent => ascent.Route!.Sector!.Crag)
-            .Include(ascent => ascent.Route!.RoutePhotos!)
-                .ThenInclude(photo => photo.Image)
-            .Include(ascent => ascent.Route!.RoutePhotos!)
-                .ThenInclude(photo => photo.PathLine)
-            .Include(ascent => ascent.Route!.RoutePhotos!)
-                .ThenInclude(photo => photo.CombinedPhoto)
-            .Include(ascent => ascent.Route!.Ascents!)
-            .Where(ascent => ascent.Route != null)
-            .Select(ascent => ascent.Route!)
+        var recentRouteIds = await dbContext.Ascents
+            .Where(a => a.UserId == userId && a.RouteId != null)
+            .OrderByDescending(a => a.AscentDate)
+            .Select(a => a.RouteId!)
             .Distinct()
             .Take(10)
             .ToListAsync(cancellationToken);
+
+        if (recentRouteIds.Count == 0)
+        {
+            return [];
+        }
+
+        var routes = await dbContext.Routes
+            .Where(r => recentRouteIds.Contains(r.Id))
+            .Include(r => r.Sector)
+            .Include(r => r.Sector!.Crag)
+            .Include(r => r.RoutePhotos!)
+                .ThenInclude(p => p.Image)
+            .Include(r => r.RoutePhotos!)
+                .ThenInclude(p => p.PathLine)
+            .Include(r => r.RoutePhotos!)
+                .ThenInclude(p => p.CombinedPhoto)
+            .Include(r => r.Ascents!)
+            .ToListAsync(cancellationToken);
+
+        return routes
+            .OrderBy(r => recentRouteIds.IndexOf(r.Id))
+            .ToList();
     }
 
     public async Task<ICollection<RoutePhoto>> GetRoutePhotos(Guid routeId, CancellationToken cancellationToken = default)
