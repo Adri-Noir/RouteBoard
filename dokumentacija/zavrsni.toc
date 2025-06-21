@@ -1,20 +1,58 @@
 \babel@toc {croatian}{}\relax 
 \contentsline {chapter}{\numberline {1}Uvod}{1}{}%
-\contentsline {chapter}{\numberline {2}Arhitektura i dizajn sustava "Alpinity"}{3}{}%
-\contentsline {section}{\numberline {2.1}Pozadinski sustav (Backend)}{4}{}%
-\contentsline {subsection}{\numberline {2.1.1}Sloj domene}{5}{}%
-\contentsline {subsection}{\numberline {2.1.2}Aplikacijski sloj}{5}{}%
-\contentsline {subsection}{\numberline {2.1.3}Infrastrukturni sloj}{5}{}%
-\contentsline {subsection}{\numberline {2.1.4}Prezentacijski sloj}{6}{}%
-\contentsline {subsection}{\numberline {2.1.5}Vanjski servisi}{6}{}%
-\contentsline {subsection}{\numberline {2.1.6}Model baze podataka}{6}{}%
-\contentsline {section}{\numberline {2.2}Mobilna aplikacija za iOS}{6}{}%
-\contentsline {subsection}{\numberline {2.2.1}Implementacija prepoznavanja smjerova pomoću OpenCV}{7}{}%
-\contentsline {subsection}{\numberline {2.2.2}Kreiranje referentne slike penjačkog smjera}{8}{}%
-\contentsline {section}{\numberline {2.3}Web aplikacija}{8}{}%
-\contentsline {chapter}{\numberline {3}Zaključak}{10}{}%
-\contentsline {section}{\numberline {3.1}Sažetak rada i ostvareni rezultati}{10}{}%
-\contentsline {section}{\numberline {3.2}Smjernice za budući razvoj}{10}{}%
-\contentsline {subsection}{\numberline {3.2.1}Poboljšanja procesa prepoznavanja}{10}{}%
-\contentsline {subsection}{\numberline {3.2.2}Integracija topografskih prikaza}{11}{}%
-\contentsline {chapter}{Literatura}{12}{}%
+\contentsline {chapter}{\numberline {2}Analiza postojećih izvora informacija za penjače}{3}{}%
+\contentsline {section}{\numberline {2.1}Tradicionalni tiskani penjački vodiči}{3}{}%
+\contentsline {section}{\numberline {2.2}Digitalne platforme}{5}{}%
+\contentsline {subsection}{\numberline {2.2.1}8a.nu}{5}{}%
+\contentsline {subsection}{\numberline {2.2.2}27crags.com}{7}{}%
+\contentsline {subsection}{\numberline {2.2.3}Ostale značajne digitalne platforme}{7}{}%
+\contentsline {section}{\numberline {2.3}Problem identifikacije penjačkog smjera: praktični izazovi}{8}{}%
+\contentsline {chapter}{\numberline {3}Računalni vid u prepoznavanju penjačkog smjera}{10}{}%
+\contentsline {section}{\numberline {3.1}Detekcija i opis značajki (engl. feature detection and description)}{12}{}%
+\contentsline {subsection}{\numberline {3.1.1}Odabir algoritma detekcije značajki}{12}{}%
+\contentsline {subsection}{\numberline {3.1.2}SIFT algoritam}{12}{}%
+\contentsline {section}{\numberline {3.2}Uparivanje značajki (engl. feature matching)}{14}{}%
+\contentsline {section}{\numberline {3.3}Homografija i transformacija perspektive}{16}{}%
+\contentsline {chapter}{\numberline {4}Aplikacija za prepoznavanje penjačkog smjera - Alpinity}{20}{}%
+\contentsline {section}{\numberline {4.1}Autentifikacija korisnika}{21}{}%
+\contentsline {subsection}{\numberline {4.1.1}Početni zaslon}{21}{}%
+\contentsline {subsection}{\numberline {4.1.2}Registracija korisnika}{23}{}%
+\contentsline {subsection}{\numberline {4.1.3}Prijava korisnika}{24}{}%
+\contentsline {subsection}{\numberline {4.1.4}Odjava korisnika}{24}{}%
+\contentsline {subsection}{\numberline {4.1.5}Navigacija do izvanmrežnog načina rada}{25}{}%
+\contentsline {section}{\numberline {4.2}Početni zaslon i glavna navigacija}{25}{}%
+\contentsline {section}{\numberline {4.3}Geografska karta penjališta}{27}{}%
+\contentsline {section}{\numberline {4.4}Pretraživanje penjališta, sektora, penjačkih smjerova i korisnika}{29}{}%
+\contentsline {section}{\numberline {4.5}Detalji penjališta}{31}{}%
+\contentsline {section}{\numberline {4.6}Detalji penjačkog smjera}{38}{}%
+\contentsline {section}{\numberline {4.7}Prepoznavanje penjačkih smjerova}{41}{}%
+\contentsline {section}{\numberline {4.8}Korisnički profil}{43}{}%
+\contentsline {subsection}{\numberline {4.8.1}Korisnički profil drugog korisnika}{46}{}%
+\contentsline {section}{\numberline {4.9}Unos i uređivanje podataka}{47}{}%
+\contentsline {subsection}{\numberline {4.9.1}Dodavanje, uređivanje i brisanje penjališta}{48}{}%
+\contentsline {subsection}{\numberline {4.9.2}Upravljanje korisničkim ovlastima}{49}{}%
+\contentsline {subsection}{\numberline {4.9.3}Dodavanje, uređivanje i brisanje sektora}{50}{}%
+\contentsline {subsection}{\numberline {4.9.4}Dodavanje, uređivanje i brisanje penjačkih smjerova}{52}{}%
+\contentsline {subsection}{\numberline {4.9.5}Uređivanje korisničkog profila}{55}{}%
+\contentsline {section}{\numberline {4.10}Izvanmrežni način rada}{56}{}%
+\contentsline {chapter}{\numberline {5}Arhitektura i dizajn sustava "Alpinity"}{59}{}%
+\contentsline {section}{\numberline {5.1}Pozadinski sustav (Backend)}{60}{}%
+\contentsline {subsection}{\numberline {5.1.1}Sloj domene}{61}{}%
+\contentsline {subsection}{\numberline {5.1.2}Aplikacijski sloj}{61}{}%
+\contentsline {subsection}{\numberline {5.1.3}Infrastrukturni sloj}{62}{}%
+\contentsline {subsection}{\numberline {5.1.4}Prezentacijski sloj}{62}{}%
+\contentsline {subsection}{\numberline {5.1.5}Vanjski servisi}{62}{}%
+\contentsline {section}{\numberline {5.2}Mobilna aplikacija za iOS}{62}{}%
+\contentsline {subsection}{\numberline {5.2.1}Implementacija prepoznavanja smjerova pomoću OpenCV}{63}{}%
+\contentsline {subsection}{\numberline {5.2.2}Kreiranje referentne slike penjačkog smjera}{65}{}%
+\contentsline {section}{\numberline {5.3}Web aplikacija}{65}{}%
+\contentsline {chapter}{\numberline {6}Testiranje i vrednovanje rješenja}{67}{}%
+\contentsline {section}{\numberline {6.1}Metodologija testiranja}{67}{}%
+\contentsline {section}{\numberline {6.2}Rezultati i analiza funkcionalnosti}{68}{}%
+\contentsline {section}{\numberline {6.3}Analiza performansi i uočenih problema}{70}{}%
+\contentsline {chapter}{\numberline {7}Zaključak}{75}{}%
+\contentsline {section}{\numberline {7.1}Sažetak rada i ostvareni rezultati}{75}{}%
+\contentsline {section}{\numberline {7.2}Smjernice za budući razvoj}{75}{}%
+\contentsline {subsection}{\numberline {7.2.1}Poboljšanja procesa prepoznavanja}{75}{}%
+\contentsline {subsection}{\numberline {7.2.2}Integracija topografskih prikaza}{76}{}%
+\contentsline {chapter}{Literatura}{77}{}%

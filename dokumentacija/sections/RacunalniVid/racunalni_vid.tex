@@ -34,7 +34,7 @@ Referentna slika penjačkog smjera te referentna slika linije penjačkog smjera 
 Prvi korak je detekcija i opis značajki, gdje se na referentnoj slici, unaprijed pripremljenoj slici stijene, i slici dobivenoj s kamere pronalaze ključne točke te se za svaku ključnu točku generira jedistveni numerički opis, odnosno deskriptor. Potom se uparuju značajke između slika uspoređujući deskriptore, tipično koristeći algoritam poput \textit{FLANN Matcher}. 
 Te uparene značajke koriste se u trećem koraku, gdje se računa procjena geometrijske transformacije. Računa se matematički model - homografija, koja opisuje kako je slika stijene dobivene s kamera rotirana, skalirana i perspektivno izobličena u odnosu na referentnu sliku. Konačno provodi se primjena transformacije, gdje se izračunati model koristi kako bi se referentna slika linije penjačkog smjera preslikala na sliku dobivenu s kamere. Time se postiže željeni efekt vizualizacije penjačkog smjera u stvarnom vremenu.
 
-U ovom poglavlju detaljno se obrađuju svi koraci procesa prepoznavanja penjačkog smjera, od detekcije značajki, preko uparivanja značajki do transformacije perspektive, koristeći prave slike penjačkog smjera i OpenCV biblioteku.
+U ovom poglavlju detaljno se obrađuju svi koraci procesa prepoznavanja penjačkog smjera, od detekcije značajki, preko uparivanja značajki do transformacije perspektive, koristeći prave slike penjačkog smjera i \textit{OpenCV} biblioteku.
 
 \input{sections/RacunalniVid/subsections/detekcija_znacajki.tex}
 \input{sections/RacunalniVid/subsections/uparivanje_znacajki.tex}

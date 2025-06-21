@@ -2,9 +2,6 @@ using Alpinity.Application.Interfaces;
 using Alpinity.Application.Interfaces.Repositories;
 using Alpinity.Application.Interfaces.Services;
 using Alpinity.Domain.Enums;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Alpinity.Application.Services;
 

@@ -44,7 +44,7 @@ Ova matrica $H$ transformira koordinate točaka s referentne slike penjačkog sm
 
 
 
-Kada je pronađena matrica $H$ s njom se može postići transformacija perspektive između dviju slika. Korištenjem homografije moguće je preslikati referentnu sliku linije penjačkog smjera na sliku dobivenu s kamere koristeći OpenCV biblioteku te algoritam \textit{warpPerspective}. Formula koju OpenCV koristi za tu transformaciju je sljedeća:
+Kada je pronađena matrica $H$ s njom se može postići transformacija perspektive između dviju slika. Korištenjem homografije moguće je preslikati referentnu sliku linije penjačkog smjera na sliku dobivenu s kamere koristeći \textit{OpenCV} biblioteku te algoritam \textit{warpPerspective}. Formula koju \textit{OpenCV} koristi za tu transformaciju je sljedeća:
 \begin{equation}
     \texttt{dst}(x,y) = \texttt{src} \left ( \frac{M_{11} x + M_{12} y + M_{13}}{M_{31} x + M_{32} y + M_{33}} ,
      \frac{M_{21} x + M_{22} y + M_{23}}{M_{31} x + M_{32} y + M_{33}} \right )
