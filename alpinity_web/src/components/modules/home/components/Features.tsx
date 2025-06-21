@@ -4,38 +4,35 @@ import { Compass, MapPin, Mountain, Users } from "lucide-react";
 export const Features = () => {
   const features = [
     {
-      name: "Discover Routes",
-      description: "Find thousands of curated routes for hiking, climbing, and outdoor activities.",
-      icon: MapPin,
-    },
-    {
-      name: "Detailed Information",
-      description: "Get comprehensive details including difficulty, elevation, distance, and estimated time.",
-      icon: Mountain,
-    },
-    {
-      name: "Navigation",
-      description: "Access offline maps and GPS tracking to navigate safely on your adventures.",
+      name: "AR Route Recognition",
+      description: "Identify climbing routes in real-time through augmented reality.",
       icon: Compass,
     },
     {
-      name: "Community",
-      description: "Connect with fellow outdoor enthusiasts, share experiences, and join group activities.",
+      name: "Offline Mode",
+      description: "Download crags & routes to keep guidance when the signal drops.",
+      icon: MapPin,
+    },
+    {
+      name: "Comprehensive Guide",
+      description: "Access grades, length, style & local beta for 12k+ routes.",
+      icon: Mountain,
+    },
+    {
+      name: "Personal Progress",
+      description: "Track ascents, stats and grade progression over time.",
       icon: Users,
     },
   ];
 
   return (
-    <div className="py-24">
+    <section className="py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
-          <h2 className="text-base font-semibold tracking-wide uppercase">Features</h2>
-          <p className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
-            Everything you need for your outdoor adventures
-          </p>
-          <p className="mx-auto mt-4 max-w-2xl text-xl">
-            Our platform provides comprehensive tools and resources to plan, navigate, and share your outdoor
-            experiences.
+          <h2 className="text-primary text-base font-semibold tracking-wide uppercase">Core Features</h2>
+          <p className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">Designed for climbers, by climbers</p>
+          <p className="text-muted-foreground mx-auto mt-4 max-w-2xl text-xl">
+            Powerful utilities that make planning, sending and logging climbs effortless.
           </p>
         </div>
 
@@ -49,12 +46,14 @@ export const Features = () => {
                 <CardTitle className="text-lg">{feature.name}</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-foreground text-base">{feature.description}</CardDescription>
+                <CardDescription className="text-foreground text-base leading-snug">
+                  {feature.description}
+                </CardDescription>
               </CardContent>
             </Card>
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };

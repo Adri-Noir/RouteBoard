@@ -9,19 +9,15 @@ export const CallToAction = () => {
         <Card>
           <div className="grid gap-6 md:grid-cols-2">
             <CardHeader className="pb-0 md:pb-6">
-              <CardTitle className="text-3xl font-bold tracking-tight">Ready to start your adventure?</CardTitle>
+              <CardTitle className="text-3xl font-bold tracking-tight">Ready to send?</CardTitle>
               <CardDescription className="mt-4 text-lg">
-                Join thousands of outdoor enthusiasts who have discovered amazing routes and experiences through our
-                platform.
+                Download Alpinity today and unlock the most advanced digital climbing guidebook.
               </CardDescription>
             </CardHeader>
             <CardContent className="flex items-center justify-center p-6">
               <div className="w-full max-w-md space-y-4">
                 <Button asChild size="lg" className="w-full">
-                  <Link href="/signup">Sign Up for Free</Link>
-                </Button>
-                <Button asChild variant="outline" size="lg" className="w-full">
-                  <Link href="/routes">Browse Routes</Link>
+                  <Link href="/register">Sign Up for Free</Link>
                 </Button>
               </div>
             </CardContent>

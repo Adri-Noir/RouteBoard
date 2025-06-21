@@ -8,9 +8,10 @@ export const ARFeature = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-2">
           <div className="text-left">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Detect Routes with AR</h2>
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Augmented Reality Detection</h2>
             <p className="text-muted-foreground mt-4 text-xl">
-              Lost in the mountains? Use AR to detect routes and find your way.
+              Simply point your camera at the crag – Alpinity draws the line of the route right on the rock, even
+              offline.
             </p>
             <div className="mt-6">
               <Button variant="default">
@@ -21,7 +22,7 @@ export const ARFeature = () => {
 
           <div className="relative h-[600px] overflow-hidden">
             <ImageWithLoading
-              src="/images/ar_feature.jpg"
+              src="/images/ar_feature.PNG"
               alt="AR Feature"
               fill
               className="rounded-lg object-scale-down"
