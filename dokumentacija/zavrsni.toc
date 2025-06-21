@@ -35,25 +35,25 @@
 \contentsline {subsection}{\numberline {4.9.4}Dodavanje, uređivanje i brisanje penjačkih smjerova}{51}{}%
 \contentsline {subsection}{\numberline {4.9.5}Uređivanje korisničkog profila}{54}{}%
 \contentsline {section}{\numberline {4.10}Izvanmrežni način rada}{55}{}%
-\contentsline {chapter}{\numberline {5}Arhitektura i dizajn sustava "Alpinity"}{57}{}%
-\contentsline {section}{\numberline {5.1}Pozadinski sustav (Backend)}{58}{}%
-\contentsline {subsection}{\numberline {5.1.1}Sloj domene}{59}{}%
-\contentsline {subsection}{\numberline {5.1.2}Aplikacijski sloj}{59}{}%
-\contentsline {subsection}{\numberline {5.1.3}Infrastrukturni sloj}{59}{}%
-\contentsline {subsection}{\numberline {5.1.4}Prezentacijski sloj}{60}{}%
-\contentsline {subsection}{\numberline {5.1.5}Vanjski servisi}{60}{}%
-\contentsline {subsection}{\numberline {5.1.6}Model baze podataka}{60}{}%
-\contentsline {section}{\numberline {5.2}Mobilna aplikacija za iOS}{60}{}%
-\contentsline {subsection}{\numberline {5.2.1}Implementacija prepoznavanja smjerova pomoću OpenCV}{61}{}%
-\contentsline {subsection}{\numberline {5.2.2}Kreiranje referentne slike penjačkog smjera}{62}{}%
-\contentsline {section}{\numberline {5.3}Web aplikacija}{62}{}%
-\contentsline {chapter}{\numberline {6}Testiranje i vrednovanje rješenja}{64}{}%
-\contentsline {section}{\numberline {6.1}Metodologija testiranja}{64}{}%
-\contentsline {section}{\numberline {6.2}Rezultati i analiza funkcionalnosti}{65}{}%
-\contentsline {section}{\numberline {6.3}Analiza performansi i uočenih problema}{67}{}%
-\contentsline {chapter}{\numberline {7}Zaključak}{72}{}%
-\contentsline {section}{\numberline {7.1}Sažetak rada i ostvareni rezultati}{72}{}%
-\contentsline {section}{\numberline {7.2}Smjernice za budući razvoj}{72}{}%
-\contentsline {subsection}{\numberline {7.2.1}Poboljšanja procesa prepoznavanja}{72}{}%
-\contentsline {subsection}{\numberline {7.2.2}Integracija topografskih prikaza}{73}{}%
-\contentsline {chapter}{Literatura}{74}{}%
+\contentsline {chapter}{\numberline {5}Arhitektura i dizajn sustava "Alpinity"}{58}{}%
+\contentsline {section}{\numberline {5.1}Pozadinski sustav (Backend)}{59}{}%
+\contentsline {subsection}{\numberline {5.1.1}Sloj domene}{60}{}%
+\contentsline {subsection}{\numberline {5.1.2}Aplikacijski sloj}{60}{}%
+\contentsline {subsection}{\numberline {5.1.3}Infrastrukturni sloj}{60}{}%
+\contentsline {subsection}{\numberline {5.1.4}Prezentacijski sloj}{61}{}%
+\contentsline {subsection}{\numberline {5.1.5}Vanjski servisi}{61}{}%
+\contentsline {subsection}{\numberline {5.1.6}Model baze podataka}{61}{}%
+\contentsline {section}{\numberline {5.2}Mobilna aplikacija za iOS}{61}{}%
+\contentsline {subsection}{\numberline {5.2.1}Implementacija prepoznavanja smjerova pomoću OpenCV}{62}{}%
+\contentsline {subsection}{\numberline {5.2.2}Kreiranje referentne slike penjačkog smjera}{63}{}%
+\contentsline {section}{\numberline {5.3}Web aplikacija}{63}{}%
+\contentsline {chapter}{\numberline {6}Testiranje i vrednovanje rješenja}{65}{}%
+\contentsline {section}{\numberline {6.1}Metodologija testiranja}{65}{}%
+\contentsline {section}{\numberline {6.2}Rezultati i analiza funkcionalnosti}{66}{}%
+\contentsline {section}{\numberline {6.3}Analiza performansi i uočenih problema}{68}{}%
+\contentsline {chapter}{\numberline {7}Zaključak}{73}{}%
+\contentsline {section}{\numberline {7.1}Sažetak rada i ostvareni rezultati}{73}{}%
+\contentsline {section}{\numberline {7.2}Smjernice za budući razvoj}{73}{}%
+\contentsline {subsection}{\numberline {7.2.1}Poboljšanja procesa prepoznavanja}{73}{}%
+\contentsline {subsection}{\numberline {7.2.2}Integracija topografskih prikaza}{74}{}%
+\contentsline {chapter}{Literatura}{75}{}%
