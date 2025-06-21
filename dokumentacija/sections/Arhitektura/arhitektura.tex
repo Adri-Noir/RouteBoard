@@ -10,7 +10,7 @@ Komunikacija između klijenata i pozadinskog sustava odvija se putem definiranog
     \label{fig:arhitektura}
 \end{figure}
 
-Slika~\ref{fig:arhitektura} prikazuje makro arhitekturu sustava te međusobne veze između komponenata. Mobilna i web aplikacija su neovisne komponente koje komuniciraju s pozadinskim sustavom putem REST servisa. Kada postoji neka slika, primjerice na detaljnom pregledu penjačke lokacije, pozadinski sustav šalje te slike u obliku poveznice na Azure Blog Storage servis. Također, web i mobilna aplikacije obije nemaju direktan pristup \textit{open-meteo} API-ju ni bazi podataka u obliku PostgreSQL baze podataka već se informacije agregiraju i šalju preko pozadinskog sustava.
+Slika~\ref{fig:arhitektura} prikazuje makro arhitekturu sustava te međusobne veze između komponenata. Mobilna i web aplikacija su neovisne komponente koje komuniciraju s pozadinskim sustavom putem REST servisa. Kada postoji neka slika, primjerice na detaljnom pregledu penjališta, pozadinski sustav šalje te slike u obliku poveznice na Azure Blog Storage servis. Također, web i mobilna aplikacije obije nemaju direktan pristup \textit{open-meteo} API-ju ni bazi podataka u obliku PostgreSQL baze podataka već se informacije agregiraju i šalju preko pozadinskog sustava.
 
 \section{Pozadinski sustav (Backend)}
 
@@ -18,7 +18,7 @@ Pozadinski sustav predstavlja središnji dio cjelokupne arhitekture, odgovoran z
 
 \subsection{Sloj domene}
 
-Sloj domene sadrži temeljnu poslovnu logiku i pravila koja su neovisna o bilo kojoj vanjskoj tehnologiji. Ovaj sloj nema ovisnosti o drugim slojevima u arhitekturi. Njegove ključne komponente su entiteti, koji predstavljaju objekte poslovne domene poput korisnika, penjačkih lokacija, smjerova te objekte informacija vremenske prognoze i reverznog geokodiranja, definirajući njihovo stanje i ponašanje. Uz objekte domene, ovaj sloj sadrži i enumeracije koje predstavljaju moguće vrijednosti za određene objekte poput tipove penjačkih smjerova ili načine uspona.
+Sloj domene sadrži temeljnu poslovnu logiku i pravila koja su neovisna o bilo kojoj vanjskoj tehnologiji. Ovaj sloj nema ovisnosti o drugim slojevima u arhitekturi. Njegove ključne komponente su entiteti, koji predstavljaju objekte poslovne domene poput korisnika, penjališta, smjerova te objekte informacija vremenske prognoze i reverznog geokodiranja, definirajući njihovo stanje i ponašanje. Uz objekte domene, ovaj sloj sadrži i enumeracije koje predstavljaju moguće vrijednosti za određene objekte poput tipove penjačkih smjerova ili načine uspona.
 
 \subsection{Aplikacijski sloj}
 
@@ -36,7 +36,7 @@ Prezentacijski sloj je ulazna točka u pozadinski sustav, a u ovom slučaju to j
 
 \subsection{Vanjski servisi}
 
-Za pohranu slika, kao što su profilne slike korisnika i referentne slike penjačkih smjerova, koristi se Azure Blob Storage. Ovaj servis je odabran zbog pouzdanosti i lakoće integracije s pozadinskim sustavom. Kako bi se obogatile informacije penjačke lokacije koriste se dva vanjska servisa. Za dohvat detaljne vremenske prognoze za penjačke lokacije koristi se open-meteo.com servis. Prednosti open-meteo servisa naspram drugih servisa za vremensku prognozu je mogućnost pregleda vremenske prognoze daleko u budućnosti, velike količine podataka koji se mogu dohvatiti te mogućnost izbora točno određenih podataka koji su potrebni. Za dohvat imena geografske lokacije iz GPS koordinata (reverzno geokodiranje) koristi se Mapbox servis. Mapbox servis je odabran jer je već korišten na web aplikaciji i nudi dobru podršku za reverzno geokodiranje.
+Za pohranu slika, kao što su profilne slike korisnika i referentne slike penjačkih smjerova, koristi se Azure Blob Storage. Ovaj servis je odabran zbog pouzdanosti i lakoće integracije s pozadinskim sustavom. Kako bi se obogatile informacije penjališta koriste se dva vanjska servisa. Za dohvat detaljne vremenske prognoze penjališta koristi se open-meteo.com servis. Prednosti open-meteo servisa naspram drugih servisa za vremensku prognozu je mogućnost pregleda vremenske prognoze daleko u budućnosti, velike količine podataka koji se mogu dohvatiti te mogućnost izbora točno određenih podataka koji su potrebni. Za dohvat imena geografske lokacije iz GPS koordinata (reverzno geokodiranje) koristi se Mapbox servis. Mapbox servis je odabran jer je već korišten na web aplikaciji i nudi dobru podršku za reverzno geokodiranje.
 
 \subsection{Model baze podataka}
 Vidi sa mentoricom jel ovo previše.
@@ -51,7 +51,7 @@ Za komunikaciju s pozadinskog sustava, aplikacija koristi swift-openapi-generato
 
 Prepoznavanje penjačkih smjerova pomoću proširene stvarnosti implementirano je korištenjem biblioteke OpenCV. Svi računski intezivni zadaci računalnog vida izvršavaju se izravno na korisnikovom uređaju.
 
-Da bi se postigao rad u stvarnom vremenu, ključno je efikasno upravljati kardovima koji dolaze sa kamere. Aplikacija koristi moderni pristup temeljen na asinkronim tokovima podataka (eng. \textit{asynchronous streams}). Kamera kontinuirano emitira kadrove, no obrada svakog pojedinog kadra bila bi računski preskupa i dovela bi do zagušenja sustava. Zbog toga je implementiran mehanizam za prorjeđivanje kadrova (eng. \textit{frame dropping}). 
+Da bi se postigao rad u stvarnom vremenu, ključno je efikasno upravljati kardovima koji dolaze s kamere. Aplikacija koristi moderni pristup temeljen na asinkronim tokovima podataka (eng. \textit{asynchronous streams}). Kamera kontinuirano emitira kadrove, no obrada svakog pojedinog kadra bila bi računski preskupa i dovela bi do zagušenja sustava. Zbog toga je implementiran mehanizam za prorjeđivanje kadrova (eng. \textit{frame dropping}). 
 Koristi se \textit{AsyncStream} s politikom \textit{bufferingOldest(1)}, što znači da se u svakom trenutku čuva samo najstariji neobrađeni kadar. Ovaj pristup osigurava da sustav za obradu, time i korisnikov uređaj, nije preopterećen, čak i ako obrada jednog kadra traje duže od intervala između dva kadra.
 
 Svaki kadar koji se propusti na obradu prolazi nizom operacija definiranih OpenCV funkcijama, sljedeći teorijske korake opisane u 3. poglavlju. Prvo se, radi optimizacije, smanjuje rezolucija ulaznog kadra ovisno o jačini prepoznavanja koje je korisnik postavio. Na tako pripremljenoj slici primjenjuje se SIFT algoritam pozivom metode \textit{sift.detectAndCompute}, koja ekstrahira ključne točke i njihove deskriptore. 

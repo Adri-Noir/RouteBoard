@@ -1,10 +1,10 @@
 \section{Unos i uređivanje podataka}
 
-Kako bi sustav bio dinamičan i ažuran, aplikacija omogućuje ovlaštenim korisnicima kreiranje i uređivanje svih hijerarhijskih razina podataka, od penjačke lokacije do pojedinačnih penjačkih smjerova.
+Kako bi sustav bio dinamičan i ažuran, aplikacija omogućuje ovlaštenim korisnicima kreiranje i uređivanje svih hijerarhijskih razina podataka, od penjališta do pojedinačnih penjačkih smjerova.
 
-\subsection{Dodavanje, uređivanje i brisanje penjačkih lokacija}
+\subsection{Dodavanje, uređivanje i brisanje penjališta}
 
-Na korisničkom profilu omogućeno je kreiranje nove penjačke lokacije u izborniku u gornjem desnom kutu korisničkog profila. Na web aplikaciji ta opcija se nalazi u navigacijskoj traci u postavkama korisničkog izbornika. Funkcionalnost kreiranja nove penjačke lokacije nije dostupna svim korisnicima, već je ograničena na one s posebnim ovlastima, a to su administratori sustava i verificirani korisnici (eng. \textit{creators}). 
+Na korisničkom profilu omogućeno je kreiranje novog penjališta u izborniku u gornjem desnom kutu korisničkog profila. Na web aplikaciji ta opcija se nalazi u navigacijskoj traci u postavkama korisničkog izbornika. Funkcionalnost kreiranja novog penjališta nije dostupna svim korisnicima, već je ograničena na one s posebnim ovlastima, a to su administratori sustava i verificirani korisnici (eng. \textit{creators}). 
 
 \begin{figure}[H]
     \centering
@@ -21,11 +21,11 @@ Na korisničkom profilu omogućeno je kreiranje nove penjačke lokacije u izborn
         \caption{Web aplikacija}
         \label{fig:dodavanje_lokacije_web}
     \end{subfigure}
-    \caption{Dodavanje nove penjačke lokacije}
+    \caption{Dodavanje novog penjališta}
     \label{fig:dodavanje_lokacije}
 \end{figure}
 
-Ovlašteni korisnik odabirom ove opcije pristupa formi za unos nove penjačke lokacije (slika~\ref{fig:dodavanje_lokacije}). Potrebno je unijeti naziv penjačke lokacije, opcionalni opis koji može sadržavati informacije o povijesti regije ili slične zanimljivosti, te naziv šire geografske lokacije. Ime geografske lokacije korisnik može samostalno dodati, no ako ne postoji, aplikacija će automatski dodati naziv geografske lokacije na temelju lokacije penjačke lokacije. Ključno, korisnik može dodati jednu ili više fotografija koje vizualno predstavljaju penjačku lokaciju. Nakon unosa svih podataka, nova penjačka lokacija se stvara u sustavu i postaje dostupna svim korisnicima.
+Ovlašteni korisnik odabirom ove opcije pristupa formi za unos novog (slika~\ref{fig:dodavanje_lokacije}). Potrebno je unijeti naziv penjališta, opcionalni opis koji može sadržavati informacije o povijesti regije ili slične zanimljivosti, te naziv šire geografske lokacije. Ime geografske lokacije korisnik može samostalno dodati, no ako ne postoji, aplikacija će automatski dodati naziv geografske lokacije na temelju lokacije penjališta. Ključno, korisnik može dodati jednu ili više fotografija koje vizualno predstavljaju penjalište. Nakon unosa svih podataka, novo penjalište se stvara u sustavu i postaje dostupna svim korisnicima.
 
 \begin{figure}[H]
     \centering
@@ -42,18 +42,18 @@ Ovlašteni korisnik odabirom ove opcije pristupa formi za unos nove penjačke lo
         \caption{Web aplikacija}
         \label{fig:uredjivanje_lokacije_web}
     \end{subfigure}
-    \caption{Uređivanje postojeće penjačke lokacije}
+    \caption{Uređivanje postojećeg penjališta}
     \label{fig:uredjivanje_lokacije}
 \end{figure}
 
-Osim kreiranja novih, ovlašteni korisnici imaju mogućnost i uređivanja postojećih penjačkih lokacija (slika~\ref{fig:uredjivanje_lokacije}). Pristup ovoj funkcionalnosti omogućen je u izborniku na zaslonu s detaljnim pregledom penjačke lokacije. 
+Osim kreiranja novih, ovlašteni korisnici imaju mogućnost i uređivanja postojećih penjališta (slika~\ref{fig:uredjivanje_lokacije}). Pristup ovoj funkcionalnosti omogućen je u izborniku na zaslonu s detaljnim pregledom penjališta. 
 Sučelje za uređivanje omogućuje promjenu svih prethodno unesenih podataka, uključujući naziv, opis i naziv geografske lokacije. Korisnici također mogu upravljati galerijom fotografija, dodajući nove ili uklanjajući postojeće slike. 
 
-Brisanje penjačke lokacije dostupno je u izborniku na zaslonu detaljnog pregleda penjačke lokacije. Klikom na opciju "Izbriši penjačku lokaciju" (eng. \textit{Delete crag}) korisniku se prikazuje prozor s upitom o potvrdi brisanja. Ako korisnik potvrdi brisanje, penjačka lokacija se briše iz sustava i postaje nedostupno svim korisnicima.
+Brisanje penjališta dostupno je u izborniku na zaslonu detaljnog pregleda penjališta. Klikom na opciju "Izbriši penjalište" (eng. \textit{Delete crag}) korisniku se prikazuje prozor s upitom o potvrdi brisanja. Ako korisnik potvrdi brisanje, penjalište se briše iz sustava i postaje nedostupno svim korisnicima.
 
 \subsection{Upravljanje korisničkim ovlastima}
 
-Kako bi se osigurala kontrola nad unosom i uređivanjem podataka, a istovremeno omogućio doprinos više ljudi, sustav implementira mehanizam za upravljanje korisničkim ovlastima na razini pojedine penjačke lokacije. Ovoj funkcionalnosti imaju pristup samo vlasnik penjačke lokacije i administratori sustava putem izbornika na zaslonu s detaljnim pregledom penjačke lokacije. 
+Kako bi se osigurala kontrola nad unosom i uređivanjem podataka, a istovremeno omogućio doprinos više ljudi, sustav implementira mehanizam za upravljanje korisničkim ovlastima na razini pojedine penjališta. Ovoj funkcionalnosti imaju pristup samo vlasnik penjališta i administratori sustava putem izbornika na zaslonu s detaljnim pregledom penjališta. 
 
 \begin{figure}[H]
     \centering
@@ -74,12 +74,12 @@ Kako bi se osigurala kontrola nad unosom i uređivanjem podataka, a istovremeno 
     \label{fig:upravljanje_ovlastima}
 \end{figure}
 
-Pristupom pregledu za upravljanje ovlastima prikazuje se popis svih korisnika koji trenutno imaju ili mogu dobiti dozvole za uređivanje sadržaja na toj penjačkoj lokaciji (slika~\ref{fig:upravljanje_ovlastima}). Sučelje omogućuje pretragu korisnika po korisničkom imenu te odabir jednog ili više korisnika kojima se žele dodijeliti ili oduzeti ovlasti uređivanja. Time odabrani korisnik dobiva prava uređivanja penjačke lokacije bez davanja potpunih administrativnih ili kreator prava.
+Pristupom pregledu za upravljanje ovlastima prikazuje se popis svih korisnika koji trenutno imaju ili mogu dobiti dozvole za uređivanje sadržaja na tom penjalištu (slika~\ref{fig:upravljanje_ovlastima}). Sučelje omogućuje pretragu korisnika po korisničkom imenu te odabir jednog ili više korisnika kojima se žele dodijeliti ili oduzeti ovlasti uređivanja. Time odabrani korisnik dobiva prava uređivanja penjališta bez davanja potpunih administrativnih ili kreator prava.
 
 
 \subsection{Dodavanje, uređivanje i brisanje sektora}
 
-Unutar svake penjačke lokacije, ovlašteni korisnici mogu dalje strukturirati sadržaj kreiranjem i uređivanjem sektora. Pristup opciji za dodavanje nalazi se u izborniku na zaslonu s detaljnim pregledom penjačke lokacije. 
+Unutar svakog penjališta, ovlašteni korisnici mogu dalje strukturirati sadržaj kreiranjem i uređivanjem sektora. Pristup opciji za dodavanje nalazi se u izborniku na zaslonu s detaljnim pregledom penjališta. 
 
 \begin{figure}[H]
     \centering
@@ -100,7 +100,7 @@ Unutar svake penjačke lokacije, ovlašteni korisnici mogu dalje strukturirati s
     \label{fig:dodavanje_sektora}
 \end{figure}
 
-Forma za unos novog sektora zahtijeva od korisnika unos naziva sektora i opcionalnog opisa, koji može sadržavati specifične informacije koje su specifične za sektore te ostale relevantne informacije (slika~\ref{fig:dodavanje_sektora}). Osim naziva zahtjeva se i upis lokacije u obliku koordinata. Pregledi taj proces olakšavaju uporabom geografske karte, koja omogućuje korisniku da odabere lokaciju sektora na karti ili pretraživanjem po nazivu lokacije. Kao i kod penjačke lokacije, moguće je dodati jednu ili više fotografija koje vizualno predstavljaju sektor.
+Forma za unos novog sektora zahtijeva od korisnika unos naziva sektora i opcionalnog opisa, koji može sadržavati specifične informacije koje su specifične za sektore te ostale relevantne informacije (slika~\ref{fig:dodavanje_sektora}). Osim naziva zahtjeva se i upis lokacije u obliku koordinata. Pregledi taj proces olakšavaju uporabom geografske karte, koja omogućuje korisniku da odabere lokaciju sektora na karti ili pretraživanjem po nazivu lokacije. Kao i kod penjališta, moguće je dodati jednu ili više fotografija koje vizualno predstavljaju sektor.
 
 Postojeći sektori mogu se uređivati na sličan način. Odabirom određenog sektora, korisniku se prikaže izbornik u kojem se nalazi opcija za uređivanje sektora. Forma omogućuje uređivanje  naziva, opisa, lokaciju i galeriju fotografija. (slika~\ref{fig:uredjivanje_sektora})
 
@@ -123,12 +123,12 @@ Postojeći sektori mogu se uređivati na sličan način. Odabirom određenog sek
     \label{fig:uredjivanje_sektora}
 \end{figure}
 
-Brisanje sektora dostupno je izborniku na zaslonu s detaljnim pregledom penjačke lokacije kada je označen penjački smjer. Klikom na opciju "Izbriši sektor" (eng. \textit{Delete sector}) korisniku se prikazuje prozor s upitom o potvrdi brisanja. Ako korisnik potvrdi brisanje, sektor se briše iz sustava i postaje nedostupno svim korisnicima.
+Brisanje sektora dostupno je izborniku na zaslonu s detaljnim pregledom penjališta kada je označen penjački smjer. Klikom na opciju "Izbriši sektor" (eng. \textit{Delete sector}) korisniku se prikazuje prozor s upitom o potvrdi brisanja. Ako korisnik potvrdi brisanje, sektor se briše iz sustava i postaje nedostupno svim korisnicima.
 
 
 \subsection{Dodavanje, uređivanje i brisanje penjačkih smjerova}
 
-Na najnižoj hijerarhijskoj razini nalazi se unos i uređivanje pojedinačnih penjačkih smjerova. Ovlašteni korisnici mogu dodavati nove penjačke smjerove unutar određenog sektora. Pristup ovoj funkcionalnosti omogućen je u izborniku na zaslonu s detaljnim pregledom penjačke lokacije sa označenim sektorom. 
+Na najnižoj hijerarhijskoj razini nalazi se unos i uređivanje pojedinačnih penjačkih smjerova. Ovlašteni korisnici mogu dodavati nove penjačke smjerove unutar određenog sektora. Pristup ovoj funkcionalnosti omogućen je u izborniku na zaslonu s detaljnim pregledom penjališta sa označenim sektorom. 
 
 \begin{figure}[H]
     \centering

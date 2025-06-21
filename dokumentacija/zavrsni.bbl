@@ -1,4 +1,4 @@
-\begin{thebibliography}{3}
+\begin{thebibliography}{4}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -10,9 +10,9 @@ D.G. Lowe.
 \newblock Distinctive image features from scale-invariant keypoints.
 \newblock \emph{International Journal of Computer Vision}, siječanj 2004.
 
-\bibitem[OpenCV()]{flannmatcher}
+\bibitem[OpenCV(2025)]{flannmatcher}
 OpenCV.
-\newblock Opencv: Feature matching.
+\newblock \emph{OpenCV: Feature Matching}, 2025.
 \newblock URL
   \url{https://docs.opencv.org/4.x/dc/dc3/tutorial_py_matcher.html}.
 
@@ -23,5 +23,13 @@ OpenCV.
   \url{https://theoxfordblue.co.uk/why-does-everyone-suddenly-want-to-rock-climb/},
   siječanj 2025.
 \newblock Pristupljeno 7. lipnja 2025.
+
+\bibitem[Torralba et~al.(2024)Torralba, Isola, and Freeman]{foundationsCVbook}
+A.~Torralba, P.~Isola, and W.T. Freeman.
+\newblock \emph{Foundations of Computer Vision}.
+\newblock Adaptive Computation and Machine Learning series. MIT Press, 2024.
+\newblock ISBN 9780262378666.
+\newblock URL
+  \url{https://mitpress.mit.edu/9780262048972/foundations-of-computer-vision/}.
 
 \end{thebibliography}
