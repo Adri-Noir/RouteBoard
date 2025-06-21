@@ -69,36 +69,38 @@ public class RouteRepository(ApplicationDbContext dbContext) : IRouteRepository
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<ICollection<Route>> GetRecentlyAscendedRoutes(Guid userId, CancellationToken cancellationToken = default)
+    public async Task<ICollection<Route>> GetRecentlyAscendedRoutes(
+        Guid userId,
+        CancellationToken cancellationToken = default)
     {
-        var recentRouteIds = await dbContext.Ascents
+        var orderedRouteIds = await dbContext.Ascents
             .Where(a => a.UserId == userId && a.RouteId != null)
             .OrderByDescending(a => a.AscentDate)
+            .ThenByDescending(a => a.Id)
             .Select(a => a.RouteId!)
-            .Distinct()
-            .Take(10)
+            .Take(200)
             .ToListAsync(cancellationToken);
 
+        var recentRouteIds = orderedRouteIds
+            .Distinct()
+            .Take(10)
+            .ToList();
+
         if (recentRouteIds.Count == 0)
-        {
             return [];
-        }
 
         var routes = await dbContext.Routes
             .Where(r => recentRouteIds.Contains(r.Id))
             .Include(r => r.Sector)
             .Include(r => r.Sector!.Crag)
-            .Include(r => r.RoutePhotos!)
-                .ThenInclude(p => p.Image)
-            .Include(r => r.RoutePhotos!)
-                .ThenInclude(p => p.PathLine)
-            .Include(r => r.RoutePhotos!)
-                .ThenInclude(p => p.CombinedPhoto)
+            .Include(r => r.RoutePhotos!).ThenInclude(p => p.Image)
+            .Include(r => r.RoutePhotos!).ThenInclude(p => p.PathLine)
+            .Include(r => r.RoutePhotos!).ThenInclude(p => p.CombinedPhoto)
             .Include(r => r.Ascents!)
             .ToListAsync(cancellationToken);
 
-        return routes
-            .OrderBy(r => recentRouteIds.IndexOf(r.Id))
+        return recentRouteIds
+            .Select(id => routes.First(r => r.Id == id))
             .ToList();
     }
 
