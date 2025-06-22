@@ -159,14 +159,12 @@ struct SingleResultView: View {
           .padding(.vertical, 2)
           .background(Color.purple.opacity(0.7))
           .clipShape(RoundedRectangle(cornerRadius: 4))
+      }
 
-        Spacer()
-
-        if let ascentsCount = result.ascentsCount {
-          Text("\(ascentsCount) Ascents")
-            .font(.caption)
-            .foregroundColor(.gray)
-        }
+      if let ascentsCount = result.ascentsCount {
+        Text("\(ascentsCount) Ascents")
+          .font(.caption)
+          .foregroundColor(.gray)
       }
     }
   }

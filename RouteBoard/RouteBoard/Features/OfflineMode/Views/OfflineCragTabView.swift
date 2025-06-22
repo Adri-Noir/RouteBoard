@@ -65,7 +65,7 @@ public struct OfflineCragTabView: View {
       }
     } else {
       ScrollView {
-        VStack(spacing: 10) {
+        LazyVStack(spacing: 10) {
           ForEach(crags, id: \.id) { crag in
             OfflineCragRowView(
               crag: crag,

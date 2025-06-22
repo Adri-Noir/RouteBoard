@@ -45,7 +45,7 @@ public struct OfflineRoutesTabView: View {
       }
     } else {
       ScrollView {
-        VStack(spacing: 10) {
+        LazyVStack(spacing: 10) {
           ForEach(routes, id: \.id) { route in
             OfflineRouteRowView(
               route: route,
