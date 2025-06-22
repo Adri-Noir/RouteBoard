@@ -56,6 +56,9 @@ public class SearchHistoryRepository : ISearchHistoryRepository
             // Include User profile data
             .Include(sh => sh.ProfileUser)
             .ThenInclude(u => u.ProfilePhoto)
+            .Include(sh => sh.ProfileUser)
+            .ThenInclude(u => u.Ascents!)
+
             // Filter by the searching user
             .Where(sh => sh.SearchingUserId == searchingUserId)
             .OrderByDescending(sh => sh.SearchedAt)

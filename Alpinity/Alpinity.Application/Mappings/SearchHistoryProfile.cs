@@ -80,6 +80,9 @@ public class SearchHistoryProfile : Profile
             .ForMember(dest => dest.ProfileUsername, opt => opt.MapFrom(src =>
                 src.ProfileUser != null ? src.ProfileUser.Username : null))
 
+            .ForMember(dest => dest.AscentsCount, opt => opt.MapFrom(src =>
+                src.ProfileUser != null && src.ProfileUser.Ascents != null ? src.ProfileUser.Ascents.Count : 0))
+
             .ForMember(dest => dest.Photo, opt => opt.MapFrom(src =>
                 src.EntityType == SearchResultItemType.UserProfile && src.ProfileUser != null ? src.ProfileUser.ProfilePhoto :
                 src.EntityType == SearchResultItemType.Crag && src.Crag != null ? src.Crag.Photos.FirstOrDefault() :
