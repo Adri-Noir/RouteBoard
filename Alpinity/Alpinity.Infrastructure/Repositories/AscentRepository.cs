@@ -41,6 +41,7 @@ public class AscentRepository(
             .Include(a => a.User)
             .ThenInclude(u => u.ProfilePhoto)
             .Where(a => a.RouteId == routeId)
+            .OrderByDescending(a => a.AscentDate)
             .ToListAsync(cancellationToken);
     }
 
