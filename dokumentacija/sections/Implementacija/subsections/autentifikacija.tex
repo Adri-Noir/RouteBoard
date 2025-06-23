@@ -1,24 +1,24 @@
 \section{Autentifikacija korisnika}
 
-\subsection{Početni zaslon}
+\subsection{Ulazni zaslon aplikacije}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.35\textwidth]{images/implementacija/first.png}
-  \caption{Početni zaslon mobilne aplikacije "Alpinity"}
-  \label{fig:prvi_zaslon}
+  \caption{Ulazni zaslon mobilne aplikacije "Alpinity"}
+  \label{fig:ulazni_zaslon}
 \end{figure}
 
-Prvi korak u korištenju aplikacije "Alpinity" je početni zaslon koji služi kao ulazna točka u mobilnu aplikaciju (slika~\ref{fig:prvi_zaslon}). Ovaj zaslon nudi tri opcije, prijavu, registraciju i pristup izvanmrežnom načinu rada (eng. \textit{offline mode}).
+Nakon pokretanja aplikacije "Alpinity", korisnika dočekuje ulazni zaslon koji predstavlja početnu točku korištenja mobilne aplikacije (slika~\ref{fig:ulazni_zaslon}). Na ovom zaslonu korisnik može odabrati jednu od tri ponuđene opcije: prijavu, registraciju ili pristup izvanmrežnom načinu rada (eng. \textit{offline mode}).
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{images/implementacija/web/pocetni_zaslon.png}
-  \caption{Početni zaslon web aplikacije "Alpinity"}
-  \label{fig:prvi_zaslon_web}
+  \caption{Ulazni zaslon web aplikacije "Alpinity"}
+  \label{fig:ulazni_zaslon_web}
 \end{figure}
 
-Na web aplikaciji, korisniku se prikazuje početni zaslon koji sadrži opis funkcionalnosti aplikacije (slika~\ref{fig:prvi_zaslon_web}). U gornjem desnom kutu nalazi se gumb za prijavu koji vodi na stranicu za prijavu iz koje se može odabrati opcija za registraciju.
+U web aplikaciji, korisniku se također prikazuje ulazni zaslon s opisom funkcionalnosti aplikacije (slika~\ref{fig:ulazni_zaslon_web}). U gornjem desnom kutu nalazi se gumb za prijavu koji vodi na stranicu za prijavu, s mogućnošću odabira registracije.
 
 \subsection{Registracija korisnika}
 
@@ -41,7 +41,7 @@ Na web aplikaciji, korisniku se prikazuje početni zaslon koji sadrži opis funk
   \end{figure}
 
 
-Registracija korisnika je proces kojim se stvaraju novi korisnički računi (slika~\ref{fig:registracija_usporedba}). Od korisnika se traži unos osnovnih podataka, kao što su ime, prezime, jedinstveno korisničko ime, adresa e-pošte i lozinka. Sustav također omogućuje dodavanje profilne fotografije i datuma rođenja. Proces registracije omogućuje kasnije povezivanje unesenih podataka, poput unosa u dnevnik uspona.
+Registracija korisnika je proces kojim se stvaraju novi korisnički računi (slika~\ref{fig:registracija_usporedba}). Od korisnika se traži unos osnovnih podataka, kao što su ime, prezime, jedinstveno korisničko ime, adresa e-pošte i lozinka. Aplikacija također omogućuje dodavanje profilne fotografije i datuma rođenja. Proces registracije omogućuje kasnije povezivanje unesenih podataka, poput unosa u dnevnik uspona.
 
 \subsection{Prijava korisnika}
 
@@ -63,14 +63,14 @@ Registracija korisnika je proces kojim se stvaraju novi korisnički računi (sli
   \label{fig:prijava_usporedba}
   \end{figure}
 
-Prijava korisnika omogućuje korisniku prijavu u sustav koristeći korisničko ime ili e-mail adresu te lozinku (slika~\ref{fig:prijava_usporedba}). Nakon uspješne prijave, aplikacija pohranjuje korisničku sesiju na uređaj, čime se eliminira potreba za ponovnim unosom podataka pri sljedećem pokretanju aplikacije, te korisnik je automatski preusmjeren na početni zaslon.
+Prijava korisnika omogućuje korisniku prijavu u aplikaciju koristeći korisničko ime ili e-mail adresu te lozinku (slika~\ref{fig:prijava_usporedba}). Nakon uspješne prijave, aplikacija pohranjuje korisničku sesiju na uređaj, čime se eliminira potreba za ponovnim unosom podataka pri sljedećem pokretanju aplikacije, te korisnik je automatski preusmjeren na početni zaslon.
 
-Nakon prijave na web aplikaciji, korisnik se vraća na početni zaslon web aplikacije gdje sada korisnik može vidjeti mogućnosti koje su dostupne samo nakon prijave poput pretraživanja te "Istraži" (eng. \textit{Explore}) stranice.
+Nakon prijave na web aplikaciji, korisnik je preusmjeren na početni zaslon web aplikacije gdje sada korisnik može vidjeti mogućnosti koje su dostupne samo nakon prijave poput pretraživanja te "Istraži" (eng. \textit{Explore}) stranice.
 
 
 \subsection{Odjava korisnika}
 
-Odjava korisnika je proces kojim se korisnik odjavi iz sustava. Korisnik se može odjaviti na preko vlastitog profila, gdje se nalazi gumb "Odjava" (eng. \textit{Logout}) u izborniku. Nakon odjave, korisnik se vraća na početni zaslon za prijavu i prekida se korisnička sesija.
+Odjava korisnika je proces kojim se korisnik odjavi iz aplikacije. Korisnik se može odjaviti unutar pregleda vlastitog profila, gdje se nalazi gumb "Odjava" (eng. \textit{Logout}) u izborniku. Nakon odjave, korisnik je preusmjeren na početni zaslon za prijavu i prekida se korisnička sesija.
 
 \subsection{Navigacija do izvanmrežnog načina rada}
 
