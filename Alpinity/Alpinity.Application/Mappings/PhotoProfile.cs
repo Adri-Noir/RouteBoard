@@ -2,6 +2,7 @@ using Alpinity.Application.Interfaces.Repositories;
 using Alpinity.Application.UseCases.Photos.Dtos;
 using Alpinity.Domain.Entities;
 using AutoMapper;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Alpinity.Application.Mappings;
 
@@ -30,19 +31,33 @@ public class PhotoProfile : Profile
 public class TemporaryUrlResolver : IValueConverter<string, string>
 {
     private readonly IFileRepository _fileRepository;
+    private readonly IMemoryCache _memoryCache;
 
-    public TemporaryUrlResolver(IFileRepository fileRepository)
+    // How long the generated SAS is valid for
+    private static readonly TimeSpan SasValidity = TimeSpan.FromHours(6);
+
+    // We cache the URL slightly shorter than its validity to avoid serving an expired link
+    private static readonly TimeSpan CacheTtl = TimeSpan.FromHours(5);
+
+    public TemporaryUrlResolver(IFileRepository fileRepository, IMemoryCache memoryCache)
     {
         _fileRepository = fileRepository;
+        _memoryCache = memoryCache;
     }
 
     public string Convert(string sourceBlobName, ResolutionContext context)
     {
-        // Check if this is already a URL (for backward compatibility)
-        if (sourceBlobName.StartsWith("http"))
+        if (string.IsNullOrWhiteSpace(sourceBlobName))
             return sourceBlobName;
 
-        // If it's just a blob name, generate a temporary URL with 1 hour validity
-        return _fileRepository.GetTemporaryUrl(sourceBlobName, TimeSpan.FromHours(1));
+        // Already a URL (e.g. migrated/public images)
+        if (sourceBlobName.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+            return sourceBlobName;
+
+        return _memoryCache.GetOrCreate(sourceBlobName, entry =>
+        {
+            entry.AbsoluteExpirationRelativeToNow = CacheTtl;
+            return _fileRepository.GetTemporaryUrl(sourceBlobName, SasValidity);
+        });
     }
 }

@@ -83,6 +83,8 @@ public partial class Program
         services.AddCustomProblemDetailsResponses(environment);
 
         services.AddScoped<IAuthenticationContext, AuthenticationContext>();
+
+        services.AddMemoryCache();
     }
 
     public static async Task FillDatabase(IServiceProvider serviceProvider, IConfiguration configuration)
