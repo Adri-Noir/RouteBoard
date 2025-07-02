@@ -5,12 +5,12 @@ Komunikacija između klijenata i pozadinskog sustava odvija se putem definiranog
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/arhitektura/general_arch.png}
-    \caption{Makro arhitektura aplikacije}
+    \includegraphics[width=0.9\textwidth]{images/arhitektura/arch.drawio.png}
+    \caption{Ovisnosti servisa u aplikaciji}
     \label{fig:arhitektura}
 \end{figure}
 
-Slika~\ref{fig:arhitektura} prikazuje makro arhitekturu aplikacije te međusobne veze između servisa. Mobilna i web-aplikacija su neovisni servisi koji komuniciraju s pozadinskim sustavom putem \textit{REST}-servisa. Kada postoji neka slika, primjerice na detaljnom pregledu penjališta, pozadinski sustav šalje te slike u obliku poveznice na servis \textit{Azure Blob Storage}. Također, ni web ni mobilna aplikacija nemaju direktan pristup servisu \textit{open-meteo.com} ni bazi podataka \textit{PostgreSQL} već se informacije agregiraju i šalju preko pozadinskog sustava.
+Slika~\ref{fig:arhitektura} prikazuje ovisnosti među servisima u aplikaciji. Mobilna i web-aplikacija su neovisni servisi koji komuniciraju s pozadinskim sustavom putem \textit{REST}-servisa. Kada postoji neka slika, primjerice na detaljnom pregledu penjališta, pozadinski sustav šalje te slike u obliku poveznice na servis \textit{Azure Blob Storage}. Također, ni web ni mobilna aplikacija nemaju direktan pristup servisu \textit{open-meteo.com} ni bazi podataka \textit{PostgreSQL} već se informacije agregiraju i šalju preko pozadinskog sustava.
 
 \section{Pozadinski sustav}
 
@@ -20,7 +20,7 @@ Ovaj pristup omogućuje da se zahtjevi s klijentskih aplikacija ponašaju kao ne
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{images/arhitektura/backend_arch.png}
+    \includegraphics[width=0.7\textwidth]{images/arhitektura/backend_arch.drawio.png}
     \caption{Arhitektura pozadinskog sustava - graf ovisnosti}
     \label{fig:backend_arch}
 \end{figure}
@@ -63,7 +63,7 @@ Koristi se \textit{AsyncStream} s politikom \textit{bufferingOldest(1)}, što zn
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{images/arhitektura/cv_arch.png}
+    \includegraphics[width=1.0\textwidth]{images/arhitektura/opencv_functions.drawio.png}
     \caption{Korištene \textit{OpenCV} funkcije za prepoznavanje penjačkog smjera}
     \label{fig:cv_arch}
 \end{figure}

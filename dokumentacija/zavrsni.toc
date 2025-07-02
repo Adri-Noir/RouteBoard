@@ -46,7 +46,7 @@
 \contentsline {subsection}{\numberline {5.1.3}Infrastrukturni sloj}{63}{}%
 \contentsline {subsection}{\numberline {5.1.4}Prezentacijski sloj}{63}{}%
 \contentsline {subsection}{\numberline {5.1.5}Vanjski servisi}{63}{}%
-\contentsline {section}{\numberline {5.2}Mobilna aplikacija za iOS-platformu}{64}{}%
+\contentsline {section}{\numberline {5.2}Mobilna aplikacija za iOS-platformu}{63}{}%
 \contentsline {subsection}{\numberline {5.2.1}Implementacija prepoznavanja smjerova}{64}{}%
 \contentsline {subsection}{\numberline {5.2.2}Kreiranje referentne slike penjačkog smjera}{66}{}%
 \contentsline {section}{\numberline {5.3}web-aplikacija}{66}{}%

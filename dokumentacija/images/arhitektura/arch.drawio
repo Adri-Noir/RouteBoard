@@ -1,0 +1,57 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36" version="27.2.0">
+  <diagram name="Page-1" id="QkhQa0cfw9xV9JvFOKWk">
+    <mxGraphModel dx="1406" dy="867" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="1-0p4xt-5Lag7pQ6sdaC-2" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;open-meteo.com&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="80" y="40" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="1-0p4xt-5Lag7pQ6sdaC-3" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;baza podataka PostgreSQL&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="310" y="40" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="1-0p4xt-5Lag7pQ6sdaC-4" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Mapbox reverzno geokodiranje&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="560" y="40" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="1-0p4xt-5Lag7pQ6sdaC-10" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startSize=6;sourcePerimeterSpacing=0;jumpSize=6;strokeWidth=2;" parent="1" source="1-0p4xt-5Lag7pQ6sdaC-6" target="1-0p4xt-5Lag7pQ6sdaC-2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1-0p4xt-5Lag7pQ6sdaC-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;" parent="1" source="1-0p4xt-5Lag7pQ6sdaC-6" target="1-0p4xt-5Lag7pQ6sdaC-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1-0p4xt-5Lag7pQ6sdaC-12" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;" parent="1" source="1-0p4xt-5Lag7pQ6sdaC-6" target="1-0p4xt-5Lag7pQ6sdaC-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1-0p4xt-5Lag7pQ6sdaC-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;" parent="1" source="1-0p4xt-5Lag7pQ6sdaC-6" target="1-0p4xt-5Lag7pQ6sdaC-7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1-0p4xt-5Lag7pQ6sdaC-6" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;.NET pozadinski sustav&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="320" y="200" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="1-0p4xt-5Lag7pQ6sdaC-7" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Azure Blob Storage&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="600" y="200" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="1-0p4xt-5Lag7pQ6sdaC-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;" parent="1" source="1-0p4xt-5Lag7pQ6sdaC-8" target="1-0p4xt-5Lag7pQ6sdaC-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1-0p4xt-5Lag7pQ6sdaC-17" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.983;exitY=0.19;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitPerimeter=0;strokeWidth=2;" parent="1" source="1-0p4xt-5Lag7pQ6sdaC-8" target="1-0p4xt-5Lag7pQ6sdaC-7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1-0p4xt-5Lag7pQ6sdaC-8" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Mobilna iOS aplikacija&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="360" y="360" width="120" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="1-0p4xt-5Lag7pQ6sdaC-18" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0;exitDx=0;exitDy=0;strokeWidth=2;" parent="1" source="1-0p4xt-5Lag7pQ6sdaC-9" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="510" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1-0p4xt-5Lag7pQ6sdaC-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;" parent="1" source="1-0p4xt-5Lag7pQ6sdaC-9" target="1-0p4xt-5Lag7pQ6sdaC-7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1-0p4xt-5Lag7pQ6sdaC-9" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Web aplikacija (Next.js)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="600" y="420" width="200" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

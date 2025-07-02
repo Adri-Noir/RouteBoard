@@ -1,0 +1,31 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36" version="27.2.0">
+  <diagram name="Page-1" id="8_sqm8ocC7MUKQ4wde2L">
+    <mxGraphModel dx="1406" dy="867" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="3TUx1ESiI2wMTfV5mbM4-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;" edge="1" parent="1" source="3TUx1ESiI2wMTfV5mbM4-1" target="3TUx1ESiI2wMTfV5mbM4-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3TUx1ESiI2wMTfV5mbM4-1" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Prezentacijski sloj&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="80" y="400" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3TUx1ESiI2wMTfV5mbM4-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;" edge="1" parent="1" source="3TUx1ESiI2wMTfV5mbM4-2" target="3TUx1ESiI2wMTfV5mbM4-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3TUx1ESiI2wMTfV5mbM4-2" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Infrastrukturni sloj&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="200" y="320" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3TUx1ESiI2wMTfV5mbM4-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;" edge="1" parent="1" source="3TUx1ESiI2wMTfV5mbM4-3" target="3TUx1ESiI2wMTfV5mbM4-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3TUx1ESiI2wMTfV5mbM4-3" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Aplikacijski sloj&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="320" y="240" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3TUx1ESiI2wMTfV5mbM4-4" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Domenski sloj&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="440" y="160" width="200" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

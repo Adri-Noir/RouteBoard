@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.10.26)  3 JUL 2025 00:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.10.26)  3 JUL 2025 01:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -920,38 +920,38 @@ Overfull \hbox (5.3399pt too wide) in paragraph at lines 45--47
 
  (./sections/Arhitektura/arhitektura.tex
 Poglavlje 5.
-<images/arhitektura/general_arch.png, id=305, 953.5625pt x 692.5875pt>
-File: images/arhitektura/general_arch.png Graphic file (type png)
-<use images/arhitektura/general_arch.png>
-Package pdftex.def Info: images/arhitektura/general_arch.png  used on input line 8.
-(pdftex.def)             Requested size: 371.30595pt x 269.68532pt.
+<images/arhitektura/arch.drawio.png, id=305, 724.7075pt x 523.9575pt>
+File: images/arhitektura/arch.drawio.png Graphic file (type png)
+<use images/arhitektura/arch.drawio.png>
+Package pdftex.def Info: images/arhitektura/arch.drawio.png  used on input line 8.
+(pdftex.def)             Requested size: 371.30595pt x 268.45401pt.
 [60
 
 
 
 
-] [61 <./images/arhitektura/general_arch.png>]
-<images/arhitektura/backend_arch.png, id=313, 748.7975pt x 503.8825pt>
-File: images/arhitektura/backend_arch.png Graphic file (type png)
-<use images/arhitektura/backend_arch.png>
-Package pdftex.def Info: images/arhitektura/backend_arch.png  used on input line 23.
-(pdftex.def)             Requested size: 288.79422pt x 194.33751pt.
- [62 <./images/arhitektura/backend_arch.png>] [63]
+] [61 <./images/arhitektura/arch.drawio.png>]
+<images/arhitektura/backend_arch.drawio.png, id=313, 564.1075pt x 303.1325pt>
+File: images/arhitektura/backend_arch.drawio.png Graphic file (type png)
+<use images/arhitektura/backend_arch.drawio.png>
+Package pdftex.def Info: images/arhitektura/backend_arch.drawio.png  used on input line 23.
+(pdftex.def)             Requested size: 288.79422pt x 155.18758pt.
+ [62 <./images/arhitektura/backend_arch.drawio.png>] [63]
 Overfull \hbox (10.12756pt too wide) in paragraph at lines 54--56
 []\T1/ptm/m/n/12 Za ko-mu-ni-ka-ciju s po-za-din-skim sus-ta-vom, apli-ka-cija ko-risti \T1/ptm/m/it/12 swift-openapi-generator\T1/ptm/m/n/12 .
  []
 
-<images/arhitektura/cv_arch.png, id=322, 1061.9675pt x 938.50626pt>
-File: images/arhitektura/cv_arch.png Graphic file (type png)
-<use images/arhitektura/cv_arch.png>
-Package pdftex.def Info: images/arhitektura/cv_arch.png  used on input line 66.
-(pdftex.def)             Requested size: 412.56497pt x 364.59825pt.
+<images/arhitektura/opencv_functions.drawio.png, id=322, 868.24374pt x 599.23875pt>
+File: images/arhitektura/opencv_functions.drawio.png Graphic file (type png)
+<use images/arhitektura/opencv_functions.drawio.png>
+Package pdftex.def Info: images/arhitektura/opencv_functions.drawio.png  used on input line 66.
+(pdftex.def)             Requested size: 412.56497pt x 284.74194pt.
 [64]
 Overfull \hbox (15.91463pt too wide) in paragraph at lines 71--73
 \T1/ptm/m/n/12 sli-jedi upa-ri-va-nje s re-fe-rent-nim des-krip-to-rima ko-ri-²te-njem me-tode \T1/ptm/m/it/12 flan-n-Mat-c-her.knnMatch
  []
 
-[65 <./images/arhitektura/cv_arch.png>] [66]) [67]
+[65 <./images/arhitektura/opencv_functions.drawio.png>]) [66] [67]
 \openout2 = `sections/Testiranje/testiranje.aux'.
 
  (./sections/Testiranje/testiranje.tex
@@ -1072,14 +1072,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 57--63
 ]) [81] (./zavrsni.aux (./sections/Uvod/uvod.aux) (./sections/Analiza/analiza.aux) (./sections/RacunalniVid/racunalni_vid.aux) (./sections/Implementacija/implementacija.aux) (./sections/Arhitektura/arhitektura.aux) (./sections/Testiranje/testiranje.aux) (./sections/Zakljucak/zakljucak.aux) (./sections/Abstract/abstract.aux)) ) 
 Here is how much of TeX's memory you used:
  9666 strings out of 478268
- 188724 string characters out of 5846346
+ 188878 string characters out of 5846346
  453890 words of memory out of 5000000
  27518 multiletter control sequences out of 15000+600000
  541726 words of font info for 109 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  70i,8n,77p,1109b,559s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on zavrsni.pdf (85 pages, 50796748 bytes).
+Output written on zavrsni.pdf (85 pages, 50735721 bytes).
 PDF statistics:
  453 PDF objects out of 1000 (max. 8388607)
  231 compressed objects within 3 object streams
