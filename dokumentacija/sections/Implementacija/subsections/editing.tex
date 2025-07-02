@@ -1,10 +1,10 @@
 \section{Unos i uređivanje podataka}
 
 
-Kako bi aplikacija bila dinamičana i ažurana, mora omogućiti ovlaštenim korisnicima kreiranje i uređivanje svih hijerarhijskih razina podataka, od penjališta do pojedinačnih penjačkih smjerova.
+Kako bi aplikacija bila dinamična i ažurna, mora omogućiti ovlaštenim korisnicima kreiranje i uređivanje svih hijerarhijskih razina podataka, od penjališta do pojedinačnih penjačkih smjerova.
 \subsection{Dodavanje, uređivanje i brisanje penjališta}
 
-Na korisničkom profilu omogućeno je kreiranje novog penjališta u izborniku u gornjem desnom kutu korisničkog profila. Na web aplikaciji ta opcija se nalazi u navigacijskoj traci u postavkama korisničkog izbornika. Funkcionalnost kreiranja novog penjališta nije dostupna svim korisnicima, već je ograničena na one s posebnim ovlastima, a to su administratori aplikacije i verificirani korisnici (eng. \textit{creators}). 
+Na korisničkom profilu omogućeno je kreiranje novog penjališta u izborniku u gornjem desnom kutu korisničkog profila. Na web-aplikaciji ta opcija se nalazi u navigacijskoj traci u postavkama korisničkog izbornika. Funkcionalnost kreiranja novog penjališta nije dostupna svim korisnicima, već je ograničena na one s posebnim ovlastima, a to su administratori aplikacije i verificirani korisnici (eng. \textit{creators}). 
 
 \begin{figure}[H]
     \centering
@@ -18,7 +18,7 @@ Na korisničkom profilu omogućeno je kreiranje novog penjališta u izborniku u 
     \begin{subfigure}[b]{0.6\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/implementacija/web/editing-options/create-crag.jpg}
-        \caption{Web aplikacija}
+        \caption{web-aplikacija}
         \label{fig:dodavanje_lokacije_web}
     \end{subfigure}
     \caption{Dodavanje novog penjališta}
@@ -39,7 +39,7 @@ Ovlašteni korisnik odabirom ove opcije pristupa sučelju za unos novog penjali�
     \begin{subfigure}[b]{0.46\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/implementacija/web/editing-options/edit-crag.jpg}
-        \caption{Web aplikacija}
+        \caption{web-aplikacija}
         \label{fig:uredjivanje_lokacije_web}
     \end{subfigure}
     \caption{Uređivanje postojećeg penjališta}
@@ -67,7 +67,7 @@ Kako bi se osigurala kontrola nad unosom i uređivanjem podataka, a istovremeno 
     \begin{subfigure}[b]{0.6\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/implementacija/web/editing-options/manage-users.jpg}
-        \caption{Web aplikacija}
+        \caption{web-aplikacija}
         \label{fig:upravljanje_ovlastima_web}
     \end{subfigure}
     \caption{Upravljanje korisničkim ovlastima}
@@ -93,7 +93,7 @@ Unutar svakog penjališta, ovlašteni korisnici mogu dalje strukturirati sadrža
     \begin{subfigure}[b]{0.44\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/implementacija/web/editing-options/create-sector.jpg}
-        \caption{Web aplikacija}
+        \caption{web-aplikacija}
         \label{fig:dodavanje_sektora_web}
     \end{subfigure}
     \caption{Dodavanje novog sektora}
@@ -116,7 +116,7 @@ Postojeći sektori mogu se uređivati na sličan način. Odabirom određenog sek
     \begin{subfigure}[b]{0.43\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/implementacija/web/editing-options/edit-sector.jpg}
-        \caption{Web aplikacija}
+        \caption{web-aplikacija}
         \label{fig:uredjivanje_sektora_web}
     \end{subfigure}
     \caption{Uređivanje postojećeg sektora}
@@ -142,14 +142,14 @@ Na najnižoj hijerarhijskoj razini nalazi se unos i uređivanje pojedinačnih pe
     \begin{subfigure}[b]{0.55\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/implementacija/web/editing-options/create-route.jpg}
-        \caption{Web aplikacija}
+        \caption{web-aplikacija}
         \label{fig:dodavanje_smjera_web}
     \end{subfigure}
     \caption{Dodavanje novog penjačkog smjera}
     \label{fig:dodavanje_smjera}
 \end{figure}
 
-Sučelje za izradu novog penjačkog smjera uključuje polja poput naziva, opisa, težine, tipa smjera i dužine (slika~\ref{fig:dodavanje_smjera}). Opcije za tip smjera uključuju boulder, sportski, tradicionalni ili smjer s više penjačkih smjerova. 
+Sučelje za izradu novog penjačkog smjera uključuje polja poput naziva, opisa, težine, tipa smjera i dužine (slika~\ref{fig:dodavanje_smjera}). Opcije za tip smjera uključuju \textit{boulder}, sportski, tradicionalni ili smjer s više penjačkih smjerova. 
 Važno je primjetiti kako opcija dodavanja slike smjera nije dostupna u sučelju. Dodavanje fotografije je moguće nakon kreiranja smjera u pregledu detalja smjera i dostupno je samo na mobilnoj aplikaciji. Klikom na izbornik u gornjem desnom kutu pregleda detalja smjera, korisniku se prikazuje izbornik u kojem se nalazi opcija za dodavanje fotografije. Prvi korak u procesu dodavanja fotografije je slikanje smjera pomoću kamere mobilnog uređaja. Nakon slikanja, korisniku se prikazuje slika na koju se može ručno ucrtati linija smjera. Time je korisnik kreirao referentnu sliku smjera koja se može koristiti za prepoznavanje smjera (slika~\ref{fig:dodavanje_fotografije_smjera}).
 
 \begin{figure}[H]
@@ -159,7 +159,7 @@ Važno je primjetiti kako opcija dodavanja slike smjera nije dostupna u sučelju
     \label{fig:dodavanje_fotografije_smjera}
 \end{figure}
 
-Uređivanje postojećeg penjačkog smjera dostupno je u izborniku na zaslonu s detaljnim pregledom tog penjačkog smjera. Na web aplikaciji izbornik se nalazi na izborniku u tablici kada je označen pregled svih sektora ili u listi kada je označen neki sektor. 
+Uređivanje postojećeg penjačkog smjera dostupno je u izborniku na zaslonu s detaljnim pregledom tog penjačkog smjera. Na web-aplikaciji izbornik se nalazi na izborniku u tablici kada je označen pregled svih sektora ili u listi kada je označen neki sektor. 
 
 \begin{figure}[H]
     \centering
@@ -173,7 +173,7 @@ Uređivanje postojećeg penjačkog smjera dostupno je u izborniku na zaslonu s d
     \begin{subfigure}[b]{0.55\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/implementacija/web/editing-options/edit-route.jpg}
-        \caption{Web aplikacija}
+        \caption{web-aplikacija}
         \label{fig:uredjivanje_smjera_web}
     \end{subfigure}
     \caption{Uređivanje postojećeg penjačkog smjera}
@@ -202,7 +202,7 @@ Unutar korisničkog profila, u gornjem desnom kutu, nalazi se izbornik koji sadr
     \begin{subfigure}[b]{0.55\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/implementacija/web/editing-options/edit-user.jpg}
-        \caption{Web aplikacija}
+        \caption{web-aplikacija}
         \label{fig:uredjivanje_profila_web}
     \end{subfigure}
     \caption{Uređivanje korisničkog profila}
