@@ -1,6 +1,6 @@
 \chapter{Testiranje i vrednovanje rješenja}
 
-Nakon implementacije aplikacije, potrebno je provesti testiranje u realnim uvjetima kako bi se validirala funkcionalnost te procijenile performanse i praktična upotreba. Cilj poglavlja je analizirati rezultate testiranja, s posebnim naglaskom na funkcionalnost prepoznavanja penjačkih smjerova, te identificirati ograničenja i područja za poboljšanje.
+Nakon implementacije aplikacije, potrebno je provesti testiranje u realnim uvjetima kako bi se validirala funkcionalnost te procijenile performanse i praktična upotreba. Cilj poglavlja je analizirati rezultate testiranja, sa posebnim naglaskom na funkcionalnost prepoznavanja penjačkih smjerova, te identificirati ograničenja i područja za poboljšanje.
 
 \section{Metodologija testiranja}
 
@@ -98,7 +98,7 @@ Iako je funkcionalna validacija bila uspješna, testiranje je otkrilo nekoliko p
 \end{figure}
 
 Prvi uočeni nedostatak je kašnjenje ili latencija između fizičkog pomicanja kamere i ažuriranje položaja virtualne linije na ekranu što prikazuje slika~\ref{fig:apaches_latency_double}. Ovo kašnjenje je posljedica računske zahtjevnosti algoritma SIFT i cjelokupnog procesa obrade koji se izvršava na mobilnom uređaju. Problem je izražen pri korištenju \textit{High} postavke jačine prepoznavanja, gdje je kašnjenje bilo značajnije, dok je na \textit{Low} postavci bilo manje primjetno, ali uz smanjenu preciznost. 
-Važan uvid dobiven testiranjem, a isto vezan uz problem latencije, odnosi se na odluku o upravljanju kadrovima dobivenim s kamere. Inicijalna implementacija koristila je \textit{AsyncStream} s politikom \textit{bufferingOldest(1)}, s idejom da nije bitno je li se koristi \textit{bufferingOldest(1)} ili \textit{bufferingNewest(1)} jer se u idealnim uvjetima pokazalo da brzina obrade nije toliko mala da ima značaja. Međutim, u realnim uvjetima, posebice na \textit{High} postavci, obrada jednog kadra traje znatno duže od intervala između dva kadra. Korištenje politike \textit{bufferingOldest} u takvom scenariju dovodi do lošijih detekcija jer se koristi stariji kadar, a ne najnoviji. Time bi aplikacija prikazivala virtualnu liniju izračunatu na temelju kadra koji ne predstavlja najnoviji kadar.
+Važan uvid dobiven testiranjem, a isto vezan uz problem latencije, odnosi se na odluku o upravljanju kadrovima dobivenim sa kamere. Inicijalna implementacija koristila je \textit{AsyncStream} s politikom \textit{bufferingOldest(1)}, s idejom da nije bitno je li se koristi \textit{bufferingOldest(1)} ili \textit{bufferingNewest(1)} jer se u idealnim uvjetima pokazalo da brzina obrade nije toliko mala da ima značaja. Međutim, u realnim uvjetima, posebice na \textit{High} postavci, obrada jednog kadra traje znatno duže od intervala između dva kadra. Korištenje politike \textit{bufferingOldest} u takvom scenariju dovodi do lošijih detekcija jer se koristi stariji kadar, a ne najnoviji. Time bi aplikacija prikazivala virtualnu liniju izračunatu na temelju kadra koji ne predstavlja najnoviji kadar.
 
 \begin{figure}[H]
     \centering
@@ -119,7 +119,7 @@ Važan uvid dobiven testiranjem, a isto vezan uz problem latencije, odnosi se na
     \label{fig:steyr_bad_detection_double_2}
 \end{figure}
 
-Slika~\ref{fig:steyr_bad_detection_double_2} prikazuje primjer posljedice korištenja politike \textit{bufferingOldest(1)}. Na slici~\ref{fig:steyr_bad_detection_2a} prikazan je primjer prije pomicanja kamere, a na slici~\ref{fig:steyr_bad_detection_2b} nakon pomicanja kamere. Vidljivo je da se virtualna linija pojavila na pogrešnoj lokaciji prije nego što bi se stabilizirala na ispravnoj poziciji. Pogreška dolazi zbog sljedeće situacije. Kada je završila detekcija, proces detekcije uzima kadar iz spremnika i kreće obradu. Sljedeći kadar koji dolazi s kamere se sprema u spremnik i ne spremaju se novi kadrovi. Kada dolazi vrijeme za obradu novog kadra, uzima se taj stariji kadar. Korištenjem politike \textit{bufferingNewest(1)}, svaki novi kadar zamijenjuje kadar iz spremnika, što bi minimiziralo ovaj problem jer bi se obradio kadar koji je netom došao s kamere.
+Slika~\ref{fig:steyr_bad_detection_double_2} prikazuje primjer posljedice korištenja politike \textit{bufferingOldest(1)}. Na slici~\ref{fig:steyr_bad_detection_2a} prikazan je primjer prije pomicanja kamere, a na slici~\ref{fig:steyr_bad_detection_2b} nakon pomicanja kamere. Vidljivo je da se virtualna linija pojavila na pogrešnoj lokaciji prije nego što bi se stabilizirala na ispravnoj poziciji. Pogreška dolazi zbog sljedeće situacije. Kada je završila detekcija, proces detekcije uzima kadar iz spremnika i kreće obradu. Sljedeći kadar koji dolazi sa kamere se sprema u spremnik i ne spremaju se novi kadrovi. Kada dolazi vrijeme za obradu novog kadra, uzima se taj stariji kadar. Korištenjem politike \textit{bufferingNewest(1)}, svaki novi kadar zamjenjuje kadar iz spremnika, što bi minimiziralo ovaj problem jer bi se obradio kadar koji je netom došao sa kamere.
 
 
 
@@ -146,4 +146,20 @@ Drugi uočeni problem je nestabilnost detekcije. Tijekom korištenja, virtualna 
 
 
 Ovaj fenomen nastaje u trenucima kada algoritam \textit{SIFT} i biblioteka \textit{FLANN} pronađu prividno dovoljan broj podudarnosti koje su zapravo pogrešne, ali ih algoritam \textit{RANSAC} prihvati kao valjan model. Slično se događa kada korisnik zapravo ne gleda u smjer, već negdje drugdje i na trenutak se pojavi linija penjačkog smjera. Iako se proces prepoznavanja oporavi i pronalazi ispravnu homografiju, ova nestabilnost može smanjiti povjerenje korisnika u aplikaciju. 
+
+\section{Smjernice za budući razvoj}
+
+Iako je razvijena aplikacija funkcionalna, postoji prostor za daljnja poboljšanja. U nastavku se razmatraju područja za budući razvoj, sa posebnim naglaskom na unapređenje procesa prepoznavanja.
+
+\subsection{Poboljšanje procesa prepoznavanja}
+
+Uočeni problemi latencije i vizualnog šuma mogu se ublažiti implementacijom optimizacija. Namještanjem parametara za algoritam \textit{SIFT} i povećanjem minimalnog broja potrebnih parova značajki mogli bi pojačati preciznost detekcije i smanjiti vizualni šum. Trenutna aplikacija izračunava homografiju neovisno za svaki obrađeni kadar, što može dovesti do nestabilnosti i pogrešne detekcije. U budućnosti bi se moglo implementirati provjera koeficijenta matrice homografije kako bi se osiguralo da matrica ne transformira sliku u nestvarne oblike ili koristeći druge apstraktnije metode provjere matrice~\cite{algebraic_outlier_rejection_homography}. Ako je dobivena matrica pala te testove onda se ne bi koristila za transformaciju slike i time se ne bi detektirala linija penjačkog smjera.
+
+Nadalje, obrada zamućenih kadrova, nastalih brzim pokretom kamere, bespotrebno troši resurse i može dovesti do pogrešnih podudarnosti. Moguće je implementirati pred-procesni korak za filtriranje zamućenih kadrova. Primjerice, izračunom varijance Laplaceove transformacije slike može se procijeniti razina oštrine, te bi se kadrovi koji ne zadovoljavaju minimalni prag oštrine mogli ne dodati u spremnik kadrova i time ne bi se slali na obradu pomoću algoritma \textit{SIFT}.
+
+Konačno, trenutna arhitektura dizajnirana je za prepoznavanje jednog, unaprijed odabranog smjera. Značajno unapređenje bilo bi omogućiti, u mobilnoj aplikaciji, detekciju više smjerova, recimo jednog sektora, istovremeno. To bi zahtijevalo da se deskriptori sa kamere uspoređuju sa cjelokupnom bazom deskriptora za sve smjerove u sektoru. Iako je ovo računski znatno zahtjevnije, pružilo bi bolje korisničko iskustvo.
+
+\subsection{Integracija topografskih prikaza}
+
+Testiranje je pokazalo da su referentne slike snimljene s tla korisne za identifikaciju početka smjera, ali često ne mogu obuhvatiti cijeli tijek smjera, pogotovo kod dužih smjerova. S druge strane, klasične \textit{topo} skice, iako apstraktne, pružaju jasan pregled cijele linije. Budući razvoj mogao bi uključivati hibridni pristup. Nakon što aplikacija uspješno prepozna penjački smjer, korisniku bi se mogla ponuditi opcija prebacivanja na dvodimenzionalni \textit{topo} prikaz tog sektora, s jasno istaknutim prepoznatim smjerom. Time bi se kombinirale prednosti oba svijeta, precizna identifikacija na terenu i jasan pregled cijelog smjera pomoću topografske skice.
 

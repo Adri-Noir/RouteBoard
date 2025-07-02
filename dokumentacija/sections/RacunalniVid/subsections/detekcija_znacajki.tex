@@ -48,13 +48,13 @@ Time se dobiva početni skup potencijalnih ključnih točaka koji se zatim šalj
 \end{figure}
 
 \subsubsection{Filtriranje nestabilnih ključnih točaka}
-Kandidati dobiveni u prethodnoj fazi trebaju se dalje filtrirati kako bi se odbacile nestabilne točke. Prvo se interpolira vrijednost sub-piksela gdje se nalazi lokacija ekstrema. Ideja iza interpolacije je da se želi povećati preciznost i stabilnost ključnih točaka. Preciznije točke omogućuju bolje uparivanje te kvalitetnije naknadno korištenje značajnih točaka, kao kod izračuna homografije. Nakon interpolacije primijenjuje se eliminacija točaka koje leže na rubovima. Rubovi su detektirani kao ekstremi, no točke na samom rubu su nepouzdane za precizno uparivanje jer je njihova lokacija duž samog ruba slabo definirana.
+Kandidati dobiveni u prethodnoj fazi trebaju se dalje filtrirati kako bi se odbacile nestabilne točke. Prvo se interpolira vrijednost sub-piksela gdje se nalazi lokacija ekstrema. Ideja iza interpolacije je da se želi povećati preciznost i stabilnost ključnih točaka. Preciznije točke omogućuju bolje uparivanje te kvalitetnije naknadno korištenje značajnih točaka, kao kod izračuna homografije. Nakon interpolacije primjenjuje se eliminacija točaka koje leže na rubovima. Rubovi su detektirani kao ekstremi, no točke na samom rubu su nepouzdane za precizno uparivanje jer je njihova lokacija duž samog ruba slabo definirana.
 
 \subsubsection{Dodjeljivanje orijentacije ključnim točkama}
 Kako bi se postigla neovisnost o rotaciji, svakoj preostaloj ključnoj točki dodjeljuje se jedna ili više orijentacija. Orijentacija se izračunava na temelju lokalnog gradijenta slike u okolini ključne točke koristeći magnitudu i smjer gradijenta svakog piksela. Za svaku ključnu točku kreira se histogram orijentacija gradijenta s 36 spremnika koji svaki pokriva kut od 10 stupnjeva. 
 Skala ključne točke ($\sigma$) definirana je kao standardna devijacija najmanjeg Gaussovog filtera u paru korištenom za izračun odgovarajuće \textit{DoG}-slike. Ona time određuje promjer okolne regije točke.
 Svaki uzorak u histogramu određen je svojom magnitudom gradijenta i Gaussovim kružnim prozorom čiji je $\sigma_{w}=1{,}5 * \sigma$, pa uzorci bliže središtu i s jačim gradijentom više utječu na visinu stupaca histograma. Vrh tog histograma definira dominantnu orijentaciju ključne točke (slika~\ref{fig:sift_rotation}).
-Ako postoji više od jedne orijentacije, tj. ako postoji orijentacija koja je veća od 80\% od dominantne orijentacije, tada se kreira nova ključna točka s istim položajem i skalom, ali s drugom orijentacijom. Time se povećava stabilnost uparivanja na mjestima s kompleksnim gradijentom.
+Ako postoji više od jedne orijentacije, tj. ako postoji orijentacija koja je veća od 80\% od dominantne orijentacije, tada se kreira nova ključna točka s istim položajem i skalom, ali sa drugom orijentacijom. Time se povećava stabilnost uparivanja na mjestima s kompleksnim gradijentom.
 
 \begin{figure}[H]
     \centering
@@ -73,7 +73,7 @@ Posljednji korak je stvaranje jedinstvenog numeričkog deskriptora za svaku klju
     \label{fig:sift_descriptor}
 \end{figure}
 
-Izlaz iz algoritma \textit{SIFT} je skup detektiranih značajki, tj. njen položaj, skala, orijentacija i 128-dimenzionalni deskriptor. Cijeli proces algoritma \textit{SIFT} provodi se na referentnoj slici penjačkog smjera i slici dobivene s kamere mobilnog uređaja. Na slici~\ref{fig:detekcija_znacajki} prikazan je primjer detekcije značajki algoritmom \textit{SIFT} za referentnu sliku penjačkog smjera i sliku dobivenu s kamere mobilnog uređaja. Radi preglednosti prikazuju se samo značajke sa većom skalom.
+Izlaz iz algoritma \textit{SIFT} je skup detektiranih značajki, tj. njen položaj, skala, orijentacija i 128-dimenzionalni deskriptor. Cijeli proces algoritma \textit{SIFT} provodi se na referentnoj slici penjačkog smjera i slici dobivene sa kamere mobilnog uređaja. Na slici~\ref{fig:detekcija_znacajki} prikazan je primjer detekcije značajki algoritmom \textit{SIFT} za referentnu sliku penjačkog smjera i sliku dobivenu sa kamere mobilnog uređaja. Radi preglednosti prikazuju se samo značajke s većom skalom.
 
 \begin{figure}[H]
     \centering
@@ -87,7 +87,7 @@ Izlaz iz algoritma \textit{SIFT} je skup detektiranih značajki, tj. njen polož
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/racunalniVid/feature_detection_frame.jpg}
-        \caption{Slika s kamere mobilnog uređaja}
+        \caption{Slika sa kamere mobilnog uređaja}
         \label{fig:feature_detection_frame}
     \end{subfigure}
     \caption{Detekcija značajki algoritmom \textit{SIFT}}

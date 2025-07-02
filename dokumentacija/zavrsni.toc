@@ -54,9 +54,8 @@
 \contentsline {section}{\numberline {6.1}Metodologija testiranja}{68}{}%
 \contentsline {section}{\numberline {6.2}Rezultati i analiza funkcionalnosti}{69}{}%
 \contentsline {section}{\numberline {6.3}Analiza performansi i uočenih problema}{71}{}%
-\contentsline {chapter}{\numberline {7}Zaključak}{76}{}%
-\contentsline {section}{\numberline {7.1}Sažetak rada i ostvareni rezultati}{76}{}%
-\contentsline {section}{\numberline {7.2}Smjernice za budući razvoj}{76}{}%
-\contentsline {subsection}{\numberline {7.2.1}Poboljšanja procesa prepoznavanja}{76}{}%
-\contentsline {subsection}{\numberline {7.2.2}Integracija topografskih prikaza}{77}{}%
+\contentsline {section}{\numberline {6.4}Smjernice za budući razvoj}{75}{}%
+\contentsline {subsection}{\numberline {6.4.1}Poboljšanje procesa prepoznavanja}{75}{}%
+\contentsline {subsection}{\numberline {6.4.2}Integracija topografskih prikaza}{75}{}%
+\contentsline {chapter}{\numberline {7}Zaključak}{77}{}%
 \contentsline {chapter}{Literatura}{78}{}%

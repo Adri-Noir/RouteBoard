@@ -494,6 +494,9 @@ INPUT sections/Testiranje/testiranje.aux
 INPUT ./sections/Zakljucak/zakljucak.aux
 INPUT sections/Zakljucak/zakljucak.aux
 INPUT sections/Zakljucak/zakljucak.aux
+INPUT ./sections/Abstract/abstract.aux
+INPUT sections/Abstract/abstract.aux
+INPUT sections/Abstract/abstract.aux
 OUTPUT zavrsni.aux
 INPUT /usr/local/texlive/2022/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 INPUT /usr/local/texlive/2022/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
@@ -1273,6 +1276,16 @@ INPUT ./zavrsni.bbl
 INPUT zavrsni.bbl
 INPUT ./zavrsni.bbl
 INPUT zavrsni.bbl
+INPUT ./sections/Abstract/abstract.tex
+INPUT ./sections/Abstract/abstract.tex
+INPUT ./sections/Abstract/abstract.tex
+OUTPUT sections/Abstract/abstract.aux
+INPUT ./sections/Abstract/abstract.tex
+INPUT ./sections/Abstract/abstract.tex
+INPUT ./sections/Abstract/abstract.tex
+INPUT sections/Abstract/abstract.tex
+INPUT ./sections/Abstract/abstract.tex
+INPUT sections/Abstract/abstract.tex
 INPUT zavrsni.aux
 INPUT ./sections/Uvod/uvod.aux
 INPUT sections/Uvod/uvod.aux
@@ -1295,6 +1308,9 @@ INPUT sections/Testiranje/testiranje.aux
 INPUT ./sections/Zakljucak/zakljucak.aux
 INPUT sections/Zakljucak/zakljucak.aux
 INPUT sections/Zakljucak/zakljucak.aux
+INPUT ./sections/Abstract/abstract.aux
+INPUT sections/Abstract/abstract.aux
+INPUT sections/Abstract/abstract.aux
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb

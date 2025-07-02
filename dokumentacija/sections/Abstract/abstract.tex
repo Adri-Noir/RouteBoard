@@ -1,15 +1,22 @@
 
 \begin{sazetak}
-    Sažetak na hrvatskom jeziku.
+    Penjanje na prirodnoj stijeni zahtijeva pouzdane informacije o položaju i liniji smjera, no postojeći tiskani vodiči i digitalne platforme oslanjaju se na dvodimenzionalne topo skice koje je često teško interpretirati na stvarnoj, trodimenzionalnoj stijeni. Cilj ovog rada bio je razviti rješenje koje taj problem rješava primjenom računalnog vida i proširene stvarnosti. Razvijena je aplikacija "Alpinity" koja korisnicima omogućuje da jednostavnim usmjeravanjem kamere mobilnog uređaja prema stijeni dobiju vizualnu informaciju o položaju smjera projiciranu izravno u stvarnom okruženju.
+    Rješenje se temelji na klijent-poslužitelj arhitekturi koja se sastoji od pozadinskog sustava razvijenog u .NET-u, mobilne aplikacije za iOS platformu te komplementarne web-aplikacije. Ključna funkcionalnost prepoznavanja smjerova implementirana je unutar iOS aplikacije korištenjem biblioteke OpenCV. Proces se temelji na detekciji i opisu lokalnih značajki pomoću algoritma SIFT, njihovom uparivanju korištenjem biblioteke FLANN te izračunu homografije pomoću algoritma RANSAC kako bi se referentna linija smjera precizno preslikala na sliku sa kamere. Aplikacija također nudi i standardne funkcionalnosti digitalnog vodiča, uključujući pregled penjališta i smjerova, vođenje dnevnika uspona, statistiku te izvanmrežni način rada.
+    Testiranje provedeno u realnim uvjetima na penjalištu Kalnik potvrdilo je funkcionalnost i održivost koncepta, ali je također identificiralo područja za poboljšanje poput latencije prikaza i povremene nestabilnosti detekcije. U radu je dan detaljan opis arhitekture sustava, implementacije algoritama računalnog vida te smjernice za budući razvoj usmjeren na optimizaciju performansi i proširenje funkcionalnosti.
     
-    \kljucnerijeci{Ključne riječi, odvojene zarezima.}
+    \kljucnerijeci{proširena stvarnost, računalni vid, sportsko penjanje, SIFT, homografija, mobilna aplikacija, OpenCV, iOS, .NET}
     \end{sazetak}
+
+    \newpage
     
     % TODO: Navedite naslov na engleskom jeziku.
-    \engtitle{An application for interactive assistance to rock climbers using augmented reality}
+    \engtitle{An interactive assistance application for rock climbers using augmented reality}
     \begin{abstract}
-    Abstract.
+
+        Rock climbing requires reliable information about the position and line of a route, yet existing printed guidebooks and digital platforms rely on two-dimensional topo sketches that are often difficult to interpret on a real, three-dimensional rock face. The goal of this thesis was to develop a solution that addresses this problem by applying computer vision and augmented reality. The developed application, "Alpinity", allows users to simply point their mobile device's camera at a rock face to receive visual information about the route's position projected directly onto the real-world environment.
+        The solution is based on a client-server architecture consisting of a backend developed in .NET, a mobile application for the iOS platform, and a complementary web application. The core route recognition functionality is implemented within the iOS application using the OpenCV library. The process is based on the detection and description of local features using the SIFT algorithm, their matching using the FLANN library, and the calculation of homography using the RANSAC algorithm to accurately map the reference route line onto the camera image. The application also offers standard digital guidebook features, including browsing crags and routes, maintaining an ascent log, statistics, and an offline mode.
+        Testing conducted in real-world conditions at the Kalnik climbing area confirmed the functionality and viability of the concept, but also identified areas for improvement, such as display latency and occasional detection instability. The thesis provides a detailed description of the system architecture, the implementation of computer vision algorithms, and guidelines for future development focused on performance optimization and functionality expansion.
     
-    \keywords{Keywords.}
+    \keywords{augmented reality, computer vision, sport climbing, SIFT, homography, mobile application, OpenCV, iOS, .NET}
     \end{abstract}
 

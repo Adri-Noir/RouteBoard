@@ -9,10 +9,11 @@ A level-1 auxiliary file: sections/Arhitektura/arhitektura.aux
 A level-1 auxiliary file: sections/Testiranje/testiranje.aux
 A level-1 auxiliary file: sections/Zakljucak/zakljucak.aux
 The style file: plainnat.bst
+A level-1 auxiliary file: sections/Abstract/abstract.aux
 Database file #1: literatura.bib
 You've used 9 entries,
             2773 wiz_defined-function locations,
-            654 strings with 6663 characters,
+            655 strings with 6693 characters,
 and the built_in function-call counts, 3366 in all, are:
 = -- 300
 > -- 168

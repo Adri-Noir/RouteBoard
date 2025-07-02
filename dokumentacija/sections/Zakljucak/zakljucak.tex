@@ -1,26 +1,11 @@
 \chapter{Zaključak}
 
-\section{Sažetak rada i ostvareni rezultati}
+Penjanje na prirodnoj stijeni zahtijeva pouzdane informacije o položaju i liniji smjera, a analiza postojećih rješenja u obliku tiskanih vodiča i digitalnih platforma pokazala je da digitalne baze i tradicionalne dvodimenzionalne \textit{topo} skice ne pružaju precizno navođenje u stvarnome prostoru. Ovim radom razvijena je aplikacija "Alpinity" koja tu prazninu popunjava kombiniranjem računalnog vida i proširene stvarnosti tako da se linija smjera uživo projicira izravno na zaslonu mobilnog uređaja.
 
-Problem identifikacije penjačkih smjerova na terenu, koji proizlazi iz ograničenja tradicionalnih tiskanih i postojećih digitalnih vodiča, predstavljao je temeljnu motivaciju za ovaj diplomski rad. Cilj je bio implementirati aplikaciju "Alpinity" koja koristi tehnologije računalnog vida i proširene stvarnosti kako bi riješio taj problem.
+Rješenje se oslanja na klijent-poslužitelj arhitekturu: pozadinski sustav koji se brine o podacima te generira \textit{OpenAPI} dokumentaciju, dok su iOS i web aplikacije izgrađeni poluautomatski uz pomoć alata za generiranje tip-sigurnog koda. U iOS-aplikaciji ugrađena je mogućnost proširene stvarnosti temeljena na funkcijama biblioteke \textit{OpenCV} koje u stvarnom vremenu detektiraju ključne točke na stijeni, izračunavaju homografiju i transformiranu liniju smjera precizno iscrtavaju preko slike kamere.
 
-Uz rad razvijen je i funkcionalni digitalni penjački vodič koji se sastoji od pozadinskog sustava, web-aplikacije i mobilne aplikacije za iOS. Implementirana je funkcionalnost koja korisniku omogućuje da, usmjeravanjem kamere prema stijeni, u stvarnom vremenu dobije vizualnu informaciju o položaju penjačkog smjera. Testiranje u realnim uvjetima potvrdilo je da je odabrani algoritamski pristup, temeljen na detekciji značajki pomoću algoritma \textit{SIFT} i procjeni homografije, funkcionalan i sposoban za prepoznavanje smjerova s različitim vizualnim karakteristikama.
+Terenska provjera na Kalniku potvrdila je da aplikacija pouzdano pronalazi smjerove iz različitih kutova, uz prihvatljivo trajanje obrade na iPhone 15 Pro. Uočena je latencija između kretanja kamere i ažuriranja prikaza te povremena nestabilnost pri slaboj teksturi stijene, što upućuje na potrebu za daljnjim optimiziranjem toka obrade i dodatnim filtriranjem rezultata homografije.
 
-Međutim, testiranje i vrednovanje je također otkrilo i ograničenja implementacije, prvenstveno u vidu latencije i povremene nestabilnosti detekcije, što je posljedica računskog opterećenja na mobilnom uređaju. Unatoč tim ograničenjima, rad je demonstrirao da je koncept vizualizacije smjerova pomoću proširene stvarnosti izvediv i da nudi potencijal za unapređenje korisničkog iskustva digitalnih penjačkih vodiča.
+Daljnji razvoj trebao bi se usmjeriti na smanjenje latencije pomoću boljeg upravljanja niza ulaznih kadrova, uvođenje suvremenih naučenih deskriptora te omogućavanje istodobne detekcije više smjerova unutar sektora. Važan je i razvoj kolaborativnih mehanizama kojim bi zajednica penjača mogla jednostavno dopunjavati i revidirati bazu podataka.
 
-\section{Smjernice za budući razvoj}
-
-\subsection{Poboljšanja procesa prepoznavanja}
-
-Iako je razvijena aplikacija funkcionalna, postoji prostor za daljnja poboljšanja. U nastavku se razmatraju područja za budući razvoj, s posebnim naglaskom na unapređenje procesa prepoznavanja.
-
-Uočeni problemi latencije i vizualnog šuma mogu se ublažiti implementacijom optimizacija. Namještanjem parametara za algoritam \textit{SIFT} i povećanjem minimalnog broja potrebnih parova značajki mogli bi pojačati preciznost detekcije i smanjiti vizualni šum. Trenutna aplikacija izračunava homografiju neovisno za svaki obrađeni kadar, što može dovesti do nestabilnosti i pogrešne detekcije. U budućnosti bi se moglo implementirati provjera koeficijenta matrice homografije kako bi se osiguralo da matrica ne transformira sliku u nestvarne oblike ili koristeći druge apstraktnije metode provjere matrice~\cite{algebraic_outlier_rejection_homography}. Ako je dobivena matrica pala te testove onda se ne bi koristila za transformaciju slike i time se ne bi detektirala linija penjačkog smjera.
-
-Nadalje, obrada zamućenih kadrova, nastalih brzim pokretom kamere, bespotrebno troši resurse i može dovesti do pogrešnih podudaranosti. Moguće je implementirati pred-procesni korak za filtriranje zamućenih kadrova. Primjerice, izračunom varijance Laplaceove transformacije slike može se procjeniti razina oštrine, te bi se kadrovi koji ne zadovoljavaju minimalni prag oštrine mogli ne dodati u spremnik kadrova i time ne bi se slali na obradu pomoću algoritma \textit{SIFT}.
-
-Konačno, trenutna arhitektura dizajnirana je za prepoznavanje jednog, unaprijed odabranog smjera. Značajno unapređenje bilo bi omogućiti, u mobilnoj aplikaciji, detekciju više smjerova, recimo jednog sektora, istovremeno. To bi zahtijevalo da se deskriptori s kamere uspoređuju s cjelokupnom bazom deskriptora za sve smjerove u sektoru. Iako je ovo računski znatno zahtjevnije, pružilo bi bolje korisničko iskustvo.
-
-\subsection{Integracija topografskih prikaza}
-
-
-Testiranje je pokazalo da su referentne slike snimljene sa tla korisne za identifikaciju početka smjera, ali često ne mogu obuhvatiti cijeli tijek smjera, pogotovo kod dužih smjerova. S druge strane, klasične \textit{topo} skice, iako apstraktne, pružaju jasan pregled cijele linije. Budući razvoj mogao bi uključivati hibridni pristup. Nakon što aplikacija uspješno prepozna penjački smjer, korisniku bi se mogla ponuditi opcija prebacivanja na dvodimenzionalni \textit{topo} prikaz tog sektora, s jasno istaknutim prepoznatim smjerom. Time bi se kombinirale prednosti oba svijeta, precizna identifikacija na terenu i jasan pregled cijelog smjera pomoću topografske skice.
+Zaključno, "Alpinity" pokazuje da integracija računalnog vida i proširene stvarnosti može značajno unaprijediti praktičnu upotrebu penjačkih vodiča: skraćuje vrijeme traženja smjera, smanjuje mogućnost pogreške i obogaćuje cjelokupno iskustvo penjača. Dobiveni rezultati potvrđuju održivost koncepta i otvaraju prostor za daljnji razvoj aplikacije prema još potpunijem i pouzdanijem digitalnom penjačkom vodiču.
