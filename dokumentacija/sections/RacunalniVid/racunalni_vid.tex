@@ -2,7 +2,7 @@
 
 Prepoznavanje specifičnih objekata sa slike, u ovom slučaju prepoznavanje penjačkih smjerova na slici stijene, zahtijeva primjenu metoda koje su otporne na promjene u osvjetljenju, udaljenosti i kutu gledanja. Pristupi koji se temelje na uspoređivanju piksela slike su neefikasni i nepouzdani jer su osjetljivi na spomenute varijacije. Zbog toga se koriste robusnije metode temeljene na detekciji i opisu lokalnih značajki (eng. \textit{feature-based methods}). Temeljna ideja je pronaći jedinstvene, stabilne i ponovljive točke na slici, značajke, te ih iskoristiti za usporedbu i prepoznavanje.
 
-Cjelokupni proces prepoznavanja penjačkog smjera pomoću detekcije značajki zahtijeva tri komponente, referentnu sliku penjačkog smjera, referentnu sliku linije penjačkog smjera te sliku stijene dobivene s kamere mobilnog uređaja (Slika~\ref{fig:tri_kljucne_slike}).
+Cjelokupni proces prepoznavanja penjačkog smjera pomoću detekcije značajki zahtijeva tri komponente: sliku stijene dobivene s kamere mobilnog uređaja, referentnu sliku penjačkog smjera te referentnu sliku linije penjačkog smjera (Slika~\ref{fig:tri_kljucne_slike}).
 
 \begin{figure}[H]
     \centering
@@ -31,10 +31,10 @@ Cjelokupni proces prepoznavanja penjačkog smjera pomoću detekcije značajki za
 \end{figure}
 
 Referentna slika penjačkog smjera te referentna slika linije penjačkog smjera moraju biti istih dimenzija. Proces se može raščlaniti na sljedeće korake.
-Prvi korak je detekcija i opis značajki (eng. \textit{feature detection and description}), gdje se na referentnoj slici, unaprijed pripremljenoj slici stijene, i slici dobivenoj s kamere pronalaze ključne točke te se za svaku ključnu točku generira jedinstveni numerički opis, odnosno deskriptor. Potom se uparuju značajke između slika uspoređujući deskriptore, tipično koristeći postojeće algoritme. 
-Te uparene značajke koriste se u trećem koraku, gdje se računa procjena geometrijske transformacije. Računa se matematički model - homografija, koja opisuje kako je slika stijene dobivene s kamera rotirana, skalirana i perspektivno izobličena u odnosu na referentnu sliku. Konačno provodi se primjena transformacije, gdje se izračunati model koristi kako bi se referentna slika linije penjačkog smjera preslikala na sliku dobivenu s kamere. Time se postiže željeni efekt vizualizacije penjačkog smjera u stvarnom vremenu.
+Prvi korak je detekcija i opis značajki (eng. \textit{feature detection and description}), gdje se na referentnoj, unaprijed pripremljenoj, slici stijene i slici dobivenoj s kamere pronalaze ključne točke, odnosno specifične značajke te stijene. Za svaku ključnu točku generira se jedinstveni numerički opis, odnosno deskriptor. Potom se uparuju ključne točke između slika uspoređujući deskriptore koristeći postojeće algoritme. 
+Uparene ključne točke koriste se u trećem koraku, gdje se računa procjena geometrijske transformacije. Računa se matematički model - homografija, koja opisuje kako je slika stijene dobivene s kamere rotirana, skalirana i perspektivno izobličena u odnosu na referentnu sliku. Konačno provodi se primjena transformacije, gdje se izračunati model koristi kako bi se referentna slika linije penjačkog smjera preslikala na sliku dobivenu s kamere. Time se postiže željeni efekt vizualizacije penjačkog smjera u stvarnom vremenu.
 
-U ovom poglavlju detaljno se obrađuju svi koraci procesa prepoznavanja penjačkog smjera, od detekcije značajki, preko uparivanja značajki do transformacije perspektive, koristeći prave slike penjačkog smjera i biblioteku \textit{OpenCV}.
+U narednom poglavlju detaljno se obrađuju svi koraci procesa prepoznavanja penjačkog smjera, od detekcije i uparivanja značajki do transformacije perspektive, koristeći prave slike penjačkog smjera i biblioteku \textit{OpenCV}.
 
 \input{sections/RacunalniVid/subsections/detekcija_znacajki.tex}
 \input{sections/RacunalniVid/subsections/uparivanje_znacajki.tex}

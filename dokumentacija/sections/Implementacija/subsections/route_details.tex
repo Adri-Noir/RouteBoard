@@ -1,5 +1,7 @@
 \section{Detalji penjačkog smjera}
 
+Pristupom detaljnom pregledu pojedinog penjačkog smjera na mobilnoj aplikaciji (Slika \ref{fig:detalji_smjera}), korisniku se prikazuju informacije o smjeru.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.3\textwidth]{images/implementacija/route-details/route-details.jpg}
@@ -7,9 +9,9 @@
     \label{fig:detalji_smjera}
 \end{figure}
 
-Pristupom detaljnom pregledu pojedinog penjačkog smjera na mobilnoj aplikaciji (Slika \ref{fig:detalji_smjera}), korisniku se prikazuju informacije o smjeru. Na vrhu zaslona istaknuti su osnovni podaci poput naziva, lokacije u obliku imena penjališta i sektora, težine te tip smjera. 
-U pozadini se nalazi referentna slika smjera, a klikom na pozadinu nestaju sve informacije o smjeru kako bi slika postala vidljiva.
-Ispod generalnih informacija, aplikacija nudi detaljni uvid u karakteristike penjačkog smjera koristeći oznake za opisivanje stila penjanja. Neke od karakteristika su veliki hvatovi, tehnički potezi, mali hvatovi i kosa stijena. Karakteristike određuju penjači koji su upisali uspon smjera.
+Na vrhu zaslona istaknuti su osnovni podaci poput naziva, lokacije u obliku imena penjališta i sektora, težine i tip smjera. 
+U pozadini se nalazi referentna slika smjera, a klikom na pozadinu nestaju sve informacije o smjeru kako bi slika postala jasnije vidljiva.
+Ispod generalnih informacija, aplikacija nudi detaljni uvid u karakteristike penjačkog smjera koristeći oznake za opisivanje stila penjanja. Neke od karakteristika su veliki hvatovi, tehnički potezi, mali hvatovi i kosa stijena. Karakteristike definiraju penjači koji su upisali uspon smjera.
 
 \begin{figure}[H]
     \centering
@@ -18,7 +20,11 @@ Ispod generalnih informacija, aplikacija nudi detaljni uvid u karakteristike pen
     \label{fig:detalji_smjera_web}
 \end{figure}
 
-Na web-aplikaciji korisniku se prikazuju iste informacije, no one se nalaze u listi penjačkih smjerova kada je označen pregled određenog sektora na stranici detalja penjališta (Slika~\ref{fig:detalji_smjera_web}). Klikom na smjer u listi, korisniku se na lijevo prikazuje referentna slika smjera s nacrtanom linijom.
+Na web-aplikaciji korisniku se prikazuju iste informacije, no one se nalaze u listi penjačkih smjerova za označen sektor na stranici detalja penjališta (Slika~\ref{fig:detalji_smjera_web}). Klikom na smjer u listi, korisniku se prikazuje referentna slika smjera s nacrtanom linijom.
+
+\pagebreak
+
+Klikom na gumb "Zapiši uspon" (eng. \textit{Log Ascent}) na mobilnoj aplikaciji ili u izborniku na kartici penjačkog smjera na web-aplikaciji, korisnik pristupa sučelju za unos podataka o usponu (Slika~\ref{fig:formular_uspona}).
 
 \begin{figure}[H]
     \centering
@@ -39,7 +45,11 @@ Na web-aplikaciji korisniku se prikazuju iste informacije, no one se nalaze u li
     \label{fig:formular_uspona}
 \end{figure}
 
-Klikom na gumb "Zapiši uspon" (eng. \textit{Log Ascent}) ili na web-aplikaciji u izborniku na kartici penjačkog smjera, korisnik pristupa sučelju za unos podataka o usponu (Slika~\ref{fig:formular_uspona}). Za unos uspona potrebno je odabrati datum i stil uspona. Opcije za stil uspona su \textit{Flash}, \textit{Onsight}, \textit{Redpoint} i \textit{Aid}. Korisnik također može unijeti broj pokušaja, dati ocjenu u obliku broja zvjezdica te odabrati karakteristike smjera. Finalno korisnik može unijeti neki komentar uspona što može uključivati neka upozorenja ili pohvale za kvalitetu smjera.
+Za unos uspona potrebno je odabrati datum i stil uspona. Opcije za stil uspona su \textit{Flash}, \textit{Onsight}, \textit{Redpoint} i \textit{Aid}. Korisnik može unijeti i broj pokušaja, dati ocjenu u obliku broja zvjezdica te odabrati karakteristike smjera. Konačno, korisnik može unijeti neki komentar uspona što može uključivati neka upozorenja ili pohvale za kvalitetu smjera.
+
+\pagebreak
+
+Klikom na gumb za prikaz uspona u gornjem desnom kutu zaslona ili klikom na gumb za prikaz uspona u kartici penjačkog smjera na web-aplikaciji, korisniku se prikazuje popis uspona na penjačkom smjeru (Slika~\ref{fig:prikaz_uspona}).
 
 \begin{figure}[H]
     \centering
@@ -60,4 +70,4 @@ Klikom na gumb "Zapiši uspon" (eng. \textit{Log Ascent}) ili na web-aplikaciji 
     \label{fig:prikaz_uspona}
 \end{figure}
 
-Klikom na gumb za prikaz uspona u gornjem desnom kutu zaslona ili klikom na gumb za prikaz uspona u kartici penjačkog smjera na web-aplikaciji, korisniku se prikazuje popis uspona na penjačkom smjeru (Slika~\ref{fig:prikaz_uspona}). Popis sadrži zabilježene uspone svih korisnika sortirano po datumu uspona od najnovije prema najstarijem. Svaki unos sadrži korisničko ime, stil uspona, predloženu težinu, karakteristike penjačkog smjera koje je korisnik unio, osobni komentar i broj zvjezdica.
+ Popis sadrži zabilježene uspone svih korisnika sortirane po datumu uspona od najnovijeg prema najstarijem. Svaki unos sadrži korisničko ime, stil uspona, predloženu težinu, karakteristike penjačkog smjera, osobni komentar i broj zvjezdica.

@@ -2,12 +2,13 @@
 
 \subsection{Odabir algoritma detekcije značajki}
 
-Za uspješno prepoznavanje objekta potrebno je odabrati algoritam koji može detektirati značajke koje su invarijantne na promjene u okolini. U domeni detekcije značajki postoji nekoliko algoritama, koji se razlikuju po brzini i preciznosti detekcija. Primjerice algoritam \textit{SURF} (eng. \textit{Speeded Up Robust Features}) je dizajniran kao brža aproksimacija algoritma \textit{SIFT} (eng. \textit{Scale-Invariant Feature Transform}), koristeći integralne slike za ubrzanje izračuna.
-Algoritam \textit{ORB} (eng. \textit{Oriented FAST and Rotated BRIEF}), koji kombinira brži detektor kutova \textit{FAST} (eng. \textit{Features from Accelerated Segment Test}) s binarnim deskriptorima \textit{BRIEF} (eng. \textit{Binary Robust Independent Elementary Features}), što ga čini iznimno popularnim za uvjete mobilnih uređaja s ograničenim resursima. 
+Za uspješno prepoznavanje objekta potrebno je odabrati algoritam koji može detektirati značajke koje su invarijantne na promjene u okolini. U domeni detekcije značajki postoji nekoliko algoritama, koji se razlikuju po brzini i preciznosti detekcija. 
+Primjerice algoritam \textit{ORB} (eng. \textit{Oriented FAST and Rotated BRIEF}) kombinira brži detektor kutova \textit{FAST} (eng. \textit{Features from Accelerated Segment Test}) s binarnim deskriptorima \textit{BRIEF} (eng. \textit{Binary Robust Independent Elementary Features}), što ga čini iznimno pogodnim za mobilne uređaje s ograničenim resursima.
+Algoritam \textit{SURF} (eng. \textit{Speeded Up Robust Features}) je dizajniran kao brža aproksimacija algoritma \textit{SIFT} (eng. \textit{Scale-Invariant Feature Transform}) jer koristi integralne slike za ubrzanje izračuna. 
 Iako je sporiji, u ovom radu se proučava i koristi algoritam \textit{SIFT}, koji je razvio David Lowe~\cite{lowe2004sift}. 
 Odluka se temelji na njegovoj preciznosti i robusnosti u odnosu na ostale algoritme, iako zahtijeva više resursa. Algoritam \textit{SIFT} generira visokodimenzionalne deskriptore koji omogućuju pouzdanije prepoznavanje kompleksnih površina poput prirodne stijene. 
 
-Iako su pristupi temeljeni na dubokom učenju (eng. \textit{deep learning}) u suvremenom računalnom vidu vrlo popularni, njihova je primjena u ovom problemu nepraktična zbog velike količine podataka potrebnih za treniranje. Za svaki penjački smjer potrebno je prikupiti velik broj slika snimljenih iz različitih kutova, udaljenosti i uvjeta osvjetljenja te ih ručno kategorizirati. Budući da je aplikacija dinamična, a penjačke smjerove dodaju korisnici, bilo bi pri svakom novom unosu podataka potrebno ponovno trenirati model. Takav proces prikupljanja podataka i treniranja modela iznimno je zahtjevan i nepraktičan. \textit{SIFT} i drugi algoritmi detekcije značajki temelje se na učenju iz jednog primjera, tj. dovoljna je jedna referentna slika za kasnije prepoznavanje. 
+Iako su pristupi temeljeni na dubokom učenju (eng. \textit{deep learning}) u suvremenom računalnom vidu vrlo popularni, njihova je primjena u ovom problemu nepraktična zbog velike količine podataka potrebnih za treniranje. Za svaki penjački smjer potrebno je prikupiti velik broj slika snimljenih iz različitih kutova, udaljenosti i uvjeta osvjetljenja te ih ručno kategorizirati. Budući da je aplikacija dinamična, a penjačke smjerove dodaju korisnici, pri svakom novom unosu podataka bilo bi potrebno ponovno trenirati model. Takav proces prikupljanja podataka i treniranja modela iznimno je zahtjevan i nepraktičan. Za \textit{SIFT} i druge algoritme detekcije značajki dovoljna je jedna referentna slika za kasnije prepoznavanje. 
 
 \subsection{Algoritam SIFT}
 
@@ -15,7 +16,7 @@ Rad algoritma \textit{SIFT} može se podijeliti u četiri faze~\cite{lowe2004sif
 
 \subsubsection{Detekcija ekstremnih točaka u prostoru skale}
 U prvoj fazi se detektiraju ekstremi u prostoru skale.
-Kako bi se značajke mogle pronaći neovisno o veličini objekta, najprije se izgradi prostorno-skalni prikaz slike. Izvorna slika se više puta zamućuje Gaussovim filtrom pri istoj rezoluciji. Svaka nova, jače zamućena verzija predstavlja višu skalu unutar te rezolucije, a cijeli skup tih slika naziva se oktavom. Kada se generira posljednja skala jedne oktave, slika se smanji (eng. \textit{downsample}) na polovinu širine i visine i taj umanjeni primjerak služi kao početak iduće oktave. Ponavljanjem postupka dobiva se piramida oktava (Slika~\ref{fig:octave_pyramid}) koja pokriva širok raspon veličina objekata.
+Kako bi se značajke mogle pronaći neovisno o veličini objekta, najprije se izgradi prostorno-skalni prikaz slike. Izvorna slika se više puta zamućuje Gaussovim filtrom pri istoj rezoluciji. Svaka nova, jače zamućena verzija predstavlja višu skalu unutar te rezolucije, a cijeli skup tih slika naziva se oktavom. Kada se generira posljednja skala jedne oktave, slika se smanji (eng. \textit{downsample}) na polovinu širine i visine i taj umanjeni primjerak služi kao početak iduće oktave. Ponavljanjem postupka dobiva se piramida oktava (Slika~\ref{fig:octave_pyramid}) koja pokriva širok raspon veličina objekta.
 
 \begin{figure}[H]
     \centering
@@ -25,7 +26,7 @@ Kako bi se značajke mogle pronaći neovisno o veličini objekta, najprije se iz
 \end{figure}
 
 Nakon što su izgrađene oktave, za svaku od njih stvara se piramida razlika Gaussovih funkcija (\textit{DoG}) tako da se oduzimaju uzastopno zamućene slike (Slika~\ref{fig:dog_side_by_side}). \textit{DoG} naglašava područja gdje se intenzitet mijenja te služi kao brza aproksimacija Laplaceove-Gaussove funkcije.
-Ključne točke pronalaze se kao lokalni ekstremi u trodimenzionalnom \textit{DoG}-volumenu. Svaki piksel u \textit{DoG}-slici uspoređuje se s osam susjeda na istoj skali te s devet piksela u skali iznad i devet u skali ispod - ukupno 26 susjeda (Slika~\ref{fig:dog_comparison}). Ako je njegova vrijednost strogo veća ili strogo manja od svih uspoređenih susjeda, proglašava se kandidatom za značajku.
+Ključne točke pronalaze se kao lokalni ekstremi u trodimenzionalnom \textit{DoG}-volumenu. Svaki piksel u \textit{DoG}-slici uspoređuje se s osam susjeda na istoj skali te s devet piksela u skali iznad i devet u skali ispod - ukupno 26 susjeda (Slika~\ref{fig:dog_comparison}). Ako je njegova vrijednost strogo veća ili strogo manja od svih uspoređenih susjeda, proglašava se kandidatom za ključnu točku.
 Time se dobiva početni skup potencijalnih ključnih točaka koji se zatim šalje u iduću fazu filtriranja.
 
 \begin{figure}[H]
@@ -48,13 +49,13 @@ Time se dobiva početni skup potencijalnih ključnih točaka koji se zatim šalj
 \end{figure}
 
 \subsubsection{Filtriranje nestabilnih ključnih točaka}
-Kandidati dobiveni u prethodnoj fazi trebaju se dalje filtrirati kako bi se odbacile nestabilne točke. Prvo se interpolira vrijednost sub-piksela gdje se nalazi lokacija ekstrema. Ideja iza interpolacije je da se želi povećati preciznost i stabilnost ključnih točaka. Preciznije točke omogućuju bolje uparivanje te kvalitetnije naknadno korištenje značajnih točaka, kao kod izračuna homografije. Nakon interpolacije primjenjuje se eliminacija točaka koje leže na rubovima. Rubovi su detektirani kao ekstremi, no točke na samom rubu su nepouzdane za precizno uparivanje jer je njihova lokacija duž samog ruba slabo definirana.
+Kandidati dobiveni u prethodnoj fazi trebaju se dalje filtrirati kako bi se odbacile nestabilne točke. Prvo se interpolira vrijednost sub-piksela gdje se nalazi lokacija ekstrema. Ideja interpolacije je povećati preciznost i stabilnost ključnih točaka. Preciznije točke omogućuju bolje uparivanje te kvalitetnije naknadno korištenje značajnih točaka, kao kod izračuna homografije. Nakon interpolacije primjenjuje se eliminacija točaka koje leže na rubovima. Rubovi su detektirani kao ekstremi, no točke na samom rubu su nepouzdane za precizno uparivanje jer je njihova lokacija duž samog ruba slabo definirana.
 
 \subsubsection{Dodjeljivanje orijentacije ključnim točkama}
 Kako bi se postigla neovisnost o rotaciji, svakoj preostaloj ključnoj točki dodjeljuje se jedna ili više orijentacija. Orijentacija se izračunava na temelju lokalnog gradijenta slike u okolini ključne točke koristeći magnitudu i smjer gradijenta svakog piksela. Za svaku ključnu točku kreira se histogram orijentacija gradijenta s 36 spremnika koji svaki pokriva kut od 10 stupnjeva. 
-Skala ključne točke ($\sigma$) definirana je kao standardna devijacija najmanjeg Gaussovog filtera u paru korištenom za izračun odgovarajuće \textit{DoG}-slike. Ona time određuje promjer okolne regije točke.
+Skala ključne točke ($\sigma$) definirana je kao standardna devijacija najmanjeg Gaussovog filtera u paru korištenom za izračun odgovarajuće \textit{DoG}-slike. Time se određuje promjer okolne regije točke.
 Svaki uzorak u histogramu određen je svojom magnitudom gradijenta i Gaussovim kružnim prozorom čiji je $\sigma_{w}=1{,}5 * \sigma$, pa uzorci bliže središtu i s jačim gradijentom više utječu na visinu stupaca histograma. Vrh tog histograma definira dominantnu orijentaciju ključne točke (Slika~\ref{fig:sift_rotation}).
-Ako postoji više od jedne orijentacije, tj. ako postoji orijentacija koja je veća od 80\% od dominantne orijentacije, tada se kreira nova ključna točka s istim položajem i skalom, ali s drugom orijentacijom. Time se povećava stabilnost uparivanja na mjestima s kompleksnim gradijentom.
+Ako postoji više od jedne orijentacije, tj. ako postoji orijentacija čija je skala veća od 80\% skale dominantne orijentacije, tada se kreira nova ključna točka s istim položajem i skalom, ali s drugom orijentacijom. Time se povećava stabilnost uparivanja na mjestima s kompleksnim gradijentom.
 
 \begin{figure}[H]
     \centering
@@ -73,7 +74,7 @@ Posljednji korak je stvaranje jedinstvenog numeričkog deskriptora za svaku klju
     \label{fig:sift_descriptor}
 \end{figure}
 
-Izlaz iz algoritma \textit{SIFT} je skup detektiranih značajki, tj. njen položaj, skala, orijentacija i 128-dimenzionalni deskriptor. Cijeli proces algoritma \textit{SIFT} provodi se na referentnoj slici penjačkog smjera i slici dobivene s kamere mobilnog uređaja. Slika~\ref{fig:detekcija_znacajki} prikazuje primjer detekcije značajki algoritmom \textit{SIFT} za referentnu sliku penjačkog smjera i sliku dobivenu s kamere mobilnog uređaja. Radi preglednosti prikazuju se samo značajke s većom skalom.
+Rezultat algoritma \textit{SIFT} je skup detektiranih značajki s položajem, skalom, orijentacijom i 128-dimenzionalni deskriptorom. Cijeli proces algoritma \textit{SIFT} provodi se na referentnoj slici penjačkog smjera i slici dobivenoj s kamere mobilnog uređaja. Slika~\ref{fig:detekcija_znacajki} prikazuje primjer detekcije značajki algoritmom \textit{SIFT} za referentnu sliku penjačkog smjera i slici s kamere mobilnog uređaja. Radi preglednosti prikazuju se samo značajke s većom skalom.
 
 \begin{figure}[H]
     \centering

@@ -1,10 +1,10 @@
 \section{Unos i uređivanje podataka}
 
 
-Kako bi aplikacija bila dinamična i ažurna, mora omogućiti ovlaštenim korisnicima kreiranje i uređivanje svih hijerarhijskih razina podataka, od penjališta do pojedinačnih penjačkih smjerova.
+Da bi aplikacija bila dinamična i ažurna, mora omogućiti ovlaštenim korisnicima kreiranje i uređivanje svih hijerarhijskih razina podataka, od penjališta do pojedinačnih penjačkih smjerova.
 \subsection{Dodavanje, uređivanje i brisanje penjališta}
 
-Na korisničkom profilu omogućeno je kreiranje novog penjališta u izborniku u gornjem desnom kutu korisničkog profila. Na web-aplikaciji ta opcija se nalazi u navigacijskoj traci u postavkama korisničkog izbornika. Funkcionalnost kreiranja novog penjališta nije dostupna svim korisnicima, već je ograničena na one s posebnim ovlastima, a to su administratori aplikacije i verificirani korisnici (eng. \textit{creators}). 
+Na korisničkom profilu omogućeno je kreiranje novog penjališta u izborniku u gornjem desnom kutu korisničkog profila. Na web-aplikaciji se ta opcija nalazi u navigacijskoj traci u postavkama korisničkog izbornika. Funkcionalnost kreiranja novog penjališta nije dostupna svim korisnicima, već je ograničena na one s posebnim ovlastima, a to su administratori aplikacije i verificirani korisnici (eng. \textit{creators}). 
 
 \begin{figure}[H]
     \centering
@@ -25,7 +25,7 @@ Na korisničkom profilu omogućeno je kreiranje novog penjališta u izborniku u 
     \label{fig:dodavanje_lokacije}
 \end{figure}
 
-Ovlašteni korisnik odabirom ove opcije pristupa sučelju za unos novog penjališta (Slika~\ref{fig:dodavanje_lokacije}). Potrebno je unijeti naziv penjališta, opcionalni opis koji može sadržavati informacije o povijesti regije ili slične zanimljivosti, te naziv šire geografske lokacije. Ime geografske lokacije korisnik može samostalno dodati, no ako ne postoji, aplikacija će automatski dodati naziv geografske lokacije na temelju lokacije penjališta. Ključno, korisnik može dodati jednu ili više fotografija koje vizualno predstavljaju penjalište. Nakon unosa svih podataka, novo penjalište se stvara u aplikaciji i postaje dostupno svim korisnicima.
+Odabirom ove opcije, ovlašteni korisnik pristupa sučelju za unos novog penjališta (Slika~\ref{fig:dodavanje_lokacije}). Potrebno je unijeti naziv penjališta, opcionalni opis koji može sadržavati informacije o povijesti regije ili slične zanimljivosti, te naziv šire geografske lokacije. Ime geografske lokacije korisnik može samostalno dodati, no ako ne postoji, aplikacija će automatski dodijeliti naziv geografske lokacije na temelju lokacije penjališta. Ključno, korisnik može dodati jednu ili više fotografija koje vizualno predstavljaju penjalište. Nakon unosa svih podataka, novo penjalište se stvara u aplikaciji i postaje dostupno svim korisnicima.
 
 \begin{figure}[H]
     \centering
@@ -49,7 +49,7 @@ Ovlašteni korisnik odabirom ove opcije pristupa sučelju za unos novog penjali�
 Osim kreiranja novih, ovlašteni korisnici imaju mogućnost i uređivanja postojećih penjališta (Slika~\ref{fig:uredjivanje_lokacije}). Pristup ovoj funkcionalnosti omogućen je u izborniku na zaslonu s detaljnim pregledom penjališta. 
 Sučelje za uređivanje omogućuje promjenu svih prethodno unesenih podataka, uključujući naziv, opis i naziv geografske lokacije. Korisnici također mogu upravljati galerijom fotografija, dodajući nove ili uklanjajući postojeće slike. 
 
-Brisanje penjališta dostupno je u izborniku na zaslonu detaljnog pregleda penjališta. Klikom na opciju "Izbriši penjalište" (eng. \textit{Delete crag}) korisniku se prikazuje prozor s upitom o potvrdi brisanja. Ako korisnik potvrdi brisanje, penjalište se briše iz aplikacije i postaje nedostupan svim korisnicima.
+Brisanje penjališta dostupno je u izborniku na zaslonu detaljnog pregleda penjališta. Klikom na opciju "Izbriši penjalište" (eng. \textit{Delete crag}) korisniku se prikazuje prozor s upitom o potvrdi brisanja. Ako korisnik potvrdi brisanje, penjalište se briše iz aplikacije i postaje nedostupno svim korisnicima.
 
 \subsection{Upravljanje korisničkim ovlastima}
 
@@ -74,12 +74,12 @@ Kako bi se osigurala kontrola nad unosom i uređivanjem podataka, a istovremeno 
     \label{fig:upravljanje_ovlastima}
 \end{figure}
 
-Pristupom pregledu za upravljanje ovlastima prikazuje se popis svih korisnika koji trenutno imaju ili mogu dobiti dozvolu za uređivanje sadržaja na tom penjalištu (Slika~\ref{fig:upravljanje_ovlastima}). Sučelje omogućuje pretragu korisnika po korisničkom imenu te odabir jednog ili više korisnika kojima se želi dodijeliti ili oduzeti ovlasti uređivanja. Time odabrani korisnik dobiva prava uređivanja penjališta bez davanja potpunih administrativnih ili \textit{creator} prava.
+Pristupom pregledu za upravljanje ovlastima prikazuje se popis svih korisnika koji trenutno imaju ili mogu dobiti dozvolu za uređivanje sadržaja na tom penjalištu (Slika~\ref{fig:upravljanje_ovlastima}). Sučelje omogućuje pretragu korisnika po korisničkom imenu te odabir jednog ili više korisnika kojima se želi dodijeliti ili oduzeti ovlasti uređivanja. Time odabrani korisnik dobiva prava uređivanja penjališta bez davanja potpunih administrativnih ili uređivačkih prava.
 
 
 \subsection{Dodavanje, uređivanje i brisanje sektora}
 
-Unutar svakog penjališta, ovlašteni korisnici mogu dalje strukturirati sadržaj kreiranjem i uređivanjem sektora. Pristup opciji za dodavanje nalazi se u izborniku na zaslonu s detaljnim pregledom penjališta. 
+Unutar svakog penjališta, ovlašteni korisnici mogu strukturirati sadržaj kreiranjem i uređivanjem sektora. Pristup opciji za dodavanje nalazi se u izborniku na zaslonu s detaljnim pregledom penjališta. 
 
 \begin{figure}[H]
     \centering
@@ -100,9 +100,9 @@ Unutar svakog penjališta, ovlašteni korisnici mogu dalje strukturirati sadrža
     \label{fig:dodavanje_sektora}
 \end{figure}
 
-Sučelje za unos novog sektora zahtijeva od korisnika unos naziva sektora i opcionalnog opisa, koji može sadržavati specifične informacije koje su specifične za sektore te ostale relevantne informacije (Slika~\ref{fig:dodavanje_sektora}). Osim naziva, sučelje zahtijeva i upis lokacije u obliku koordinata. Sučelje taj proces olakšava uporabom geografske karte, koja omogućuje korisniku da odabere lokaciju sektora na karti ili pretraživanjem po nazivu lokacije. Kao i kod penjališta, moguće je dodati jednu ili više fotografija koje vizualno predstavljaju sektor.
+Sučelje za unos novog sektora zahtijeva od korisnika unos naziva sektora i opcionalnog opisa, koji može sadržavati informacije specifične za sektor (Slika~\ref{fig:dodavanje_sektora}). Osim naziva, sučelje zahtijeva i upis lokacije u obliku koordinata. Taj proces je olakšan uporabom geografske karte, koja omogućuje korisniku da odabere lokaciju sektora na karti ili pretraži po nazivu lokacije. Kao i kod penjališta, moguće je dodati jednu ili više fotografija koje vizualno predstavljaju sektor.
 
-Postojeći sektori mogu se uređivati na sličan način. Odabirom određenog sektora, korisniku se prikaže izbornik u kojem se nalazi opcija "Uredi sektor" (eng. \textit{Edit sector}). Sučelje omogućuje uređivanje naziva, opisa, lokaciju i galeriju fotografija. (Slika~\ref{fig:uredjivanje_sektora})
+Postojeći sektori mogu se uređivati na sličan način. Odabirom određenog sektora, korisniku se prikaže izbornik u kojem se nalazi opcija "Uredi sektor" (eng. \textit{Edit sector}). Sučelje omogućuje uređivanje naziva, opisa, lokacije i galerije fotografija. (Slika~\ref{fig:uredjivanje_sektora})
 
 \begin{figure}[H]
     \centering
@@ -123,7 +123,7 @@ Postojeći sektori mogu se uređivati na sličan način. Odabirom određenog sek
     \label{fig:uredjivanje_sektora}
 \end{figure}
 
-Brisanje sektora dostupno je izborniku na zaslonu s detaljnim pregledom penjališta s označenim sektorom. Klikom na opciju "Izbriši sektor" (eng. \textit{Delete sector}) korisniku se prikazuje prozor s upitom o potvrdi brisanja. Ako korisnik potvrdi brisanje, sektor se briše iz aplikacije i postaje nedostupan svim korisnicima.
+Brisanje sektora dostupno je na izborniku na zaslonu s detaljnim pregledom penjališta s označenim sektorom. Klikom na opciju "Izbriši sektor" (eng. \textit{Delete sector}) korisniku se prikazuje prozor s upitom o potvrdi brisanja. Ako korisnik potvrdi brisanje, sektor se briše iz aplikacije i postaje nedostupan svim korisnicima.
 
 
 \subsection{Dodavanje, uređivanje i brisanje penjačkih smjerova}
@@ -150,7 +150,7 @@ Na najnižoj hijerarhijskoj razini nalazi se unos i uređivanje pojedinačnih pe
 \end{figure}
 
 Sučelje za izradu novog penjačkog smjera uključuje polja poput naziva, opisa, težine, tipa smjera i dužine (Slika~\ref{fig:dodavanje_smjera}). Opcije za tip smjera uključuju \textit{boulder}, sportski, tradicionalni ili smjer s više penjačkih smjerova. 
-Važno je primijetiti kako opcija dodavanja slike smjera nije dostupna u sučelju. Dodavanje fotografije je moguće nakon kreiranja smjera u pregledu detalja smjera i dostupno je samo na mobilnoj aplikaciji. Klikom na izbornik u gornjem desnom kutu pregleda detalja smjera, korisniku se prikazuje izbornik u kojem se nalazi opcija za dodavanje fotografije. Prvi korak u procesu dodavanja fotografije je slikanje smjera pomoću kamere mobilnog uređaja. Nakon slikanja, korisniku se prikazuje slika na koju se može ručno ucrtati linija smjera. Time je korisnik kreirao referentnu sliku smjera koja se može koristiti za prepoznavanje smjera (Slika~\ref{fig:dodavanje_fotografije_smjera}).
+Važno je primijetiti kako opcija dodavanja slike smjera nije dostupna u sučelju. Dodavanje fotografije je moguće nakon kreiranja smjera u pregledu detalja smjera i dostupno je svim korisnicima, ali samo na mobilnoj aplikaciji. Klikom na izbornik u gornjem desnom kutu pregleda detalja smjera, korisniku se prikazuje izbornik u kojem se nalazi opcija za dodavanje fotografije. Prvi korak u procesu dodavanja fotografije je slikanje smjera pomoću kamere mobilnog uređaja. Nakon slikanja, korisniku se prikazuje slika na koju se može ručno ucrtati linija smjera. Time je korisnik kreirao referentnu sliku smjera koja se može koristiti za prepoznavanje smjera (Slika~\ref{fig:dodavanje_fotografije_smjera}).
 
 \begin{figure}[H]
     \centering
@@ -159,7 +159,7 @@ Važno je primijetiti kako opcija dodavanja slike smjera nije dostupna u sučelj
     \label{fig:dodavanje_fotografije_smjera}
 \end{figure}
 
-Uređivanje postojećeg penjačkog smjera dostupno je u izborniku na zaslonu s detaljnim pregledom tog penjačkog smjera. Na web-aplikaciji izbornik se nalazi na izborniku u tablici kada je označen pregled svih sektora ili u listi kada je označen neki sektor. 
+Uređivanje postojećeg penjačkog smjera dostupno je u izborniku na zaslonu s detaljnim pregledom penjačkog smjera. Na web-aplikaciji opcija se nalazi na izborniku na kartici penjačkog smjera.
 
 \begin{figure}[H]
     \centering
@@ -183,12 +183,12 @@ Uređivanje postojećeg penjačkog smjera dostupno je u izborniku na zaslonu s d
 Sučelje omogućuje uređivanje svih podataka o penjačkom smjeru, uključujući naziv, opis, težinu, tip smjera i dužinu, no također je omogućuje brisanje fotografija smjera (Slika~\ref{fig:uredjivanje_smjera}).
 
 
-Brisanje penjačkog smjera dostupno je u izborniku na zaslonu s detaljnim pregledom smjera. Klikom na opciju "Izbriši smjer" (eng. \textit{Delete route}) korisniku se prikazuje prozor s upitom o potvrdi brisanja. Ako korisnik potvrdi brisanje, smjer se briše iz aplikacije i postaje nedostupan svim korisnicima.
+Brisanje penjačkog smjera dostupno je u izborniku na zaslonu s detaljnim pregledom smjera. Klikom na opciju "Izbriši smjer" (eng. \textit{Delete route}) korisniku se prikazuje prozor s upitom o potvrdi brisanja. Ako korisnik potvrdi brisanje, smjer se briše iz aplikacije i postaje nedostupan svim korisnicima. Uređivanje i brisanje smjera omogućeno je samo ovlaštenim korisnicima.
 
 
 \subsection{Uređivanje korisničkog profila}
 
-Unutar korisničkog profila, u gornjem desnom kutu, nalazi se izbornik koji sadrži dodatne opcije za upravljanje računom i, ovisno o korisnikovim ovlastima, za doprinos sadržaju aplikacije. Odabirom opcije "Uredi profil" (eng. \textit{Edit profile}) korisnik je preusmjeren na stranicu za uređivanje svojih podataka. Moguće je promijeniti ime, prezime, korisničko ime i datum rođenja. Aplikacija također omogućuje promjenu profilne fotografije te ažuriranje lozinke (Slika~\ref{fig:uredjivanje_profila}).
+Unutar korisničkog profila, u gornjem desnom kutu, nalazi se izbornik koji sadrži dodatne opcije za upravljanje računom i dodavanje penjališta. Odabirom opcije "Uredi profil" (eng. \textit{Edit profile}) korisnik je preusmjeren na stranicu za uređivanje svojih podataka. Moguće je promijeniti ime, prezime, korisničko ime i datum rođenja. Aplikacija također omogućuje promjenu profilne fotografije te ažuriranje lozinke (Slika~\ref{fig:uredjivanje_profila}).
 
 \begin{figure}[H]
     \centering

@@ -53,7 +53,7 @@ Aplikacija je u praksi potvrdila svoju funkcionalnost. Na smjeru "Apaches", koji
     \label{fig:apaches_test_double}
 \end{figure}
 
-Testiranje je na zahtjevnijem smjeru "Steyr" također rezultiralo u uspješnom detekcijom (Slika~\ref{fig:steyr_test_double}), no uočeno je da je za stabilno prepoznavanje bilo potrebno pažljivije i strpljivije usmjeravanje kamere prema stijeni kako bi linija smjera bila preciznije pozicionirana. 
+Testiranje je na zahtjevnijem smjeru "Steyr" također rezultiralo uspješnom detekcijom (Slika~\ref{fig:steyr_test_double}), no uočeno je da je za stabilno prepoznavanje bilo potrebno pažljivije i strpljivije usmjeravanje kamere prema stijeni kako bi linija smjera bila preciznije pozicionirana. 
 
 \begin{figure}[H]
     \centering
@@ -98,7 +98,7 @@ Iako je funkcionalna validacija bila uspješna, testiranje je otkrilo nekoliko p
 \end{figure}
 
 Prvi uočeni nedostatak je kašnjenje ili latencija između fizičkog pomicanja kamere i ažuriranja položaja virtualne linije na ekranu (Slika~\ref{fig:apaches_latency_double}). Ovo kašnjenje je posljedica računske zahtjevnosti algoritma SIFT i cjelokupnog procesa obrade koji se izvršava na mobilnom uređaju. Problem je izražen pri korištenju \textit{High} postavke razine prepoznavanja, gdje je kašnjenje bilo značajnije, dok je na \textit{Low} postavci bilo manje primjetno, ali uz smanjenu preciznost. 
-Važan uvid dobiven testiranjem, a isto vezan uz problem latencije, odnosi se na odluku o upravljanju kadrovima dobivenim s kamere. Inicijalna implementacija koristila je \textit{AsyncStream} s politikom \textit{bufferingOldest(1)}, s idejom da nije bitno je li se koristi \textit{bufferingOldest(1)} ili \textit{bufferingNewest(1)} jer se u idealnim uvjetima pokazalo da brzina obrade nije toliko mala da ima značaja. Međutim, u realnim uvjetima, posebice na \textit{High} postavci, obrada jednog kadra traje znatno duže od intervala između dva kadra. Korištenje politike \textit{bufferingOldest} u takvom scenariju dovodi do lošijih detekcija jer se koristi stariji kadar, a ne najnoviji. Time bi aplikacija prikazivala virtualnu liniju izračunatu na temelju kadra koji ne predstavlja najnoviji kadar.
+Važan uvid dobiven testiranjem, a isto vezan uz problem latencije, odnosi se na odluku o upravljanju kadrovima dobivenih s kamere. Inicijalna implementacija koristila je \textit{AsyncStream} s politikom \textit{bufferingOldest(1)}, s idejom da nije bitno je li se koristi \textit{bufferingOldest(1)} ili \textit{bufferingNewest(1)} jer je u idealnim uvjetima brzina obrade bila dovoljno velika za obje politike. Međutim, u realnim uvjetima, posebice na \textit{High} postavci, obrada jednog kadra traje znatno duže od intervala između dva kadra. Korištenje politike \textit{bufferingOldest} u takvom scenariju dovodi do lošijih detekcija jer se koristi stariji kadar, a ne najnoviji. Time bi aplikacija prikazivala virtualnu liniju izračunatu na temelju kadra koji ne predstavlja najnoviji kadar.
 
 \begin{figure}[H]
     \centering
@@ -119,11 +119,11 @@ Važan uvid dobiven testiranjem, a isto vezan uz problem latencije, odnosi se na
     \label{fig:steyr_bad_detection_double_2}
 \end{figure}
 
-Slika~\ref{fig:steyr_bad_detection_double_2} prikazuje primjer posljedice korištenja politike \textit{bufferingOldest(1)}. Problem je vidljiv usporedbom stanja prije pomicanja kamere (Slika~\ref{fig:steyr_bad_detection_2a}) i nakon (Slika~\ref{fig:steyr_bad_detection_2b}). Vidljivo je da se virtualna linija pojavila na pogrešnoj lokaciji prije nego što bi se stabilizirala na ispravnoj poziciji. Pogreška dolazi zbog sljedeće situacije. Kada je završila detekcija, proces detekcije uzima kadar iz spremnika i kreće obradu. Sljedeći kadar koji dolazi s kamere se sprema u spremnik i ne spremaju se novi kadrovi. Kada dolazi vrijeme za obradu novog kadra, uzima se taj stariji kadar. Korištenjem politike \textit{bufferingNewest(1)}, svaki novi kadar zamjenjuje kadar iz spremnika, što bi minimiziralo ovaj problem jer bi se obradio kadar koji je netom došao s kamere.
+Slika~\ref{fig:steyr_bad_detection_double_2} prikazuje primjer posljedice korištenja politike \textit{bufferingOldest(1)}. Problem je vidljiv usporedbom stanja prije pomicanja kamere (Slika~\ref{fig:steyr_bad_detection_2a}) i nakon (Slika~\ref{fig:steyr_bad_detection_2b}). Vidljivo je da se virtualna linija pojavila na pogrešnoj lokaciji prije nego što bi se stabilizirala na ispravnoj poziciji. Pogreška dolazi zbog sljedeće situacije: kada završi detekcija, proces uzima kadar iz spremnika i kreće obradu. Sljedeći kadar koji dolazi s kamere se sprema u spremnik i nakon njega se ne spremaju novi kadrovi. Kada dolazi vrijeme za obradu novog kadra, uzima se taj spremljeni kadar. Korištenjem politike \textit{bufferingNewest(1)}, svaki novi kadar bi zamijenio kadar iz spremnika, što bi minimiziralo ovaj problem jer bi se obradio kadar koji je netom došao s kamere.
 
 
 
-Drugi uočeni problem je nestabilnost detekcije. Tijekom korištenja, virtualna linija bi se kratkotrajno pojavila na pogrešnoj lokaciji prije nego što bi se stabilizirala na ispravnoj poziciji. Slika~\ref{fig:steyr_bad_detection_double_3} prikazuje primjer nestabilnosti detekcije smjera "Steyr".
+Drugi uočeni problem je nestabilnost detekcije. Tijekom korištenja, virtualna linija bi se kratkotrajno deformirala prije nego što bi se ispravno iscrtala. Slika~\ref{fig:steyr_bad_detection_double_3} prikazuje primjer nestabilnosti detekcije smjera "Steyr".
 
 \begin{figure}[H]
     \centering
@@ -145,19 +145,19 @@ Drugi uočeni problem je nestabilnost detekcije. Tijekom korištenja, virtualna 
 \end{figure}
 
 
-Ovaj fenomen nastaje u trenucima kada algoritam \textit{SIFT} i biblioteka \textit{FLANN} pronađu prividno dovoljan broj podudarnosti koje su zapravo pogrešne, ali ih algoritam \textit{RANSAC} prihvati kao valjan model. Slično se događa kada korisnik zapravo ne gleda u smjer, već negdje drugdje i na trenutak se pojavi linija penjačkog smjera. Iako se proces prepoznavanja oporavi i pronalazi ispravnu homografiju, ova nestabilnost može smanjiti povjerenje korisnika u aplikaciju. 
+Ovaj fenomen nastaje u trenucima kada algoritam \textit{SIFT} i biblioteka \textit{FLANN} pronađu prividno dovoljan broj podudarnosti koje su zapravo pogrešne, ali ih algoritam \textit{RANSAC} prihvati kao valjan model. Iako se proces prepoznavanja oporavi i pronalazi ispravnu homografiju, ova nestabilnost može smanjiti povjerenje korisnika u aplikaciju. 
 
 \section{Smjernice za budući razvoj}
 
-Iako je razvijena aplikacija funkcionalna, postoji prostor za daljnja poboljšanja. U nastavku se razmatraju područja za budući razvoj, s posebnim naglaskom na unapređenje procesa prepoznavanja.
+Razvijena aplikacija je funkcionalna, no postoji prostor za daljnja poboljšanja. U nastavku se razmatraju područja za budući razvoj, s posebnim naglaskom na unapređenje procesa prepoznavanja.
 
 \subsection{Poboljšanje procesa prepoznavanja}
 
-Uočeni problemi latencije i vizualnog šuma mogu se ublažiti implementacijom optimizacija. Prilagodbom parametara za algoritam \textit{SIFT} i povećanjem minimalnog broja potrebnih parova značajki mogli bi pojačati preciznost detekcije i smanjiti vizualni šum. Trenutna aplikacija izračunava homografiju neovisno za svaki obrađeni kadar, što može dovesti do nestabilnosti i pogrešne detekcije. U budućnosti bi se moglo implementirati provjera koeficijenta matrice homografije kako bi se osiguralo da matrica ne transformira sliku u nestvarne oblike ili koristeći druge apstraktnije metode provjere matrice~\cite{algebraic_outlier_rejection_homography}. Ako je dobivena matrica pala te testove onda se ne bi koristila za transformaciju slike i time se ne bi detektirala linija penjačkog smjera.
+Uočeni problemi latencije i vizualnog šuma mogu se ublažiti implementacijom optimizacija. Prilagodbom parametara za algoritam \textit{SIFT} i povećanjem minimalnog broja potrebnih parova značajki mogli bi pojačati preciznost detekcije i smanjiti vizualni šum. Trenutna aplikacija izračunava homografiju neovisno za svaki obrađeni kadar, što može dovesti do nestabilnosti i pogrešne detekcije. U budućnosti bi se moglo implementirati provjera koeficijenta matrice homografije kako bi se osiguralo da matrica ne transformira sliku u nestvarne oblike, no moguće je koristiti i druge metode provjere matrice~\cite{algebraic_outlier_rejection_homography}. Ukoliko bi dobivena matrica pala te provjere ona se ne bi koristila za transformaciju slike i time se ne bi iscrtala pogrešna linija penjačkog smjera.
 
-Nadalje, obrada zamućenih kadrova, nastalih brzim pokretom kamere, bespotrebno troši resurse i može dovesti do pogrešnih podudarnosti. Moguće je implementirati pred-procesni korak za filtriranje zamućenih kadrova. Primjerice, izračunom varijance Laplaceove transformacije slike može se procijeniti razina oštrine, te bi se kadrovi koji ne zadovoljavaju minimalni prag oštrine mogli ne dodati u spremnik kadrova i time ne bi se slali na obradu pomoću algoritma \textit{SIFT}.
+Nadalje, obrada zamućenih kadrova, nastalih brzim pokretom kamere, bespotrebno troši resurse i može dovesti do pogrešnih podudarnosti. Moguće je implementirati pred-procesni korak za filtriranje zamućenih kadrova. Primjerice, izračunom varijance Laplaceove transformacije slike može se procijeniti razina oštrine, te bi se kadrovi koji ne zadovoljavaju minimalni prag oštrine mogli izuzeti iz obrade.
 
-Konačno, trenutna arhitektura dizajnirana je za prepoznavanje jednog, unaprijed odabranog smjera. Značajno unapređenje bilo bi omogućiti, u mobilnoj aplikaciji, detekciju više smjerova, recimo jednog sektora, istovremeno. To bi zahtijevalo da se deskriptori s kamere uspoređuju s cjelokupnom bazom deskriptora za sve smjerove u sektoru. Iako je ovo računski znatno zahtjevnije, pružilo bi bolje korisničko iskustvo.
+Konačno, trenutna arhitektura dizajnirana je za prepoznavanje jednog, unaprijed odabranog smjera. Značajno unapređenje bilo bi omogućiti, u mobilnoj aplikaciji, detekciju više smjerova jednog sektora, istovremeno. To bi zahtijevalo da se deskriptori s kamere uspoređuju s cjelokupnom bazom deskriptora za sve smjerove u sektoru. Iako je ovo računski znatno zahtjevnije, pružilo bi bolje korisničko iskustvo.
 
 \subsection{Integracija topografskih prikaza}
 
