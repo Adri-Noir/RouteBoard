@@ -15,7 +15,7 @@ Rad algoritma \textit{SIFT} može se podijeliti u četiri faze~\cite{lowe2004sif
 
 \subsubsection{Detekcija ekstremnih točaka u prostoru skale}
 U prvoj fazi se detektiraju ekstremi u prostoru skale.
-Kako bi se značajke mogle pronaći neovisno o veličini objekta, najprije se izgradi prostorno-skalni prikaz slike. Izvorna slika se više puta zamućuje Gaussovim filtrom pri istoj rezoluciji. Svaka nova, jače zamućena verzija predstavlja višu skalu unutar te rezolucije, a cijeli skup tih slika naziva se oktavom. Kada se generira posljednja skala jedne oktave, slika se smanji (eng. \textit{downsample}) na polovinu širine i visine i taj umanjeni primjerak služi kao početak iduće oktave. Ponavljanjem postupka dobiva se piramida oktava (slika~\ref{fig:octave_pyramid}) koja pokriva širok raspon veličina objekata.
+Kako bi se značajke mogle pronaći neovisno o veličini objekta, najprije se izgradi prostorno-skalni prikaz slike. Izvorna slika se više puta zamućuje Gaussovim filtrom pri istoj rezoluciji. Svaka nova, jače zamućena verzija predstavlja višu skalu unutar te rezolucije, a cijeli skup tih slika naziva se oktavom. Kada se generira posljednja skala jedne oktave, slika se smanji (eng. \textit{downsample}) na polovinu širine i visine i taj umanjeni primjerak služi kao početak iduće oktave. Ponavljanjem postupka dobiva se piramida oktava (Slika~\ref{fig:octave_pyramid}) koja pokriva širok raspon veličina objekata.
 
 \begin{figure}[H]
     \centering
@@ -25,7 +25,7 @@ Kako bi se značajke mogle pronaći neovisno o veličini objekta, najprije se iz
 \end{figure}
 
 Nakon što su izgrađene oktave, za svaku od njih stvara se piramida razlika Gaussovih funkcija (\textit{DoG}) tako da se oduzimaju uzastopno zamućene slike (Slika~\ref{fig:dog_side_by_side}). \textit{DoG} naglašava područja gdje se intenzitet mijenja te služi kao brza aproksimacija Laplaceove-Gaussove funkcije.
-Ključne točke pronalaze se kao lokalni ekstremi u trodimenzionalnom \textit{DoG}-volumenu. Svaki piksel u \textit{DoG}-slici uspoređuje se s osam susjeda na istoj skali te s devet piksela u skali iznad i devet u skali ispod - ukupno 26 susjeda (slika~\ref{fig:dog_comparison}). Ako je njegova vrijednost strogo veća ili strogo manja od svih uspoređenih susjeda, proglašava se kandidatom za značajku.
+Ključne točke pronalaze se kao lokalni ekstremi u trodimenzionalnom \textit{DoG}-volumenu. Svaki piksel u \textit{DoG}-slici uspoređuje se s osam susjeda na istoj skali te s devet piksela u skali iznad i devet u skali ispod - ukupno 26 susjeda (Slika~\ref{fig:dog_comparison}). Ako je njegova vrijednost strogo veća ili strogo manja od svih uspoređenih susjeda, proglašava se kandidatom za značajku.
 Time se dobiva početni skup potencijalnih ključnih točaka koji se zatim šalje u iduću fazu filtriranja.
 
 \begin{figure}[H]
@@ -53,8 +53,8 @@ Kandidati dobiveni u prethodnoj fazi trebaju se dalje filtrirati kako bi se odba
 \subsubsection{Dodjeljivanje orijentacije ključnim točkama}
 Kako bi se postigla neovisnost o rotaciji, svakoj preostaloj ključnoj točki dodjeljuje se jedna ili više orijentacija. Orijentacija se izračunava na temelju lokalnog gradijenta slike u okolini ključne točke koristeći magnitudu i smjer gradijenta svakog piksela. Za svaku ključnu točku kreira se histogram orijentacija gradijenta s 36 spremnika koji svaki pokriva kut od 10 stupnjeva. 
 Skala ključne točke ($\sigma$) definirana je kao standardna devijacija najmanjeg Gaussovog filtera u paru korištenom za izračun odgovarajuće \textit{DoG}-slike. Ona time određuje promjer okolne regije točke.
-Svaki uzorak u histogramu određen je svojom magnitudom gradijenta i Gaussovim kružnim prozorom čiji je $\sigma_{w}=1{,}5 * \sigma$, pa uzorci bliže središtu i s jačim gradijentom više utječu na visinu stupaca histograma. Vrh tog histograma definira dominantnu orijentaciju ključne točke (slika~\ref{fig:sift_rotation}).
-Ako postoji više od jedne orijentacije, tj. ako postoji orijentacija koja je veća od 80\% od dominantne orijentacije, tada se kreira nova ključna točka s istim položajem i skalom, ali sa drugom orijentacijom. Time se povećava stabilnost uparivanja na mjestima s kompleksnim gradijentom.
+Svaki uzorak u histogramu određen je svojom magnitudom gradijenta i Gaussovim kružnim prozorom čiji je $\sigma_{w}=1{,}5 * \sigma$, pa uzorci bliže središtu i s jačim gradijentom više utječu na visinu stupaca histograma. Vrh tog histograma definira dominantnu orijentaciju ključne točke (Slika~\ref{fig:sift_rotation}).
+Ako postoji više od jedne orijentacije, tj. ako postoji orijentacija koja je veća od 80\% od dominantne orijentacije, tada se kreira nova ključna točka s istim položajem i skalom, ali s drugom orijentacijom. Time se povećava stabilnost uparivanja na mjestima s kompleksnim gradijentom.
 
 \begin{figure}[H]
     \centering
@@ -64,7 +64,7 @@ Ako postoji više od jedne orijentacije, tj. ako postoji orijentacija koja je ve
 \end{figure}
 
 \subsubsection{Izgradnja deskriptora}
-Posljednji korak je stvaranje jedinstvenog numeričkog deskriptora za svaku ključnu točku (slika~\ref{fig:sift_descriptor}). Oko ključne točke uzima se 16x16 piksela te se rotira u skladu s dominantnom orijentacijom čime se postiže nezavisnost rotacije. Rotirana okolina se zatim dijeli na četiri 4x4 podregije. U svakoj podregiji računa se histogram orijentacija gradijenta s 8 spremnika i vrijednosti iz svih 16 histograma spaja se u jedan 128-dimenzionalni vektor te se vektor normalizira kako bi se smanjila ovisnost o osvjetljenju.
+Posljednji korak je stvaranje jedinstvenog numeričkog deskriptora za svaku ključnu točku (Slika~\ref{fig:sift_descriptor}). Oko ključne točke uzima se 16x16 piksela te se rotira u skladu s dominantnom orijentacijom čime se postiže nezavisnost rotacije. Rotirana okolina se zatim dijeli na četiri 4x4 podregije. U svakoj podregiji računa se histogram orijentacija gradijenta s 8 spremnika i vrijednosti iz svih 16 histograma spaja se u jedan 128-dimenzionalni vektor te se vektor normalizira kako bi se smanjila ovisnost o osvjetljenju.
 
 \begin{figure}[H]
     \centering
@@ -73,7 +73,7 @@ Posljednji korak je stvaranje jedinstvenog numeričkog deskriptora za svaku klju
     \label{fig:sift_descriptor}
 \end{figure}
 
-Izlaz iz algoritma \textit{SIFT} je skup detektiranih značajki, tj. njen položaj, skala, orijentacija i 128-dimenzionalni deskriptor. Cijeli proces algoritma \textit{SIFT} provodi se na referentnoj slici penjačkog smjera i slici dobivene s kamere mobilnog uređaja. Na slici~\ref{fig:detekcija_znacajki} prikazan je primjer detekcije značajki algoritmom \textit{SIFT} za referentnu sliku penjačkog smjera i sliku dobivenu s kamere mobilnog uređaja. Radi preglednosti prikazuju se samo značajke s većom skalom.
+Izlaz iz algoritma \textit{SIFT} je skup detektiranih značajki, tj. njen položaj, skala, orijentacija i 128-dimenzionalni deskriptor. Cijeli proces algoritma \textit{SIFT} provodi se na referentnoj slici penjačkog smjera i slici dobivene s kamere mobilnog uređaja. Slika~\ref{fig:detekcija_znacajki} prikazuje primjer detekcije značajki algoritmom \textit{SIFT} za referentnu sliku penjačkog smjera i sliku dobivenu s kamere mobilnog uređaja. Radi preglednosti prikazuju se samo značajke s većom skalom.
 
 \begin{figure}[H]
     \centering

@@ -51,7 +51,7 @@
 \contentsline {section}{\numberline {4.3}Web-aplikacija}{64}{}%
 \contentsline {chapter}{\numberline {5}Testiranje i vrednovanje rješenja}{66}{}%
 \contentsline {section}{\numberline {5.1}Metodologija testiranja}{66}{}%
-\contentsline {section}{\numberline {5.2}Aanaliza funkcionalnosti}{67}{}%
+\contentsline {section}{\numberline {5.2}Analiza funkcionalnosti}{67}{}%
 \contentsline {section}{\numberline {5.3}Analiza performansi i uočenih problema}{69}{}%
 \contentsline {section}{\numberline {5.4}Smjernice za budući razvoj}{73}{}%
 \contentsline {subsection}{\numberline {5.4.1}Poboljšanje procesa prepoznavanja}{73}{}%

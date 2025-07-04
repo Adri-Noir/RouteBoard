@@ -16,7 +16,7 @@ Slika~\ref{fig:arhitektura} prikazuje ovisnosti među servisima u aplikaciji. Mo
 
 Pozadinski sustav (eng. \textit{Backend}) predstavlja središnji dio cjelokupne arhitekture, odgovoran za svu poslovnu logiku, upravljanje podacima i komunikaciju s vanjskim servisima. Ključne odgovornosti pozadinskog sustava obuhvaćaju implementaciju \textit{REST}-servisa za sve operacije, autentifikaciju i autorizaciju, te dohvaćanje i pohranu podataka iz relacijske baze podataka. 
 Razvijen je korištenjem platforme \textit{.NET} i okvira \textit{ASP.NET core}, koji je odabran zbog visokih performansi i dobre podrške za razvoj modernih web-servisa. Za organizaciju poslovne logike i smanjenje ovisnosti između unutarnjih komponenti pozadinskog sustava, sustav implementira Mediator-uzorak (eng. \textit{Mediator pattern})~\cite{mediator_pattern}. 
-Ovaj pristup omogućuje da se zahtjevi s klijentskih aplikacija ponašaju kao neovisne naredbe koje se zatim prosljeđuju odgovarajućim rukovateljima (eng. \textit{Handlers}), čime se postiže čišća arhitektura programskog kôda. Pozadinski sustav podijeljen je u četiri dijela (slika~\ref{fig:backend_arch}): domenskog, aplikacijskog, infrastrukturnog i prezentacijskog sloja.
+Ovaj pristup omogućuje da se zahtjevi s klijentskih aplikacija ponašaju kao neovisne naredbe koje se zatim prosljeđuju odgovarajućim rukovateljima (eng. \textit{Handlers}), čime se postiže čišća arhitektura programskog kôda. Pozadinski sustav podijeljen je u četiri dijela (Slika~\ref{fig:backend_arch}): domenskog, aplikacijskog, infrastrukturnog i prezentacijskog sloja.
 
 \begin{figure}[H]
     \centering
@@ -72,7 +72,7 @@ Svaki kadar koji se propusti na obradu prolazi nizom operacija definiranih \text
 Nakon toga slijedi uparivanje s referentnim deskriptorima korištenjem metode \textit{knnMatch} s parametrom $k=2$ kako bi se pronašla dva najbliža susjeda, a rezultati se filtriraju primjenom Loweovog testa omjera. Iz skupa preostalih dobrih podudarnosti, pozivom funkcije \textit{findHomography} s postavkom \textit{RANSAC}, izračunava se matrica homografije.
 
 Rezultat ovog procesa obrade je transformirana referentna slika linije penjačkog smjera s transparentnom pozadinom, dobivena primjenom izračunate homografije na originalnu sliku linije pomoću funkcije \textit{warpPerspective}. Ovakav izlaz omogućuje potpunu nezavisnost kadrova kamere i rezultata obrade kadrova, što omogućuje prikazivanje kadrova kamere bez ikakvih ograničenja, a rezultat se samo nadodaje na kadar kada se obradi. 
-Ta slika ostaje spremljena i nacrtana preko novih kadrova dok se ne pojavi nova transformirana linija penjačkog smjera. Ovakva organizacija procesa obrade omogućuje dobro korisničko iskustvo sa nedostatkom što transformirane linije smjerova kasne naspram kadrova. Ipak, značajnija je prednost što razina prepoznavanja može biti mnogo veća nego kada bi se kadar kamere i transformirana referentna slika linije smjera prikazivali sinkrono.
+Ta slika ostaje spremljena i nacrtana preko novih kadrova dok se ne pojavi nova transformirana linija penjačkog smjera. Ovakva organizacija procesa obrade omogućuje dobro korisničko iskustvo, iako transformirane linije smjerova kasne za kadrovima. Ipak, značajnija je prednost što razina prepoznavanja može biti mnogo veća nego kada bi se kadar kamere i transformirana referentna slika linije smjera prikazivali sinkrono.
 
 \subsection{Kreiranje referentne slike penjačkog smjera}
 

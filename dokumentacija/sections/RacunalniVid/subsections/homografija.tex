@@ -24,10 +24,10 @@ Homografija je projektivna transformacija u dvodimenzionalnom prostoru koja pres
 \end{equation}
 gdje su $x$ i $y$ koordinate točke na referentnoj slici, a $x'$ i $y'$ koordinate točke na slici dobivenoj s kamere. $\lambda$ predstavlja faktor skale tj. $\lambda$ je posljedica korištenja homogenih koordinata i predstavlja treću komponentu rezultirajućeg vektora - skalu, prije normalizacije. Faktor $\lambda$ osigurava da jednadžba vrijedi u projektivnom prostoru. Za izračun homografije potrebno je poznavati barem četiri odgovarajuće točke na referentnoj slici i slici dobivenoj s kamere, pod uvjetom da su točke nekolinearne.
 Budući da za izračun homografije potrebno je samo četiri para točaka, a iz procesa uparivanja dobije se znatno više parova, potrebno je odabrati najbolje parove tako da se također eliminira utjecaj pogrešnih podudarnosti. Za rješavanje ovog problema koristi se algoritam RANSAC (eng. \textit{Random Sample Consensus})~\cite{derpanis2010overview}. RANSAC je iterativni algoritam koji se sastoji od sljedećih koraka. 
-Prvo se nasumično odabire minimalni podskup podataka potreban za izračun homografije, odnosno četiri para uparenih točaka. Na temelju tih nasumičnih točaka izračunava se preliminarna homografija $H$. Potom se ta preliminarna homografija testira na način da se ta matrica primjenjuje na sve ostale točke iz početnog skupa podataka i određuje se udaljenost između izračunate točke i prave točke iz skupa. Ako je ta udaljenost manja od predefiniranog praga onda se taj par smatra podudarnim s modelom. Cijeli postupak se ponavlja veliki broj puta, tipično nekoliko tisuća puta. 
+Prvo se nasumično odabire minimalni podskup podataka potreban za izračun homografije, odnosno četiri para uparenih točaka. Na temelju tih nasumičnih točaka izračunava se preliminarna homografija $H$. Potom se ta preliminarna homografija testira tako da se ta matrica primjenjuje na sve ostale točke iz početnog skupa podataka i određuje se udaljenost između izračunate točke i prave točke iz skupa. Ako je ta udaljenost manja od predefiniranog praga onda se taj par smatra podudarnim s modelom. Cijeli postupak se ponavlja veliki broj puta, tipično nekoliko tisuća puta. 
 Na kraju se odabire matrica H koja je u jednoj od iteracija dobila najveći broj podudaranja s modelom. Korištenjem ovog algoritma osigurava se da pogrešne podudarnosti budu učinkovito ignorirane jer se neće uklopiti u jedan konzistentan geometrijski model.
 
-Primjer matrice homografije dobivene iz procesa uparivanja značajki prikazanog na slici~\ref{fig:uparivanje_znacajki} može izgledati ovako:
+Primjer matrice homografije dobivene iz uparenih značajki (Slika~\ref{fig:uparivanje_znacajki}) može izgledati ovako:
 
 
 \begin{equation}
@@ -57,4 +57,4 @@ Kao izlaz, generira se nova slika na kojoj je sadržaj perspektivno izobličen u
     \label{fig:transformacija_perspektive}
 \end{figure}
 
-Rezultirajuća slika transformirane linije penjačkog smjera tada se može iscrtati preko slike dobivene s kamere (slika~\ref{fig:transformacija_perspektive}). Budući da je homografija izračunata na temelju značajki sa stijene, transformirana linija će se precizno poklapati s geometrijom stijene u trenutnom pogledu kamere čime se postiže efekt proširene stvarnosti.
+Rezultirajuća slika transformirane linije penjačkog smjera tada se može iscrtati preko slike dobivene s kamere (Slika~\ref{fig:transformacija_perspektive}). Budući da je homografija izračunata na temelju značajki sa stijene, transformirana linija će se precizno poklapati s geometrijom stijene u trenutnom pogledu kamere čime se postiže efekt proširene stvarnosti.

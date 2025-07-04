@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.10.26)  3 JUL 2025 19:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.10.26)  4 JUL 2025 01:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -697,8 +697,8 @@ File: images/implementacija/route-details/route-details.jpg Graphic file (type j
 Package pdftex.def Info: images/implementacija/route-details/route-details.jpg  used on input line 5.
 (pdftex.def)             Requested size: 123.77074pt x 269.06181pt.
  [36 <./images/implementacija/crag-details/crag-selected-sector.jpg> <./images/implementacija/web/crag-details/crag-selected-sector.jpg>]
-Overfull \hbox (2.29474pt too wide) in paragraph at lines 10--13
-\T1/ptm/m/n/12 Pristupom de-talj-nom pre-gledu po-je-di-nog pe-nja£-kog smjera na mo-bil-noj apli-ka-ciji (slika
+Overfull \hbox (4.29878pt too wide) in paragraph at lines 10--13
+\T1/ptm/m/n/12 Pristupom de-talj-nom pre-gledu po-je-di-nog pe-nja£-kog smjera na mo-bil-noj apli-ka-ciji (Slika
  []
 
 <images/implementacija/web/route-details/route-details.jpg, id=201, 941.5175pt x 1092.08pt>
@@ -817,8 +817,8 @@ File: images/implementacija/web/editing-options/manage-users.jpg Graphic file (t
 Package pdftex.def Info: images/implementacija/web/editing-options/manage-users.jpg  used on input line 69.
 (pdftex.def)             Requested size: 247.54149pt x 192.42474pt.
 
-Overfull \hbox (19.52673pt too wide) in paragraph at lines 77--78
-\T1/ptm/m/n/12 tre-nutno imaju ili mogu do-biti do-zvolu za ure-ži-va-nje sa-dr-ºaja na tom pe-nja-li-²tu (slika 3.29[]).
+Overfull \hbox (21.53078pt too wide) in paragraph at lines 77--78
+\T1/ptm/m/n/12 tre-nutno imaju ili mogu do-biti do-zvolu za ure-ži-va-nje sa-dr-ºaja na tom pe-nja-li-²tu (Slika 3.29[]).
  []
 
 <images/implementacija/editing-options/create-sector.jpg, id=261, 1210.5225pt x 2631.8325pt>
@@ -903,12 +903,7 @@ File: images/implementacija/offline-mode/offline-route-view.jpg Graphic file (ty
 <use images/implementacija/offline-mode/offline-route-view.jpg>
 Package pdftex.def Info: images/implementacija/offline-mode/offline-route-view.jpg  used on input line 37.
 (pdftex.def)             Requested size: 132.01927pt x 287.01265pt.
- [56 <./images/implementacija/offline-mode/crag-tab.jpg> <./images/implementacija/offline-mode/routes-tab.jpg>]
-Overfull \hbox (5.3399pt too wide) in paragraph at lines 45--47
-[]\T1/ptm/m/n/12 Detaljni pre-gled pe-nja-li-²ta (slika 3.37a[]) i smje-rova (slika 3.37b[]) za-dr-ºava sve klju£ne
- []
-
-)) [57 <./images/implementacija/offline-mode/offline-crag-view.jpg> <./images/implementacija/offline-mode/offline-route-view.jpg>]
+ [56 <./images/implementacija/offline-mode/crag-tab.jpg> <./images/implementacija/offline-mode/routes-tab.jpg>])) [57 <./images/implementacija/offline-mode/offline-crag-view.jpg> <./images/implementacija/offline-mode/offline-route-view.jpg>]
 \openout2 = `sections/Arhitektura/arhitektura.aux'.
 
  (./sections/Arhitektura/arhitektura.tex
@@ -998,7 +993,12 @@ File: images/testiranje/steyr_bad_detection_after_moving.jpg Graphic file (type 
 <use images/testiranje/steyr_bad_detection_after_moving.jpg>
 Package pdftex.def Info: images/testiranje/steyr_bad_detection_after_moving.jpg  used on input line 114.
 (pdftex.def)             Requested size: 177.3999pt x 384.43335pt.
- [71 <./images/testiranje/steyr_bad_detection_before_moving.jpg> <./images/testiranje/steyr_bad_detection_after_moving.jpg>]
+
+Overfull \hbox (17.60695pt too wide) in paragraph at lines 122--123
+\T1/ptm/m/n/12 blem je vid-ljiv us-po-red-bom sta-nja prije po-mi-ca-nja ka-mere (Slika 5.5a[]) i na-kon (Slika 5.5b[]).
+ []
+
+[71 <./images/testiranje/steyr_bad_detection_before_moving.jpg> <./images/testiranje/steyr_bad_detection_after_moving.jpg>]
 <images/testiranje/steyr_bad_detection_before_homography_fix.jpg, id=365, 889.3225pt x 1927.2pt>
 File: images/testiranje/steyr_bad_detection_before_homography_fix.jpg Graphic file (type jpg)
 <use images/testiranje/steyr_bad_detection_before_homography_fix.jpg>
@@ -1061,9 +1061,9 @@ Here is how much of TeX's memory you used:
  27518 multiletter control sequences out of 15000+600000
  541726 words of font info for 109 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 70i,8n,77p,1109b,559s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 70i,8n,77p,1128b,559s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on zavrsni.pdf (85 pages, 50734973 bytes).
+Output written on zavrsni.pdf (85 pages, 50734966 bytes).
 PDF statistics:
  453 PDF objects out of 1000 (max. 8388607)
  231 compressed objects within 3 object streams
