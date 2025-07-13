@@ -1,6 +1,6 @@
 \section{Homografija i transformacija perspektive}
 
-Rezultat procesa uparivanja značajki je skup parova ključnih točaka između referentne slike i slike dobivene s kamere, no taj skup gotovo uvijek sadrži i određeni broj pogrešnih podudaranja. Te pogreške nastaku zbog nesavršenosti \textit{SIFT}-deskriptora. Kako bi se uspostavila pouzdana geometrijska veza između dviju slika potrebno je pronaći matematički model koji omogućuje perspektivnu transformaciju referentne slike na sliku dobivenu s kamere, koji je robustan na prisutnost tih pogrešnih parova. Primjer takvog model je homografija. 
+Rezultat procesa uparivanja značajki je skup parova ključnih točaka između referentne slike i slike dobivene s kamere, no taj skup gotovo uvijek sadrži i određeni broj pogrešnih podudaranja. Te pogreške nastaju zbog nesavršenosti \textit{SIFT}-deskriptora. Kako bi se uspostavila pouzdana geometrijska veza između dviju slika potrebno je pronaći matematički model koji omogućuje perspektivnu transformaciju referentne slike na sliku dobivenu s kamere, koji je robustan na prisutnost tih pogrešnih parova. Primjer takvog model je homografija. 
 
 Homografija je projektivna transformacija u dvodimenzionalnom prostoru koja preslikava točke iz jedne ravnine u drugu~\cite{foundationsCVbook}. U ovom slučaju te ravnine su referentna slika i slika dobivena s kamere. Homografija se može opisati matričnom jednadžbom
 \begin{equation}
@@ -48,7 +48,7 @@ Obzirom da su jednakih dimenzija, istu matricu moguće je primijeniti i na trans
     \texttt{dst}(x,y) = \texttt{src} \left ( \frac{H_{11} x + H_{12} y + H_{13}}{H_{31} x + H_{32} y + H_{33}} ,
      \frac{H_{21} x + H_{22} y + H_{23}}{H_{31} x + H_{32} y + H_{33}} \right )
 \end{equation}
-Kao izlaz, generira se slikat transformirane linije smjera kojoj je sadržaj perspektivno izobličen u skladu s matricom homografije. 
+Kao izlaz, generira se slika transformirane linije smjera kojoj je sadržaj perspektivno izobličen u skladu s matricom homografije. 
 
 \begin{figure}[H]
     \centering
